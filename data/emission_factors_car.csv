@@ -1,6 +1,6 @@
 id,source,model,size_class,fuel_type,co2e
-0,Öko-Institut,gemis,small,electricity,0.04
-1,Öko-Institut,gemis,medium,electricity,0.0503
+0,Öko-Institut,gemis,small,electric,0.04
+1,Öko-Institut,gemis,medium,electric,0.0503
 2,Öko-Institut,gemis,large,cng,0.262
 3,Öko-Institut,gemis,small,cng,0.174
 4,Öko-Institut,gemis,medium,cng,0.21

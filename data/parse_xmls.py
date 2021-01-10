@@ -28,7 +28,7 @@ def read_xmls(id, filepath):
     xroot = xtree.getroot()
     vals[0] = id
     for node in xroot:
-        if node.tag == "name" and node.text != "PKW":
+        if node.tag == "name":
             # if not name "PKW" then size class has to be retrieved from name instead of entry
             # "Größenklasse / max. Beladung"
             if "klein" in node.text:
@@ -60,33 +60,49 @@ def read_xmls(id, filepath):
                         vals[5] = child[3].text.replace(",",".")
     return vals.tolist()
 
-infiles = glob.glob("probas_xmls/pkw/*.xml")
+
+def rename_reformat_df(df, dict):
+    df.replace(dict, inplace=True)
+    # change data type of id column to int64
+    df["id"] = df["id"].astype('int64')
+    return df
+
+
+# 1. parse car xmls
+infiles_car = glob.glob("probas_xmls/pkw/*.xml")
+infiles_train = glob.glob("probas_xmls/train/*.xml")
+cols = ["id", "source", "model", "size_class", "fuel_type", "co2e"]
 
 # read xmls
 rows = []
-for i, f in enumerate(infiles):
+for i, f in enumerate(infiles_car):
     rows.append(read_xmls(i, f))
-
 # dataframe from nested list
-cols = ["id", "source", "model", "size_class", "fuel_type", "co2e"]
-out_df = pd.DataFrame(rows, columns=cols)
+car_df = pd.DataFrame(rows, columns=cols)
 
-# rename some of the dataframe values
+rows = []
+for i, f in enumerate(infiles_train):
+    rows.append(read_xmls(i, f))
+train_df = pd.DataFrame(rows, columns=cols)
+train_df.drop(["size_class"], axis=1, inplace=True)
+
 rename_dict = {
     "Durchschnittswert": "average",
     "Pkw 0-1,4 l": "small",
     "Pkw 1,4-2 l": "medium",
     "Pkw 2-9 l": "large",
-    "Elektrizität": "electricity",
+    "Elektrizität": "electric",
+    "Elektrisch": "electric",
     "Erdgas-DE-CNG-2020": "cng",
     "Benzin": "gasoline",
     "Diesel": "diesel"
 }
-out_df.replace(rename_dict, inplace=True)
-
-# change data type of id column to int64
-out_df["id"] = out_df["id"].astype('int64')
+car_df = rename_reformat_df(car_df, rename_dict)
+train_df = rename_reformat_df(train_df, rename_dict)
 
 # write to csv
-outfile = "emission_factors_car.csv"
-out_df.to_csv(outfile, index=False)
+outfile_car = "emission_factors_car.csv"
+car_df.to_csv(outfile_car, index=False)
+outfile_train = "emission_factors_train.csv"
+train_df.to_csv(outfile_train, index=False)
+
