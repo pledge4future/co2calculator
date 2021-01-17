@@ -1,4 +1,4 @@
-id,source,model,size_class,fuel_type,capacity,occupancy,co2e
+id,source,model,size_class,fuel_type,capacity,occupancy,co2e_kg
 0,UBA,tremod,average,diesel,44.6,100,0.0219
 1,UBA,tremod,large,diesel,60,100,0.0188
 2,UBA,tremod,large,diesel,60,20,0.0764

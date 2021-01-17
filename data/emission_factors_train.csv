@@ -1,4 +1,4 @@
-id,source,model,fuel_type,co2e
+id,source,model,fuel_type,co2e_kg
 0,UBA,tremod,average,0.0329
 1,UBA,tremod,diesel,0.0698
 2,UBA,tremod,electric,0.032
