@@ -76,7 +76,7 @@ def rename_reformat_df(df, dict):
 infiles_car = glob.glob("probas_xmls/pkw/*.xml")
 infiles_train = glob.glob("probas_xmls/train/*.xml")
 infiles_bus = glob.glob("probas_xmls/bus/Reisebus*.xml")
-cols = ["id", "source", "model", "size_class", "fuel_type", "capacity", "occupancy", "co2e"]
+cols = ["id", "source", "model", "size_class", "fuel_type", "capacity", "occupancy", "co2e_kg"]
 
 # read xmls
 rows = []
