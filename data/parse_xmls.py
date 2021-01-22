@@ -14,7 +14,7 @@ import pandas as pd
 import xml.etree.ElementTree as et
 import glob
 
-def read_xmls(id, filepath):
+def read_xmls_mobility(id, filepath):
     """
     Function to parse Probas xml file of different PKW to a list of the values of interest (CO2-equivalent dependent
     on size class and fuel type
@@ -65,6 +65,34 @@ def read_xmls(id, filepath):
     return vals.tolist()
 
 
+def read_xmls_electricity(id, filepath):
+    vals = pd.Series(index=range(5))
+    xtree = et.parse(filepath)
+    xroot = xtree.getroot()
+    vals[0] = id
+    for node in xroot:
+        if node.tag == "name":
+            if "Solar" in node.text:
+                vals[1] = "solar"
+            elif "KW" in node.text:
+                vals[1] = "german energy mix"
+        elif node.tag == "meta":
+            for child in node:
+                if child.tag == "source":
+                    vals[2] = child[0].text
+                elif child.tag == "specificum":
+                    vals[3] = child[0].text
+        elif node.tag == "emissions_air_aggregated":
+            for child in node:
+                if child[0].text == "CO2-Äquivalent":
+                    if child[2].tag == "sum":
+                        vals[4] = child[2].text.replace(",", ".")
+                    elif child[3].tag == "sum":
+                        vals[4] = child[3].text.replace(",", ".")
+
+    return vals.tolist()
+
+
 def rename_reformat_df(df, dict):
     df.replace(dict, inplace=True)
     # change data type of id column to int64
@@ -72,7 +100,7 @@ def rename_reformat_df(df, dict):
     return df
 
 
-# 1. parse car xmls
+# 1. parse car, train and bus xmls
 infiles_car = glob.glob("probas_xmls/pkw/*.xml")
 infiles_train = glob.glob("probas_xmls/train/*.xml")
 infiles_bus = glob.glob("probas_xmls/bus/Reisebus*.xml")
@@ -81,20 +109,20 @@ cols = ["id", "source", "model", "size_class", "fuel_type", "capacity", "occupan
 # read xmls
 rows = []
 for i, f in enumerate(infiles_car):
-    rows.append(read_xmls(i, f))
+    rows.append(read_xmls_mobility(i, f))
 # dataframe from nested list
 car_df = pd.DataFrame(rows, columns=cols)
 car_df.drop(["capacity", "occupancy"], axis=1, inplace=True)
 
 rows = []
 for i, f in enumerate(infiles_train):
-    rows.append(read_xmls(i, f))
+    rows.append(read_xmls_mobility(i, f))
 train_df = pd.DataFrame(rows, columns=cols)
 train_df.drop(["size_class", "capacity", "occupancy"], axis=1, inplace=True)
 
 rows = []
 for i, f in enumerate(infiles_bus):
-    rows.append(read_xmls(i, f))
+    rows.append(read_xmls_mobility(i, f))
 bus_df = pd.DataFrame(rows, columns=cols)
 
 rename_dict = {
@@ -121,3 +149,18 @@ outfile_train = "emission_factors_train.csv"
 train_df.to_csv(outfile_train, index=False)
 outfile_bus = "emission_factors_bus.csv"
 bus_df.to_csv(outfile_bus, index=False)
+
+#2. parse electricity xml files
+infiles_electricity = glob.glob("probas_xmls/electricity/*.xml")
+cols = ["id", "type", "source", "model", "co2e_kg"]
+
+# read xmls
+rows = []
+for i, f in enumerate(infiles_electricity):
+    rows.append(read_xmls_electricity(i, f))
+# dataframe from nested list
+electricity_df = pd.DataFrame(rows, columns=cols)
+electricity_df["id"] = electricity_df["id"].astype('int64')
+
+outfile_electricity = "emission_factors_electricity.csv"
+electricity_df.to_csv(outfile_electricity, index=False)
