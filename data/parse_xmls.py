@@ -92,6 +92,7 @@ def read_xmls_electricity(id, filepath):
 
     return vals.tolist()
 
+
 def read_xmls_heating(id, filepath):
     vals = pd.Series(index=range(5))
     xtree = et.parse(filepath)
@@ -138,6 +139,7 @@ def read_xmls_heating(id, filepath):
                         vals[4] = child[3].text.replace(",", ".")
 
     return vals.tolist()
+
 
 def rename_reformat_df(df, dict):
     df.replace(dict, inplace=True)
@@ -196,7 +198,7 @@ train_df.to_csv(outfile_train, index=False)
 outfile_bus = "emission_factors_bus.csv"
 bus_df.to_csv(outfile_bus, index=False)
 
-#2. parse electricity xml files
+# 2. parse electricity xml files
 infiles_electricity = glob.glob("probas_xmls/electricity/*.xml")
 cols = ["id", "type", "source", "model", "co2e_kg"]
 
@@ -211,7 +213,7 @@ electricity_df["id"] = electricity_df["id"].astype('int64')
 outfile_electricity = "emission_factors_electricity.csv"
 electricity_df.to_csv(outfile_electricity, index=False)
 
-#3. parse heating xml files
+# 3. parse heating xml files
 infiles_heating = glob.glob("probas_xmls/heating/*.xml")
 cols = ["id", "type", "source", "model", "co2e_kg"]
 

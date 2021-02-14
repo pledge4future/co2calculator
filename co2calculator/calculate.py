@@ -53,12 +53,34 @@ def calc_co2_public_transport(distance, co2e):
 
     return emissions
 
+
 def calc_co2_building(consumption, co2e):
     #co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     #so consumption needs to be converted to TJ
     emissions = consumption/277777.77777778 * co2e
 
     return emissions
+
+
+"""def calc_co2_plane(start, destination, flight_class, roundtrip=False):
+    json = {
+      "from": start,
+      "to": destination,
+      "roundtrip": roundtrip,
+      "flight_class": flight_class
+    }
+    response = requests.post("https://api.myclimate.org/v1/flight_calculators.json")
+    print(response)
+    if response:
+        print("success")
+    else:
+        print("meh")
+    response = requests.post("https://api.myclimate.org/v1/flight_calculators.json", json=json)
+    if response:
+        print("success")
+    else:
+        print("meh")"""
+
 
 # test with dummy data
 business_trip_data = glob.glob("../data/test_data_users/business_trips*.csv")
