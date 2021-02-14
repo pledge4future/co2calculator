@@ -92,6 +92,52 @@ def read_xmls_electricity(id, filepath):
 
     return vals.tolist()
 
+def read_xmls_heating(id, filepath):
+    vals = pd.Series(index=range(5))
+    xtree = et.parse(filepath)
+    xroot = xtree.getroot()
+    vals[0] = id
+    for node in xroot:
+        if node.tag == "name":
+            if "Braunkohle" in node.text:
+                vals[1] = "coal"
+            elif "Fernwärme" in node.text:
+                vals[1] = "district_heating"
+            elif "El-Heizung" in node.text:
+                vals[1] = "electricity"
+            elif "Gas-Heizung" in node.text:
+                vals[1] = "gas"
+            elif "mono-Luft" in node.text:
+                vals[1] = "heatpump_air"
+            elif "mono-Erdreich" in node.text:
+                vals[1] = "heatpump_ground"
+            elif "mono-Wasser" in node.text:
+                vals[1] = "heatpump_water"
+            elif "Flüssiggas" in node.text:
+                vals[1] = "liquid_gas"
+            elif "Öl-Heizung" in node.text:
+                vals[1] = "oil"
+            elif "Pellet" in node.text:
+                vals[1] = "pellet"
+            elif "SolarKollektor" in node.text:
+                vals[1] = "solar"
+            elif "Hackschnitzel" in node.text:
+                vals[1] = "woodchips"
+        elif node.tag == "meta":
+            for child in node:
+                if child.tag == "source":
+                    vals[2] = child[0].text
+                elif child.tag == "specificum":
+                    vals[3] = child[0].text
+        elif node.tag == "emissions_air_aggregated":
+            for child in node:
+                if child[0].text == "CO2-Äquivalent":
+                    if child[2].tag == "sum":
+                        vals[4] = child[2].text.replace(",", ".")
+                    elif child[3].tag == "sum":
+                        vals[4] = child[3].text.replace(",", ".")
+
+    return vals.tolist()
 
 def rename_reformat_df(df, dict):
     df.replace(dict, inplace=True)
@@ -164,3 +210,18 @@ electricity_df["id"] = electricity_df["id"].astype('int64')
 
 outfile_electricity = "emission_factors_electricity.csv"
 electricity_df.to_csv(outfile_electricity, index=False)
+
+#3. parse heating xml files
+infiles_heating = glob.glob("probas_xmls/heating/*.xml")
+cols = ["id", "type", "source", "model", "co2e_kg"]
+
+# read xmls
+rows = []
+for i, f in enumerate(infiles_heating):
+    rows.append(read_xmls_heating(i, f))
+# dataframe from nested list
+heating_df = pd.DataFrame(rows, columns=cols)
+heating_df["id"] = heating_df["id"].astype('int64')
+
+outfile_heating = "emission_factors_heating.csv"
+heating_df.to_csv(outfile_heating, index=False)
