@@ -28,6 +28,19 @@ def query_co2e_bus(bus_size, bus_fuel, occupancy):
 
     return co2e
 
+def query_co2e_heating(fuel_type):
+    data = pd.read_csv("../data/emission_factors_heating.csv")
+    co2e = data[(data["type"] == fuel_type)]["co2e_kg"].values[0]
+
+    return co2e
+
+def query_co2e_electricity(fuel_type):
+    data = pd.read_csv("../data/emission_factors_electricity.csv")
+    co2e = data[(data["type"] == fuel_type)]["co2e_kg"].values[0]
+
+    return co2e
+
+
 
 def calc_co2_car(distance, passengers, co2e):
     emissions = distance * co2e / passengers
@@ -37,6 +50,13 @@ def calc_co2_car(distance, passengers, co2e):
 
 def calc_co2_public_transport(distance, co2e):
     emissions = distance * co2e
+
+    return emissions
+
+def calc_co2_building(consumption, co2e):
+    #co2 equivalents for heating and electricity refer to a consumption of 1 TJ
+    #so consumption needs to be converted to TJ
+    emissions = consumption/277777.77777778 * co2e
 
     return emissions
 
@@ -67,6 +87,37 @@ for f in business_trip_data:
             co2e = query_co2e_train(fuel_type)
             total_co2e = calc_co2_public_transport(distance, co2e)
             user_data.loc[i, "co2e_kg"] = total_co2e
+
+        print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
+        user_data.to_csv(f.replace(".csv", "_calc.csv"))
+
+
+electricity_data = glob.glob("../data/test_data_users/electricity.csv")
+
+print("Computing electricity emissions...")
+for f in electricity_data:
+    user_data = pd.read_csv(f)
+    for i in range(user_data.shape[0]):
+        consumption = user_data["consumption_kwh"].values[i]
+        fuel_type = user_data["fuel_type"].values[i]
+        co2e = query_co2e_electricity(fuel_type)
+        total_co2e = calc_co2_building(consumption, co2e)
+        user_data.loc[i, "co2e_kg"] = total_co2e
+
+        print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
+        user_data.to_csv(f.replace(".csv", "_calc.csv"))
+
+heating_data = glob.glob("../data/test_data_users/heating.csv")
+
+print("Computing heating emissions...")
+for f in heating_data:
+    user_data = pd.read_csv(f)
+    for i in range(user_data.shape[0]):
+        consumption = user_data["consumption_kwh"].values[i]
+        fuel_type = user_data["fuel_type"].values[i]
+        co2e = query_co2e_heating(fuel_type)
+        total_co2e = calc_co2_building(consumption, co2e)
+        user_data.loc[i, "co2e_kg"] = total_co2e
 
         print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
         user_data.to_csv(f.replace(".csv", "_calc.csv"))
