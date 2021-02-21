@@ -5,6 +5,7 @@
 import os
 import pandas as pd
 import glob
+import requests
 
 
 def query_co2e_car(car_size, car_fuel):
@@ -62,24 +63,24 @@ def calc_co2_building(consumption, co2e):
     return emissions
 
 
-"""def calc_co2_plane(start, destination, flight_class, roundtrip=False):
-    json = {
-      "from": start,
-      "to": destination,
-      "roundtrip": roundtrip,
-      "flight_class": flight_class
+def calc_co2_plane(start, destination, flight_class, roundtrip=False):
+    #flight classes: economy, premium_economy, business, first
+    key = ("API_key_here", "")
+    parameters = {
+      "segments[0][origin]": start,
+      "segments[0][destination]": destination,
+      "cabin_class": flight_class
     }
-    response = requests.post("https://api.myclimate.org/v1/flight_calculators.json")
-    print(response)
+    if roundtrip == True:
+        parameters["segments[1][origin]"] = destination
+        parameters["segments[1][destination]"] = start
+    response = requests.get("https://api.goclimate.com/v1/flight_footprint", auth=key, params=parameters)
     if response:
         print("success")
     else:
-        print("meh")
-    response = requests.post("https://api.myclimate.org/v1/flight_calculators.json", json=json)
-    if response:
-        print("success")
-    else:
-        print("meh")"""
+        print(response.status_code)
+
+    return int(response.json()["footprint"])
 
 
 # test with dummy data
@@ -89,8 +90,8 @@ print("Computing business trip emissions...")
 for f in business_trip_data:
     user_data = pd.read_csv(f)
     for i in range(user_data.shape[0]):
-        distance = user_data["distance_km"].values[i]
         if "_car" in f:
+            distance = user_data["distance_km"].values[i]
             size_class = user_data["car_size"].values[i]
             fuel_type = user_data["car_fuel"].values[i]
             passengers = user_data["passengers"].values[i]
@@ -98,6 +99,7 @@ for f in business_trip_data:
             total_co2e = calc_co2_car(distance, passengers, co2e)
             user_data.loc[i, "co2e_kg"] = total_co2e
         elif "_bus" in f:
+            distance = user_data["distance_km"].values[i]
             size_class = user_data["bus_size"].values[i]
             fuel_type = user_data["bus_fuel"].values[i]
             occupancy = user_data["occupancy"].values[i]
@@ -105,13 +107,21 @@ for f in business_trip_data:
             total_co2e = calc_co2_public_transport(distance, co2e)
             user_data.loc[i, "co2e_kg"] = total_co2e
         elif "_train" in f:
+            distance = user_data["distance_km"].values[i]
             fuel_type = user_data["train_fuel"].values[i]
             co2e = query_co2e_train(fuel_type)
             total_co2e = calc_co2_public_transport(distance, co2e)
             user_data.loc[i, "co2e_kg"] = total_co2e
+        elif "_plane" in f:
+            iata_start = user_data["IATA_start"].values[i]
+            iata_dest = user_data["IATA_destination"].values[i]
+            flight_class = user_data["flight_class"].values[i]
+            roundtrip = bool(user_data["roundtrip"].values[i])
+            total_co2e = calc_co2_plane(iata_start, iata_dest, flight_class, roundtrip)
+            user_data.loc[i, "co2e_kg"] = total_co2e
 
         print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-        user_data.to_csv(f.replace(".csv", "_calc.csv"))
+        #user_data.to_csv(f.replace(".csv", "_calc.csv"))
 
 
 electricity_data = glob.glob("../data/test_data_users/electricity.csv")
@@ -127,7 +137,7 @@ for f in electricity_data:
         user_data.loc[i, "co2e_kg"] = total_co2e
 
         print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-        user_data.to_csv(f.replace(".csv", "_calc.csv"))
+        #user_data.to_csv(f.replace(".csv", "_calc.csv"))
 
 heating_data = glob.glob("../data/test_data_users/heating.csv")
 
@@ -142,4 +152,4 @@ for f in heating_data:
         user_data.loc[i, "co2e_kg"] = total_co2e
 
         print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-        user_data.to_csv(f.replace(".csv", "_calc.csv"))
+        #user_data.to_csv(f.replace(".csv", "_calc.csv"))
