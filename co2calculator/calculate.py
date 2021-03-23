@@ -145,10 +145,33 @@ print("Computing heating emissions...")
 for f in heating_data:
     user_data = pd.read_csv(f)
     for i in range(user_data.shape[0]):
-        consumption = user_data["consumption_kwh"].values[i]
+        if user_data["consumption_kwh"].values[i] > 0:
+            consumption_kwh = user_data["consumption_kwh"].values[i]
+        elif user_data["consumption_l"].values[i] > 0:
+            consumption_l = user_data["consumption_l"].values[i]
+            consumption_kwh = 0
+            consumption_kg = 0
+        elif user_data["consumption_kg"].values[i] > 0:
+            consumption_kg = user_data["consumption_kg"].values[i]
+            consumption_kwh = 0
+            consumption_l = 0
+            
         fuel_type = user_data["fuel_type"].values[i]
         co2e = query_co2e_heating(fuel_type)
-        total_co2e = calc_co2_building(consumption, co2e)
+        if consumption_kwh > 0:
+            total_co2e = calc_co2_building(consumption_kwh, co2e)
+        elif consumption_l > 0:
+            if fuel_type == "oil":
+                total_co2e = calc_co2_building(consumption_l, co2e)*10
+            elif fuel_type == "liquid_gas":
+                total_co2e = calc_co2_building(consumption_l, co2e)*6.6
+        elif consumption_kg > 0:
+            if fuel_type == "coal":
+                total_co2e = calc_co2_building(consumption_kg, co2e)*4.17
+            elif fuel_type == "pellet":
+                total_co2e = calc_co2_building(consumption_kg, co2e)*5
+            elif fuel_type == "woodchips":
+                total_co2e = calc_co2_building(consumption_kg, co2e)*4
         user_data.loc[i, "co2e_kg"] = total_co2e
 
         print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
