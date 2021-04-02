@@ -13,38 +13,37 @@ script_path = os.path.dirname(os.path.realpath(__file__))
 
 
 def query_co2e_car(car_size, car_fuel):
-    data = pd.read_csv("../data/emission_factors_car.csv")
+    data = pd.read_csv(f"{script_path}/../data/emission_factors_car.csv")
     co2e = data[(data["size_class"] == car_size) & (data["fuel_type"] == car_fuel)]["co2e_kg"].values[0]
 
     return co2e
 
 
 def query_co2e_train(train_fuel):
-    data = pd.read_csv("../data/emission_factors_train.csv")
+    data = pd.read_csv(f"{script_path}/../data/emission_factors_train.csv")
     co2e = data[(data["fuel_type"] == train_fuel)]["co2e_kg"].values[0]
 
     return co2e
 
 
 def query_co2e_bus(bus_size, bus_fuel, occupancy):
-    data = pd.read_csv("../data/emission_factors_bus.csv")
+    data = pd.read_csv(f"{script_path}/../data/emission_factors_bus.csv")
     index = (data["size_class"] == bus_size) & (data["fuel_type"] == bus_fuel) & (data["occupancy"] == occupancy)
     co2e = data[index]["co2e_kg"].values[0]
 
     return co2e
 
 def query_co2e_heating(fuel_type):
-    data = pd.read_csv("../data/emission_factors_heating.csv")
+    data = pd.read_csv(f"{script_path}/../data/emission_factors_heating.csv")
     co2e = data[(data["type"] == fuel_type)]["co2e_kg"].values[0]
 
     return co2e
 
 def query_co2e_electricity(fuel_type):
-    data = pd.read_csv("../data/emission_factors_electricity.csv")
+    data = pd.read_csv(f"{script_path}/../data/emission_factors_electricity.csv")
     co2e = data[(data["type"] == fuel_type)]["co2e_kg"].values[0]
 
     return co2e
-
 
 
 def calc_co2_car(distance, passengers, co2e):
@@ -100,7 +99,7 @@ def calc_co2_plane(start, destination, flight_class, roundtrip=False):
 if __name__ == "__main__":
 
     # test with dummy data
-    business_trip_data = glob.glob("../data/test_data_users/business_trips*.csv")
+    business_trip_data = glob.glob(f"{script_path}/../data/test_data_users/business_trips*.csv")
 
     print("Computing business trip emissions...")
     for f in business_trip_data:
@@ -149,7 +148,7 @@ if __name__ == "__main__":
             consumption = user_data["consumption_kwh"].values[i]
             fuel_type = user_data["fuel_type"].values[i]
             co2e = query_co2e_electricity(fuel_type)
-            total_co2e = calc_co2_building(consumption, co2e)
+            total_co2e = calc_co2_electricity(consumption, co2e)
             user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
@@ -175,19 +174,19 @@ if __name__ == "__main__":
             fuel_type = user_data["fuel_type"].values[i]
             co2e = query_co2e_heating(fuel_type)
             if consumption_kwh > 0:
-                total_co2e = calc_co2_building(consumption_kwh, co2e)
+                total_co2e = calc_co2_heating(consumption_kwh, co2e)
             elif consumption_l > 0:
                 if fuel_type == "oil":
-                    total_co2e = calc_co2_building(consumption_l, co2e)*10
+                    total_co2e = calc_co2_heating(consumption_l, co2e)*10
                 elif fuel_type == "liquid_gas":
-                    total_co2e = calc_co2_building(consumption_l, co2e)*6.6
+                    total_co2e = calc_co2_heating(consumption_l, co2e)*6.6
             elif consumption_kg > 0:
                 if fuel_type == "coal":
-                    total_co2e = calc_co2_building(consumption_kg, co2e)*4.17
+                    total_co2e = calc_co2_heating(consumption_kg, co2e)*4.17
                 elif fuel_type == "pellet":
-                    total_co2e = calc_co2_building(consumption_kg, co2e)*5
+                    total_co2e = calc_co2_heating(consumption_kg, co2e)*5
                 elif fuel_type == "woodchips":
-                    total_co2e = calc_co2_building(consumption_kg, co2e)*4
+                    total_co2e = calc_co2_heating(consumption_kg, co2e)*4
             user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
