@@ -1,0 +1,3 @@
+id,type,source,model,occupancy,co2e_kg
+0,plane inland,IFEU,gemis,83,0.166
+1,plane international,IFEU,gemis,243,0.117

@@ -140,6 +140,36 @@ def read_xmls_heating(id, filepath):
 
     return vals.tolist()
 
+def read_xmls_planes(id, filepath):
+    vals = pd.Series(index=range(6))
+    xtree = et.parse(filepath)
+    xroot = xtree.getroot()
+    vals[0] = id
+    for node in xroot:
+        if node.tag == "name":
+            if "international" in node.text:
+                vals[1] = "plane international"
+            if "Inland" in node.text:
+                vals[1] = "plane inland"
+        elif node.tag == "meta":
+            for child in node:
+                if child.tag == "source":
+                    vals[2] = child[0].text
+                elif child.tag == "specificum":
+                    vals[3] = child[0].text
+        elif node.tag == "technical_data":
+            for child in node:
+                if child[0].text == "Besetzungsgrad":
+                    vals[4] = child[1].text
+        elif node.tag == "emissions_air_aggregated":
+            for child in node:
+                if child[0].text == "CO2-Äquivalent":
+                    if child[2].tag == "sum":
+                        vals[5] = child[2].text.replace(",", ".")
+                    elif child[3].tag == "sum":
+                        vals[5] = child[3].text.replace(",", ".")
+    return vals.tolist()
+
 
 def rename_reformat_df(df, dict):
     df.replace(dict, inplace=True)
@@ -227,3 +257,17 @@ heating_df["id"] = heating_df["id"].astype('int64')
 
 outfile_heating = "emission_factors_heating.csv"
 heating_df.to_csv(outfile_heating, index=False)
+
+# 4. parse plane xml files
+infiles_plane = glob.glob("probas_xmls/plane/Flugzeug*.xml")
+cols = ["id", "type", "source", "model", "occupancy", "co2e_kg"]
+# read xmls
+rows = []
+for i, f in enumerate(infiles_plane):
+    rows.append(read_xmls_planes(i, f))
+# dataframe from nested list
+plane_df = pd.DataFrame(rows, columns=cols)
+plane_df["id"] = plane_df["id"].astype('int64')
+
+outfile_plane = "emission_factors_plane.csv"
+plane_df.to_csv(outfile_plane, index=False)
