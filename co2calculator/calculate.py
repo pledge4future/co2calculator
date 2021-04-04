@@ -6,7 +6,7 @@ import os
 import pandas as pd
 import glob
 import requests
-
+import numpy as np
 
 KWH_TO_TJ = 277777.77777778
 script_path = os.path.dirname(os.path.realpath(__file__))
@@ -33,17 +33,36 @@ def query_co2e_bus(bus_size, bus_fuel, occupancy):
 
     return co2e
 
+
 def query_co2e_heating(fuel_type):
     data = pd.read_csv(f"{script_path}/../data/emission_factors_heating.csv")
     co2e = data[(data["type"] == fuel_type)]["co2e_kg"].values[0]
 
     return co2e
 
+
 def query_co2e_electricity(fuel_type):
     data = pd.read_csv(f"{script_path}/../data/emission_factors_electricity.csv")
     co2e = data[(data["type"] == fuel_type)]["co2e_kg"].values[0]
 
     return co2e
+
+
+def query_co2e_plane(inland): # inland is a boolean
+    data = pd.read_csv(f"{script_path}/../data/emission_factors_plane.csv")
+    if inland is True:
+        co2e = data[(data["type"] == "plane inland")]["co2e_kg"].values[0]
+    elif inland is False:
+        co2e = data[(data["type"] == "plane international")]["co2e_kg"].values[0]
+
+    return co2e
+
+
+def great_circle_distance(lat_start, long_start, lat_dest, long_dest):
+    zeta = np.arccos(np.sin(lat_start) * np.sin(lat_dest) + np.cos(lat_start) * np.cos(lat_dest) * np.cos(long_dest-long_start))
+    dist = zeta/360 * 40030
+
+    return dist
 
 
 def calc_co2_car(distance, passengers, co2e):
@@ -76,7 +95,18 @@ def calc_co2_heating(consumption, fuel_type):
     return emissions
 
 
-def calc_co2_plane(start, destination, flight_class, roundtrip=False):
+def calc_co2_plane(start, destination, roundtrip):
+    # get geographic coordinates of airports
+    # compute great circle distance between airports
+    # dist = great_circle_distance(lat_start, long_start, lat_dest, long_dest)
+    # retrieve whether airports are in the same country
+    # query emission factor (based on inland or international flight)
+    # co2e = query_co2e_plane(is_inland_flight)
+    # multiply emission factor with distance and by 2 if roundtrip
+    # return emissions
+
+
+"""def calc_co2_plane_api(start, destination, flight_class, roundtrip=False):
     #flight classes: economy, premium_economy, business, first
     key = ("API_key_here", "")
     parameters = {
@@ -93,7 +123,7 @@ def calc_co2_plane(start, destination, flight_class, roundtrip=False):
     else:
         print(response.status_code)
 
-    return int(response.json()["footprint"])
+    return int(response.json()["footprint"])"""
 
 
 if __name__ == "__main__":
@@ -130,9 +160,9 @@ if __name__ == "__main__":
             elif "_plane" in f:
                 iata_start = user_data["IATA_start"].values[i]
                 iata_dest = user_data["IATA_destination"].values[i]
-                flight_class = user_data["flight_class"].values[i]
+                #flight_class = user_data["flight_class"].values[i]
                 roundtrip = bool(user_data["roundtrip"].values[i])
-                total_co2e = calc_co2_plane(iata_start, iata_dest, flight_class, roundtrip)
+                total_co2e = calc_co2_plane(iata_start, iata_dest, roundtrip)
                 user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
