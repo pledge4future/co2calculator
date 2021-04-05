@@ -7,6 +7,7 @@ import pandas as pd
 import glob
 import requests
 import numpy as np
+import math
 
 KWH_TO_TJ = 277777.77777778
 script_path = os.path.dirname(os.path.realpath(__file__))
@@ -59,8 +60,14 @@ def query_co2e_plane(inland): # inland is a boolean
 
 
 def great_circle_distance(lat_start, long_start, lat_dest, long_dest):
-    zeta = np.arccos(np.sin(lat_start) * np.sin(lat_dest) + np.cos(lat_start) * np.cos(lat_dest) * np.cos(long_dest-long_start))
-    dist = zeta/360 * 40030
+    # convert angles from degree to radians
+    lat_start, long_start, lat_dest, long_dest = np.array([lat_start, long_start, lat_dest, long_dest]) * np.pi/180
+    # compute zeta
+    zeta = np.arccos(
+        np.sin(lat_start) * np.sin(lat_dest) + np.cos(lat_start) * np.cos(lat_dest) * np.cos(long_dest-long_start)
+    )
+    # multiply zeta by earth radius to obtain distance
+    dist = zeta * 6370
 
     return dist
 
@@ -96,6 +103,7 @@ def calc_co2_heating(consumption, fuel_type):
 
 
 def calc_co2_plane(start, destination, roundtrip):
+    pass
     # get geographic coordinates of airports
     # compute great circle distance between airports
     # dist = great_circle_distance(lat_start, long_start, lat_dest, long_dest)
