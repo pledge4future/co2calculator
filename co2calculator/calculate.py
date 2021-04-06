@@ -61,15 +61,25 @@ def query_co2e_plane(inland): # inland is a boolean
 
 def great_circle_distance(lat_start, long_start, lat_dest, long_dest):
     # convert angles from degree to radians
-    lat_start, long_start, lat_dest, long_dest = np.array([lat_start, long_start, lat_dest, long_dest]) * np.pi/180
+    lat_start, long_start, lat_dest, long_dest = np.deg2rad([lat_start, long_start, lat_dest, long_dest])
     # compute zeta
     zeta = np.arccos(
         np.sin(lat_start) * np.sin(lat_dest) + np.cos(lat_start) * np.cos(lat_dest) * np.cos(long_dest-long_start)
     )
-    # multiply zeta by earth radius to obtain distance
-    dist = zeta * 6370
+    r = 6371  # earth radius in km
 
-    return dist
+    return zeta * r  # distance in km
+
+
+def haversine(lat_start, long_start, lat_dest, long_dest):
+    # convert angles from degree to radians
+    lat_start, long_start, lat_dest, long_dest = np.deg2rad([lat_start, long_start, lat_dest, long_dest])
+    # compute zeta
+    a = np.sin((lat_dest - lat_start)/2)**2 + np.cos(lat_start) * np.cos(lat_dest) * np.sin((long_dest - long_start)/2)**2
+    c = 2 * np.arcsin(np.sqrt(a))
+    r = 6371
+
+    return c * r  # distance in km
 
 
 def calc_co2_car(distance, passengers, co2e):
@@ -106,7 +116,7 @@ def calc_co2_plane(start, destination, roundtrip):
     pass
     # get geographic coordinates of airports
     # compute great circle distance between airports
-    # dist = great_circle_distance(lat_start, long_start, lat_dest, long_dest)
+    # dist = haversine(lat_start, long_start, lat_dest, long_dest)
     # retrieve whether airports are in the same country
     # query emission factor (based on inland or international flight)
     # co2e = query_co2e_plane(is_inland_flight)
