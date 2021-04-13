@@ -8,9 +8,15 @@ import glob
 import requests
 import numpy as np
 import math
+import openrouteservice
+from openrouteservice.directions import directions
+from openrouteservice.geocode import pelias_search, pelias_autocomplete, pelias_structured
 
 KWH_TO_TJ = 277777.77777778
 script_path = os.path.dirname(os.path.realpath(__file__))
+key_file = "../key.txt"
+with open(key_file) as f:
+    api_key = f.read().strip()
 
 
 def query_co2e_car(car_size, car_fuel):
@@ -112,36 +118,61 @@ def calc_co2_heating(consumption, fuel_type):
     return emissions
 
 
-def calc_co2_plane(start, destination, roundtrip):
+def geocoding_airport(iata):
+    clnt = openrouteservice.Client(key=api_key)
+
+    call = pelias_search(clnt, "%s Airport" % iata)
+
+    for feature in call["features"]:
+        if feature["properties"]["addendum"]["osm"]["iata"] == iata:
+            name = feature["properties"]["name"]
+            geom = feature["geometry"]["coordinates"]
+            country = feature["properties"]["country"]
+            break
+
+    return name, geom, country
+
+
+def geocoding(address):
     pass
+
+
+def get_route(coords, profile):
+    """
+    Obtain the distance of a route between given waypoints using a given profile
+    :param coords: list of [lat,long] coordinate-lists
+    :param profile: driving-car, cycling-regular
+    :return: distance of the route
+    """
+    # coords: list of [lat,long] lists
+    # profile may be: driving-car, cycling-regular
+    clnt = openrouteservice.Client(key=api_key)
+
+    route = directions(clnt, coords)
+    dist = route["routes"][0]["summary"]["distance"]
+
+    return dist
+
+
+def calc_co2_plane(start, destination, roundtrip):
     # get geographic coordinates of airports
+    _, geom_start, country_start = geocoding_airport(start)
+    _, geom_dest, country_dest = geocoding_airport(destination)
     # compute great circle distance between airports
-    # dist = haversine(lat_start, long_start, lat_dest, long_dest)
+    distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
     # retrieve whether airports are in the same country
-    # query emission factor (based on inland or international flight)
-    # co2e = query_co2e_plane(is_inland_flight)
-    # multiply emission factor with distance and by 2 if roundtrip
-    # return emissions
-
-
-"""def calc_co2_plane_api(start, destination, flight_class, roundtrip=False):
-    #flight classes: economy, premium_economy, business, first
-    key = ("API_key_here", "")
-    parameters = {
-      "segments[0][origin]": start,
-      "segments[0][destination]": destination,
-      "cabin_class": flight_class
-    }
-    if roundtrip == True:
-        parameters["segments[1][origin]"] = destination
-        parameters["segments[1][destination]"] = start
-    response = requests.get("https://api.goclimate.com/v1/flight_footprint", auth=key, params=parameters)
-    if response:
-        print("success")
+    if country_start == country_dest:
+        is_inland_flight = True
     else:
-        print(response.status_code)
+        is_inland_flight = False
+    # query emission factor (based on inland or international flight)
+    co2e = query_co2e_plane(is_inland_flight)
+    # multiply emission factor with distance and by 2 if roundtrip
+    emissions = distance * co2e
+    if roundtrip is True:
+        emissions = emissions * 2
 
-    return int(response.json()["footprint"])"""
+    return emissions
 
 
 if __name__ == "__main__":
