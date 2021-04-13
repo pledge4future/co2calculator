@@ -88,13 +88,22 @@ def haversine(lat_start, long_start, lat_dest, long_dest):
     return c * r  # distance in km
 
 
-def calc_co2_car(distance, passengers, co2e):
+def calc_co2_car(distance, passengers, size, fuel_type):
+    co2e = query_co2e_car(size, fuel_type)
     emissions = distance * co2e / passengers
 
     return emissions
 
 
-def calc_co2_public_transport(distance, co2e):
+def calc_co2_bus(distance, size, fuel_type, occupancy):
+    co2e = query_co2e_bus(size, fuel_type, occupancy)
+    emissions = distance * co2e
+
+    return emissions
+
+
+def calc_co2_train(distance, fuel_type):
+    co2e = query_co2e_train(fuel_type)
     emissions = distance * co2e
 
     return emissions
@@ -189,22 +198,19 @@ if __name__ == "__main__":
                 size_class = user_data["car_size"].values[i]
                 fuel_type = user_data["car_fuel"].values[i]
                 passengers = user_data["passengers"].values[i]
-                co2e = query_co2e_car(size_class, fuel_type)
-                total_co2e = calc_co2_car(distance, passengers, co2e)
+                total_co2e = calc_co2_car(distance, passengers, size_class, fuel_type)
                 user_data.loc[i, "co2e_kg"] = total_co2e
             elif "_bus" in f:
                 distance = user_data["distance_km"].values[i]
                 size_class = user_data["bus_size"].values[i]
                 fuel_type = user_data["bus_fuel"].values[i]
                 occupancy = user_data["occupancy"].values[i]
-                co2e = query_co2e_bus(size_class, fuel_type, occupancy)
-                total_co2e = calc_co2_public_transport(distance, co2e)
+                total_co2e = calc_co2_bus(distance, size_class, fuel_type, occupancy)
                 user_data.loc[i, "co2e_kg"] = total_co2e
             elif "_train" in f:
                 distance = user_data["distance_km"].values[i]
                 fuel_type = user_data["train_fuel"].values[i]
-                co2e = query_co2e_train(fuel_type)
-                total_co2e = calc_co2_public_transport(distance, co2e)
+                total_co2e = calc_co2_train(distance, fuel_type)
                 user_data.loc[i, "co2e_kg"] = total_co2e
             elif "_plane" in f:
                 iata_start = user_data["IATA_start"].values[i]
@@ -226,8 +232,7 @@ if __name__ == "__main__":
         for i in range(user_data.shape[0]):
             consumption = user_data["consumption_kwh"].values[i]
             fuel_type = user_data["fuel_type"].values[i]
-            co2e = query_co2e_electricity(fuel_type)
-            total_co2e = calc_co2_electricity(consumption, co2e)
+            total_co2e = calc_co2_electricity(consumption, fuel_type)
             user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
@@ -251,21 +256,20 @@ if __name__ == "__main__":
                 consumption_l = 0
 
             fuel_type = user_data["fuel_type"].values[i]
-            co2e = query_co2e_heating(fuel_type)
             if consumption_kwh > 0:
-                total_co2e = calc_co2_heating(consumption_kwh, co2e)
+                total_co2e = calc_co2_heating(consumption_kwh, fuel_type)
             elif consumption_l > 0:
                 if fuel_type == "oil":
-                    total_co2e = calc_co2_heating(consumption_l, co2e)*10
+                    total_co2e = calc_co2_heating(consumption_l, fuel_type)*10
                 elif fuel_type == "liquid_gas":
-                    total_co2e = calc_co2_heating(consumption_l, co2e)*6.6
+                    total_co2e = calc_co2_heating(consumption_l, fuel_type)*6.6
             elif consumption_kg > 0:
                 if fuel_type == "coal":
-                    total_co2e = calc_co2_heating(consumption_kg, co2e)*4.17
+                    total_co2e = calc_co2_heating(consumption_kg, fuel_type)*4.17
                 elif fuel_type == "pellet":
-                    total_co2e = calc_co2_heating(consumption_kg, co2e)*5
+                    total_co2e = calc_co2_heating(consumption_kg, fuel_type)*5
                 elif fuel_type == "woodchips":
-                    total_co2e = calc_co2_heating(consumption_kg, co2e)*4
+                    total_co2e = calc_co2_heating(consumption_kg, fuel_type)*4
             user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
