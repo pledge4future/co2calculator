@@ -1,7 +1,7 @@
 id,type,source,model,co2e_kg
 0,coal,Öko-Institut,gemis,126383
 1,district_heating,Öko-Institut,gemis,77367
-2,electricity,Öko-Institut,gemis,62579
+2,electricity,Öko-Institut,gemis,116667
 3,gas,IINAS,gemis,65578
 4,heatpump_air,Öko-Institut,gemis,33581
 5,heatpump_ground,Öko-Institut,gemis,48541
