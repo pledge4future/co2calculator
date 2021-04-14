@@ -1,2 +1,2 @@
-id,name,representative_user_id,members
-1,sustainability_group,1,30
+id;name;representative_user_id;n_members
+1;sustainability_group;1;30

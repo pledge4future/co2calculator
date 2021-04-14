@@ -392,7 +392,7 @@ if __name__ == "__main__":
                 user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-            user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
+            # user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
 
 
     electricity_data = glob.glob(f"{script_path}/../data/test_data_users/electricity.csv")
@@ -407,7 +407,7 @@ if __name__ == "__main__":
             user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-            user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";")
+            # user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";")
 
     heating_data = glob.glob(f"{script_path}/../data/test_data_users/heating.csv")
 
@@ -444,4 +444,4 @@ if __name__ == "__main__":
             user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-            user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
+            # user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
