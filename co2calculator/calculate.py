@@ -239,6 +239,28 @@ def geocoding(address):
     return name, country, coords
 
 
+def geocoding_structured(country=None, locality=None, zip_code=None, address=None):
+    """
+    Function to obtain coordinates for a given address
+    :param country:
+    :param locality:
+    :param zip_code:
+    :param address:
+    :return: Name, country and coordinates of the found location
+    """
+    # alternatively: structured geocoding, user has several input fields: country, locality, postalcode, address
+    clnt = openrouteservice.Client(key=api_key)
+
+    call = pelias_structured(clnt, country=country, locality=locality, postalcode=zip_code, address=address)
+    for feature in call["features"]:
+        name = feature["properties"]["name"]
+        country = feature["properties"]["country"]
+        coords = feature["geometry"]["coordinates"]
+        break
+
+    return name, country, coords
+
+
 def geocoding(address):
     """
     Function to obtain coordinates for a given address
