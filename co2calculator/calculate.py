@@ -94,107 +94,6 @@ def haversine(lat_start, long_start, lat_dest, long_dest):
     return c * r  # distance in km
 
 
-def calc_co2_car(passengers, size, fuel_type, distance=None, locations=None, roundtrip=False):
-    """
-    Function to compute the emissions of a car trip.
-    :param passengers: Number of passengers in the car (including the person answering the questionnaire),
-                        [1, 9]
-    :param size: size of car
-                        ["small", "medium", "large"]
-    :param fuel_type: type of fuel the car is using
-                        ["diesel", "gasoline", "cng", "electric", "average"]
-    :param distance: Distance travelled in km;
-                        alternatively param <locations> can be provided
-    :param locations: List of locations in the form 'address, locality, country';
-                        can have intermediate stops
-                        e.g. ["Im Neuenheimer Feld 348, Heidelberg, Germany", "Marienplatz, Stuttgart, Germany",
-                         "Bahnhof Basel, Basel, Switzerland"]
-                        alternatively param <distance> can be provided
-    :param roundtrip: Whether this trip is a roundtrip or not; Boolean [True, False]
-
-    :return: Total emissions of trip
-    """
-    if distance is None and locations is None:
-        print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
-              "travelled locations in the form 'address, locality, country'")
-    elif distance is None: # and locations is not None:
-        coords = []
-        for loc in locations:
-            loc_name, loc_country, loc_coords = geocoding(loc)
-            coords.append(loc_coords)
-        distance = get_route(coords, "driving-car")
-    co2e = query_co2e_car(size, fuel_type)
-    if roundtrip is True:
-        distance *= 2
-    emissions = distance * co2e / passengers
-
-    return emissions
-
-
-def calc_co2_bus(size, fuel_type, occupancy, distance=None, stops=None, roundtrip=False):
-    detour_coefficient = 1.5
-    if distance is None and stops is None:
-        print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
-              "travelled train stations in the form 'address, locality, country'")
-    elif distance is None and stops is not None:
-        distance = 0
-        coords = []
-        for loc in stops:
-            loc_name, loc_country, loc_coords = geocoding(loc)
-            coords.append(loc_coords)
-        for i in range(len(coords) - 1):
-            # compute great circle distance between locations
-            distance += haversine(coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0])
-        distance *= detour_coefficient
-    if roundtrip is True:
-        distance *= 2
-    co2e = query_co2e_bus(size, fuel_type, occupancy)
-    emissions = distance * co2e
-
-    return emissions
-
-
-def calc_co2_train(fuel_type, distance=None, train_stations=None, roundtrip=False):
-    detour_coefficient = 1.2
-    if distance is None and train_stations is None:
-        print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
-              "travelled train stations in the form 'address, locality, country'")
-    elif distance is None: #and train_stations is not None:
-        distance = 0
-        coords = []
-        for loc in train_stations:
-            loc_name, loc_country, loc_coords = geocoding(loc)
-            coords.append(loc_coords)
-        for i in range(len(coords)-1):
-            # compute great circle distance between locations
-            distance += haversine(coords[i][1], coords[i][0], coords[i+1][1], coords[i+1][0])
-        distance *= detour_coefficient
-    if roundtrip is True:
-        distance *= 2
-    co2e = query_co2e_train(fuel_type)
-    emissions = distance * co2e
-
-    return emissions
-
-
-def calc_co2_electricity(consumption, fuel_type):
-    co2e = query_co2e_electricity(fuel_type)
-    # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
-    # so consumption needs to be converted to TJ
-    emissions = consumption/KWH_TO_TJ * co2e
-
-    return emissions
-
-
-def calc_co2_heating(consumption, fuel_type):
-    co2e = query_co2e_heating(fuel_type)
-    # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
-    # so consumption needs to be converted to TJ
-    emissions = consumption/KWH_TO_TJ * co2e
-
-    return emissions
-
-
 def geocoding_airport(iata):
     """
     Function to obtain the coordinates of an airport by the IATA code
@@ -226,7 +125,7 @@ def geocoding(address):
             e.g. Heidelberg, Germany
     :return: Name, country and coordinates of the found location
     """
-    # alternatively: structured geocoding, user has several input fields: country, locality, postalcode, address
+
     clnt = openrouteservice.Client(key=api_key)
 
     call = pelias_search(clnt, address)
@@ -248,34 +147,10 @@ def geocoding_structured(country=None, locality=None, zip_code=None, address=Non
     :param address:
     :return: Name, country and coordinates of the found location
     """
-    # alternatively: structured geocoding, user has several input fields: country, locality, postalcode, address
+
     clnt = openrouteservice.Client(key=api_key)
 
     call = pelias_structured(clnt, country=country, locality=locality, postalcode=zip_code, address=address)
-    for feature in call["features"]:
-        name = feature["properties"]["name"]
-        country = feature["properties"]["country"]
-        coords = feature["geometry"]["coordinates"]
-        break
-
-    return name, country, coords
-
-
-def geocoding(address):
-    """
-    Function to obtain coordinates for a given address
-    :param address: Location/Address to be searched
-            user should give address in the form:
-            <adress>, <locality>, <country>
-            e.g. Hauptbahnhof, Heidelberg, Germany
-            e.g. Im Neuenheimer Feld 348, Heidelberg, Germany
-            e.g. Heidelberg, Germany
-    :return: Name, country and coordinates of the found location
-    """
-    # alternatively: structured geocoding, user has several input fields: country, locality, postalcode, address
-    clnt = openrouteservice.Client(key=api_key)
-
-    call = pelias_search(clnt, address)
     for feature in call["features"]:
         name = feature["properties"]["name"]
         country = feature["properties"]["country"]
@@ -307,6 +182,111 @@ def get_route(coords, profile=None):
     return dist
 
 
+def calc_co2_car(passengers, size, fuel_type, distance=None, locations=None, roundtrip=False):
+    """
+    Function to compute the emissions of a car trip.
+    :param passengers: Number of passengers in the car (including the person answering the questionnaire),
+                        [1, 9]
+    :param size: size of car
+                        ["small", "medium", "large", "average"]
+    :param fuel_type: type of fuel the car is using
+                        ["diesel", "gasoline", "cng", "electric", "average"]
+    :param distance: Distance travelled in km;
+                        alternatively param <locations> can be provided
+    :param locations: List of locations in the form 'address, locality, country';
+                        can have intermediate stops
+                        e.g. ["Im Neuenheimer Feld 348, Heidelberg, Germany", "Marienplatz, Stuttgart, Germany",
+                         "Bahnhof Basel, Basel, Switzerland"]
+                        alternatively param <distance> can be provided
+    :param roundtrip: Whether this trip is a roundtrip or not; Boolean [True, False]
+
+    :return: Total emissions of trip
+    """
+    if distance is None and locations is None:
+        print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
+              "travelled locations in the form 'address, locality, country'")
+    elif distance is None: # and locations is not None:
+        coords = []
+        for loc in locations:
+            loc_name, loc_country, loc_coords = geocoding(loc)
+            coords.append(loc_coords)
+        distance = get_route(coords, "driving-car")
+    co2e = query_co2e_car(size, fuel_type)
+    if roundtrip is True:
+        distance *= 2
+    emissions = distance * co2e / passengers
+
+    return emissions
+
+
+def calc_co2_bus(size, fuel_type, occupancy, distance=None, stops=None, roundtrip=False):
+    """
+    Function to compute the emissions of a bus trip.
+    :param size: size class of the bus;                 ["medium", "large", "average"]
+    :param fuel_type: type of fuel the bus is using;    ["diesel"]
+    :param occupancy: number of people on the bus       [20, 50, 80, 100]          Todo: 50 as default?
+    :param distance: Distance travelled in km;
+                        alternatively param <stops> can be provided
+    :param stops: List of locations, ideally in the form 'address, locality, country';
+                    alternatively param <distance> can be provided
+    :param roundtrip: Whether this trip is a roundtrip or not; Boolean [True, False]
+    :return: Total emissions of trip
+    """
+    detour_coefficient = 1.5
+    if distance is None and stops is None:
+        print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
+              "travelled train stations in the form 'address, locality, country'")
+    elif distance is None and stops is not None:
+        distance = 0
+        coords = []
+        for loc in stops:
+            loc_name, loc_country, loc_coords = geocoding(loc)
+            coords.append(loc_coords)
+        for i in range(len(coords) - 1):
+            # compute great circle distance between locations
+            distance += haversine(coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0])
+        distance *= detour_coefficient
+    if roundtrip is True:
+        distance *= 2
+    co2e = query_co2e_bus(size, fuel_type, occupancy)
+    emissions = distance * co2e
+
+    return emissions
+
+
+def calc_co2_train(fuel_type, distance=None, train_stations=None, roundtrip=False):
+    """
+    Function to compute the emissions of a bus trip.
+    :param fuel_type: type of fuel the train is using;    ["diesel", "electric", "average"]
+    :param distance: Distance travelled in km;
+                        alternatively param <stops> can be provided
+    :param train_stations: List of train stations, ideally in the form 'address, locality, country';
+                    alternatively param <distance> can be provided
+    :param roundtrip: Whether this trip is a roundtrip or not; Boolean [True, False]
+    :return: Total emissions of trip
+    """
+    detour_coefficient = 1.2
+    if distance is None and train_stations is None:
+        print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
+              "travelled train stations in the form 'address, locality, country'")
+    elif distance is None: #and train_stations is not None:
+        distance = 0
+        coords = []
+        for loc in train_stations:
+            loc_name, loc_country, loc_coords = geocoding(loc)
+            coords.append(loc_coords)
+        for i in range(len(coords)-1):
+            # compute great circle distance between locations
+            distance += haversine(coords[i][1], coords[i][0], coords[i+1][1], coords[i+1][0])
+        distance *= detour_coefficient
+    if roundtrip is True:
+        distance *= 2
+    co2e = query_co2e_train(fuel_type)
+    emissions = distance * co2e
+
+    return emissions
+
+
 def calc_co2_plane(start, destination, roundtrip):
     """
     Function to compute emissions of a train trip
@@ -335,6 +315,24 @@ def calc_co2_plane(start, destination, roundtrip):
     emissions = distance * co2e
     if roundtrip is True:
         emissions *= 2
+
+    return emissions
+
+
+def calc_co2_electricity(consumption, fuel_type):
+    co2e = query_co2e_electricity(fuel_type)
+    # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
+    # so consumption needs to be converted to TJ
+    emissions = consumption/KWH_TO_TJ * co2e
+
+    return emissions
+
+
+def calc_co2_heating(consumption, fuel_type):
+    co2e = query_co2e_heating(fuel_type)
+    # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
+    # so consumption needs to be converted to TJ
+    emissions = consumption/KWH_TO_TJ * co2e
 
     return emissions
 
