@@ -117,7 +117,7 @@ def calc_co2_car(passengers, size, fuel_type, distance=None, locations=None, rou
     if distance is None and locations is None:
         print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
               "travelled locations in the form 'address, locality, country'")
-    elif distance is None and locations is not None:
+    elif distance is None: # and locations is not None:
         coords = []
         for loc in locations:
             loc_name, loc_country, loc_coords = geocoding(loc)
@@ -131,14 +131,46 @@ def calc_co2_car(passengers, size, fuel_type, distance=None, locations=None, rou
     return emissions
 
 
-def calc_co2_bus(distance, size, fuel_type, occupancy):
+def calc_co2_bus(size, fuel_type, occupancy, distance=None, stops=None, roundtrip=False):
+    detour_coefficient = 1.5
+    if distance is None and stops is None:
+        print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
+              "travelled train stations in the form 'address, locality, country'")
+    elif distance is None and stops is not None:
+        distance = 0
+        coords = []
+        for loc in stops:
+            loc_name, loc_country, loc_coords = geocoding(loc)
+            coords.append(loc_coords)
+        for i in range(len(coords) - 1):
+            # compute great circle distance between locations
+            distance += haversine(coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0])
+        distance *= detour_coefficient
+    if roundtrip is True:
+        distance *= 2
     co2e = query_co2e_bus(size, fuel_type, occupancy)
     emissions = distance * co2e
 
     return emissions
 
 
-def calc_co2_train(distance, fuel_type):
+def calc_co2_train(fuel_type, distance=None, train_stations=None, roundtrip=False):
+    detour_coefficient = 1.2
+    if distance is None and train_stations is None:
+        print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
+              "travelled train stations in the form 'address, locality, country'")
+    elif distance is None: #and train_stations is not None:
+        distance = 0
+        coords = []
+        for loc in train_stations:
+            loc_name, loc_country, loc_coords = geocoding(loc)
+            coords.append(loc_coords)
+        for i in range(len(coords)-1):
+            # compute great circle distance between locations
+            distance += haversine(coords[i][1], coords[i][0], coords[i+1][1], coords[i+1][0])
+        distance *= detour_coefficient
+    if roundtrip is True:
+        distance *= 2
     co2e = query_co2e_train(fuel_type)
     emissions = distance * co2e
 
@@ -198,11 +230,35 @@ def geocoding(address):
     clnt = openrouteservice.Client(key=api_key)
 
     call = pelias_search(clnt, address)
-
     for feature in call["features"]:
         name = feature["properties"]["name"]
         country = feature["properties"]["country"]
         coords = feature["geometry"]["coordinates"]
+        break
+
+    return name, country, coords
+
+
+def geocoding(address):
+    """
+    Function to obtain coordinates for a given address
+    :param address: Location/Address to be searched
+            user should give address in the form:
+            <adress>, <locality>, <country>
+            e.g. Hauptbahnhof, Heidelberg, Germany
+            e.g. Im Neuenheimer Feld 348, Heidelberg, Germany
+            e.g. Heidelberg, Germany
+    :return: Name, country and coordinates of the found location
+    """
+    # alternatively: structured geocoding, user has several input fields: country, locality, postalcode, address
+    clnt = openrouteservice.Client(key=api_key)
+
+    call = pelias_search(clnt, address)
+    for feature in call["features"]:
+        name = feature["properties"]["name"]
+        country = feature["properties"]["country"]
+        coords = feature["geometry"]["coordinates"]
+        break
 
     return name, country, coords
 
@@ -237,11 +293,15 @@ def calc_co2_plane(start, destination, roundtrip):
     :param roundtrip: Whether this trip is a roundtrip or not; Boolean [True, False]
     :return: Total emissions of flight
     """
+    detour_constant = 95 # 95 km as used by MyClimate and ges 1point5, see also
+    # Méthode pour la réalisation des bilans d’émissions de gaz à effet de serre conformément à l’article L. 229­25 du code de l’environnement – 2016 – Version 4
     # get geographic coordinates of airports
     _, geom_start, country_start = geocoding_airport(start)
     _, geom_dest, country_dest = geocoding_airport(destination)
     # compute great circle distance between airports
     distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
+    # add detour constant
+    distance += detour_constant
     # retrieve whether airports are in the same country
     if country_start == country_dest:
         is_inland_flight = True
@@ -264,26 +324,44 @@ if __name__ == "__main__":
 
     print("Computing business trip emissions...")
     for f in business_trip_data:
-        user_data = pd.read_csv(f)
+        user_data = pd.read_csv(f, sep=";")
         for i in range(user_data.shape[0]):
             if "_car" in f:
                 distance = user_data["distance_km"].values[i]
                 size_class = user_data["car_size"].values[i]
                 fuel_type = user_data["car_fuel"].values[i]
                 passengers = user_data["passengers"].values[i]
-                total_co2e = calc_co2_car(distance, passengers, size_class, fuel_type)
+                stops = str(user_data["stops"].values[i]).split("-")
+                if np.isnan(distance):
+                    distance = None
+                if stops is np.nan:
+                    stops = None
+                roundtrip = bool(user_data["roundtrip"].values[i])
+                total_co2e = calc_co2_car(passengers, size_class, fuel_type, distance, stops, roundtrip)
                 user_data.loc[i, "co2e_kg"] = total_co2e
             elif "_bus" in f:
                 distance = user_data["distance_km"].values[i]
                 size_class = user_data["bus_size"].values[i]
                 fuel_type = user_data["bus_fuel"].values[i]
                 occupancy = user_data["occupancy"].values[i]
-                total_co2e = calc_co2_bus(distance, size_class, fuel_type, occupancy)
+                stops = str(user_data["stops"].values[i]).split("-")
+                roundtrip = bool(user_data["roundtrip"].values[i])
+                if np.isnan(distance):
+                    distance = None
+                if stops is np.nan:
+                    stops = None
+                total_co2e = calc_co2_bus(size_class, fuel_type, occupancy, distance, stops, roundtrip)
                 user_data.loc[i, "co2e_kg"] = total_co2e
             elif "_train" in f:
                 distance = user_data["distance_km"].values[i]
                 fuel_type = user_data["train_fuel"].values[i]
-                total_co2e = calc_co2_train(distance, fuel_type)
+                roundtrip = bool(user_data["roundtrip"].values[i])
+                stops = str(user_data["stops"].values[i]).split("-")
+                if np.isnan(distance):
+                    distance = None
+                if stops is np.nan:
+                    stops = None
+                total_co2e = calc_co2_train(fuel_type, distance, stops, roundtrip)
                 user_data.loc[i, "co2e_kg"] = total_co2e
             elif "_plane" in f:
                 iata_start = user_data["IATA_start"].values[i]
@@ -294,14 +372,14 @@ if __name__ == "__main__":
                 user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-            # user_data.to_csv(f.replace(".csv", "_calc.csv"))
+            user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
 
 
     electricity_data = glob.glob(f"{script_path}/../data/test_data_users/electricity.csv")
 
     print("Computing electricity emissions...")
     for f in electricity_data:
-        user_data = pd.read_csv(f)
+        user_data = pd.read_csv(f, sep=";")
         for i in range(user_data.shape[0]):
             consumption = user_data["consumption_kwh"].values[i]
             fuel_type = user_data["fuel_type"].values[i]
@@ -309,13 +387,13 @@ if __name__ == "__main__":
             user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-            # user_data.to_csv(f.replace(".csv", "_calc.csv"))
+            user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";")
 
     heating_data = glob.glob(f"{script_path}/../data/test_data_users/heating.csv")
 
     print("Computing heating emissions...")
     for f in heating_data:
-        user_data = pd.read_csv(f)
+        user_data = pd.read_csv(f, sep=";")
         for i in range(user_data.shape[0]):
             if user_data["consumption_kwh"].values[i] > 0:
                 consumption_kwh = user_data["consumption_kwh"].values[i]
@@ -346,4 +424,4 @@ if __name__ == "__main__":
             user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-            # user_data.to_csv(f.replace(".csv", "_calc.csv"))
+            user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
