@@ -1,0 +1,5 @@
+id,type,source,model,co2e_kg
+0,UBA,,bicycle,0.009
+1,UBA,,pedelec,0.015
+2,UBA,,motorcycle,0.196
+3,UBA,,tram,0.078
