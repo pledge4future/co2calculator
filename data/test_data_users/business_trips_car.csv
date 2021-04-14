@@ -1,3 +1,4 @@
-id,user_id,distance_km,passengers,car_fuel,car_size,co2e_kg
-1,2,444,3,gasoline,medium,
-2,2,444,2,gasoline,medium,
+id;user_id;passengers;car_fuel;car_size;distance_km;stops;roundtrip;co2e_kg
+1;2;3;gasoline;medium;444;;False;
+2;2;2;gasoline;medium;444;;True;
+3;1;1;diesel;large;;Im Neuenheimer Feld 348, Heidelberg, Germany-Marienplatz, Stuttgart, Germany-Bahnhof Basel, Basel, Switzerland;False;
