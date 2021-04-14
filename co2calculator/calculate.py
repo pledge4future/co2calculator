@@ -14,7 +14,7 @@ from openrouteservice.geocode import pelias_search, pelias_autocomplete, pelias_
 
 KWH_TO_TJ = 277777.77777778
 script_path = os.path.dirname(os.path.realpath(__file__))
-key_file = "../key.txt"
+key_file = f"{script_path}/../key.txt"
 with open(key_file) as f:
     api_key = f.read().strip()
 
@@ -88,8 +88,36 @@ def haversine(lat_start, long_start, lat_dest, long_dest):
     return c * r  # distance in km
 
 
-def calc_co2_car(distance, passengers, size, fuel_type):
+def calc_co2_car(passengers, size, fuel_type, distance=None, locations=None, roundtrip=False):
+    """
+    Function to compute the emissions of a car trip.
+    :param passengers: Number of passengers in the car (including the person answering the questionnaire),
+                        [1, 9]
+    :param size: size of car
+                        ["small", "medium", "large"]
+    :param fuel_type: type of fuel the car is using
+                        ["diesel", "gasoline", "cng", "electric", "average"]
+    :param distance: Distance travelled in km;
+                        alternatively param <locations> can be provided
+    :param locations: List of locations in the form 'address, locality, country';
+                        can have intermediate stops
+                        e.g. ["Im Neuenheimer Feld 348, Heidelberg, Germany", "Marienplatz, Stuttgart, Germany",
+                         "Bahnhof Basel, Basel, Switzerland"]
+                        alternatively param <distance> can be provided
+    :return: Total emissions of trip
+    """
+    if distance is None and locations is None:
+        print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
+              "travelled locations in the form 'address, locality, country'")
+    elif distance is None and locations is not None:
+        coords = []
+        for loc in locations:
+            loc_name, loc_country, loc_coords = geocoding(loc)
+            coords.append(loc_coords)
+        distance = get_route(coords, "driving-car")
     co2e = query_co2e_car(size, fuel_type)
+    if roundtrip is True:
+        distance *= 2
     emissions = distance * co2e / passengers
 
     return emissions
@@ -143,10 +171,25 @@ def geocoding_airport(iata):
 
 
 def geocoding(address):
-    pass
+    # user should give train station address in the form:
+    # <adress>, <locality>, <country>
+    # e.g. Hauptbahnhof, Heidelberg, Germany
+    # e.g. Im Neuenheimer Feld 348, Heidelberg, Germany
+    # e.g. Heidelberg, Germany
+    # alternatively: structured geocoding, user has several input fields: country, locality, postalcode, address
+    clnt = openrouteservice.Client(key=api_key)
+
+    call = pelias_search(clnt, address)
+
+    for feature in call["features"]:
+        name = feature["properties"]["name"]
+        country = feature["properties"]["country"]
+        coords = feature["geometry"]["coordinates"]
+
+    return name, country, coords
 
 
-def get_route(coords, profile):
+def get_route(coords, profile=None):
     """
     Obtain the distance of a route between given waypoints using a given profile
     :param coords: list of [lat,long] coordinate-lists
@@ -157,6 +200,11 @@ def get_route(coords, profile):
     # profile may be: driving-car, cycling-regular
     clnt = openrouteservice.Client(key=api_key)
 
+    allowed_profiles = ["driving-car", "cycling-regular"]
+    if profile not in allowed_profiles or profile is None:
+        print("Warning! Specified profile not available or no profile passed.\n"
+              "Profile set to 'driving-car' by default.")
+        profile = "driving-car"
     route = directions(clnt, coords)
     dist = route["routes"][0]["summary"]["distance"]
 
@@ -179,7 +227,7 @@ def calc_co2_plane(start, destination, roundtrip):
     # multiply emission factor with distance and by 2 if roundtrip
     emissions = distance * co2e
     if roundtrip is True:
-        emissions = emissions * 2
+        emissions *= 2
 
     return emissions
 
@@ -224,7 +272,7 @@ if __name__ == "__main__":
             #user_data.to_csv(f.replace(".csv", "_calc.csv"))
 
 
-    electricity_data = glob.glob("../data/test_data_users/electricity.csv")
+    electricity_data = glob.glob(f"{script_path}/../data/test_data_users/electricity.csv")
 
     print("Computing electricity emissions...")
     for f in electricity_data:
@@ -238,7 +286,7 @@ if __name__ == "__main__":
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
             #user_data.to_csv(f.replace(".csv", "_calc.csv"))
 
-    heating_data = glob.glob("../data/test_data_users/heating.csv")
+    heating_data = glob.glob(f"{script_path}/../data/test_data_users/heating.csv")
 
     print("Computing heating emissions...")
     for f in heating_data:
