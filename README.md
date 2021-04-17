@@ -2,11 +2,11 @@
 
 Python package to calculate CO2 emissions of business trips, heating and electricity consumption.
 
-## Description
+## ℹ️ Description
 
 This package is part of Pledge4Future, a project to quantify, monitor and reduce work-related emissions collectively and sustainably. [more info, Link to Website]
 
-## How to Use
+## ⌨ How to Use
 
 [...]
 
@@ -17,9 +17,9 @@ The CO<sub>2</sub> Calculator uses the [OpenRouteService (ORS) API](https://open
 1) Go to https://openrouteservice.org/dev/#/signup and create an account (or sign up with GitHub).
 2) In the Dev dashboard, switch to the tab `TOKENS` and request a free token.
 3) Once you have the key, click on it to copy it to clipboard.
-4) Insert the key into [sample.env](https://github.com/pledge4future/co2calculator/blob/dev_ors/sample.env) and rename the file to `.env`.
+4) Insert the key into [sample.env](sample.env) and rename the file to `.env`.
 
-## References
+## 📄 References
 
 ### Emission factors
 
@@ -34,6 +34,10 @@ The CO<sub>2</sub> Calculator uses the [OpenRouteService (ORS) API](https://open
 - Detour coefficients for train trips (1.2) and bus trips (1.5):
     - Adapted from [GES 1point5](https://labos1point5.org/ges-1point5), who were advised by Frédéric Héran (economist and urban planner).
 
-## Project partners
+## 🤝 Project partners
 
 [...]
+
+## ⚖️ License
+
+See [License](LICENSE)
