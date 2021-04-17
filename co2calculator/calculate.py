@@ -171,6 +171,20 @@ def calc_co2_heating(consumption, fuel_type):
     return emissions
 
 
+
+def calc_co2_businesstrip(transportation_mode, start=None, destination=None, distance=None,
+                          car_size=None, car_fuel_type=None, bus_size=None, bus_fuel_type=None,
+                          capacity=None, occupancy=None, passengers=None, roundtrip=None):
+    """
+    Calculate co2 emissions for a business trip (not implemented yet)
+    :param start:
+    :param destination:
+    :param distance:
+    :return:
+    """
+    pass
+    return 999
+
 if __name__ == "__main__":
 
     # test with dummy data
