@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-description
+Functions for obtaining the distance between given addresses.
 """
 
 import numpy as np
@@ -10,10 +10,11 @@ import openrouteservice
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_autocomplete, pelias_structured
 import os
+from dotenv import load_dotenv
+load_dotenv()  # take environment variables from .env.
+
+ors_api_key = os.getenv('ORS_API_KEY')
 script_path = os.path.dirname(os.path.realpath(__file__))
-key_file = f"{script_path}/../key.env"
-with open(key_file) as f:
-    api_key = f.read().strip()
 
 
 def haversine(lat_start, long_start, lat_dest, long_dest):
@@ -41,7 +42,7 @@ def geocoding_airport(iata):
     :param iata: IATA airport code
     :return: name, coordinates and country of the found airport
     """
-    clnt = openrouteservice.Client(key=api_key)
+    clnt = openrouteservice.Client(key=ors_api_key)
 
     call = pelias_search(clnt, "%s Airport" % iata)
 
@@ -67,7 +68,7 @@ def geocoding(address):
     :return: Name, country and coordinates of the found location
     """
 
-    clnt = openrouteservice.Client(key=api_key)
+    clnt = openrouteservice.Client(key=ors_api_key)
 
     call = pelias_search(clnt, address)
     for feature in call["features"]:
@@ -89,7 +90,7 @@ def geocoding_structured(country=None, locality=None, zip_code=None, address=Non
     :return: Name, country and coordinates of the found location
     """
 
-    clnt = openrouteservice.Client(key=api_key)
+    clnt = openrouteservice.Client(key=ors_api_key)
 
     call = pelias_structured(clnt, country=country, locality=locality, postalcode=zip_code, address=address)
     for feature in call["features"]:
@@ -110,7 +111,7 @@ def get_route(coords, profile=None):
     """
     # coords: list of [lat,long] lists
     # profile may be: driving-car, cycling-regular
-    clnt = openrouteservice.Client(key=api_key)
+    clnt = openrouteservice.Client(key=ors_api_key)
 
     allowed_profiles = ["driving-car", "cycling-regular"]
     if profile not in allowed_profiles or profile is None:

@@ -6,7 +6,7 @@ import os
 import pandas as pd
 import glob
 import numpy as np
-from co2calculator.utils import *
+from co2calculator.distances import *
 
 KWH_TO_TJ = 277777.77777778
 script_path = os.path.dirname(os.path.realpath(__file__))
