@@ -21,7 +21,7 @@ def read_xmls_mobility(id, filepath):
 
     :param id: unique sequential number
     :param filepath: path to XML file
-    :return: list of desired values in the form ["id", "source", "model", "size_class", "fuel_type", "capacity", "occupancy", "co2e"]
+    :return: list of desired values in the form ["id", "type", "source", "model", "size_class", "fuel_type", "capacity", "occupancy", "co2e"]
     """
     vals = pd.Series(index=range(8))
     xtree = et.parse(filepath)
@@ -29,30 +29,31 @@ def read_xmls_mobility(id, filepath):
     vals[0] = id
     for node in xroot:
         if node.tag == "name":
+            vals[1] = node.text
             # if not name "PKW" then size class has to be retrieved from name instead of entry
             # "Größenklasse / max. Beladung"
             if "klein" in node.text:
-                vals[3] = "small" #or int: 0
+                vals[4] = "small" #or int: 0
             elif "mittel" in node.text:
-                vals[3] = "medium" # or int: 1
+                vals[4] = "medium" # or int: 1
             elif "gross" in node.text:
-                vals[3] = "large" # or int: 2
+                vals[4] = "large" # or int: 2
         elif node.tag == "meta":
             for child in node:
                 if child.tag == "source":
-                    vals[1] = child[0].text
-                elif child.tag == "specificum":
                     vals[2] = child[0].text
+                elif child.tag == "specificum":
+                    vals[3] = child[0].text
         elif node.tag == "technical_data":
             for child in node:
                 if child[0].text == "Größenklasse / max. Beladung":
-                    vals[3] = child[1].text
-                elif child[0].text == "Kraftstoff/Antrieb":
                     vals[4] = child[1].text
+                elif child[0].text == "Kraftstoff/Antrieb":
+                    vals[5] = child[1].text
                 elif child[0].text == "Auslastungsgrad":
-                    vals[6] = child[1].text
+                    vals[7] = child[1].text
                 elif child[0].text == "Kapazität":
-                    vals[5] = child[1].text.replace(",", ".")
+                    vals[6] = child[1].text.replace(",", ".")
                 #elif child[0].text == "Schadstoffklasse":
                 #    vals[5] = child[1].text
                 #elif child[0].text == "Straßenkategorie":
@@ -61,7 +62,7 @@ def read_xmls_mobility(id, filepath):
             for child in node:
                 if child[0].text == "CO2":
                     if child[3].tag == "sum":
-                        vals[7] = child[3].text.replace(",",".")
+                        vals[8] = child[3].text.replace(",",".")
     return vals.tolist()
 
 
@@ -182,7 +183,7 @@ def rename_reformat_df(df, dict):
 infiles_car = glob.glob("probas_xmls/pkw/*.xml")
 infiles_train = glob.glob("probas_xmls/train/*.xml")
 infiles_bus = glob.glob("probas_xmls/bus/Reisebus*.xml")
-cols = ["id", "source", "model", "size_class", "fuel_type", "capacity", "occupancy", "co2e_kg"]
+cols = ["id", "type", "source", "model", "size_class", "fuel_type", "capacity", "occupancy", "co2e_kg"]
 
 # read xmls
 rows = []
