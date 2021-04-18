@@ -49,9 +49,9 @@ def read_xmls_mobility(idx, filepath, co2e_df):
             elif "gross" in node.text:
                 co2e_df.loc[idx, "size_class"] = "large"
             # for bus and train, get the "range" (i.e., long-distance vs. local) from name
-            elif "Reise" in node.text or "Fern" in node.text:
+            elif "Reise" in node.text or "fern" in node.text or "Fern" in node.text:
                 co2e_df.loc[idx, "range"] = "long-distance"
-            elif "Linien" in node.text or "Nah" in node.text:
+            elif "nah" in node.text or "Nah" in node.text:
                 co2e_df.loc[idx, "range"] = "local"
         elif node.tag == "meta":
             for child in node:
@@ -71,8 +71,8 @@ def read_xmls_mobility(idx, filepath, co2e_df):
                     co2e_df.loc[idx, "capacity"] = child[1].text.replace(",", ".")
                 # elif child[0].text == "Schadstoffklasse":
                 #     co2e_df.loc[id, "Schadstoffklasse"] = child[1].text
-                # elif child[0].text == "Straßenkategorie":
-                #      co2e_df.loc[id, "Straßenkategorie"] = child[1].text
+                elif child[0].text == "Straßenkategorie" and child[1].text == "innerorts":
+                      co2e_df.loc[idx, "range"] = "local"
         elif node.tag == "outputs":
             for child in node:
                 if child[3].tag == "unit":
@@ -331,8 +331,13 @@ rename_dict = {
     "Diesel": "diesel",
     "Reisebus 18-30 t": "large",
     "Reisebus 3,5-18 t": "medium",
+    "Linienbus 18-30 t": "large",
+    "Linienbus 15-18 t": "medium",
+    "Linienbus 3,5-15 t": "small",
     "km": "P.km",
-    "kg/km": "kg/P.km"
+    "kg/km": "kg/P.km",
+    "H2 (energetisch)": "hydrogen",
+    "electricity-CZ-transport": "electric"
 }
 df = rename_reformat_df(df, rename_dict)
 

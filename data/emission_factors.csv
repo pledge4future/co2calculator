@@ -1,60 +1,80 @@
 ,category,subcategory,source,model,name,unit,size_class,occupancy,capacity,range,fuel_type,co2e_unit,co2e
-0,public transport,bus,GIZ,gemis,Bus-Diesel-IO-generisch,P.km,,,,,diesel,kg/P.km,0.0362
-1,public transport,bus,Öko-Institut,gemis,Bus-Linie-Diesel-DE-2020-Basis,P.km,,,,,diesel,kg/P.km,0.0558
-2,public transport,bus,GIZ,gemis,Bus-mini-Benzin-AO-generisch,P.km,small,,,,gasoline,kg/P.km,0.0913
-3,public transport,bus,GIZ,gemis,Bus-mini-Diesel-AO-generisch,P.km,small,,,,diesel,kg/P.km,0.0948
-4,public transport,bus,Öko-Institut,gemis,Bus-Reise-DE-2020-Basis,P.km,,,,long-distance,diesel,kg/P.km,0.0434
-5,public transport,bus,UBA,tremod,Reisebus,P.km,average,100,44.6,long-distance,diesel,kg/P.km,0.0219
-6,public transport,bus,UBA,tremod,Reisebus,P.km,large,100,60,long-distance,diesel,kg/P.km,0.0188
-7,public transport,bus,UBA,tremod,Reisebus,P.km,large,20,60,long-distance,diesel,kg/P.km,0.0764
-8,public transport,bus,UBA,tremod,Reisebus,P.km,large,50,60,long-distance,diesel,kg/P.km,0.0332
-9,public transport,bus,UBA,tremod,Reisebus,P.km,large,80,60,long-distance,diesel,kg/P.km,0.0224
-10,public transport,bus,UBA,tremod,Reisebus,P.km,average,20,44.6,long-distance,diesel,kg/P.km,0.0917
-11,public transport,bus,UBA,tremod,Reisebus,P.km,medium,100,39.9,long-distance,diesel,kg/P.km,0.0233
-12,public transport,bus,UBA,tremod,Reisebus,P.km,medium,20,39.9,long-distance,diesel,kg/P.km,0.0987
-13,public transport,bus,UBA,tremod,Reisebus,P.km,medium,50,39.9,long-distance,diesel,kg/P.km,0.0423
-14,public transport,bus,UBA,tremod,Reisebus,P.km,medium,80,39.9,long-distance,diesel,kg/P.km,0.0281
-15,public transport,bus,UBA,tremod,Reisebus,P.km,average,50,44.6,long-distance,diesel,kg/P.km,0.0394
-16,public transport,bus,UBA,tremod,Reisebus,P.km,average,80,44.6,long-distance,diesel,kg/P.km,0.0263
-17,vehicle,car,Öko-Institut,gemis,Pkw-EM-klein-DE-2020-Basis,P.km,small,,,,electric,kg/P.km,0.0487
-18,vehicle,car,Öko-Institut,gemis,Pkw-EM-mittel-DE-2020-Basis,P.km,medium,,,,electric,kg/P.km,0.0621
-19,vehicle,car,Öko-Institut,gemis,Pkw-Otto-CNG-gross-DE-2020-Basis,P.km,large,,,,cng,kg/P.km,0.291
-20,vehicle,car,Öko-Institut,gemis,Pkw-Otto-CNG-klein-DE-2020-Basis,P.km,small,,,,cng,kg/P.km,0.198
-21,vehicle,car,Öko-Institut,gemis,Pkw-Otto-CNG-mittel-DE-2020-Basis,P.km,medium,,,,cng,kg/P.km,0.237
-22,vehicle,car,UBA,tremod,PKW,P.km,average,,,,average,kg/P.km,0.215
-23,vehicle,car,UBA,tremod,PKW,P.km,small,,,,average,kg/P.km,0.179
-24,vehicle,car,UBA,tremod,PKW,P.km,medium,,,,average,kg/P.km,0.209
-25,vehicle,car,UBA,tremod,PKW,P.km,large,,,,average,kg/P.km,0.274
-26,vehicle,car,UBA,tremod,PKW,P.km,small,,,,gasoline,kg/P.km,0.18
-27,vehicle,car,UBA,tremod,PKW,P.km,medium,,,,gasoline,kg/P.km,0.231
-28,vehicle,car,UBA,tremod,PKW,P.km,large,,,,gasoline,kg/P.km,0.311
-29,vehicle,car,UBA,tremod,PKW,P.km,average,,,,diesel,kg/P.km,0.201
-30,vehicle,car,UBA,tremod,PKW,P.km,small,,,,diesel,kg/P.km,0.131
-31,vehicle,car,UBA,tremod,PKW,P.km,medium,,,,diesel,kg/P.km,0.18
-32,vehicle,car,UBA,tremod,PKW,P.km,large,,,,diesel,kg/P.km,0.249
-33,electricity,solar,Öko-Institut,gemis,Solar-PV-amorph-DE-2010,TJ,,,,,,kg/TJ,11874
-34,electricity,german energy mix,IINAS,gemis,El-KW-Park-DE-2020,TJ,,,,,,kg/TJ,109518
-35,heating,,Öko-Institut,gemis,Braunkohle-Brikett-Heizung-DE-rheinisch-2010 (Endenergie),TJ,,,,,coal,kg/TJ,126383
-36,heating,,Öko-Institut,gemis,Fernwärme-Heizung-DE-2020/en,TJ,,,,,district_heating,kg/TJ,77367
-37,heating,,Öko-Institut,gemis,El-Heizung-DE-2020-mix,TJ,,,,,electricity,kg/TJ,116667
-38,heating,,IINAS,gemis,Gas-Heizung-DE-2020 (Endenergie),TJ,,,,,gas,kg/TJ,65578
-39,heating,,Öko-Institut,gemis,El-Wärmepumpe-mono-Luft-DE-2020-mix,TJ,,,,,heatpump_air,kg/TJ,33581
-40,heating,,Öko-Institut,gemis,El-Wärmepumpe-mono-Erdreich-DE-2010-mix,TJ,,,,,heatpump_ground,kg/TJ,48541
-41,heating,,Öko-Institut,gemis,El-Wärmepumpe-mono-Wasser-DE-2010-mix,TJ,,,,,heatpump_water,kg/TJ,44266
-42,heating,,Öko-Institut,gemis,FlüssiggasHeizung-DE-2020,TJ,,,,,liquid_gas,kg/TJ,82455
-43,heating,,IINAS,gemis,Öl-Heizung-DE-2020 (Endenergie),TJ,,,,,oil,kg/TJ,87444
-44,heating,,IINAS,gemis,Holz-EU-KUP-Pellet-Heizung-10 kW-2020,TJ,,,,,pellet,kg/TJ,14866
-45,heating,,Öko-Institut,gemis,SolarKollektor-Flach-DE-2020,TJ,,,,,solar,kg/TJ,10881
-46,heating,,IINAS,gemis,Holz-EU-KUP-Hackschnitzel-Heizwerk 1 MW-2020,TJ,,,,,woodchips,kg/TJ,9322
-47,public transport,plane,IFEU,gemis,Flugzeug-Passagiere-Inland-DE-2020,P.km,,83,,inland,,kg/P.km,0.166
-48,public transport,plane,IFEU,gemis,Flugzeug-Passagiere-international-DE-2020,P.km,,243,,international,,kg/P.km,0.117
-49,public transport,train,UBA,tremod,Personenfernverkehrszug,P.km,average,,,,average,kg/P.km,0.0329
-50,public transport,train,UBA,tremod,Personenfernverkehrszug,P.km,average,,,,diesel,kg/P.km,0.0698
-51,public transport,train,UBA,tremod,Personenfernverkehrszug,P.km,average,,,,electric,kg/P.km,0.032
-52,public transport,train,UBA,tremod,Personennahverkehrszug,P.km,average,,,,average,kg/P.km,0.0604
-53,public transport,train,UBA,tremod,Personennahverkehrszug,P.km,average,,,,diesel,kg/P.km,0.0884
-54,public transport,train,UBA,tremod,Personennahverkehrszug,P.km,average,,,,electric,kg/P.km,0.0524
-55,vehicle,bicycle,UBA,,Fahrrad,P.km,,,,,,kg/P.km,0.009
-56,vehicle,pedelec,UBA,,Pedelec,P.km,,,,,,kg/P.km,0.015
-57,vehicle,motorcycle,UBA,,Motorrad,P.km,,,,,,kg/P.km,0.196
-58,public_transport,tram,UBA,,Straßen-/Stadt-/U-Bahn,P.km,,,,,,kg/P.km,0.078
+0,public transport,bus,Öko-Institut,gemis,Bus-Linie-BZ-DE-2020-Basis,P.km,,,,,hydrogen,kg/P.km,0.0251
+1,public transport,bus,Öko-Institut,gemis,Bus-Linie-CNG-DE-2020-Basis,P.km,,,,,cng,kg/P.km,0.0617
+2,public transport,bus,UBA,tremod,Linienbus,P.km,average,100,70.5,,diesel,kg/P.km,0.0234
+3,public transport,bus,UBA,tremod,Linienbus,P.km,medium,100,60,,diesel,kg/P.km,0.0239
+4,public transport,bus,UBA,tremod,Linienbus,P.km,medium,20,60,,diesel,kg/P.km,0.0914
+5,public transport,bus,UBA,tremod,Linienbus,P.km,medium,50,60,,diesel,kg/P.km,0.0407
+6,public transport,bus,UBA,tremod,Linienbus,P.km,medium,80,60,,diesel,kg/P.km,0.0281
+7,public transport,bus,UBA,tremod,Linienbus,P.km,large,100,90,,diesel,kg/P.km,0.0221
+8,public transport,bus,UBA,tremod,Linienbus,P.km,large,20,90,,diesel,kg/P.km,0.0781
+9,public transport,bus,UBA,tremod,Linienbus,P.km,large,50,90,,diesel,kg/P.km,0.0361
+10,public transport,bus,UBA,tremod,Linienbus,P.km,large,80,90,,diesel,kg/P.km,0.0256
+11,public transport,bus,UBA,tremod,Linienbus,P.km,average,20,70.5,,diesel,kg/P.km,0.0857
+12,public transport,bus,UBA,tremod,Linienbus,P.km,small,100,30,,diesel,kg/P.km,0.0349
+13,public transport,bus,UBA,tremod,Linienbus,P.km,small,20,30,,diesel,kg/P.km,0.138
+14,public transport,bus,UBA,tremod,Linienbus,P.km,small,50,30,,diesel,kg/P.km,0.0603
+15,public transport,bus,UBA,tremod,Linienbus,P.km,small,80,30,,diesel,kg/P.km,0.0412
+16,public transport,bus,UBA,tremod,Linienbus,P.km,average,50,70.5,,diesel,kg/P.km,0.0389
+17,public transport,bus,UBA,tremod,Linienbus,P.km,average,80,70.5,,diesel,kg/P.km,0.0272
+18,public transport,bus,UBA,tremod,Reisebus,P.km,average,100,44.6,long-distance,diesel,kg/P.km,0.0219
+19,public transport,bus,UBA,tremod,Reisebus,P.km,large,100,60,long-distance,diesel,kg/P.km,0.0188
+20,public transport,bus,UBA,tremod,Reisebus,P.km,large,20,60,long-distance,diesel,kg/P.km,0.0764
+21,public transport,bus,UBA,tremod,Reisebus,P.km,large,50,60,long-distance,diesel,kg/P.km,0.0332
+22,public transport,bus,UBA,tremod,Reisebus,P.km,large,80,60,long-distance,diesel,kg/P.km,0.0224
+23,public transport,bus,UBA,tremod,Reisebus,P.km,average,20,44.6,long-distance,diesel,kg/P.km,0.0917
+24,public transport,bus,UBA,tremod,Reisebus,P.km,medium,100,39.9,long-distance,diesel,kg/P.km,0.0233
+25,public transport,bus,UBA,tremod,Reisebus,P.km,medium,20,39.9,long-distance,diesel,kg/P.km,0.0987
+26,public transport,bus,UBA,tremod,Reisebus,P.km,medium,50,39.9,long-distance,diesel,kg/P.km,0.0423
+27,public transport,bus,UBA,tremod,Reisebus,P.km,medium,80,39.9,long-distance,diesel,kg/P.km,0.0281
+28,public transport,bus,UBA,tremod,Reisebus,P.km,average,50,44.6,long-distance,diesel,kg/P.km,0.0394
+29,public transport,bus,UBA,tremod,Reisebus,P.km,average,80,44.6,long-distance,diesel,kg/P.km,0.0263
+30,public transport,bus,CityPlan,gemis,Trolleybus-2004-CZ,P.km,,,,,electric,kg/P.km,0.0563
+31,vehicle,car,Öko-Institut,gemis,Pkw-EM-klein-DE-2020-Basis,P.km,small,,,,electric,kg/P.km,0.0487
+32,vehicle,car,Öko-Institut,gemis,Pkw-EM-mittel-DE-2020-Basis,P.km,medium,,,,electric,kg/P.km,0.0621
+33,vehicle,car,Öko-Institut,gemis,Pkw-Otto-CNG-gross-DE-2020-Basis,P.km,large,,,,cng,kg/P.km,0.291
+34,vehicle,car,Öko-Institut,gemis,Pkw-Otto-CNG-klein-DE-2020-Basis,P.km,small,,,,cng,kg/P.km,0.198
+35,vehicle,car,Öko-Institut,gemis,Pkw-Otto-CNG-mittel-DE-2020-Basis,P.km,medium,,,,cng,kg/P.km,0.237
+36,vehicle,car,UBA,tremod,PKW,P.km,average,,,,average,kg/P.km,0.215
+37,vehicle,car,UBA,tremod,PKW,P.km,small,,,,average,kg/P.km,0.179
+38,vehicle,car,UBA,tremod,PKW,P.km,medium,,,,average,kg/P.km,0.209
+39,vehicle,car,UBA,tremod,PKW,P.km,large,,,,average,kg/P.km,0.274
+40,vehicle,car,UBA,tremod,PKW,P.km,small,,,,gasoline,kg/P.km,0.18
+41,vehicle,car,UBA,tremod,PKW,P.km,medium,,,,gasoline,kg/P.km,0.231
+42,vehicle,car,UBA,tremod,PKW,P.km,large,,,,gasoline,kg/P.km,0.311
+43,vehicle,car,UBA,tremod,PKW,P.km,average,,,,diesel,kg/P.km,0.201
+44,vehicle,car,UBA,tremod,PKW,P.km,small,,,,diesel,kg/P.km,0.131
+45,vehicle,car,UBA,tremod,PKW,P.km,medium,,,,diesel,kg/P.km,0.18
+46,vehicle,car,UBA,tremod,PKW,P.km,large,,,,diesel,kg/P.km,0.249
+47,electricity,solar,Öko-Institut,gemis,Solar-PV-amorph-DE-2010,TJ,,,,,,kg/TJ,11874
+48,electricity,german energy mix,IINAS,gemis,El-KW-Park-DE-2020,TJ,,,,,,kg/TJ,109518
+49,heating,,Öko-Institut,gemis,Braunkohle-Brikett-Heizung-DE-rheinisch-2010 (Endenergie),TJ,,,,,coal,kg/TJ,126383
+50,heating,,Öko-Institut,gemis,Fernwärme-Heizung-DE-2020/en,TJ,,,,,district_heating,kg/TJ,77367
+51,heating,,Öko-Institut,gemis,El-Heizung-DE-2020-mix,TJ,,,,,electricity,kg/TJ,116667
+52,heating,,IINAS,gemis,Gas-Heizung-DE-2020 (Endenergie),TJ,,,,,gas,kg/TJ,65578
+53,heating,,Öko-Institut,gemis,El-Wärmepumpe-mono-Luft-DE-2020-mix,TJ,,,,,heatpump_air,kg/TJ,33581
+54,heating,,Öko-Institut,gemis,El-Wärmepumpe-mono-Erdreich-DE-2010-mix,TJ,,,,,heatpump_ground,kg/TJ,48541
+55,heating,,Öko-Institut,gemis,El-Wärmepumpe-mono-Wasser-DE-2010-mix,TJ,,,,,heatpump_water,kg/TJ,44266
+56,heating,,Öko-Institut,gemis,FlüssiggasHeizung-DE-2020,TJ,,,,,liquid_gas,kg/TJ,82455
+57,heating,,IINAS,gemis,Öl-Heizung-DE-2020 (Endenergie),TJ,,,,,oil,kg/TJ,87444
+58,heating,,IINAS,gemis,Holz-EU-KUP-Pellet-Heizung-10 kW-2020,TJ,,,,,pellet,kg/TJ,14866
+59,heating,,Öko-Institut,gemis,SolarKollektor-Flach-DE-2020,TJ,,,,,solar,kg/TJ,10881
+60,heating,,IINAS,gemis,Holz-EU-KUP-Hackschnitzel-Heizwerk 1 MW-2020,TJ,,,,,woodchips,kg/TJ,9322
+61,public transport,plane,IFEU,gemis,Flugzeug-Passagiere-Inland-DE-2020,P.km,,83,,inland,,kg/P.km,0.166
+62,public transport,plane,IFEU,gemis,Flugzeug-Passagiere-international-DE-2020,P.km,,243,,international,,kg/P.km,0.117
+63,public transport,train,UBA,tremod,Personenfernverkehrszug,P.km,average,,,long-distance,average,kg/P.km,0.0329
+64,public transport,train,UBA,tremod,Personenfernverkehrszug,P.km,average,,,long-distance,diesel,kg/P.km,0.0698
+65,public transport,train,UBA,tremod,Personenfernverkehrszug,P.km,average,,,long-distance,electric,kg/P.km,0.032
+66,public transport,train,UBA,tremod,Personennahverkehrszug,P.km,average,,,local,average,kg/P.km,0.0604
+67,public transport,train,UBA,tremod,Personennahverkehrszug,P.km,average,,,local,diesel,kg/P.km,0.0884
+68,public transport,train,UBA,tremod,Personennahverkehrszug,P.km,average,,,local,electric,kg/P.km,0.0524
+69,public transport,train,IFEU,gemis,SSU_Elektrisch_Zug_2020,P.km,,,,,electric,kg/P.km,0.0108
+70,public transport,train,UBA,tremod,Straßen-Stadt-U-Bahn,P.km,average,,,,electric,kg/P.km,0.0548
+71,public transport,train,Öko-Institut,gemis,Zug-Personen-Fern-Diesel-DE-2020-Basis,P.km,,,,long-distance,diesel,kg/P.km,0.044
+72,public transport,train,Öko-Institut,gemis,Zug-Personen-Fern-Elektro-DE-2020-Basis,P.km,,,,long-distance,electric,kg/P.km,0.00948
+73,public transport,train,Öko-Institut,gemis,Zug-Personen-Nah-Diesel-DE-2020-Basis,P.km,,,,local,diesel,kg/P.km,0.0713
+74,public transport,train,Öko-Institut,gemis,Zug-Personen-Nah-Elektro-DE-2020-Basis,P.km,,,,local,electric,kg/P.km,0.0546
+75,vehicle,bicycle,UBA,,Fahrrad,P.km,,,,,,kg/P.km,0.009
+76,vehicle,pedelec,UBA,,Pedelec,P.km,,,,,,kg/P.km,0.015
+77,vehicle,motorcycle,UBA,,Motorrad,P.km,,,,,,kg/P.km,0.196
+78,public_transport,tram,UBA,,Straßen-/Stadt-/U-Bahn,P.km,,,,,,kg/P.km,0.078
