@@ -3,19 +3,19 @@
 1,public transport,bus,Öko-Institut,gemis,Bus-Linie-Diesel-DE-2020-Basis,P.km,,,,,diesel,kg/P.km,0.0558
 2,public transport,bus,GIZ,gemis,Bus-mini-Benzin-AO-generisch,P.km,small,,,,gasoline,kg/P.km,0.0913
 3,public transport,bus,GIZ,gemis,Bus-mini-Diesel-AO-generisch,P.km,small,,,,diesel,kg/P.km,0.0948
-4,public transport,bus,Öko-Institut,gemis,Bus-Reise-DE-2020-Basis,P.km,,,,,diesel,kg/P.km,0.0434
-5,public transport,bus,UBA,tremod,Reisebus,P.km,average,100,44.6,,diesel,kg/P.km,0.0219
-6,public transport,bus,UBA,tremod,Reisebus,P.km,large,100,60,,diesel,kg/P.km,0.0188
-7,public transport,bus,UBA,tremod,Reisebus,P.km,large,20,60,,diesel,kg/P.km,0.0764
-8,public transport,bus,UBA,tremod,Reisebus,P.km,large,50,60,,diesel,kg/P.km,0.0332
-9,public transport,bus,UBA,tremod,Reisebus,P.km,large,80,60,,diesel,kg/P.km,0.0224
-10,public transport,bus,UBA,tremod,Reisebus,P.km,average,20,44.6,,diesel,kg/P.km,0.0917
-11,public transport,bus,UBA,tremod,Reisebus,P.km,medium,100,39.9,,diesel,kg/P.km,0.0233
-12,public transport,bus,UBA,tremod,Reisebus,P.km,medium,20,39.9,,diesel,kg/P.km,0.0987
-13,public transport,bus,UBA,tremod,Reisebus,P.km,medium,50,39.9,,diesel,kg/P.km,0.0423
-14,public transport,bus,UBA,tremod,Reisebus,P.km,medium,80,39.9,,diesel,kg/P.km,0.0281
-15,public transport,bus,UBA,tremod,Reisebus,P.km,average,50,44.6,,diesel,kg/P.km,0.0394
-16,public transport,bus,UBA,tremod,Reisebus,P.km,average,80,44.6,,diesel,kg/P.km,0.0263
+4,public transport,bus,Öko-Institut,gemis,Bus-Reise-DE-2020-Basis,P.km,,,,long-distance,diesel,kg/P.km,0.0434
+5,public transport,bus,UBA,tremod,Reisebus,P.km,average,100,44.6,long-distance,diesel,kg/P.km,0.0219
+6,public transport,bus,UBA,tremod,Reisebus,P.km,large,100,60,long-distance,diesel,kg/P.km,0.0188
+7,public transport,bus,UBA,tremod,Reisebus,P.km,large,20,60,long-distance,diesel,kg/P.km,0.0764
+8,public transport,bus,UBA,tremod,Reisebus,P.km,large,50,60,long-distance,diesel,kg/P.km,0.0332
+9,public transport,bus,UBA,tremod,Reisebus,P.km,large,80,60,long-distance,diesel,kg/P.km,0.0224
+10,public transport,bus,UBA,tremod,Reisebus,P.km,average,20,44.6,long-distance,diesel,kg/P.km,0.0917
+11,public transport,bus,UBA,tremod,Reisebus,P.km,medium,100,39.9,long-distance,diesel,kg/P.km,0.0233
+12,public transport,bus,UBA,tremod,Reisebus,P.km,medium,20,39.9,long-distance,diesel,kg/P.km,0.0987
+13,public transport,bus,UBA,tremod,Reisebus,P.km,medium,50,39.9,long-distance,diesel,kg/P.km,0.0423
+14,public transport,bus,UBA,tremod,Reisebus,P.km,medium,80,39.9,long-distance,diesel,kg/P.km,0.0281
+15,public transport,bus,UBA,tremod,Reisebus,P.km,average,50,44.6,long-distance,diesel,kg/P.km,0.0394
+16,public transport,bus,UBA,tremod,Reisebus,P.km,average,80,44.6,long-distance,diesel,kg/P.km,0.0263
 17,vehicle,car,Öko-Institut,gemis,Pkw-EM-klein-DE-2020-Basis,P.km,small,,,,electric,kg/P.km,0.0487
 18,vehicle,car,Öko-Institut,gemis,Pkw-EM-mittel-DE-2020-Basis,P.km,medium,,,,electric,kg/P.km,0.0621
 19,vehicle,car,Öko-Institut,gemis,Pkw-Otto-CNG-gross-DE-2020-Basis,P.km,large,,,,cng,kg/P.km,0.291
@@ -51,7 +51,10 @@
 49,public transport,train,UBA,tremod,Personenfernverkehrszug,P.km,average,,,,average,kg/P.km,0.0329
 50,public transport,train,UBA,tremod,Personenfernverkehrszug,P.km,average,,,,diesel,kg/P.km,0.0698
 51,public transport,train,UBA,tremod,Personenfernverkehrszug,P.km,average,,,,electric,kg/P.km,0.032
-52,vehicle,bicycle,UBA,,Fahrrad,P.km,,,,,,kg/P.km,0.009
-53,vehicle,pedelec,UBA,,Pedelec,P.km,,,,,,kg/P.km,0.015
-54,vehicle,motorcycle,UBA,,Motorrad,P.km,,,,,,kg/P.km,0.196
-55,vehicle,tram,UBA,,Straßen-/Stadt-/U-Bahn,P.km,,,,,,kg/P.km,0.078
+52,public transport,train,UBA,tremod,Personennahverkehrszug,P.km,average,,,,average,kg/P.km,0.0604
+53,public transport,train,UBA,tremod,Personennahverkehrszug,P.km,average,,,,diesel,kg/P.km,0.0884
+54,public transport,train,UBA,tremod,Personennahverkehrszug,P.km,average,,,,electric,kg/P.km,0.0524
+55,vehicle,bicycle,UBA,,Fahrrad,P.km,,,,,,kg/P.km,0.009
+56,vehicle,pedelec,UBA,,Pedelec,P.km,,,,,,kg/P.km,0.015
+57,vehicle,motorcycle,UBA,,Motorrad,P.km,,,,,,kg/P.km,0.196
+58,public_transport,tram,UBA,,Straßen-/Stadt-/U-Bahn,P.km,,,,,,kg/P.km,0.078

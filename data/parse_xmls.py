@@ -15,13 +15,15 @@ import xml.etree.ElementTree as et
 import glob
 import os
 
-def read_xmls_mobility(id, filepath, co2e_df):
-    """
-    Function to parse Probas xml file of different PKW to a list of the values of interest (CO2-equivalent dependent
-    on size class and fuel type
 
-    :param id: unique sequential number
+def read_xmls_mobility(idx, filepath, co2e_df):
+    """
+    Function to write emission factors from Probas xml files for different modes of transport to an emission factor
+    dataframe
+
+    :param idx: unique sequential number
     :param filepath: path to XML file
+    :param co2e_df: existing dataframe, to which the emission factors that are read from the XMLs are appended
 
     :return: appended dataframe
     """
@@ -31,41 +33,46 @@ def read_xmls_mobility(id, filepath, co2e_df):
     xroot = xtree.getroot()
     unit = None
     if folder == "car":
-        co2e_df.loc[id, "category"] = "vehicle"
+        co2e_df.loc[idx, "category"] = "vehicle"
     elif folder == "bus" or folder == "train":
-        co2e_df.loc[id, "category"] = "public transport"
-    co2e_df.loc[id, "subcategory"] = folder
+        co2e_df.loc[idx, "category"] = "public transport"
+    co2e_df.loc[idx, "subcategory"] = folder
     for node in xroot:
         if node.tag == "name":
-            co2e_df.loc[id, "name"] = node.text
+            co2e_df.loc[idx, "name"] = node.text
             # if not name "PKW" then size class has to be retrieved from name instead of entry
             # "Größenklasse / max. Beladung"
             if "klein" in node.text or "mini" in node.text:
-                co2e_df.loc[id, "size_class"] = "small" #or int: 0
+                co2e_df.loc[idx, "size_class"] = "small"
             elif "mittel" in node.text:
-                co2e_df.loc[id, "size_class"] = "medium" # or int: 1
+                co2e_df.loc[idx, "size_class"] = "medium"
             elif "gross" in node.text:
-                co2e_df.loc[id, "size_class"] = "large" # or int: 2
+                co2e_df.loc[idx, "size_class"] = "large"
+            # for bus and train, get the "range" (i.e., long-distance vs. local) from name
+            elif "Reise" in node.text or "Fern" in node.text:
+                co2e_df.loc[idx, "range"] = "long-distance"
+            elif "Linien" in node.text or "Nah" in node.text:
+                co2e_df.loc[idx, "range"] = "local"
         elif node.tag == "meta":
             for child in node:
                 if child.tag == "source":
-                    co2e_df.loc[id, "source"] = child[0].text
+                    co2e_df.loc[idx, "source"] = child[0].text
                 elif child.tag == "specificum":
-                    co2e_df.loc[id, "model"] = child[0].text
+                    co2e_df.loc[idx, "model"] = child[0].text
         elif node.tag == "technical_data":
             for child in node:
                 if child[0].text == "Größenklasse / max. Beladung":
-                    co2e_df.loc[id, "size_class"] = child[1].text
+                    co2e_df.loc[idx, "size_class"] = child[1].text
                 elif child[0].text == "Kraftstoff/Antrieb":
-                    co2e_df.loc[id, "fuel_type"] = child[1].text
+                    co2e_df.loc[idx, "fuel_type"] = child[1].text
                 elif child[0].text == "Auslastungsgrad":
-                    co2e_df.loc[id, "occupancy"] = child[1].text
+                    co2e_df.loc[idx, "occupancy"] = child[1].text
                 elif child[0].text == "Kapazität":
-                    co2e_df.loc[id, "capacity"] = child[1].text.replace(",", ".")
-                #elif child[0].text == "Schadstoffklasse":
-                #    vals[5] = child[1].text
-                #elif child[0].text == "Straßenkategorie":
-                #    vals[6] = child[1].text
+                    co2e_df.loc[idx, "capacity"] = child[1].text.replace(",", ".")
+                # elif child[0].text == "Schadstoffklasse":
+                #     co2e_df.loc[id, "Schadstoffklasse"] = child[1].text
+                # elif child[0].text == "Straßenkategorie":
+                #      co2e_df.loc[id, "Straßenkategorie"] = child[1].text
         elif node.tag == "outputs":
             for child in node:
                 if child[3].tag == "unit":
@@ -76,7 +83,7 @@ def read_xmls_mobility(id, filepath, co2e_df):
                     if not unit:
                         unit = "P.km"
                     if child[3].tag == "sum":
-                        co2e_df.loc[id, "co2e"] = child[3].text.replace(",", ".")
+                        co2e_df.loc[idx, "co2e"] = child[3].text.replace(",", ".")
                     if child[3].tag == "unit":
                         unit_co2e = child[3].text + "/" + unit
                     elif child[4].tag == "unit":
@@ -87,33 +94,44 @@ def read_xmls_mobility(id, filepath, co2e_df):
                     if not unit:
                         unit = "P.km"
                     if child[3].tag == "sum":
-                        co2e_df.loc[id, "co2e"] = child[3].text.replace(",", ".")
+                        co2e_df.loc[idx, "co2e"] = child[3].text.replace(",", ".")
                     if child[3].tag == "unit":
                         unit_co2e = child[3].text + "/" + unit
                     elif child[4].tag == "unit":
                         unit_co2e = child[4].text + "/" + unit
-    co2e_df.loc[id, "unit"] = unit
-    co2e_df.loc[id, "co2e_unit"] = unit_co2e
+    co2e_df.loc[idx, "unit"] = unit
+    co2e_df.loc[idx, "co2e_unit"] = unit_co2e
+
     return co2e_df
 
 
-def read_xmls_electricity(id, filepath, co2e_df):
+def read_xmls_electricity(idx, filepath, co2e_df):
+    """
+    Function to write emission factors from Probas xml files for electricity sources to an emission factor
+    dataframe
+
+    :param idx: unique sequential number
+    :param filepath: path to XML file
+    :param co2e_df: existing dataframe, to which the emission factors that are read from the XMLs are appended
+
+    :return: appended dataframe
+    """
     xtree = et.parse(filepath)
     xroot = xtree.getroot()
-    co2e_df.loc[id, "category"] = "electricity"
+    co2e_df.loc[idx, "category"] = "electricity"
     for node in xroot:
         if node.tag == "name":
-            co2e_df.loc[id, "name"] = node.text
+            co2e_df.loc[idx, "name"] = node.text
             if "Solar" in node.text:
-                co2e_df.loc[id, "subcategory"] = "solar"
+                co2e_df.loc[idx, "subcategory"] = "solar"
             elif "KW" in node.text:
-                co2e_df.loc[id, "subcategory"] = "german energy mix"
+                co2e_df.loc[idx, "subcategory"] = "german energy mix"
         elif node.tag == "meta":
             for child in node:
                 if child.tag == "source":
-                    co2e_df.loc[id, "source"] = child[0].text
+                    co2e_df.loc[idx, "source"] = child[0].text
                 elif child.tag == "specificum":
-                    co2e_df.loc[id, "model"] = child[0].text
+                    co2e_df.loc[idx, "model"] = child[0].text
         elif node.tag == "outputs":
             for child in node:
                 if child[3].tag == "unit":
@@ -122,57 +140,67 @@ def read_xmls_electricity(id, filepath, co2e_df):
             for child in node:
                 if child[0].text == "CO2-Äquivalent":
                     if child[2].tag == "sum":
-                        co2e_df.loc[id, "co2e"] = child[2].text.replace(",", ".")
+                        co2e_df.loc[idx, "co2e"] = child[2].text.replace(",", ".")
                     elif child[3].tag == "sum":
-                        co2e_df.loc[id, "co2e"] = child[3].text.replace(",", ".")
+                        co2e_df.loc[idx, "co2e"] = child[3].text.replace(",", ".")
                     if child[3].tag == "unit":
                         unit_co2e = child[3].text + "/" + unit
                     elif child[4].tag == "unit":
                         unit_co2e = child[4].text + "/" + unit
-    co2e_df.loc[id, "unit"] = unit
-    co2e_df.loc[id, "co2e_unit"] = unit_co2e
+    co2e_df.loc[idx, "unit"] = unit
+    co2e_df.loc[idx, "co2e_unit"] = unit_co2e
 
     return co2e_df
 
 
-def read_xmls_heating(id, filepath, co2e_df):
+def read_xmls_heating(idx, filepath, co2e_df):
+    """
+    Function to write emission factors from Probas xml files for different heating types to an emission factor
+    dataframe
+
+    :param idx: unique sequential number
+    :param filepath: path to XML file
+    :param co2e_df: existing dataframe, to which the emission factors that are read from the XMLs are appended
+
+    :return: appended dataframe
+    """
     xtree = et.parse(filepath)
     xroot = xtree.getroot()
-    co2e_df.loc[id, "category"] = "heating"
+    co2e_df.loc[idx, "category"] = "heating"
     for node in xroot:
         if node.tag == "name":
             if node.tag == "name":
-                co2e_df.loc[id, "name"] = node.text
+                co2e_df.loc[idx, "name"] = node.text
             if "Braunkohle" in node.text:
-                co2e_df.loc[id, "fuel_type"] = "coal"
+                co2e_df.loc[idx, "fuel_type"] = "coal"
             elif "Fernwärme" in node.text:
-                co2e_df.loc[id, "fuel_type"] = "district_heating"
+                co2e_df.loc[idx, "fuel_type"] = "district_heating"
             elif "El-Heizung" in node.text:
-                co2e_df.loc[id, "fuel_type"] = "electricity"
+                co2e_df.loc[idx, "fuel_type"] = "electricity"
             elif "Gas-Heizung" in node.text:
-                co2e_df.loc[id, "fuel_type"] = "gas"
+                co2e_df.loc[idx, "fuel_type"] = "gas"
             elif "mono-Luft" in node.text:
-                co2e_df.loc[id, "fuel_type"] = "heatpump_air"
+                co2e_df.loc[idx, "fuel_type"] = "heatpump_air"
             elif "mono-Erdreich" in node.text:
-                co2e_df.loc[id, "fuel_type"] = "heatpump_ground"
+                co2e_df.loc[idx, "fuel_type"] = "heatpump_ground"
             elif "mono-Wasser" in node.text:
-                co2e_df.loc[id, "fuel_type"] = "heatpump_water"
+                co2e_df.loc[idx, "fuel_type"] = "heatpump_water"
             elif "Flüssiggas" in node.text:
-                co2e_df.loc[id, "fuel_type"] = "liquid_gas"
+                co2e_df.loc[idx, "fuel_type"] = "liquid_gas"
             elif "Öl-Heizung" in node.text:
-                co2e_df.loc[id, "fuel_type"] = "oil"
+                co2e_df.loc[idx, "fuel_type"] = "oil"
             elif "Pellet" in node.text:
-                co2e_df.loc[id, "fuel_type"] = "pellet"
+                co2e_df.loc[idx, "fuel_type"] = "pellet"
             elif "SolarKollektor" in node.text:
-                co2e_df.loc[id, "fuel_type"] = "solar"
+                co2e_df.loc[idx, "fuel_type"] = "solar"
             elif "Hackschnitzel" in node.text:
-                co2e_df.loc[id, "fuel_type"] = "woodchips"
+                co2e_df.loc[idx, "fuel_type"] = "woodchips"
         elif node.tag == "meta":
             for child in node:
                 if child.tag == "source":
-                    co2e_df.loc[id, "source"] = child[0].text
+                    co2e_df.loc[idx, "source"] = child[0].text
                 elif child.tag == "specificum":
-                    co2e_df.loc[id, "model"] = child[0].text
+                    co2e_df.loc[idx, "model"] = child[0].text
         elif node.tag == "outputs":
             for child in node:
                 if child[3].tag == "unit":
@@ -181,45 +209,54 @@ def read_xmls_heating(id, filepath, co2e_df):
             for child in node:
                 if child[0].text == "CO2-Äquivalent":
                     if child[2].tag == "sum":
-                        co2e_df.loc[id, "co2e"] = child[2].text.replace(",", ".")
+                        co2e_df.loc[idx, "co2e"] = child[2].text.replace(",", ".")
                     elif child[3].tag == "sum":
-                        co2e_df.loc[id, "co2e"] = child[3].text.replace(",", ".")
+                        co2e_df.loc[idx, "co2e"] = child[3].text.replace(",", ".")
                     if child[3].tag == "unit":
                         unit_co2e = child[3].text + "/" + unit
                     elif child[4].tag == "unit":
                         unit_co2e = child[4].text + "/" + unit
-    co2e_df.loc[id, "unit"] = unit
-    co2e_df.loc[id, "co2e_unit"] = unit_co2e
+    co2e_df.loc[idx, "unit"] = unit
+    co2e_df.loc[idx, "co2e_unit"] = unit_co2e
 
     return co2e_df
 
 
-def read_xmls_planes(id, filepath, co2e_df):
+def read_xmls_planes(idx, filepath, co2e_df):
+    """
+    Function to write emission factors from Probas xml files for planes to an emission factor dataframe
+
+    :param idx: unique sequential number
+    :param filepath: path to XML file
+    :param co2e_df: existing dataframe, to which the emission factors that are read from the XMLs are appended
+
+    :return: appended dataframe
+    """
     xtree = et.parse(filepath)
     filepath = os.path.normpath(filepath)
     folder = filepath.split(os.sep)[-2]
     xroot = xtree.getroot()
-    co2e_df.loc[id, "category"] = "public transport"
-    co2e_df.loc[id, "subcategory"] = folder
+    co2e_df.loc[idx, "category"] = "public transport"
+    co2e_df.loc[idx, "subcategory"] = folder
     for node in xroot:
         if node.tag == "name":
             if node.tag == "name":
-                co2e_df.loc[id, "name"] = node.text
+                co2e_df.loc[idx, "name"] = node.text
             if "international" in node.text:
-                co2e_df.loc[id, "range"] = "international"
+                co2e_df.loc[idx, "range"] = "international"
             if "Inland" in node.text:
-                co2e_df.loc[id, "range"] = "inland"
-            co2e_df.loc[id, "name"] = node.text
+                co2e_df.loc[idx, "range"] = "inland"
+            co2e_df.loc[idx, "name"] = node.text
         elif node.tag == "meta":
             for child in node:
                 if child.tag == "source":
-                    co2e_df.loc[id, "source"] = child[0].text
+                    co2e_df.loc[idx, "source"] = child[0].text
                 elif child.tag == "specificum":
-                    co2e_df.loc[id, "model"] = child[0].text
+                    co2e_df.loc[idx, "model"] = child[0].text
         elif node.tag == "technical_data":
             for child in node:
                 if child[0].text == "Besetzungsgrad":
-                    co2e_df.loc[id, "occupancy"] = child[1].text
+                    co2e_df.loc[idx, "occupancy"] = child[1].text
         elif node.tag == "outputs":
             for child in node:
                 if child[3].tag == "unit":
@@ -228,50 +265,55 @@ def read_xmls_planes(id, filepath, co2e_df):
             for child in node:
                 if child[0].text == "CO2-Äquivalent":
                     if child[2].tag == "sum":
-                        co2e_df.loc[id, "co2e"] = child[2].text.replace(",", ".")
+                        co2e_df.loc[idx, "co2e"] = child[2].text.replace(",", ".")
                     elif child[3].tag == "sum":
-                        co2e_df.loc[id, "co2e"] = child[3].text.replace(",", ".")
+                        co2e_df.loc[idx, "co2e"] = child[3].text.replace(",", ".")
                     if child[3].tag == "unit":
                         unit_co2e = child[3].text + "/" + unit
                     elif child[4].tag == "unit":
                         unit_co2e = child[4].text + "/" + unit
-    co2e_df.loc[id, "unit"] = unit
-    co2e_df.loc[id, "co2e_unit"] = unit_co2e
+    co2e_df.loc[idx, "unit"] = unit
+    co2e_df.loc[idx, "co2e_unit"] = unit_co2e
 
     return co2e_df
 
 
 def append_from_csv(filepath, df):
+    """
+    Function to read a csv to dataframe and append to existing dataframe
+
+    :param filepath: path of .csv-file
+    :param df: exiting dataframe
+
+    :return: appended dataframe
+    """
     new_df = pd.read_csv(filepath, sep=",")
-    print(new_df)
     df = df.append(new_df, ignore_index=True)
 
     return df
 
 
-def rename_reformat_df(df, dict):
-    df.replace(dict, inplace=True)
+def rename_reformat_df(df, dictionary):
+    df.replace(dictionary, inplace=True)
 
     return df
 
+
 infiles = glob.glob("probas_xmls/*/*.xml")
-print(infiles)
 
 df = pd.DataFrame([], columns=["category", "subcategory", "source", "model", "name", "unit", "size_class", "occupancy", "capacity", "range", "fuel_type", "co2e_unit", "co2e"])
 # read xmls
-for id, f in enumerate(infiles):
+for i, f in enumerate(infiles):
     f = os.path.normpath(f)
     folder = f.split(os.sep)[-2]
     if folder == "car" or folder == "train" or folder == "bus":
-        df = read_xmls_mobility(id, f, df)
+        df = read_xmls_mobility(i, f, df)
     elif folder == "plane":
-        df = read_xmls_planes(id, f, df)
+        df = read_xmls_planes(i, f, df)
     elif folder == "electricity":
-        df = read_xmls_electricity(id, f, df)
+        df = read_xmls_electricity(i, f, df)
     elif folder == "heating":
-        df = read_xmls_heating(id, f, df)
-
-print(df)
+        df = read_xmls_heating(i, f, df)
 
 other_files = glob.glob("other_sources/*.csv")
 for file in other_files:
@@ -293,7 +335,6 @@ rename_dict = {
     "kg/km": "kg/P.km"
 }
 df = rename_reformat_df(df, rename_dict)
-print(df)
 
 outfile = "emission_factors.csv"
 df.to_csv(outfile)
