@@ -10,52 +10,7 @@ from co2calculator.distances import *
 
 KWH_TO_TJ = 277777.77777778
 script_path = os.path.dirname(os.path.realpath(__file__))
-
-
-def query_co2e_car(car_size, car_fuel):
-    data = pd.read_csv(f"{script_path}/../data/emission_factors_car.csv")
-    co2e = data[(data["size_class"] == car_size) & (data["fuel_type"] == car_fuel)]["co2e_kg"].values[0]
-
-    return co2e
-
-
-def query_co2e_train(train_fuel):
-    data = pd.read_csv(f"{script_path}/../data/emission_factors_train.csv")
-    co2e = data[(data["fuel_type"] == train_fuel)]["co2e_kg"].values[0]
-
-    return co2e
-
-
-def query_co2e_bus(bus_size, bus_fuel, occupancy):
-    data = pd.read_csv(f"{script_path}/../data/emission_factors_bus.csv")
-    index = (data["size_class"] == bus_size) & (data["fuel_type"] == bus_fuel) & (data["occupancy"] == occupancy)
-    co2e = data[index]["co2e_kg"].values[0]
-
-    return co2e
-
-
-def query_co2e_heating(fuel_type):
-    data = pd.read_csv(f"{script_path}/../data/emission_factors_heating.csv")
-    co2e = data[(data["type"] == fuel_type)]["co2e_kg"].values[0]
-
-    return co2e
-
-
-def query_co2e_electricity(fuel_type):
-    data = pd.read_csv(f"{script_path}/../data/emission_factors_electricity.csv")
-    co2e = data[(data["type"] == fuel_type)]["co2e_kg"].values[0]
-
-    return co2e
-
-
-def query_co2e_plane(inland):  # inland is a boolean
-    data = pd.read_csv(f"{script_path}/../data/emission_factors_plane.csv")
-    if inland is True:
-        co2e = data[(data["type"] == "plane inland")]["co2e_kg"].values[0]
-    elif inland is False:
-        co2e = data[(data["type"] == "plane international")]["co2e_kg"].values[0]
-
-    return co2e
+data = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
 
 
 def calc_co2_car(passengers, size, fuel_type, distance=None, locations=None, roundtrip=False):
@@ -81,13 +36,13 @@ def calc_co2_car(passengers, size, fuel_type, distance=None, locations=None, rou
     if distance is None and locations is None:
         print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
               "travelled locations in the form 'address, locality, country'")
-    elif distance is None: # and locations is not None:
+    elif distance is None:
         coords = []
         for loc in locations:
             loc_name, loc_country, loc_coords = geocoding(loc)
             coords.append(loc_coords)
         distance = get_route(coords, "driving-car")
-    co2e = query_co2e_car(size, fuel_type)
+    co2e = data[(data["size_class"] == size) & (data["fuel_type"] == fuel_type)]["co2e_kg"].values[0]
     if roundtrip is True:
         distance *= 2
     emissions = distance * co2e / passengers
@@ -95,7 +50,7 @@ def calc_co2_car(passengers, size, fuel_type, distance=None, locations=None, rou
     return emissions
 
 
-def calc_co2_bus(size, fuel_type, occupancy, distance=None, stops=None, roundtrip=False):
+def calc_co2_bus(size="average", fuel_type="average", occupancy=50, distance=None, stops=None, roundtrip=False):
     """
     Function to compute the emissions of a bus trip.
     :param size: size class of the bus;                 ["medium", "large", "average"]
@@ -124,13 +79,13 @@ def calc_co2_bus(size, fuel_type, occupancy, distance=None, stops=None, roundtri
         distance *= detour_coefficient
     if roundtrip is True:
         distance *= 2
-    co2e = query_co2e_bus(size, fuel_type, occupancy)
+    co2e = data[(data["size_class"] == size) & (data["fuel_type"] == fuel_type) & [data["occupancy"] == occupancy]]["co2e_kg"].values[0]
     emissions = distance * co2e
 
     return emissions
 
 
-def calc_co2_train(fuel_type, distance=None, train_stations=None, roundtrip=False):
+def calc_co2_train(fuel_type="average", distance=None, train_stations=None, roundtrip=False):
     """
     Function to compute the emissions of a bus trip.
     :param fuel_type: type of fuel the train is using;    ["diesel", "electric", "average"]
@@ -157,7 +112,7 @@ def calc_co2_train(fuel_type, distance=None, train_stations=None, roundtrip=Fals
         distance *= detour_coefficient
     if roundtrip is True:
         distance *= 2
-    co2e = query_co2e_train(fuel_type)
+    co2e = data[(data["fuel_type"] == fuel_type)]["co2e_kg"].values[0]
     emissions = distance * co2e
 
     return emissions
@@ -180,13 +135,11 @@ def calc_co2_plane(start, destination, roundtrip):
     distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
     # add detour constant
     distance += detour_constant
-    # retrieve whether airports are in the same country
+    # retrieve whether airports are in the same country and query emission factor
     if country_start == country_dest:
-        is_inland_flight = True
+        co2e = data[(data["range"] == "inland")]["co2e_kg"].values[0]
     else:
-        is_inland_flight = False
-    # query emission factor (based on inland or international flight)
-    co2e = query_co2e_plane(is_inland_flight)
+        co2e = data[(data["range"] == "international")]["co2e_kg"].values[0]
     # multiply emission factor with distance and by 2 if roundtrip
     emissions = distance * co2e
     if roundtrip is True:
@@ -196,7 +149,7 @@ def calc_co2_plane(start, destination, roundtrip):
 
 
 def calc_co2_electricity(consumption, fuel_type):
-    co2e = query_co2e_electricity(fuel_type)
+    co2e = data[(data["type"] == fuel_type)]["co2e_kg"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
     emissions = consumption/KWH_TO_TJ * co2e
@@ -205,7 +158,7 @@ def calc_co2_electricity(consumption, fuel_type):
 
 
 def calc_co2_heating(consumption, fuel_type):
-    co2e = query_co2e_heating(fuel_type)
+    co2e = data[(data["type"] == fuel_type)]["co2e_kg"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
     emissions = consumption/KWH_TO_TJ * co2e
