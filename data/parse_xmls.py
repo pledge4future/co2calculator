@@ -123,9 +123,9 @@ def read_xmls_electricity(idx, filepath, co2e_df):
         if node.tag == "name":
             co2e_df.loc[idx, "name"] = node.text
             if "Solar" in node.text:
-                co2e_df.loc[idx, "subcategory"] = "solar"
+                co2e_df.loc[idx, "fuel_type"] = "solar"
             elif "KW" in node.text:
-                co2e_df.loc[idx, "subcategory"] = "german energy mix"
+                co2e_df.loc[idx, "fuel_type"] = "german energy mix"
         elif node.tag == "meta":
             for child in node:
                 if child.tag == "source":

@@ -46,8 +46,8 @@
 44,vehicle,car,UBA,tremod,PKW,P.km,small,,,,diesel,kg/P.km,0.131
 45,vehicle,car,UBA,tremod,PKW,P.km,medium,,,,diesel,kg/P.km,0.18
 46,vehicle,car,UBA,tremod,PKW,P.km,large,,,,diesel,kg/P.km,0.249
-47,electricity,solar,Öko-Institut,gemis,Solar-PV-amorph-DE-2010,TJ,,,,,,kg/TJ,11874
-48,electricity,german energy mix,IINAS,gemis,El-KW-Park-DE-2020,TJ,,,,,,kg/TJ,109518
+47,electricity,,Öko-Institut,gemis,Solar-PV-amorph-DE-2010,TJ,,,,,solar,kg/TJ,11874
+48,electricity,,IINAS,gemis,El-KW-Park-DE-2020,TJ,,,,,german energy mix,kg/TJ,109518
 49,heating,,Öko-Institut,gemis,Braunkohle-Brikett-Heizung-DE-rheinisch-2010 (Endenergie),TJ,,,,,coal,kg/TJ,126383
 50,heating,,Öko-Institut,gemis,Fernwärme-Heizung-DE-2020/en,TJ,,,,,district_heating,kg/TJ,77367
 51,heating,,Öko-Institut,gemis,El-Heizung-DE-2020-mix,TJ,,,,,electricity,kg/TJ,116667
