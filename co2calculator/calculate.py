@@ -6,7 +6,7 @@ import os
 import pandas as pd
 import glob
 import numpy as np
-from co2calculator.distances import *
+from .distances import haversine, geocoding_airport, geocoding, get_route
 
 KWH_TO_TJ = 277777.77777778
 script_path = os.path.dirname(os.path.realpath(__file__))
@@ -169,7 +169,6 @@ def calc_co2_heating(consumption, fuel_type):
     emissions = consumption/KWH_TO_TJ * co2e
 
     return emissions
-
 
 
 def calc_co2_businesstrip(transportation_mode, start=None, destination=None, distance=None,
