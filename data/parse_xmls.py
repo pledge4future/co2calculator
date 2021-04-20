@@ -67,6 +67,8 @@ def read_xmls_mobility(idx, filepath, co2e_df):
                     co2e_df.loc[idx, "fuel_type"] = child[1].text
                 elif child[0].text == "Auslastungsgrad":
                     co2e_df.loc[idx, "occupancy"] = child[1].text
+                elif child[0].text == "Besetzungsgrad":
+                    co2e_df.loc[idx, "occupancy"] = child[1].text
                 elif child[0].text == "Kapazität":
                     co2e_df.loc[idx, "capacity"] = child[1].text.replace(",", ".")
                 # elif child[0].text == "Schadstoffklasse":
