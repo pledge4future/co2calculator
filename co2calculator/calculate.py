@@ -10,55 +10,10 @@ from co2calculator.distances import *
 
 KWH_TO_TJ = 277777.77777778
 script_path = os.path.dirname(os.path.realpath(__file__))
+emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
 
 
-def query_co2e_car(car_size, car_fuel):
-    data = pd.read_csv(f"{script_path}/../data/emission_factors_car.csv")
-    co2e = data[(data["size_class"] == car_size) & (data["fuel_type"] == car_fuel)]["co2e_kg"].values[0]
-
-    return co2e
-
-
-def query_co2e_train(train_fuel):
-    data = pd.read_csv(f"{script_path}/../data/emission_factors_train.csv")
-    co2e = data[(data["fuel_type"] == train_fuel)]["co2e_kg"].values[0]
-
-    return co2e
-
-
-def query_co2e_bus(bus_size, bus_fuel, occupancy):
-    data = pd.read_csv(f"{script_path}/../data/emission_factors_bus.csv")
-    index = (data["size_class"] == bus_size) & (data["fuel_type"] == bus_fuel) & (data["occupancy"] == occupancy)
-    co2e = data[index]["co2e_kg"].values[0]
-
-    return co2e
-
-
-def query_co2e_heating(fuel_type):
-    data = pd.read_csv(f"{script_path}/../data/emission_factors_heating.csv")
-    co2e = data[(data["type"] == fuel_type)]["co2e_kg"].values[0]
-
-    return co2e
-
-
-def query_co2e_electricity(fuel_type):
-    data = pd.read_csv(f"{script_path}/../data/emission_factors_electricity.csv")
-    co2e = data[(data["type"] == fuel_type)]["co2e_kg"].values[0]
-
-    return co2e
-
-
-def query_co2e_plane(inland):  # inland is a boolean
-    data = pd.read_csv(f"{script_path}/../data/emission_factors_plane.csv")
-    if inland is True:
-        co2e = data[(data["type"] == "plane inland")]["co2e_kg"].values[0]
-    elif inland is False:
-        co2e = data[(data["type"] == "plane international")]["co2e_kg"].values[0]
-
-    return co2e
-
-
-def calc_co2_car(passengers, size, fuel_type, distance=None, locations=None, roundtrip=False):
+def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, locations=None, roundtrip=False):
     """
     Function to compute the emissions of a car trip.
     :param passengers: Number of passengers in the car (including the person answering the questionnaire),
@@ -81,13 +36,14 @@ def calc_co2_car(passengers, size, fuel_type, distance=None, locations=None, rou
     if distance is None and locations is None:
         print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
               "travelled locations in the form 'address, locality, country'")
-    elif distance is None: # and locations is not None:
+    elif distance is None:
         coords = []
         for loc in locations:
             loc_name, loc_country, loc_coords = geocoding(loc)
             coords.append(loc_coords)
         distance = get_route(coords, "driving-car")
-    co2e = query_co2e_car(size, fuel_type)
+    co2e = emission_factor_df[(emission_factor_df["size_class"] == size) &
+                              (emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
     if roundtrip is True:
         distance *= 2
     emissions = distance * co2e / passengers
@@ -95,7 +51,7 @@ def calc_co2_car(passengers, size, fuel_type, distance=None, locations=None, rou
     return emissions
 
 
-def calc_co2_bus(size, fuel_type, occupancy, distance=None, stops=None, roundtrip=False):
+def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, distance=None, stops=None, roundtrip=False):
     """
     Function to compute the emissions of a bus trip.
     :param size: size class of the bus;                 ["medium", "large", "average"]
@@ -118,52 +74,56 @@ def calc_co2_bus(size, fuel_type, occupancy, distance=None, stops=None, roundtri
         for loc in stops:
             loc_name, loc_country, loc_coords = geocoding(loc)
             coords.append(loc_coords)
-        for i in range(len(coords) - 1):
+        for i in range(0, len(coords) - 1):
             # compute great circle distance between locations
             distance += haversine(coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0])
         distance *= detour_coefficient
     if roundtrip is True:
         distance *= 2
-    co2e = query_co2e_bus(size, fuel_type, occupancy)
+    co2e = emission_factor_df[(emission_factor_df["size_class"] == size) &
+                              (emission_factor_df["fuel_type"] == fuel_type) &
+                              (emission_factor_df["occupancy"] == occupancy) &
+                              (emission_factor_df["range"] == vehicle_range)]["co2e"].values[0]
     emissions = distance * co2e
 
     return emissions
 
 
-def calc_co2_train(fuel_type, distance=None, train_stations=None, roundtrip=False):
+def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None, roundtrip=False):
     """
     Function to compute the emissions of a bus trip.
     :param fuel_type: type of fuel the train is using;    ["diesel", "electric", "average"]
     :param distance: Distance travelled in km;
                         alternatively param <stops> can be provided
-    :param train_stations: List of train stations, ideally in the form 'address, locality, country';
+    :param stops: List of train stations, ideally in the form 'address, locality, country';
                     alternatively param <distance> can be provided
     :param roundtrip: Whether this trip is a roundtrip or not; Boolean [True, False]
     :return: Total emissions of trip
     """
     detour_coefficient = 1.2
-    if distance is None and train_stations is None:
+    if distance is None and stops is None:
         print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
               "travelled train stations in the form 'address, locality, country'")
-    elif distance is None: #and train_stations is not None:
+    elif distance is None:
         distance = 0
         coords = []
-        for loc in train_stations:
+        for loc in stops:
             loc_name, loc_country, loc_coords = geocoding(loc)
             coords.append(loc_coords)
-        for i in range(len(coords)-1):
+        for i in range(len(coords) - 1):
             # compute great circle distance between locations
             distance += haversine(coords[i][1], coords[i][0], coords[i+1][1], coords[i+1][0])
         distance *= detour_coefficient
     if roundtrip is True:
         distance *= 2
-    co2e = query_co2e_train(fuel_type)
+    co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)
+                              & (emission_factor_df["range"] == vehicle_range)]["co2e"].values[0]
     emissions = distance * co2e
 
     return emissions
 
 
-def calc_co2_plane(start, destination, roundtrip):
+def calc_co2_plane(start, destination, roundtrip=False):
     """
     Function to compute emissions of a train trip
     :param start: IATA code of start airport
@@ -180,13 +140,11 @@ def calc_co2_plane(start, destination, roundtrip):
     distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
     # add detour constant
     distance += detour_constant
-    # retrieve whether airports are in the same country
+    # retrieve whether airports are in the same country and query emission factor
     if country_start == country_dest:
-        is_inland_flight = True
+        co2e = emission_factor_df[(emission_factor_df["range"] == "inland")]["co2e"].values[0]
     else:
-        is_inland_flight = False
-    # query emission factor (based on inland or international flight)
-    co2e = query_co2e_plane(is_inland_flight)
+        co2e = emission_factor_df[(emission_factor_df["range"] == "international")]["co2e"].values[0]
     # multiply emission factor with distance and by 2 if roundtrip
     emissions = distance * co2e
     if roundtrip is True:
@@ -196,7 +154,7 @@ def calc_co2_plane(start, destination, roundtrip):
 
 
 def calc_co2_electricity(consumption, fuel_type):
-    co2e = query_co2e_electricity(fuel_type)
+    co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
     emissions = consumption/KWH_TO_TJ * co2e
@@ -205,7 +163,7 @@ def calc_co2_electricity(consumption, fuel_type):
 
 
 def calc_co2_heating(consumption, fuel_type):
-    co2e = query_co2e_heating(fuel_type)
+    co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
     emissions = consumption/KWH_TO_TJ * co2e
@@ -246,7 +204,9 @@ if __name__ == "__main__":
                     distance = None
                 if stops is np.nan:
                     stops = None
-                total_co2e = calc_co2_bus(size_class, fuel_type, occupancy, distance, stops, roundtrip)
+                total_co2e = calc_co2_bus(size=size_class, fuel_type=fuel_type, occupancy=occupancy,
+                                          vehicle_range="long-distance", distance=distance, stops=stops,
+                                          roundtrip=roundtrip)
                 user_data.loc[i, "co2e_kg"] = total_co2e
             elif "_train" in f:
                 distance = user_data["distance_km"].values[i]
@@ -257,7 +217,8 @@ if __name__ == "__main__":
                     distance = None
                 if stops is np.nan:
                     stops = None
-                total_co2e = calc_co2_train(fuel_type, distance, stops, roundtrip)
+                total_co2e = calc_co2_train(fuel_type=fuel_type, vehicle_range="long-distance", distance=distance,
+                                            stops=stops, roundtrip=roundtrip)
                 user_data.loc[i, "co2e_kg"] = total_co2e
             elif "_plane" in f:
                 iata_start = user_data["IATA_start"].values[i]
@@ -269,7 +230,6 @@ if __name__ == "__main__":
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
             # user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
-
 
     electricity_data = glob.glob(f"{script_path}/../data/test_data_users/electricity.csv")
 

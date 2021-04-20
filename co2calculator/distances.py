@@ -47,11 +47,20 @@ def geocoding_airport(iata):
     call = pelias_search(clnt, "%s Airport" % iata)
 
     for feature in call["features"]:
-        if feature["properties"]["addendum"]["osm"]["iata"] == iata:
-            name = feature["properties"]["name"]
-            geom = feature["geometry"]["coordinates"]
-            country = feature["properties"]["country"]
-            break
+        try:
+            if feature["properties"]["addendum"]["osm"]["iata"] == iata:
+                name = feature["properties"]["name"]
+                geom = feature["geometry"]["coordinates"]
+                country = feature["properties"]["country_a"]
+                break
+        except KeyError:
+            # unfortunately, not all osm tags are available with geocoding, so osm entries might not be found and filter
+            # for "aerodrome" tag not possible (could be done with ORS maybe?)
+            if (feature["properties"]["confidence"] == 1) & (feature["properties"]["match_type"] == "exact"):
+                name = feature["properties"]["name"]
+                geom = feature["geometry"]["coordinates"]
+                country = feature["properties"]["country_a"]
+                break
 
     return name, geom, country
 
