@@ -6,9 +6,10 @@ import os
 import pandas as pd
 import glob
 import numpy as np
-from co2calculator.distances import *
+from .distances import haversine, geocoding_airport, geocoding, get_route
+from .constants import KWH_TO_TJ
 
-KWH_TO_TJ = 277777.77777778
+
 script_path = os.path.dirname(os.path.realpath(__file__))
 emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
 
@@ -170,6 +171,19 @@ def calc_co2_heating(consumption, fuel_type):
 
     return emissions
 
+
+def calc_co2_businesstrip(transportation_mode, start=None, destination=None, distance=None,
+                          car_size=None, car_fuel_type=None, bus_size=None, bus_fuel_type=None,
+                          capacity=None, occupancy=None, passengers=None, roundtrip=None):
+    """
+    Calculate co2 emissions for a business trip (not implemented yet)
+    :param start:
+    :param destination:
+    :param distance:
+    :return:
+    """
+    pass
+    return 999
 
 if __name__ == "__main__":
 

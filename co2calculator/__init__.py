@@ -1,2 +1,1 @@
-from co2calculator.calculate import *
-
+from .calculate import *
