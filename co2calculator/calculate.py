@@ -6,8 +6,8 @@ import os
 import pandas as pd
 import glob
 import numpy as np
-from .distances import haversine, geocoding_airport, geocoding, get_route
-from .constants import KWH_TO_TJ
+from distances import haversine, geocoding_airport, geocoding, get_route
+from constants import KWH_TO_TJ
 import sys
 
 
@@ -175,24 +175,25 @@ def calc_co2_heating(consumption, unit, fuel_type):
     """
     Function to compute heating emissions
     :param consumption: energy consumption
-    :param unit: unit of energy consumption [kwh, kg, l]
+    :param unit: unit of energy consumption [kwh, kg, l, m^3]
     :param fuel_type: fuel type used for heating
     :return: total emissions of heating energy consumption
     """
     if unit != "kWh":
         try:
-            conversion_factor = conversion_factor_df[(conversion_factor_df["fuel_type"] == fuel_type)
-                                                         & (conversion_factor_df["unit"] == unit])]
+            conversion_factor = conversion_factor_df[
+                (conversion_factor_df["fuel"] == fuel_type)
+                & (conversion_factor_df["unit"] == unit)
+                ]["conversion_value"].values[0]
         except KeyError:
             print(
                 "No conversion data is available for this fuel type. Conversion is only supported for the following"
                 "fuel types and units. Alternatively, provide consumption in the unit kWh.\n")
             print(conversion_factor_df[["fuel", "unit"]])
-            raise ValueError("No conversion data is available for this fuel type. Provide consumption in a different"
-                             "unit.")
+            raise ValueError("No conversion data is available for this fuel type. Provide consumption in a "
+                             "different unit.")
 
         consumption_kwh = consumption * conversion_factor
-
     else:
         consumption_kwh = consumption
 
@@ -216,6 +217,7 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
     """
     pass
     return 999
+
 
 if __name__ == "__main__":
 
@@ -297,32 +299,10 @@ if __name__ == "__main__":
     for f in heating_data:
         user_data = pd.read_csv(f, sep=";")
         for i in range(user_data.shape[0]):
-            if user_data["consumption_kwh"].values[i] > 0:
-                consumption_kwh = user_data["consumption_kwh"].values[i]
-            elif user_data["consumption_l"].values[i] > 0:
-                consumption_l = user_data["consumption_l"].values[i]
-                consumption_kwh = 0
-                consumption_kg = 0
-            elif user_data["consumption_kg"].values[i] > 0:
-                consumption_kg = user_data["consumption_kg"].values[i]
-                consumption_kwh = 0
-                consumption_l = 0
-
+            consumption = user_data["consumption"].values[i]
+            unit = user_data["energy_unit"].values[i]
             fuel_type = user_data["fuel_type"].values[i]
-            if consumption_kwh > 0:
-                total_co2e = calc_co2_heating(consumption_kwh, fuel_type)
-            elif consumption_l > 0:
-                if fuel_type == "oil":
-                    total_co2e = calc_co2_heating(consumption_l, fuel_type)*10
-                elif fuel_type == "liquid_gas":
-                    total_co2e = calc_co2_heating(consumption_l, fuel_type)*6.6
-            elif consumption_kg > 0:
-                if fuel_type == "coal":
-                    total_co2e = calc_co2_heating(consumption_kg, fuel_type)*4.17
-                elif fuel_type == "pellet":
-                    total_co2e = calc_co2_heating(consumption_kg, fuel_type)*5
-                elif fuel_type == "woodchips":
-                    total_co2e = calc_co2_heating(consumption_kg, fuel_type)*4
+            total_co2e = calc_co2_heating(consumption, unit, fuel_type)
             user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
