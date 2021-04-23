@@ -24,7 +24,12 @@ The CO<sub>2</sub> Calculator uses the [OpenRouteService (ORS) API](https://open
 ### Emission factors
 
 - [Probas](https://www.probas.umweltbundesamt.de/php/index.php)
-- [UBA - "Umweltfreundlich mobil"](https://www.umweltbundesamt.de/en/publikationen/umweltfreundlich-mobil)
+- [UBA (2021): "Umweltfreundlich mobil"](https://www.umweltbundesamt.de/en/publikationen/umweltfreundlich-mobil)
+
+## Conversion factors
+
+- [BAFA (2020): Merkblatt zur Ermittlung des Gesamtenergieverbrauchs](https://www.bafa.de/SharedDocs/Downloads/DE/Energie/ea_ermittlung_gesamtenergieverbrauch.html)
+- [Krajnc, N. (2015): Wood fuels handbook, FAO](https://agris.fao.org/agris-search/search.do?recordID=XF2017001919)
 
 ### Detour coefficients and constants
 
