@@ -157,6 +157,12 @@ def calc_co2_plane(start, destination, roundtrip=False):
 
 
 def calc_co2_electricity(consumption, fuel_type):
+    """
+    Function to compute electricity emissions
+    :param consumption: energy consumption
+    :param fuel_type: energy (mix) used for electricity [german_energy_mix, solar]
+    :return: total emissions of electricity energy consumption
+    """
     co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
@@ -166,6 +172,13 @@ def calc_co2_electricity(consumption, fuel_type):
 
 
 def calc_co2_heating(consumption, unit, fuel_type):
+    """
+    Function to compute heating emissions
+    :param consumption: energy consumption
+    :param unit: unit of energy consumption [kwh, kg, l]
+    :param fuel_type: fuel type used for heating
+    :return: total emissions of heating energy consumption
+    """
     if unit != "kWh":
         try:
             conversion_factor = conversion_factor_df[(conversion_factor_df["fuel_type"] == fuel_type)
