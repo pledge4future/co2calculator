@@ -8,10 +8,12 @@ import glob
 import numpy as np
 from .distances import haversine, geocoding_airport, geocoding, get_route
 from .constants import KWH_TO_TJ
+import sys
 
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
+conversion_factor_df = pd.read_csv(f"{script_path}/../data/conversion_factors_heating.csv")
 
 
 def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, locations=None, roundtrip=False):
@@ -163,11 +165,27 @@ def calc_co2_electricity(consumption, fuel_type):
     return emissions
 
 
-def calc_co2_heating(consumption, fuel_type):
+def calc_co2_heating(consumption, unit, fuel_type):
+    if unit != "kWh":
+        try:
+            conversion_factor = conversion_factor_df[(conversion_factor_df["fuel_type"] == fuel_type)
+                                                         & (conversion_factor_df["unit"] == unit])]
+        except KeyError:
+            print(
+                "No conversion data is available for this fuel type. Conversion is only supported for the following"
+                "fuel types and units. Alternatively, provide consumption in the unit kWh.\n")
+            print(conversion_factor_df[["fuel", "unit"]])
+            sys.exit()
+
+        consumption_kwh = consumption * conversion_factor
+
+    else:
+        consumption_kwh = consumption
+
     co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
-    emissions = consumption/KWH_TO_TJ * co2e
+    emissions = consumption_kwh / KWH_TO_TJ * co2e
 
     return emissions
 
