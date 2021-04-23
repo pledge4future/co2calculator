@@ -20,7 +20,7 @@ def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, locations
     """
     Function to compute the emissions of a car trip.
     :param passengers: Number of passengers in the car (including the person answering the questionnaire),
-                        [1, 9]
+                        [1, 2, 3, 4, 5, 6, 7, 8, 9]
     :param size: size of car
                         ["small", "medium", "large", "average"]
     :param fuel_type: type of fuel the car is using
@@ -34,7 +34,7 @@ def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, locations
                         alternatively param <distance> can be provided
     :param roundtrip: Whether this trip is a roundtrip or not; Boolean [True, False]
 
-    :return: Total emissions of trip
+    :return: Total emissions of trip in co2 equivalents
     """
     if distance is None and locations is None:
         print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
@@ -59,13 +59,13 @@ def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, di
     Function to compute the emissions of a bus trip.
     :param size: size class of the bus;                 ["medium", "large", "average"]
     :param fuel_type: type of fuel the bus is using;    ["diesel"]
-    :param occupancy: number of people on the bus       [20, 50, 80, 100]          Todo: 50 as default?
+    :param occupancy: number of people on the bus       [20, 50, 80, 100]
     :param distance: Distance travelled in km;
                         alternatively param <stops> can be provided
     :param stops: List of locations, ideally in the form 'address, locality, country';
                     alternatively param <distance> can be provided
     :param roundtrip: Whether this trip is a roundtrip or not; Boolean [True, False]
-    :return: Total emissions of trip
+    :return: Total emissions of trip in co2 equivalents
     """
     detour_coefficient = 1.5
     if distance is None and stops is None:
@@ -101,7 +101,7 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
     :param stops: List of train stations, ideally in the form 'address, locality, country';
                     alternatively param <distance> can be provided
     :param roundtrip: Whether this trip is a roundtrip or not; Boolean [True, False]
-    :return: Total emissions of trip
+    :return: Total emissions of trip in co2 equivalents
     """
     detour_coefficient = 1.2
     if distance is None and stops is None:
@@ -132,7 +132,7 @@ def calc_co2_plane(start, destination, roundtrip=False):
     :param start: IATA code of start airport
     :param destination: IATA code of destination airport
     :param roundtrip: Whether this trip is a roundtrip or not; Boolean [True, False]
-    :return: Total emissions of flight
+    :return: Total emissions of flight in co2 equivalents
     """
     detour_constant = 95 # 95 km as used by MyClimate and ges 1point5, see also
     # Méthode pour la réalisation des bilans d’émissions de gaz à effet de serre conformément à l’article L. 229­25 du code de l’environnement – 2016 – Version 4
@@ -207,15 +207,42 @@ def calc_co2_heating(consumption, unit, fuel_type):
     return emissions
 
 
-def calc_co2_businesstrip(transportation_mode, start=None, destination=None, distance=None,
-                          car_size=None, car_fuel_type=None, bus_size=None, bus_fuel_type=None,
-                          capacity=None, occupancy=None, passengers=None, roundtrip=None):
+def calc_co2_businesstrip(transportation_mode, start=None, destination=None, distance=None, size=None, fuel_type=None,
+                          occupancy=50, passengers=None, roundtrip=False):
     """
-    Calculate co2 emissions for a business trip (not implemented yet)
-    :param start:
-    :param destination:
-    :param distance:
-    :return:
+    Function to compute emissions for business trips based on transportation mode and trip specifics
+    :param transportation_mode: mode of transport [car, bus, train, plane]
+    :param start: Start of the trip (alternatively, distance can be provided)
+    :param destination: Destination of the trip (alternatively, distance can be provided)
+    :param distance: Distance travelled in km (alternatively, start and destination can be provided)
+    :param size: Size class of the vehicle [small, medium, large, average] - only used for car and bus
+    :param fuel_type: Fuel type of the vehicle [diesel, gasoline, electricity, cng, hydrogen, average] - only used for
+                                                car, bus and train
+    :param occupancy: Occupancy of the vehicle [20, 50, 80, 100] - only used for bus
+    :param passengers: Number of passengers in the vehicle (including the participant), number from 1 to 9
+                                                - only used for car
+    :param roundtrip: whether the trip is a roundtrip or not [True, False]
+    :return: Emissions of the business trip in co2 equivalents
     """
-    pass
-    return 999
+    if distance is None and (start is None or destination is None):
+        assert ValueError("Either start and destination or distance must be provided.")
+    elif distance is not None and (start is not None or destination is not None):
+        print("Warning! Both distance and start/stop location were provided. Only distance will be used for emission "
+              "calculation.")
+    elif start is None and destination is None and distance is not None:
+        stops = None
+    elif start is not None and destination is not None and distance is None:
+        stops = [start, destination]
+    if transportation_mode == "car":
+        emissions = calc_co2_car(passengers, size=size, fuel_type=fuel_type, distance=distance, locations=stops,
+                                 roundtrip=roundtrip)
+    elif transportation_mode == "bus":
+        emissions = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy, vehicle_range="long-distance",
+                                 distance=distance, locations=stops, roundtrip=roundtrip)
+    elif transportation_mode == "train":
+        emissions = calc_co2_train(fuel_type=fuel_type, vehicle_range="long-distance", distance=distance, stops=stops,
+                                   roundtrip=roundtrip)
+    elif transportation_mode == "plane":
+        emissions = calc_co2_plane(start, destination, roundtrip=False)
+
+    return emissions
