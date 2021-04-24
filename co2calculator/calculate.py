@@ -243,6 +243,6 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
         emissions = calc_co2_train(fuel_type=fuel_type, vehicle_range="long-distance", distance=distance, stops=stops,
                                    roundtrip=roundtrip)
     elif transportation_mode == "plane":
-        emissions = calc_co2_plane(start, destination, roundtrip=False)
+        emissions = calc_co2_plane(start, destination, roundtrip=roundtrip)
 
     return emissions
