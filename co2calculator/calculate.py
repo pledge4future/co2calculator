@@ -179,6 +179,8 @@ def calc_co2_heating(consumption, unit, fuel_type):
     :param fuel_type: fuel type used for heating
     :return: total emissions of heating energy consumption
     """
+    valid_unit_choices = ["kWh", "l", "kg", "m^3"]
+    assert unit in valid_unit_choices, f"unit={unit} is invalid. Valid choices are {', '.join(valid_unit_choices)}"
     if unit != "kWh":
         try:
             conversion_factor = conversion_factor_df[

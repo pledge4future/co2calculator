@@ -16,12 +16,14 @@ def test_heating_woodchips():
     :return:
     """
     # Given parameters
-    fuel_type = "woodchips"
-    consumption_kg = 250
-    co2e_kg_expected = 33.56
+    fuel_type = "woodchips"  # emission factor: 9322 kg/TJ
+    consumption = 250
+    unit = "kg"  # conversion factor to kWh = 5.4
+    # divide by 277777.77777778 to convert from TJ to kWh
+    co2e_kg_expected = 43.63
 
     # Calculate co2e
-    co2e = calc_co2_heating(consumption=consumption_kg, fuel_type=fuel_type)*4
+    co2e = calc_co2_heating(consumption=consumption, unit=unit, fuel_type=fuel_type)
 
     # Check if expected result matches calculated result
     assert round(co2e, 2) == co2e_kg_expected
