@@ -8,10 +8,12 @@ import glob
 import numpy as np
 from .distances import haversine, geocoding_airport, geocoding, get_route
 from .constants import KWH_TO_TJ
+import sys
 
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
+conversion_factor_df = pd.read_csv(f"{script_path}/../data/conversion_factors_heating.csv")
 
 
 def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, locations=None, roundtrip=False):
@@ -155,6 +157,12 @@ def calc_co2_plane(start, destination, roundtrip=False):
 
 
 def calc_co2_electricity(consumption, fuel_type):
+    """
+    Function to compute electricity emissions
+    :param consumption: energy consumption
+    :param fuel_type: energy (mix) used for electricity [german_energy_mix, solar]
+    :return: total emissions of electricity energy consumption
+    """
     co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
@@ -163,11 +171,38 @@ def calc_co2_electricity(consumption, fuel_type):
     return emissions
 
 
-def calc_co2_heating(consumption, fuel_type):
+def calc_co2_heating(consumption, unit, fuel_type):
+    """
+    Function to compute heating emissions
+    :param consumption: energy consumption
+    :param unit: unit of energy consumption [kwh, kg, l, m^3]
+    :param fuel_type: fuel type used for heating
+    :return: total emissions of heating energy consumption
+    """
+    valid_unit_choices = ["kWh", "l", "kg", "m^3"]
+    assert unit in valid_unit_choices, f"unit={unit} is invalid. Valid choices are {', '.join(valid_unit_choices)}"
+    if unit != "kWh":
+        try:
+            conversion_factor = conversion_factor_df[
+                (conversion_factor_df["fuel"] == fuel_type)
+                & (conversion_factor_df["unit"] == unit)
+                ]["conversion_value"].values[0]
+        except KeyError:
+            print(
+                "No conversion data is available for this fuel type. Conversion is only supported for the following"
+                "fuel types and units. Alternatively, provide consumption in the unit kWh.\n")
+            print(conversion_factor_df[["fuel", "unit"]])
+            raise ValueError("No conversion data is available for this fuel type. Provide consumption in a "
+                             "different unit.")
+
+        consumption_kwh = consumption * conversion_factor
+    else:
+        consumption_kwh = consumption
+
     co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
-    emissions = consumption/KWH_TO_TJ * co2e
+    emissions = consumption_kwh / KWH_TO_TJ * co2e
 
     return emissions
 
@@ -184,114 +219,3 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
     """
     pass
     return 999
-
-if __name__ == "__main__":
-
-    # test with dummy data
-    business_trip_data = glob.glob(f"{script_path}/../data/test_data_users/business_trips*.csv")
-
-    print("Computing business trip emissions...")
-    for f in business_trip_data:
-        user_data = pd.read_csv(f, sep=";")
-        for i in range(user_data.shape[0]):
-            if "_car" in f:
-                distance = user_data["distance_km"].values[i]
-                size_class = user_data["car_size"].values[i]
-                fuel_type = user_data["car_fuel"].values[i]
-                passengers = user_data["passengers"].values[i]
-                stops = str(user_data["stops"].values[i]).split("-")
-                if np.isnan(distance):
-                    distance = None
-                if stops is np.nan:
-                    stops = None
-                roundtrip = bool(user_data["roundtrip"].values[i])
-                total_co2e = calc_co2_car(passengers, size_class, fuel_type, distance, stops, roundtrip)
-                user_data.loc[i, "co2e_kg"] = total_co2e
-            elif "_bus" in f:
-                distance = user_data["distance_km"].values[i]
-                size_class = user_data["bus_size"].values[i]
-                fuel_type = user_data["bus_fuel"].values[i]
-                occupancy = user_data["occupancy"].values[i]
-                stops = str(user_data["stops"].values[i]).split("-")
-                roundtrip = bool(user_data["roundtrip"].values[i])
-                if np.isnan(distance):
-                    distance = None
-                if stops is np.nan:
-                    stops = None
-                total_co2e = calc_co2_bus(size=size_class, fuel_type=fuel_type, occupancy=occupancy,
-                                          vehicle_range="long-distance", distance=distance, stops=stops,
-                                          roundtrip=roundtrip)
-                user_data.loc[i, "co2e_kg"] = total_co2e
-            elif "_train" in f:
-                distance = user_data["distance_km"].values[i]
-                fuel_type = user_data["train_fuel"].values[i]
-                roundtrip = bool(user_data["roundtrip"].values[i])
-                stops = str(user_data["stops"].values[i]).split("-")
-                if np.isnan(distance):
-                    distance = None
-                if stops is np.nan:
-                    stops = None
-                total_co2e = calc_co2_train(fuel_type=fuel_type, vehicle_range="long-distance", distance=distance,
-                                            stops=stops, roundtrip=roundtrip)
-                user_data.loc[i, "co2e_kg"] = total_co2e
-            elif "_plane" in f:
-                iata_start = user_data["IATA_start"].values[i]
-                iata_dest = user_data["IATA_destination"].values[i]
-                # flight_class = user_data["flight_class"].values[i]
-                roundtrip = bool(user_data["roundtrip"].values[i])
-                total_co2e = calc_co2_plane(iata_start, iata_dest, roundtrip)
-                user_data.loc[i, "co2e_kg"] = total_co2e
-
-            print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-            # user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
-
-    electricity_data = glob.glob(f"{script_path}/../data/test_data_users/electricity.csv")
-
-    print("Computing electricity emissions...")
-    for f in electricity_data:
-        user_data = pd.read_csv(f, sep=";")
-        for i in range(user_data.shape[0]):
-            consumption = user_data["consumption_kwh"].values[i]
-            fuel_type = user_data["fuel_type"].values[i]
-            total_co2e = calc_co2_electricity(consumption, fuel_type)
-            user_data.loc[i, "co2e_kg"] = total_co2e
-
-            print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-            # user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";")
-
-    heating_data = glob.glob(f"{script_path}/../data/test_data_users/heating.csv")
-
-    print("Computing heating emissions...")
-    for f in heating_data:
-        user_data = pd.read_csv(f, sep=";")
-        for i in range(user_data.shape[0]):
-            if user_data["consumption_kwh"].values[i] > 0:
-                consumption_kwh = user_data["consumption_kwh"].values[i]
-            elif user_data["consumption_l"].values[i] > 0:
-                consumption_l = user_data["consumption_l"].values[i]
-                consumption_kwh = 0
-                consumption_kg = 0
-            elif user_data["consumption_kg"].values[i] > 0:
-                consumption_kg = user_data["consumption_kg"].values[i]
-                consumption_kwh = 0
-                consumption_l = 0
-
-            fuel_type = user_data["fuel_type"].values[i]
-            if consumption_kwh > 0:
-                total_co2e = calc_co2_heating(consumption_kwh, fuel_type)
-            elif consumption_l > 0:
-                if fuel_type == "oil":
-                    total_co2e = calc_co2_heating(consumption_l, fuel_type)*10
-                elif fuel_type == "liquid_gas":
-                    total_co2e = calc_co2_heating(consumption_l, fuel_type)*6.6
-            elif consumption_kg > 0:
-                if fuel_type == "coal":
-                    total_co2e = calc_co2_heating(consumption_kg, fuel_type)*4.17
-                elif fuel_type == "pellet":
-                    total_co2e = calc_co2_heating(consumption_kg, fuel_type)*5
-                elif fuel_type == "woodchips":
-                    total_co2e = calc_co2_heating(consumption_kg, fuel_type)*4
-            user_data.loc[i, "co2e_kg"] = total_co2e
-
-            print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-            # user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
