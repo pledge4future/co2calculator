@@ -285,9 +285,9 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
 
 
 def calc_co2_commuting(transportation_mode, weekly_distance=None,
-                                size=None, fuel_type=None, occupancy=None, passengers=None, work_weeks=None):
+                       size=None, fuel_type=None, occupancy=None, passengers=None, work_weeks=None):
     """
-    Calculate co2 emissions for commuting per mode of transport (not implemented yet)
+    Calculate co2 emissions for commuting per mode of transport
     :param transportation_mode: [car, bus, train, bicycle, pedelec, motorcycle, tram]
     :param weekly_distance: distance in km per week
     :param size: size of car or bus if applicable
@@ -296,7 +296,9 @@ def calc_co2_commuting(transportation_mode, weekly_distance=None,
     :param passengers: number of passengers, if applicable (only for car)
     :param work_weeks: number of working weeks per year,
                 i.e., 52 (weeks per year) - 4 (paid leave) - 2 (public holidays) = 42
-    :return: total annual emissions for the respective mode of transport
+                or number of working weeks per month
+                i.e., 4 (or 4.4) (or only 2 if on leave etc.)
+    :return: total emissions for the given number of weeks and the respective mode of transport
     """
     # get weekly co2e for respective mode of transport
     if transportation_mode == "car":
@@ -313,23 +315,23 @@ def calc_co2_commuting(transportation_mode, weekly_distance=None,
         co2e = emission_factor_df[(emission_factor_df["subcategory"] == transportation_mode)]["co2e"].values[0]
         weekly_co2e = co2e * weekly_distance
 
-    # multiply with work_weeks to obtain yearly co2e
-    annual_co2e = weekly_co2e * work_weeks
+    # multiply with work_weeks to obtain total (e.g. annual/monthly) co2e
+    total_co2e = weekly_co2e * work_weeks
 
-    return annual_co2e
+    return total_co2e
 
 
-def commuting_emissions_group(aggr_annual_co2, n_participants, n_members):
+def commuting_emissions_group(aggr_co2, n_participants, n_members):
     """
     Calculate the group's co2e emissions from commuting.
     Assumption: a representative sample of group members answered the questionnaire.
-    :param aggr_annual_co2: Annual co2e emissions from commuting, aggregated for all group members who answered the
-                            questionnaire
+    :param aggr_co2: (Annual/monthly) co2e emissions from commuting, aggregated for all group members who answered the
+                            questionnaire (can also be calculated for only one mode of transport)
     :param n_participants: Number of group members who answered the questionnaire
     :param n_members: Total number of members of the group
     :return:
     """
-    group_co2e = aggr_annual_co2 / n_participants * n_members
+    group_co2e = aggr_co2 / n_participants * n_members
 
     return group_co2e
 
