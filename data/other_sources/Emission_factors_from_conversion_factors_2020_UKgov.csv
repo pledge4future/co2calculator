@@ -22,7 +22,7 @@ public transport;plane;UK, Department for Business, Energy & Industrial Strategy
 public transport;plane;UK, Department for Business, Energy & Industrial Strategy;2020 UK GHG Conversion factors;Flight, long-haul, First class passenger;P.km;;First class;;;long-haul;kerosine;kg/P.km;0.58462;with RF > 3700 km
 public transport;ferry;UK, Department for Business, Energy & Industrial Strategy;2020 UK GHG Conversion factors;Ferry, Foot passenger;P.km;;Foot passenger;;;;;kg/P.km;0.018738;with RF > 3700 km
 public transport;ferry;UK, Department for Business, Energy & Industrial Strategy;2020 UK GHG Conversion factors;Ferry, Car passenger;P.km;;Car passenger;;;;;kg/P.km;0.129519;with RF > 3700 km
-public transport;ferry;UK, Department for Business, Energy & Industrial Strategy;2020 UK GHG Conversion factors;Ferry, Average;P.km;;Average;;;;;kg/P.km;0.112864;with RF > 3700 km
+public transport;ferry;UK, Department for Business, Energy & Industrial Strategy;2020 UK GHG Conversion factors;Ferry, Average;P.km;;average;;;;;kg/P.km;0.112864;with RF > 3700 km
 vehicle;motorbike;UK, Department for Business, Energy & Industrial Strategy;2020 UK GHG Conversion factors;Motorbike, small;P.km;small;;;;;;kg/P.km;0.08277;
 vehicle;motorbike;UK, Department for Business, Energy & Industrial Strategy;2020 UK GHG Conversion factors;Motorbike, medium;P.km;medium;;;;;;kg/P.km;0.10086;
 vehicle;motorbike;UK, Department for Business, Energy & Industrial Strategy;2020 UK GHG Conversion factors;Motorbike, large;P.km;large;;;;;;kg/P.km;0.13237;
