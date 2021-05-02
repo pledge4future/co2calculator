@@ -158,6 +158,33 @@ def calc_co2_plane(start, destination, seating_class="average"):
     return emissions
 
 
+def calc_co2_ferry(start, destination, seating_class="average"):
+    """
+    Function to compute emissions of a ferry trip
+    :param start: city of start port in the form "<city>, <country>"
+    :param destination: city of destination port in the form "<city>, <country>"
+    :param seating_class: ["average", "Foot passenger", "Car passenger"]
+
+    :return: Total emissions of sea travel in co2 equivalents
+    """
+    # todo: Do we have a way of checking if there even exists a ferry connection between the given cities (of if the
+    #  cities even have a port?
+    detour_coefficient = 1  # Todo
+    # get geographic coordinates of ports
+    _, geom_start, _ = geocoding(start)
+    _, geom_dest, _ = geocoding(destination)
+    # compute great circle distance between airports
+    distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
+    # add detour constant
+    distance *= detour_coefficient
+    # get emission factor
+    co2e = emission_factor_df[(emission_factor_df["seating"] == seating_class)]["co2e"].values[0]
+    # multiply emission factor with distance
+    emissions = distance * co2e
+
+    return emissions
+
+
 def calc_co2_electricity(consumption, fuel_type):
     """
     Function to compute electricity emissions
@@ -247,6 +274,8 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
         emissions = calc_co2_train(fuel_type=fuel_type, vehicle_range="long-distance", distance=distance, stops=stops)
     elif transportation_mode == "plane":
         emissions = calc_co2_plane(start, destination, seating_class=seating)
+    elif transportation_mode == "ferry":
+        emissions = calc_co2_ferry(start, destination, seating_class=seating)
     else:
         assert ValueError("No emission factor available for the specified mode of transport.")
     if roundtrip is True:
