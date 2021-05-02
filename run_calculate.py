@@ -75,9 +75,10 @@ if __name__ == "__main__":
             elif "_plane" in f:
                 iata_start = user_data["IATA_start"].values[i]
                 iata_dest = user_data["IATA_destination"].values[i]
-                # flight_class = user_data["flight_class"].values[i]
+                flight_class = user_data["flight_class"].values[i]
                 roundtrip = bool(user_data["roundtrip"].values[i])
-                total_co2e = calc_co2_businesstrip("plane", start=iata_start, destination=iata_dest, roundtrip=roundtrip)
+                total_co2e = calc_co2_businesstrip("plane", start=iata_start, destination=iata_dest,
+                                                   roundtrip=roundtrip, seating=flight_class)
                 user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
