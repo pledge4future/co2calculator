@@ -289,7 +289,7 @@ def append_from_csv(filepath, df):
 
     :return: appended dataframe
     """
-    new_df = pd.read_csv(filepath, sep=",")
+    new_df = pd.read_csv(filepath, sep=";")
     df = df.append(new_df, ignore_index=True)
 
     return df
