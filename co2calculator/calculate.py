@@ -231,7 +231,7 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
         emissions = calc_co2_car(passengers, size=size, fuel_type=fuel_type, distance=distance, locations=stops)
     elif transportation_mode == "bus":
         emissions = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy, vehicle_range="long-distance",
-                                 distance=distance, locations=stops)
+                                 distance=distance, stops=stops)
     elif transportation_mode == "train":
         emissions = calc_co2_train(fuel_type=fuel_type, vehicle_range="long-distance", distance=distance, stops=stops)
     elif transportation_mode == "plane":

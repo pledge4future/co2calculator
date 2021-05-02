@@ -10,7 +10,7 @@ import os
 import pandas as pd
 import numpy as np
 import glob
-from co2calculator import calc_co2_car, calc_co2_bus, calc_co2_train, calc_co2_plane, calc_co2_heating, calc_co2_electricity
+from co2calculator import calc_co2_businesstrip, calc_co2_heating, calc_co2_electricity
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -18,7 +18,7 @@ script_path = os.path.dirname(os.path.realpath(__file__))
 if __name__ == "__main__":
 
     # test with dummy data
-    business_trip_data = glob.glob(f"{script_path}/../data/test_data_users/business_trips*.csv")
+    business_trip_data = glob.glob(f"{script_path}/data/test_data_users/business_trips*.csv")
 
     print("Computing business trip emissions...")
     for f in business_trip_data:
@@ -29,53 +29,61 @@ if __name__ == "__main__":
                 size_class = user_data["car_size"].values[i]
                 fuel_type = user_data["car_fuel"].values[i]
                 passengers = user_data["passengers"].values[i]
-                stops = str(user_data["stops"].values[i]).split("-")
                 if np.isnan(distance):
                     distance = None
-                if stops is np.nan:
-                    stops = None
+                    start = str(user_data["stops"].values[i]).split("-")[0]
+                    dest = str(user_data["stops"].values[i]).split("-")[1]
+                else:
+                    start = None
+                    dest = None
                 roundtrip = bool(user_data["roundtrip"].values[i])
-                total_co2e = calc_co2_car(passengers, size_class, fuel_type, distance, stops, roundtrip)
+                total_co2e = calc_co2_businesstrip("car", passengers=passengers, size=size_class,
+                                                   fuel_type=fuel_type, distance=distance, start=start,
+                                                   destination=dest, roundtrip=roundtrip)
                 user_data.loc[i, "co2e_kg"] = total_co2e
             elif "_bus" in f:
                 distance = user_data["distance_km"].values[i]
                 size_class = user_data["bus_size"].values[i]
                 fuel_type = user_data["bus_fuel"].values[i]
                 occupancy = user_data["occupancy"].values[i]
-                stops = str(user_data["stops"].values[i]).split("-")
                 roundtrip = bool(user_data["roundtrip"].values[i])
                 if np.isnan(distance):
                     distance = None
-                if stops is np.nan:
-                    stops = None
-                total_co2e = calc_co2_bus(size=size_class, fuel_type=fuel_type, occupancy=occupancy,
-                                          vehicle_range="long-distance", distance=distance, stops=stops,
-                                          roundtrip=roundtrip)
+                    start = str(user_data["stops"].values[i]).split("-")[0]
+                    dest = str(user_data["stops"].values[i]).split("-")[1]
+                else:
+                    start = None
+                    dest = None
+                total_co2e = calc_co2_businesstrip("bus", size=size_class, fuel_type=fuel_type, occupancy=occupancy,
+                                                   distance=distance, start=start,
+                                                   destination=dest, roundtrip=roundtrip)
                 user_data.loc[i, "co2e_kg"] = total_co2e
             elif "_train" in f:
                 distance = user_data["distance_km"].values[i]
                 fuel_type = user_data["train_fuel"].values[i]
                 roundtrip = bool(user_data["roundtrip"].values[i])
-                stops = str(user_data["stops"].values[i]).split("-")
                 if np.isnan(distance):
                     distance = None
-                if stops is np.nan:
-                    stops = None
-                total_co2e = calc_co2_train(fuel_type=fuel_type, vehicle_range="long-distance", distance=distance,
-                                            stops=stops, roundtrip=roundtrip)
+                    start = str(user_data["stops"].values[i]).split("-")[0]
+                    dest = str(user_data["stops"].values[i]).split("-")[1]
+                else:
+                    start = None
+                    dest = None
+                total_co2e = calc_co2_businesstrip("train", fuel_type=fuel_type, distance=distance, start=start,
+                                                   destination=dest, roundtrip=roundtrip)
                 user_data.loc[i, "co2e_kg"] = total_co2e
             elif "_plane" in f:
                 iata_start = user_data["IATA_start"].values[i]
                 iata_dest = user_data["IATA_destination"].values[i]
                 # flight_class = user_data["flight_class"].values[i]
                 roundtrip = bool(user_data["roundtrip"].values[i])
-                total_co2e = calc_co2_plane(iata_start, iata_dest, roundtrip)
+                total_co2e = calc_co2_businesstrip("plane", start=iata_start, destination=iata_dest, roundtrip=roundtrip)
                 user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
             # user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
 
-    electricity_data = glob.glob(f"{script_path}/../data/test_data_users/electricity.csv")
+    electricity_data = glob.glob(f"{script_path}/data/test_data_users/electricity.csv")
 
     print("Computing electricity emissions...")
     for f in electricity_data:
@@ -89,7 +97,7 @@ if __name__ == "__main__":
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
             # user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";")
 
-    heating_data = glob.glob(f"{script_path}/../data/test_data_users/heating.csv")
+    heating_data = glob.glob(f"{script_path}/data/test_data_users/heating.csv")
 
     print("Computing heating emissions...")
     for f in heating_data:
