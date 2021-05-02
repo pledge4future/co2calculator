@@ -57,6 +57,7 @@ def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, di
     :param size: size class of the bus;                 ["medium", "large", "average"]
     :param fuel_type: type of fuel the bus is using;    ["diesel"]
     :param occupancy: number of people on the bus       [20, 50, 80, 100]
+    :param vehicle_range: range/haul of the vehicle     ["local", "long-range"]
     :param distance: Distance travelled in km;
                         alternatively param <stops> can be provided
     :param stops: List of locations, ideally in the form 'address, locality, country';
@@ -91,6 +92,7 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
     """
     Function to compute the emissions of a bus trip.
     :param fuel_type: type of fuel the train is using;    ["diesel", "electric", "average"]
+    :param vehicle_range: range/haul of the vehicle       ["local", "long-range"]
     :param distance: Distance travelled in km;
                         alternatively param <stops> can be provided
     :param stops: List of train stations, ideally in the form 'address, locality, country';
@@ -127,7 +129,7 @@ def calc_co2_plane(start, destination):
 
     :return: Total emissions of flight in co2 equivalents
     """
-    detour_constant = 95 # 95 km as used by MyClimate and ges 1point5, see also
+    detour_constant = 95  # 95 km as used by MyClimate and ges 1point5, see also
     # Méthode pour la réalisation des bilans d’émissions de gaz à effet de serre conformément à l’article L. 229­25 du code de l’environnement – 2016 – Version 4
     # get geographic coordinates of airports
     _, geom_start, country_start = geocoding_airport(start)
@@ -234,7 +236,9 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
         emissions = calc_co2_train(fuel_type=fuel_type, vehicle_range="long-distance", distance=distance, stops=stops)
     elif transportation_mode == "plane":
         emissions = calc_co2_plane(start, destination)
-    if roundtrip == True:
+    else:
+        assert ValueError("No emission factor available for the specified mode of transport.")
+    if roundtrip is True:
         emissions *= 2
 
     return emissions
