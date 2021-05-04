@@ -171,8 +171,8 @@ def calc_co2_ferry(start, destination, seating_class="average"):
     #  cities even have a port?
     detour_coefficient = 1  # Todo
     # get geographic coordinates of ports
-    _, geom_start, _ = geocoding(start)
-    _, geom_dest, _ = geocoding(destination)
+    _, _, geom_start = geocoding(start)
+    _, _, geom_dest = geocoding(destination)
     # compute great circle distance between airports
     distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
     # add detour constant
