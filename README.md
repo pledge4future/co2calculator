@@ -24,7 +24,8 @@ The CO<sub>2</sub> Calculator uses the [OpenRouteService (ORS) API](https://open
 ### Emission factors
 
 - [Probas](https://www.probas.umweltbundesamt.de/php/index.php)
-- [UBA (2021): "Umweltfreundlich mobil"](https://www.umweltbundesamt.de/en/publikationen/umweltfreundlich-mobil)
+- [UBA (2021). "Umweltfreundlich mobil"](https://www.umweltbundesamt.de/en/publikationen/umweltfreundlich-mobil)
+- [GOV.UK (2020). Greenhouse gas reporting: conversion factors 2020](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2020)
 
 ## Conversion factors
 

@@ -121,11 +121,15 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
     return emissions
 
 
-def calc_co2_plane(start, destination):
+def calc_co2_plane(start, destination, seating_class="average"):
     """
     Function to compute emissions of a plane trip
     :param start: IATA code of start airport
     :param destination: IATA code of destination airport
+    :param seating_class: Seating class in the airplane; Emission factors differ between seating classes because
+                          business class or first class seats take up more space. An airplane with more such therefore
+                          needs to have higher capacity to transport less people -> more co2
+                          ["average", "Economy class", "Business class", "Premium economy class", "First class"]
 
     :return: Total emissions of flight in co2 equivalents
     """
@@ -138,12 +142,44 @@ def calc_co2_plane(start, destination):
     distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
     # add detour constant
     distance += detour_constant
-    # retrieve whether airports are in the same country and query emission factor
+    # retrieve whether airports are in the same country and/or if distance is below or above 3700 km
     if country_start == country_dest:
-        co2e = emission_factor_df[(emission_factor_df["range"] == "inland")]["co2e"].values[0]
-    else:
-        co2e = emission_factor_df[(emission_factor_df["range"] == "international")]["co2e"].values[0]
-    # multiply emission factor with distance and by 2 if roundtrip
+        flight_range = "domestic"
+    elif distance <= 3700:
+        flight_range = "short-haul"
+    elif distance >= 3700:
+        flight_range = "long-haul"
+    # Todo: Error handling: What if no airplane with that range and seating class found
+    co2e = emission_factor_df[(emission_factor_df["range"] == flight_range) &
+                              (emission_factor_df["seating"] == seating_class)]["co2e"].values[0]
+    # multiply emission factor with distance
+    emissions = distance * co2e
+
+    return emissions
+
+
+def calc_co2_ferry(start, destination, seating_class="average"):
+    """
+    Function to compute emissions of a ferry trip
+    :param start: city of start port in the form "<city>, <country>"
+    :param destination: city of destination port in the form "<city>, <country>"
+    :param seating_class: ["average", "Foot passenger", "Car passenger"]
+
+    :return: Total emissions of sea travel in co2 equivalents
+    """
+    # todo: Do we have a way of checking if there even exists a ferry connection between the given cities (of if the
+    #  cities even have a port?
+    detour_coefficient = 1  # Todo
+    # get geographic coordinates of ports
+    _, _, geom_start = geocoding(start)
+    _, _, geom_dest = geocoding(destination)
+    # compute great circle distance between airports
+    distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
+    # add detour constant
+    distance *= detour_coefficient
+    # get emission factor
+    co2e = emission_factor_df[(emission_factor_df["seating"] == seating_class)]["co2e"].values[0]
+    # multiply emission factor with distance
     emissions = distance * co2e
 
     return emissions
@@ -200,8 +236,8 @@ def calc_co2_heating(consumption, unit, fuel_type):
     return emissions
 
 
-def calc_co2_businesstrip(transportation_mode, start=None, destination=None, distance=None, size=None, fuel_type=None,
-                          occupancy=50, passengers=None, roundtrip=False):
+def calc_co2_businesstrip(transportation_mode, start=None, destination=None, distance=None, size="average",
+                          fuel_type="average", occupancy=50, seating="average", passengers=1, roundtrip=False):
     """
     Function to compute emissions for business trips based on transportation mode and trip specifics
     :param transportation_mode: mode of transport [car, bus, train, plane]
@@ -211,7 +247,9 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
     :param size: Size class of the vehicle [small, medium, large, average] - only used for car and bus
     :param fuel_type: Fuel type of the vehicle [diesel, gasoline, electricity, cng, hydrogen, average] - only used for
                                                 car, bus and train
-    :param occupancy: Occupancy of the vehicle [20, 50, 80, 100] - only used for bus
+    :param occupancy: Occupancy of the vehicle in % [20, 50, 80, 100] - only used for bus
+    :param seating: seating class ["average", "Economy class", "Premium economy class", "Business class", "First class"]
+                    - only used for plane
     :param passengers: Number of passengers in the vehicle (including the participant), number from 1 to 9
                                                 - only used for car
     :param roundtrip: whether the trip is a roundtrip or not [True, False]
@@ -235,7 +273,9 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
     elif transportation_mode == "train":
         emissions = calc_co2_train(fuel_type=fuel_type, vehicle_range="long-distance", distance=distance, stops=stops)
     elif transportation_mode == "plane":
-        emissions = calc_co2_plane(start, destination)
+        emissions = calc_co2_plane(start, destination, seating_class=seating)
+    elif transportation_mode == "ferry":
+        emissions = calc_co2_ferry(start, destination, seating_class=seating)
     else:
         assert ValueError("No emission factor available for the specified mode of transport.")
     if roundtrip is True:
