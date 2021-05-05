@@ -51,6 +51,35 @@ def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, stops=Non
     return emissions
 
 
+def calc_co2_motorbike(size=None, distance=None, stops=None):
+    """
+    Function to compute the emissions of a car trip.
+    :param size: size of motorbike
+                        ["small", "medium", "large", "average"]
+    :param distance: Distance travelled in km;
+                        alternatively param <locations> can be provided
+    :param stops: List of locations in the form 'address, locality, country';
+                        can have intermediate stops
+                        e.g. ["Marktplatz, Heidelberg, Germany", "Im Neuenheimer Feld 348, Heidelberg, Germany"]
+                        alternatively param <distance> can be provided
+
+    :return: Total emissions of trip in co2 equivalents
+    """
+    if distance is None and stops is None:
+        print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
+              "travelled locations in the form 'address, locality, country'")
+    elif distance is None:
+        coords = []
+        for loc in stops:
+            loc_name, loc_country, loc_coords = geocoding(loc)
+            coords.append(loc_coords)
+        distance = get_route(coords, "driving-car")
+    co2e = emission_factor_df[(emission_factor_df["size_class"] == size)]["co2e"].values[0]
+    emissions = distance * co2e
+
+    return emissions
+
+
 def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, distance=None, stops=None):
     """
     Function to compute the emissions of a bus trip.
@@ -288,7 +317,7 @@ def calc_co2_commuting(transportation_mode, weekly_distance=None,
                        size=None, fuel_type=None, occupancy=None, passengers=None, work_weeks=None):
     """
     Calculate co2 emissions for commuting per mode of transport
-    :param transportation_mode: [car, bus, train, bicycle, pedelec, motorcycle, tram]
+    :param transportation_mode: [car, bus, train, bicycle, pedelec, motorbike, tram]
     :param weekly_distance: distance in km per week
     :param size: size of car or bus if applicable
     :param fuel_type: fuel type of car, bus or train if applicable
@@ -303,13 +332,15 @@ def calc_co2_commuting(transportation_mode, weekly_distance=None,
     # get weekly co2e for respective mode of transport
     if transportation_mode == "car":
         weekly_co2e = calc_co2_car(passengers=passengers, size=size, fuel_type=fuel_type, distance=weekly_distance)
+    elif transportation_mode == "motorbike":
+        weekly_co2e = calc_co2_motorbike(size=size, distance=weekly_distance)
     elif transportation_mode == "bus":
-        weekly_co2e = calc_co2_bus(size=size_class, fuel_type=fuel_type, occupancy=occupancy, vehicle_range="average",
+        weekly_co2e = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy, vehicle_range="average",
                                    distance=weekly_distance)
     elif transportation_mode == "train":
         calc_co2_train(fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance)
     elif transportation_mode == "tram":
-        co2e = emission_factor_df[(emission_factor_df["name"] == "Straßen-Stadt-U-Bahn")]["co2e"].values[0]
+        co2e = emission_factor_df[(emission_factor_df["name"] == "Strassen-Stadt-U-Bahn")]["co2e"].values[0]
         weekly_co2e = co2e * weekly_distance
     elif transportation_mode == "pedelec" or transportation_mode == "bicycle":
         co2e = emission_factor_df[(emission_factor_df["subcategory"] == transportation_mode)]["co2e"].values[0]
