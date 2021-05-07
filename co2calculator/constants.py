@@ -6,6 +6,8 @@ import enum
 
 import iso3166
 
+import enum
+
 KWH_TO_TJ = 277777.77777778
 
 
