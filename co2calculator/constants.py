@@ -8,9 +8,9 @@ KWH_TO_TJ = 277777.77777778
 
 
 class HeatingFuel(enum.Enum):
-    HEATPUMP_AIR = 'Heatpump air'
-    HEATPUMP_GROUND = 'Heatpump ground'
-    HEATPUMP_WATER = 'Heatpump water'
+    HEAT_PUMP_AIR = 'Heat pump air'
+    HEAT_PUMP_GROUND = 'Heat pump ground'
+    HEAT_PUMP_WATER = 'Heat pump water'
     LIQUID_GAS = 'Liquid gas'
     OIL = 'Oil'
     PELLETS = 'Pellets'

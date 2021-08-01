@@ -182,11 +182,11 @@ def read_xmls_heating(idx, filepath, co2e_df):
             elif "Gas-Heizung" in node.text:
                 co2e_df.loc[idx, "fuel_type"] = "gas"
             elif "mono-Luft" in node.text:
-                co2e_df.loc[idx, "fuel_type"] = "heatpump_air"
+                co2e_df.loc[idx, "fuel_type"] = "heat_pump_air"
             elif "mono-Erdreich" in node.text:
-                co2e_df.loc[idx, "fuel_type"] = "heatpump_ground"
+                co2e_df.loc[idx, "fuel_type"] = "heat_pump_ground"
             elif "mono-Wasser" in node.text:
-                co2e_df.loc[idx, "fuel_type"] = "heatpump_water"
+                co2e_df.loc[idx, "fuel_type"] = "heat_pump_water"
             elif "Flüssiggas" in node.text:
                 co2e_df.loc[idx, "fuel_type"] = "liquid_gas"
             elif "Öl-Heizung" in node.text:
