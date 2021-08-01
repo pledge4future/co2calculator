@@ -319,9 +319,9 @@ def calc_co2_commuting(transportation_mode, weekly_distance=None,
     Calculate co2 emissions for commuting per mode of transport
     :param transportation_mode: [car, bus, train, bicycle, pedelec, motorbike, tram]
     :param weekly_distance: distance in km per week
-    :param size: size of car or bus if applicable
+    :param size: size of car or bus if applicable: [small, medium, large, average]
     :param fuel_type: fuel type of car, bus or train if applicable
-    :param occupancy: occupancy, if applicable/known (only for bus)
+    :param occupancy: occupancy [%], if applicable/known (only for bus): [20, 50, 80, 100]
     :param passengers: number of passengers, if applicable (only for car)
     :param work_weeks: number of working weeks per year,
                 i.e., 52 (weeks per year) - 4 (paid leave) - 2 (public holidays) = 42
