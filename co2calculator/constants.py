@@ -6,11 +6,12 @@ import enum
 
 KWH_TO_TJ = 277777.77777778
 
+
 class HeatingFuel(enum.Enum):
-    PUMPAIR = 'Pump air'
-    PUMPGROUND = 'Pump ground'
-    PUMPWATER = 'Pump water'
-    LIQUID = 'Liquid gas'
+    HEATPUMP_AIR = 'Heatpump air'
+    HEATPUMP_GROUND = 'Heatpump ground'
+    HEATPUMP_WATER = 'Heatpump water'
+    LIQUID_GAS = 'Liquid gas'
     OIL = 'Oil'
     PELLETS = 'Pellets'
     SOLAR = 'Solar'
@@ -57,16 +58,19 @@ class FlightClass(enum.Enum):
     FIRST = 'First class'
     AVERAGE = 'Average'
 
+
 class FerryClass(enum.Enum):
     FOOT = 'Foot passenger'
     CAR = 'Car passenger'
     AVERAGE = 'Average'
+
 
 class FlightRange(enum.Enum):
     DOMESTIC = 'Domestic'
     SHORT_HAUL = 'Short haul'
     LONG_HAUL = 'Long haul'
 
+
 class BusTrainRange(enum.Enum):
     LOCAL = 'Local'
-    LONG_DISTANCE = 'Long_distance'
+    LONG_DISTANCE = 'Long distance'
