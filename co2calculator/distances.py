@@ -89,19 +89,37 @@ def geocoding(address):
     return name, country, coords
 
 
-def geocoding_structured(country=None, locality=None, zip_code=None, address=None):
+def geocoding_structured(country=None, region=None, county=None, locality=None, borough=None, postalcode=None,
+                         address=None, neighbourhood=None):
     """
     Function to obtain coordinates for a given address
-    :param country:
-    :param locality:
-    :param zip_code:
-    :param address:
+    :param country: highest-level administrative divisions supported in a search.
+                    Full country name or two-/three-letter abbreviations supported
+                    e.g., Germany / "DE" / "DEU"
+    :param region: first-level administrative divisions within countries, analogous to states and provinces
+                    in the US and Canada
+                    e.g., Delaware, Ontario, Ardennes, Baden-Württemberg
+    :param county: administrative divisions between localities and regions
+                    e.g., Alb-Donau-Kreis
+    :param locality: equivalent to what are commonly referred to as cities
+                    e.g., Bangkok, Caracas
+    :param borough: mostly known in the context of NY, may exist in other cities like Mexico City
+                    e.g. Manhatten in NY
+                        Iztapalapa in Mexico City
+                        todo: check if also used for e.g. german "Stadtteile"
+    :param postalcode: postal code
+    :param address: street name, optionally also house number
+    :param neighbourhood: vernacular geographic entities that may not necessarily be official administrative
+                        divisions but are important nonetheless
+                    e.g. Notting Hill in London
+                    Le Marais in Paris
     :return: Name, country and coordinates of the found location
     """
 
     clnt = openrouteservice.Client(key=ors_api_key)
 
-    call = pelias_structured(clnt, country=country, locality=locality, postalcode=zip_code, address=address)
+    call = pelias_structured(clnt, country=country, region=region, county=county, locality=locality, corough=borough,
+                             postalcode=postalcode, address=address, neighbourhood=neighbourhood)
     for feature in call["features"]:
         name = feature["properties"]["name"]
         country = feature["properties"]["country"]
