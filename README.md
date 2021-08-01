@@ -4,7 +4,7 @@ Python package to calculate CO2 emissions of business trips, heating and electri
 
 ## ℹ️ Description
 
-This package is part of Pledge4Future, a project to quantify, monitor and reduce work-related emissions collectively and sustainably. [more info, Link to Website]
+This package is part of [Pledge4Future](https://pledge4future.org/), a project to quantify, monitor and reduce work-related emissions collectively and sustainably. [more info]
 
 ## ⌨ How to Use
 
