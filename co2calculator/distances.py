@@ -118,15 +118,24 @@ def geocoding_structured(country=None, region=None, county=None, locality=None, 
 
     clnt = openrouteservice.Client(key=ors_api_key)
 
-    call = pelias_structured(clnt, country=country, region=region, county=county, locality=locality, corough=borough,
+    call = pelias_structured(clnt, country=country, region=region, county=county, locality=locality, borough=borough,
                              postalcode=postalcode, address=address, neighbourhood=neighbourhood)
-    for feature in call["features"]:
+    n_results = len(call["features"])
+    # filter by confidence
+    res = call["features"]
+    for feature in res:
         name = feature["properties"]["name"]
         country = feature["properties"]["country"]
         coords = feature["geometry"]["coordinates"]
+        layer = feature["properties"]["layer"]
+        if feature["properties"]["confidence"] < 0.8:
+            print("Skipping %s, %s" % (name, coords))
+            continue
         break
+    print("%i location(s) found. Using this result: %s, %s (data type: %s)" % (n_results, name, country, layer))
+    print("Coords: ", coords)
 
-    return name, country, coords
+    return name, country, coords, res
 
 
 def get_route(coords, profile=None):
