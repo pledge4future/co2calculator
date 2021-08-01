@@ -67,10 +67,10 @@ class FerryClass(enum.Enum):
 
 class FlightRange(enum.Enum):
     DOMESTIC = 'Domestic'
-    SHORT_HAUL = 'Short haul'
-    LONG_HAUL = 'Long haul'
+    SHORT_HAUL = 'Short-haul'
+    LONG_HAUL = 'Long-haul'
 
 
 class BusTrainRange(enum.Enum):
     LOCAL = 'Local'
-    LONG_DISTANCE = 'Long distance'
+    LONG_DISTANCE = 'Long-distance'
