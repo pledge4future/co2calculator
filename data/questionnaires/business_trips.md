@@ -128,8 +128,8 @@ If the trip included buses with multiple fuel types, please select the dominant 
 
 7c. What was the size class of the bus? If you do not remember, please select "average".
 
-* [ ] Medium (40 passengers)
-* [ ] Large (60 passengers)
+* [ ] Medium
+* [ ] Large
 * [ ] Average
 
 `("add trip" button to add more trips. Goes back to question 3)`
