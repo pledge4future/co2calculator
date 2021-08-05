@@ -124,6 +124,8 @@ def geocoding_structured(country=None, region=None, county=None, locality=None, 
                              postalcode=postalcode, address=address, neighbourhood=neighbourhood)
     n_results = len(call["features"])
     res = call["features"]
+    if n_results == 0:
+        raise Exception("No places found with these search parameters")
 
     for feature in res:
         name = feature["properties"]["name"]
