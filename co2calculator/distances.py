@@ -134,8 +134,9 @@ def geocoding_structured(country=None, region=None, county=None, locality=None, 
             if layer != "address" or layer != "locality" and n_results > 1:
                 print("Data type not matching search (%s instead of address or locality. Skipping %s, %s" % (layer, name, coords))
                 continue
-        if feature["properties"]["confidence"] < 0.8 and n_results > 1:
-            print("Low confidence. Skipping %s, %s" % (name, coords))
+        confidence = feature["properties"]["confidence"]
+        if confidence < 0.8 and n_results > 1:
+            print("Low confidence: %.1f. Skipping %s, %s" % (confidence, name, coords))
             continue
         break
     print("%i location(s) found. Using this result: %s, %s (data type: %s)" % (n_results, name, country, layer))
