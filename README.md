@@ -8,7 +8,7 @@ This package is part of [Pledge4Future](https://pledge4future.org/), a project t
 
 ## ⌨ How to Use
 
-[...]
+Learn how to use `co2calculator` in our detailed [documentation](https://github.com/pledge4future/co2calculator/blob/dev/docs/documentation.md). [...]
 
 The CO<sub>2</sub> Calculator uses the [OpenRouteService (ORS) API](https://openrouteservice.org/dev/#/api-docs) to obtain distances between the locations provided by the user to calculate CO<sub>2</sub> emissions of business trips. This requires an API key, which is read from an `.env` file.
 
