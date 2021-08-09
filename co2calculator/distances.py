@@ -11,6 +11,7 @@ from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_autocomplete, pelias_structured
 import os
 from dotenv import load_dotenv
+
 load_dotenv()  # take environment variables from .env.
 
 ors_api_key = os.getenv('ORS_API_KEY')
@@ -29,7 +30,8 @@ def haversine(lat_start, long_start, lat_dest, long_dest):
     # convert angles from degree to radians
     lat_start, long_start, lat_dest, long_dest = np.deg2rad([lat_start, long_start, lat_dest, long_dest])
     # compute zeta
-    a = np.sin((lat_dest - lat_start)/2)**2 + np.cos(lat_start) * np.cos(lat_dest) * np.sin((long_dest - long_start)/2)**2
+    a = np.sin((lat_dest - lat_start) / 2) ** 2 + np.cos(lat_start) * np.cos(lat_dest) * np.sin(
+        (long_dest - long_start) / 2) ** 2
     c = 2 * np.arcsin(np.sqrt(a))
     r = 6371
 
@@ -89,26 +91,60 @@ def geocoding(address):
     return name, country, coords
 
 
-def geocoding_structured(country=None, locality=None, zip_code=None, address=None):
+def geocoding_structured(country=None, region=None, county=None, locality=None, borough=None, postalcode=None,
+                         address=None, neighbourhood=None):
     """
     Function to obtain coordinates for a given address
-    :param country:
-    :param locality:
-    :param zip_code:
-    :param address:
+    :param country: highest-level administrative divisions supported in a search.
+                    Full country name or two-/three-letter abbreviations supported
+                    e.g., Germany / "DE" / "DEU"
+    :param region: first-level administrative divisions within countries, analogous to states and provinces
+                    in the US and Canada
+                    e.g., Delaware, Ontario, Ardennes, Baden-Württemberg
+    :param county: administrative divisions between localities and regions
+                    e.g., Alb-Donau-Kreis
+    :param locality: equivalent to what are commonly referred to as cities
+                    e.g., Bangkok, Caracas
+    :param borough: mostly known in the context of NY, may exist in other cities like Mexico City
+                    e.g. Manhatten in NY
+                        Iztapalapa in Mexico City
+                        todo: check if also used for e.g. german "Stadtteile"
+    :param postalcode: postal code
+    :param address: street name, optionally also house number
+    :param neighbourhood: vernacular geographic entities that may not necessarily be official administrative
+                        divisions but are important nonetheless
+                    e.g. Notting Hill in London
+                    Le Marais in Paris
     :return: Name, country and coordinates of the found location
     """
 
     clnt = openrouteservice.Client(key=ors_api_key)
 
-    call = pelias_structured(clnt, country=country, locality=locality, postalcode=zip_code, address=address)
-    for feature in call["features"]:
+    call = pelias_structured(clnt, country=country, region=region, county=county, locality=locality, borough=borough,
+                             postalcode=postalcode, address=address, neighbourhood=neighbourhood)
+    n_results = len(call["features"])
+    res = call["features"]
+    if n_results == 0:
+        raise Exception("No places found with these search parameters")
+
+    for feature in res:
         name = feature["properties"]["name"]
         country = feature["properties"]["country"]
         coords = feature["geometry"]["coordinates"]
+        layer = feature["properties"]["layer"]
+        if locality is not None and postalcode is not None and address is not None:
+            if layer != "address" or layer != "locality" and n_results > 1:
+                print("Data type not matching search (%s instead of address or locality. Skipping %s, %s" % (layer, name, coords))
+                continue
+        confidence = feature["properties"]["confidence"]
+        if confidence < 0.8 and n_results > 1:
+            print("Low confidence: %.1f. Skipping %s, %s" % (confidence, name, coords))
+            continue
         break
+    print("%i location(s) found. Using this result: %s, %s (data type: %s)" % (n_results, name, country, layer))
+    print("Coords: ", coords)
 
-    return name, country, coords
+    return name, country, coords, res
 
 
 def get_route(coords, profile=None):
