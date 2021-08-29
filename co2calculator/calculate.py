@@ -309,22 +309,26 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
         emissions *= 2
 
     # categorize according to distance (range)
-    range_category = range_categories(distance)
+    range_category, range_description = range_categories(distance)
 
-    return emissions, distance, range_category
+    return emissions, distance, range_category, range_description
 
 
 def range_categories(distance):
     if distance <= 500:
-        range_cat = "very short haul (<=500 km)"
+        range_cat = "very short haul"
+        range_description = "below 500 km"
     elif distance <= 1500:
         range_cat = "short haul"
+        range_description = "500 to 15000 km"
     elif distance <= 4000:
         range_cat = "medium haul"
+        range_description = "1500 to 4000 km"
     else:
         range_cat = "long haul"
+        range_description = "above 4000 km"
 
-    return range_cat
+    return range_cat, range_description
 
 
 def calc_co2_commuting(transportation_mode, weekly_distance=None,
