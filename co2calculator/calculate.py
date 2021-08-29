@@ -171,12 +171,10 @@ def calc_co2_plane(start, destination, seating_class="average"):
     distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
     # add detour constant
     distance += detour_constant
-    # retrieve whether airports are in the same country and/or if distance is below or above 3700 km
-    if country_start == country_dest:
-        flight_range = "domestic"
-    elif distance <= 3700:
+    # retrieve whether distance is below or above 1500 km
+    if distance <= 1500:
         flight_range = "short-haul"
-    elif distance >= 3700:
+    elif distance > 1500:
         flight_range = "long-haul"
     # Todo: Error handling: What if no airplane with that range and seating class found
     co2e = emission_factor_df[(emission_factor_df["range"] == flight_range) &
