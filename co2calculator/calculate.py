@@ -229,12 +229,13 @@ def calc_co2_electricity(consumption, fuel_type):
     return emissions
 
 
-def calc_co2_heating(consumption, unit, fuel_type):
+def calc_co2_heating(consumption, unit, fuel_type, area_share=None):
     """
     Function to compute heating emissions
     :param consumption: energy consumption
     :param unit: unit of energy consumption [kwh, kg, l, m^3]
     :param fuel_type: fuel type used for heating
+    :param area_share: share of building area used by research group
     :return: total emissions of heating energy consumption
     """
     valid_unit_choices = ["kWh", "l", "kg", "m^3"]
@@ -256,6 +257,8 @@ def calc_co2_heating(consumption, unit, fuel_type):
         consumption_kwh = consumption * conversion_factor
     else:
         consumption_kwh = consumption
+    if area_share is not None:
+        consumption_kwh = consumption_kwh*area_share
 
     co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
