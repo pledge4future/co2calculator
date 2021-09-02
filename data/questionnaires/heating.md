@@ -51,5 +51,6 @@ _Thank you for your participation!_
 \_
 
 3\. Often energy consumption data is only available on the building level. If your energy consumption data is for the whole building, but your research group only uses part of the building, please give the share of the building that your research group uses. (Example: if your research group uses 500 m² of a 1000 m² building, type "0.5".)
-\_
+
+
 Share of the building area used: \_\_\_\_\_m²
