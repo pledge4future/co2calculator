@@ -21,7 +21,7 @@ Electricity consumption is given in kWh. The emission factors depend on the coun
 
 ## 2 Heating
 
-Heating consumption can be provided in kWh, or in other units, depending on the fuel type (see this [conversion table](https://github.com/pledge4future/co2calculator/blob/dev/data/conversion_factors_heating.csv)):
+The user is asked about the annual consumption and the primary energy source for heating, based on which the CO2e emissions are determined. Heating consumption can be provided in kWh, or in other units, depending on the fuel type (see this [conversion table](https://github.com/pledge4future/co2calculator/blob/dev/data/conversion_factors_heating.csv)):
 - Oil: l
 - Liquid gas, Coal, Pellet, Woodchips: kg
 - Gas: m<sup>3</sup>
@@ -30,6 +30,8 @@ The conversion factors are retrieved from:
 - [Krajnc, N. (2015): Wood fuels handbook, FAO](https://agris.fao.org/agris-search/search.do?recordID=XF2017001919)
 
 The emission factors depend on the fuel type. Fuel types may be oil, gas, liquid gas, electricity, coal, district heating, different types of heat pumps (ground, air, water), pellet, woodchips and solar.
+
+eheating(group)    =     c/277777.7778 * CO2eheating         [kg] 
 
 ## 3 Business trips
 
