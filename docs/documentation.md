@@ -17,7 +17,7 @@ The basic formula is:
 
 ## 1 Electricity
 
-For electricity the user can select between the German electricity mix or solar power. The German electricity mix applies, if the research institute has a regular electricity contract. Solar power is applicable, if the institute uses self-generated solar power. The user is asked for the annual electricity consumption c [kWh] which is then used to calculate the CO<sup>2</sup> equivalents [kg/TJ]. Since the emission factors for heating and electricity in the ProBas database apply for a consumption of 1 TJ, the consumption needs to be converted from kWh to TJ with a conversion factor of 277777.7778.
+For electricity the user can select between the German electricity mix or solar power. The German electricity mix applies, if the research institute has a regular electricity contract. Solar power is applicable, if the institute uses self-generated solar power. The user is asked for the annual electricity consumption c [kWh] which is then used to calculate the CO<sub>2</sub> equivalents [kg/TJ]. Since the emission factors for heating and electricity in the ProBas database apply for a consumption of 1 TJ, the consumption needs to be converted from kWh to TJ with a conversion factor of 277777.7778.
 
 ## 2 Heating
 
