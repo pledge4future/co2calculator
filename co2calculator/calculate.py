@@ -214,27 +214,29 @@ def calc_co2_ferry(start, destination, seating_class="average"):
     return emissions
 
 
-def calc_co2_electricity(consumption, fuel_type):
+def calc_co2_electricity(consumption, fuel_type, energy_share=1):
     """
     Function to compute electricity emissions
     :param consumption: energy consumption
     :param fuel_type: energy (mix) used for electricity [german_energy_mix, solar]
+    :param energy_share: the research group's approximate share of the total electricity energy consumption
     :return: total emissions of electricity energy consumption
     """
     co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
-    emissions = consumption/KWH_TO_TJ * co2e
+    emissions = consumption*energy_share/KWH_TO_TJ * co2e
 
     return emissions
 
 
-def calc_co2_heating(consumption, unit, fuel_type):
+def calc_co2_heating(consumption, unit, fuel_type, area_share=1):
     """
     Function to compute heating emissions
     :param consumption: energy consumption
     :param unit: unit of energy consumption [kwh, kg, l, m^3]
     :param fuel_type: fuel type used for heating
+    :param area_share: share of building area used by research group
     :return: total emissions of heating energy consumption
     """
     valid_unit_choices = ["kWh", "l", "kg", "m^3"]
@@ -260,7 +262,7 @@ def calc_co2_heating(consumption, unit, fuel_type):
     co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
-    emissions = consumption_kwh / KWH_TO_TJ * co2e
+    emissions = consumption_kwh*area_share / KWH_TO_TJ * co2e
 
     return emissions
 

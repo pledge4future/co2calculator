@@ -2,7 +2,7 @@
 
 Draft for webpage
 
-02.08.2021, Veit Ulrich
+02.09.2021, Veit Ulrich
 
 \_
 
@@ -48,4 +48,9 @@ _Thank you for your participation!_
 * liquid gas, coal, pellets, and wood chips can also be put in in kg
 * gas can also be put in in m^3
 
+\_
 
+3\. Often heating energy consumption data is only available on the building level. If your heating energy consumption data is for the whole building, but your research group only uses part of the building, please give the share of the building that your research group uses. (Example: if your research group uses 500 m² of a 1000 m² building, type "0.5".) If this question does not apply to you, you can skip it.
+
+
+Share of the building area used: \_\_\_\_\_
