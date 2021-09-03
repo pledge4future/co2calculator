@@ -329,7 +329,7 @@ def range_categories(distance):
         range_description = "below 500 km"
     elif distance <= 1500:
         range_cat = "short haul"
-        range_description = "500 to 15000 km"
+        range_description = "500 to 1500 km"
     elif distance <= 4000:
         range_cat = "medium haul"
         range_description = "1500 to 4000 km"
