@@ -19,17 +19,26 @@ The basic formula is:
 
 For electricity the user can select between the German electricity mix or solar power. The German electricity mix applies, if the research institute has a regular electricity contract. Solar power is applicable, if the institute uses self-generated solar power. The user is asked for the annual electricity consumption c [kWh] which is then used to calculate the CO<sub>2</sub> equivalents [kg/TJ]. Since the emission factors for heating and electricity in the ProBas database apply for a consumption of 1 TJ, the consumption needs to be converted from kWh to TJ with a conversion factor of 277777.7778.
 
+### Defining a share of electricity use
+
+If the electricity consumption is only known for a building or building complex and the group occupies only parts of the building and uses only parts of the appliances, the total consumption and an estimate of the share of energy use can be provided.
+
 ## 2 Heating
 
 The user is asked about the annual consumption and the primary energy source for heating, based on which the CO2e emissions are determined. Heating consumption can be provided in kWh, or in other units, depending on the fuel type (see this [conversion table](https://github.com/pledge4future/co2calculator/blob/dev/data/conversion_factors_heating.csv)):
 - Oil: l
 - Liquid gas, Coal, Pellet, Woodchips: kg
 - Gas: m<sup>3</sup>
+
 The conversion factors are retrieved from:
 - [BAFA (2020): Merkblatt zur Ermittlung des Gesamtenergieverbrauchs](https://www.bafa.de/SharedDocs/Downloads/DE/Energie/ea_ermittlung_gesamtenergieverbrauch.html)
 - [Krajnc, N. (2015): Wood fuels handbook, FAO](https://agris.fao.org/agris-search/search.do?recordID=XF2017001919)
 
 The emission factors depend on the fuel type. Fuel types may be oil, gas, liquid gas, electricity, coal, district heating, different types of heat pumps (ground, air, water), pellet, woodchips and solar.
+
+### Defining a share of heating consumption
+
+If the heating consumption is only known for a building or building complex and the group occupies only parts of the building, the total consumption and an estimate of the share of the heating consumption can be provided.
 
 ## 3 Business trips
 
@@ -86,6 +95,15 @@ Plane | - | - | - | [average, Economy class, Business class, Premium economy cla
 Ferry | - | - | - | [average, Foot passenger, Car passenger] | - | -
 
 These specifica determine how high the emission factors (in kg CO<sub>2</sub>e/km) are. 
+
+### Range categories
+
+Trips are categorized based on their ranges, which can be used later for analysis and visualization purposes. 
+
+- Very short haul: < 500 km
+- Short distance: 500 - 1500 km
+- Medium distance: 1500 - 4000 km
+- Long distance: > 4000 km
 
 ## 4 Commuting 
 
