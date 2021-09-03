@@ -4,11 +4,8 @@
 
 import os
 import pandas as pd
-import glob
-import numpy as np
 from .distances import haversine, geocoding_airport, geocoding, get_route
 from .constants import KWH_TO_TJ
-import sys
 
 
 script_path = os.path.dirname(os.path.realpath(__file__))
@@ -33,7 +30,7 @@ def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, stops=Non
                          "Bahnhof Basel, Basel, Switzerland"]
                         alternatively param <distance> can be provided
 
-    :return: Total emissions of trip in co2 equivalents
+    :return: Total emissions of trip in co2 equivalents, distance of the trip
     """
     if distance is None and stops is None:
         print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
@@ -48,7 +45,7 @@ def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, stops=Non
                               (emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
     emissions = distance * co2e / passengers
 
-    return emissions
+    return emissions, distance
 
 
 def calc_co2_motorbike(size=None, distance=None, stops=None):
@@ -63,7 +60,7 @@ def calc_co2_motorbike(size=None, distance=None, stops=None):
                         e.g. ["Marktplatz, Heidelberg, Germany", "Im Neuenheimer Feld 348, Heidelberg, Germany"]
                         alternatively param <distance> can be provided
 
-    :return: Total emissions of trip in co2 equivalents
+    :return: Total emissions of trip in co2 equivalents, distance of the trip
     """
     if distance is None and stops is None:
         print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
@@ -77,7 +74,7 @@ def calc_co2_motorbike(size=None, distance=None, stops=None):
     co2e = emission_factor_df[(emission_factor_df["size_class"] == size)]["co2e"].values[0]
     emissions = distance * co2e
 
-    return emissions
+    return emissions, distance
 
 
 def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, distance=None, stops=None):
@@ -92,7 +89,7 @@ def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, di
     :param stops: List of locations, ideally in the form 'address, locality, country';
                     alternatively param <distance> can be provided
 
-    :return: Total emissions of trip in co2 equivalents
+    :return: Total emissions of trip in co2 equivalents, distance of the trip
     """
     detour_coefficient = 1.5
     if distance is None and stops is None:
@@ -114,7 +111,7 @@ def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, di
                               (emission_factor_df["range"] == vehicle_range)]["co2e"].values[0]
     emissions = distance * co2e
 
-    return emissions
+    return emissions, distance
 
 
 def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None):
@@ -127,7 +124,7 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
     :param stops: List of train stations, ideally in the form 'address, locality, country';
                     alternatively param <distance> can be provided
 
-    :return: Total emissions of trip in co2 equivalents
+    :return: Total emissions of trip in co2 equivalents, distance of the trip
     """
     detour_coefficient = 1.2
     if distance is None and stops is None:
@@ -147,7 +144,7 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
                               & (emission_factor_df["range"] == vehicle_range)]["co2e"].values[0]
     emissions = distance * co2e
 
-    return emissions
+    return emissions, distance
 
 
 def calc_co2_plane(start, destination, seating_class="average"):
@@ -160,7 +157,7 @@ def calc_co2_plane(start, destination, seating_class="average"):
                           needs to have higher capacity to transport less people -> more co2
                           ["average", "Economy class", "Business class", "Premium economy class", "First class"]
 
-    :return: Total emissions of flight in co2 equivalents
+    :return: Total emissions of flight in co2 equivalents, distance of the trip
     """
     detour_constant = 95  # 95 km as used by MyClimate and ges 1point5, see also
     # Méthode pour la réalisation des bilans d’émissions de gaz à effet de serre conformément à l’article L. 229­25 du code de l’environnement – 2016 – Version 4
@@ -171,12 +168,10 @@ def calc_co2_plane(start, destination, seating_class="average"):
     distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
     # add detour constant
     distance += detour_constant
-    # retrieve whether airports are in the same country and/or if distance is below or above 3700 km
-    if country_start == country_dest:
-        flight_range = "domestic"
-    elif distance <= 3700:
+    # retrieve whether distance is below or above 1500 km
+    if distance <= 1500:
         flight_range = "short-haul"
-    elif distance >= 3700:
+    elif distance > 1500:
         flight_range = "long-haul"
     # Todo: Error handling: What if no airplane with that range and seating class found
     co2e = emission_factor_df[(emission_factor_df["range"] == flight_range) &
@@ -184,7 +179,7 @@ def calc_co2_plane(start, destination, seating_class="average"):
     # multiply emission factor with distance
     emissions = distance * co2e
 
-    return emissions
+    return emissions, distance
 
 
 def calc_co2_ferry(start, destination, seating_class="average"):
@@ -194,7 +189,7 @@ def calc_co2_ferry(start, destination, seating_class="average"):
     :param destination: city of destination port in the form "<city>, <country>"
     :param seating_class: ["average", "Foot passenger", "Car passenger"]
 
-    :return: Total emissions of sea travel in co2 equivalents
+    :return: Total emissions of sea travel in co2 equivalents, distance of the trip
     """
     # todo: Do we have a way of checking if there even exists a ferry connection between the given cities (of if the
     #  cities even have a port?
@@ -211,7 +206,7 @@ def calc_co2_ferry(start, destination, seating_class="average"):
     # multiply emission factor with distance
     emissions = distance * co2e
 
-    return emissions
+    return emissions, distance
 
 
 def calc_co2_electricity(consumption, fuel_type, energy_share=1):
@@ -285,7 +280,10 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
                                                 - only used for car
     :param roundtrip: whether the trip is a roundtrip or not [True, False]
 
-    :return: Emissions of the business trip in co2 equivalents
+    :return:    Emissions of the business trip in co2 equivalents,
+                Distance of the business trip,
+                Range category of the business trip [very short haul, short haul, medium haul, long haul]
+                Range description (i.e., what range of distances does to category correspond to)
     """
     if distance is None and (start is None or destination is None):
         assert ValueError("Either start and destination or distance must be provided.")
@@ -297,22 +295,49 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
     elif start is not None and destination is not None and distance is None:
         stops = [start, destination]
     if transportation_mode == "car":
-        emissions = calc_co2_car(passengers, size=size, fuel_type=fuel_type, distance=distance, stops=stops)
+        emissions, dist = calc_co2_car(passengers, size=size, fuel_type=fuel_type, distance=distance, stops=stops)
     elif transportation_mode == "bus":
-        emissions = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy, vehicle_range="long-distance",
-                                 distance=distance, stops=stops)
+        emissions, dist = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy,
+                                       vehicle_range="long-distance", distance=distance, stops=stops)
     elif transportation_mode == "train":
-        emissions = calc_co2_train(fuel_type=fuel_type, vehicle_range="long-distance", distance=distance, stops=stops)
+        emissions, dist = calc_co2_train(fuel_type=fuel_type, vehicle_range="long-distance", distance=distance,
+                                         stops=stops)
     elif transportation_mode == "plane":
-        emissions = calc_co2_plane(start, destination, seating_class=seating)
+        emissions, dist = calc_co2_plane(start, destination, seating_class=seating)
     elif transportation_mode == "ferry":
-        emissions = calc_co2_ferry(start, destination, seating_class=seating)
+        emissions, dist = calc_co2_ferry(start, destination, seating_class=seating)
     else:
         assert ValueError("No emission factor available for the specified mode of transport.")
     if roundtrip is True:
         emissions *= 2
 
-    return emissions
+    # categorize according to distance (range)
+    range_category, range_description = range_categories(dist)
+
+    return emissions, dist, range_category, range_description
+
+
+def range_categories(distance):
+    """
+    Function to categorize a trip according to the travelled distance
+    :param distance: Distance travelled in km
+    :return: Range category of the trip [very short haul, short haul, medium haul, long haul]
+             Range description (i.e., what range of distances does to category correspond to)
+    """
+    if distance <= 500:
+        range_cat = "very short haul"
+        range_description = "below 500 km"
+    elif distance <= 1500:
+        range_cat = "short haul"
+        range_description = "500 to 15000 km"
+    elif distance <= 4000:
+        range_cat = "medium haul"
+        range_description = "1500 to 4000 km"
+    else:
+        range_cat = "long haul"
+        range_description = "above 4000 km"
+
+    return range_cat, range_description
 
 
 def calc_co2_commuting(transportation_mode, weekly_distance=None,
@@ -347,6 +372,8 @@ def calc_co2_commuting(transportation_mode, weekly_distance=None,
     elif transportation_mode == "pedelec" or transportation_mode == "bicycle":
         co2e = emission_factor_df[(emission_factor_df["subcategory"] == transportation_mode)]["co2e"].values[0]
         weekly_co2e = co2e * weekly_distance
+    else:
+        raise ValueError('Transportation mode "%s" not found in database' % transportation_mode)
 
     # multiply with work_weeks to obtain total (e.g. annual/monthly) co2e
     total_co2e = weekly_co2e * work_weeks
@@ -367,4 +394,3 @@ def commuting_emissions_group(aggr_co2, n_participants, n_members):
     group_co2e = aggr_co2 / n_participants * n_members
 
     return group_co2e
-
