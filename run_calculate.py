@@ -11,14 +11,13 @@ import pandas as pd
 import numpy as np
 import glob
 from co2calculator import calc_co2_businesstrip, calc_co2_heating, calc_co2_electricity
-from co2calculator.distances import geocoding_structured
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 
 
 if __name__ == "__main__":
 
-    """# test with dummy data
+    # test with dummy data
     business_trip_data = glob.glob(f"{script_path}/data/test_data_users/business_trips*.csv")
 
     print("Computing business trip emissions...")
@@ -120,8 +119,4 @@ if __name__ == "__main__":
             user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-            # user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)"""
-
-    name, country, coords, res = geocoding_structured(postalcode="69181")
-    print(name, country, coords)
-    print(res)
+            # user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
