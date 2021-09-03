@@ -309,9 +309,9 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
         emissions *= 2
 
     # categorize according to distance (range)
-    range_category, range_description = range_categories(distance)
+    range_category, range_description = range_categories(dist)
 
-    return emissions, distance, range_category, range_description
+    return emissions, dist, range_category, range_description
 
 
 def range_categories(distance):
