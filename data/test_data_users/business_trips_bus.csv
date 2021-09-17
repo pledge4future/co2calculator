@@ -1,4 +1,5 @@
-id;user_id;bus_fuel;bus_size;occupancy;distance_km;stops;roundtrip;co2e_kg
-1;2;diesel;large;80;549;;False;
-2;1;diesel;average;50;231;;True;
-3;2;diesel;average;50;;Hauptbahnhof, Heidelberg, Germany-Bahnhof Basel, Basel, Switzerland;
+id;user_id;fuel_type;size;occupancy;country_start;region_start;county_start;locality_start;borough_start;address_start;country_dest;region_dest;county_dest;locality_dest;borough_dest;address_dest;roundtrip
+1;2;diesel;large;80;Germany;;;Heidelberg;;Willy-Brandt-Platz 5;Italy;;;Bolzano;;;True
+2;1;diesel;average;50;Germany;;;Heidelberg;;Willy-Brandt-Platz 5;Austria;;;Villach;;Bahnhofplatz 1;False
+3;2;diesel;large;80;Slovenia;;;Ljubljana;;Trg Osvobodilne fronte 7;Germany;;;Mannheim;;Heinrich-von-Stephan-Straﬂe;True
+4;3;diesel;average;50;Germany;;;Hamburg;;Hachmannplatz 16;Denmark;;;Copenhagen;;Bernstorffsgade;False

@@ -1,2 +1,6 @@
-id;group_id;consumption_kwh;fuel_type
-1;1;10000;german energy mix
+id;group_id;area_share;consumption_kwh;fuel_type
+1;1;;14452;german energy mix
+2;2;0.5;29653;german energy mix
+3;1;;4659;solar
+4;3;0.3;9659;german energy mix
+5;4;;45256;german energy mix

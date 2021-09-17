@@ -1,3 +1,5 @@
-id;user-id;train_fuel;distance_km;stops;roundtrip
-1;1;electric;1162;;False
-2;1;electric;;Hauptbahnhof, Heidelberg, Germany-Bahnhof Basel, Basel, Switzerland;True
+id;user-id;fuel_type;country_start;region_start;county_start;locality_start;borough_start;address_start;country_dest;region_dest;county_dest;locality_dest;borough_dest;address_dest;roundtrip
+1;1;electric;Germany;;;Heidelberg;;Willy-Brandt-Platz 5;Switzerland;;;Basel;;Centralbahnstrasse 10;False
+2;2;electric;Germany;;;Heidelberg;;Willy-Brandt-Platz 5;Austria;;;Villach;;Bahnhofplatz 1;True
+3;3;electric;Slovenia;;;Ljubljana;;Trg Osvobodilne fronte 7;Austria;;;Vienna;;Am Hauptbahnhof 1;False
+4;1;diesel;Germany;;;Hamburg;;Hachmannplatz 16;Denmark;;;Copenhagen;;Bernstorffsgade;True

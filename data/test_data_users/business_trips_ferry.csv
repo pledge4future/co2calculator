@@ -1,2 +1,6 @@
-id;user_id;start;destination;seating_class;roundtrip
-1;1;Nice, France;Bastia, Corse, France;Car passenger;True
+id;user_id;start;destination;seating_class;country_start;region_start;county_start;locality_start;borough_start;address_start;country_dest;region_dest;county_dest;locality_dest;borough_dest;address_dest;roundtrip
+1;1;Nice, France;Bastia, Corse, France;Car passenger;France;;;Nice;;;France;Corse;;Bastia;;;False
+2;2;;;Foot passenger;Germany;;;Rostock;;;Sweden;;;Trelleborg;;;True
+3;2;;;Car passenger;Spain;;;Los Cristianos;;;Spain;;;San Sebastián de la Gomera;;;True
+4;3;;;Foot passenger;Germany;;;Bensersiel;;;Germany;;;Langeoog;;;True
+5;1;;;Car passenger;New Zealand;;;Auckland;Devonport;;New Zealand;Waiheke island;;Auckland;;;True

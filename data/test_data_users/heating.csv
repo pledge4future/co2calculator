@@ -1,2 +1,11 @@
-id;group_id;consumption;energy_unit;fuel_type;cost_per_kwh_euros;co2e_kg
-1;1;250;kg;woodchips;0.067;
+id;group_id;area_share;consumption;energy_unit;fuel_type
+1;1;1;250;kg;woodchips
+2;2;0.5;29653;kWh;gas
+3;3;1;47569;kWh;oil
+4;4;0.2;35124;kWh;district_heating
+5;5;1;15321;kWh;heatpump
+6;6;0.7;16321;kWh;pellets
+7;7;1;2965;m^3;gas
+8;8;1;4756;l;oil
+9;9;0.4;4576;kg;pellets
+10;10;1;2001;kg;coal
