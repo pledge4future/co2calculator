@@ -55,6 +55,9 @@ def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, stops=Non
     return emissions
 
 
+# todo: Function check_if_valid to check if dictionaries in loc list have valid keys
+
+
 def calc_co2_motorbike(size=None, distance=None, stops=None):
     """
     Function to compute the emissions of a car trip.
