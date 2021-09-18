@@ -119,8 +119,6 @@ def geocoding_structured(loc_dict):
 
     clnt = openrouteservice.Client(key=ors_api_key)
 
-    #call = pelias_structured(clnt, country=country, region=region, county=county, locality=locality, borough=borough,
-    #                         postalcode=postalcode, address=address, neighbourhood=neighbourhood)
     call = pelias_structured(clnt, **loc_dict)
     n_results = len(call["features"])
     res = call["features"]
