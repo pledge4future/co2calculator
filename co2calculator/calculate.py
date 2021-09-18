@@ -4,7 +4,9 @@
 
 import os
 import pandas as pd
-from .distances import haversine, geocoding_airport, geocoding, get_route
+import glob
+import numpy as np
+from .distances import haversine, geocoding_airport, geocoding, get_route, geocoding_structured
 from .constants import KWH_TO_TJ
 
 
@@ -13,7 +15,9 @@ emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
 conversion_factor_df = pd.read_csv(f"{script_path}/../data/conversion_factors_heating.csv")
 
 
-def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, stops=None):
+def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, 
+                 country_start=None, region_start=None, county_start=None, locality_start=None, borough_start=None, address_start=None,
+                 country_dest=None, region_dest=None, county_dest=None, locality_dest=None, borough_dest=None, address_dest=None):
     """
     Function to compute the emissions of a car trip.
     :param passengers: Number of passengers in the car (including the person answering the questionnaire),
@@ -23,23 +27,40 @@ def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, stops=Non
     :param fuel_type: type of fuel the car is using
                         ["diesel", "gasoline", "cng", "electric", "average"]
     :param distance: Distance travelled in km;
-                        alternatively param <locations> can be provided
-    :param stops: List of locations in the form 'address, locality, country';
-                        can have intermediate stops
-                        e.g. ["Im Neuenheimer Feld 348, Heidelberg, Germany", "Marienplatz, Stuttgart, Germany",
-                         "Bahnhof Basel, Basel, Switzerland"]
-                        alternatively param <distance> can be provided
-
-    :return: Total emissions of trip in co2 equivalents, distance of the trip
+                        alternatively location params (below) can be provided
+    :param country_start: Country of the start location (optional but recommended)
+    :param region_start: Region of the start location (optional)
+    :param county_start: County of the start location (optional)
+    :param locality_start: Locality of the start location (optional but recommended)
+    :param borough_start: Borough of the start location (optional)
+    :param address_start: Address of the start location (optional but recommended, if available)
+    :param country_dest: Country of the destination (optional but recommended)
+    :param region_dest: Region of the destination (optional)
+    :param county_dest: County of the destination (optional)
+    :param locality_dest: Locality of the destination (optional but recommended)
+    :param borough_dest: Borough of the destination (optional)
+    :param address_dest: Address of the destination (optional but recommended, if available)
+    :return: Total emissions of trip in co2 equivalents
     """
     if distance is None and stops is None:
         print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
               "travelled locations in the form 'address, locality, country'")
     elif distance is None:
         coords = []
-        for loc in stops:
-            loc_name, loc_country, loc_coords = geocoding(loc)
-            coords.append(loc_coords)
+        start_loc_name, start_loc_country, start_loc_coords = geocoding_structured(country=country_start, 
+                                                                                   region=region_start,
+                                                                                   county=county_start,
+                                                                                   locality=locality_start,
+                                                                                   borough=borough_start,
+                                                                                   address=address_start)
+        dest_loc_name, dest_loc_country, dest_loc_coords = geocoding_structured(country=country_dest,
+                                                                                   region=region_dest,
+                                                                                   county=county_dest,
+                                                                                   locality=locality_dest,
+                                                                                   borough=borough_dest,
+                                                                                   address=address_dest)
+        coords.append(start_loc_coords)
+        coords.append(dest_loc_coords)
         distance = get_route(coords, "driving-car")
     co2e = emission_factor_df[(emission_factor_df["size_class"] == size) &
                               (emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
@@ -55,9 +76,11 @@ def calc_co2_motorbike(size=None, distance=None, stops=None):
                         ["small", "medium", "large", "average"]
     :param distance: Distance travelled in km;
                         alternatively param <locations> can be provided
-    :param stops: List of locations in the form 'address, locality, country';
-                        can have intermediate stops
-                        e.g. ["Marktplatz, Heidelberg, Germany", "Im Neuenheimer Feld 348, Heidelberg, Germany"]
+    :param stops: List of locations as dictionaries in the form
+                        e.g.,  {"address": "Marktplatz",
+                                "locality": "Heidelberg",
+                                 "country": "Germany"}
+                        can have intermediate stops (multiple dictionaries within the list)
                         alternatively param <distance> can be provided
 
     :return: Total emissions of trip in co2 equivalents, distance of the trip
@@ -68,7 +91,7 @@ def calc_co2_motorbike(size=None, distance=None, stops=None):
     elif distance is None:
         coords = []
         for loc in stops:
-            loc_name, loc_country, loc_coords = geocoding(loc)
+            loc_name, loc_country, loc_coords = geocoding_structured(loc)
             coords.append(loc_coords)
         distance = get_route(coords, "driving-car")
     co2e = emission_factor_df[(emission_factor_df["size_class"] == size)]["co2e"].values[0]
