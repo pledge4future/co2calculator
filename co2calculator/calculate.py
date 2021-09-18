@@ -200,8 +200,10 @@ def calc_co2_plane(start, destination, seating_class="average"):
 def calc_co2_ferry(start, destination, seating_class="average"):
     """
     Function to compute emissions of a ferry trip
-    :param start: city of start port in the form "<city>, <country>"
-    :param destination: city of destination port in the form "<city>, <country>"
+    :param start: dictionary of location of start port,
+                        e.g., in the form {"locality":<city>, "county":<country>}
+    :param destination: dictionary of location of destination port,
+                        e.g., in the form {"locality":<city>, "county":<country>}
     :param seating_class: ["average", "Foot passenger", "Car passenger"]
 
     :return: Total emissions of sea travel in co2 equivalents, distance of the trip
@@ -210,8 +212,8 @@ def calc_co2_ferry(start, destination, seating_class="average"):
     #  cities even have a port?
     detour_coefficient = 1  # Todo
     # get geographic coordinates of ports
-    _, _, geom_start = geocoding(start)
-    _, _, geom_dest = geocoding(destination)
+    _, _, geom_start = geocoding_structured(start)
+    _, _, geom_dest = geocoding_structured(destination)
     # compute great circle distance between airports
     distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
     # add detour constant
