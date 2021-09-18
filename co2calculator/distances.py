@@ -91,27 +91,26 @@ def geocoding(address):
     return name, country, coords
 
 
-def geocoding_structured(country=None, region=None, county=None, locality=None, borough=None, postalcode=None,
-                         address=None, neighbourhood=None):
+def geocoding_structured(loc_dict):
     """
     Function to obtain coordinates for a given address
-    :param country: highest-level administrative divisions supported in a search.
+    :param loc_dict: dictionary describing the location. The dictionary kan have the keys:
+        country: highest-level administrative divisions supported in a search.
                     Full country name or two-/three-letter abbreviations supported
                     e.g., Germany / "DE" / "DEU"
-    :param region: first-level administrative divisions within countries, analogous to states and provinces
+        region: first-level administrative divisions within countries, analogous to states and provinces
                     in the US and Canada
                     e.g., Delaware, Ontario, Ardennes, Baden-Württemberg
-    :param county: administrative divisions between localities and regions
+        county: administrative divisions between localities and regions
                     e.g., Alb-Donau-Kreis
-    :param locality: equivalent to what are commonly referred to as cities
+        locality: equivalent to what are commonly referred to as cities
                     e.g., Bangkok, Caracas
-    :param borough: mostly known in the context of NY, may exist in other cities like Mexico City
+        borough: mostly known in the context of NY, may exist in other cities like Mexico City
                     e.g. Manhatten in NY
                         Iztapalapa in Mexico City
-                        todo: check if also used for e.g. german "Stadtteile"
-    :param postalcode: postal code
-    :param address: street name, optionally also house number
-    :param neighbourhood: vernacular geographic entities that may not necessarily be official administrative
+        postalcode: postal code; !! Not working in many countries !!
+        address: street name, optionally also house number
+        neighbourhood: vernacular geographic entities that may not necessarily be official administrative
                         divisions but are important nonetheless
                     e.g. Notting Hill in London
                     Le Marais in Paris
@@ -120,10 +119,12 @@ def geocoding_structured(country=None, region=None, county=None, locality=None, 
 
     clnt = openrouteservice.Client(key=ors_api_key)
 
-    call = pelias_structured(clnt, country=country, region=region, county=county, locality=locality, borough=borough,
-                             postalcode=postalcode, address=address, neighbourhood=neighbourhood)
+    #call = pelias_structured(clnt, country=country, region=region, county=county, locality=locality, borough=borough,
+    #                         postalcode=postalcode, address=address, neighbourhood=neighbourhood)
+    call = pelias_structured(clnt, **loc_dict)
     n_results = len(call["features"])
     res = call["features"]
+    print(res)
     if n_results == 0:
         raise Exception("No places found with these search parameters")
 
@@ -132,7 +133,7 @@ def geocoding_structured(country=None, region=None, county=None, locality=None, 
         country = feature["properties"]["country"]
         coords = feature["geometry"]["coordinates"]
         layer = feature["properties"]["layer"]
-        if locality is not None and postalcode is not None and address is not None:
+        if loc_dict["locality"] is not None and loc_dict["address"] is not None:
             if layer != "address" or layer != "locality" and n_results > 1:
                 print("Data type not matching search (%s instead of address or locality. Skipping %s, %s" % (layer, name, coords))
                 continue
