@@ -25,6 +25,7 @@ def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, stops=Non
     :param fuel_type: type of fuel the car is using
                         ["diesel", "gasoline", "cng", "electric", "average"]
     :param distance: Distance travelled in km;
+                        alternatively param <stops> can be provided
     :param stops: List of locations as dictionaries in the form
                         e.g.,  [{"address": "Im Neuenheimer Feld 348",
                                 "locality": "Heidelberg",
@@ -212,8 +213,8 @@ def calc_co2_ferry(start, destination, seating_class="average"):
     #  cities even have a port?
     detour_coefficient = 1  # Todo
     # get geographic coordinates of ports
-    _, _, geom_start = geocoding_structured(start)
-    _, _, geom_dest = geocoding_structured(destination)
+    _, _, geom_start, _ = geocoding_structured(start)
+    _, _, geom_dest, _ = geocoding_structured(destination)
     # compute great circle distance between airports
     distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
     # add detour constant
