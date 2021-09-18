@@ -119,6 +119,8 @@ def geocoding_structured(loc_dict):
 
     clnt = openrouteservice.Client(key=ors_api_key)
 
+    is_valid_geocoding_dict(loc_dict)
+
     call = pelias_structured(clnt, **loc_dict)
     n_results = len(call["features"])
     res = call["features"]
@@ -144,6 +146,29 @@ def geocoding_structured(loc_dict):
     print("Coords: ", coords)
 
     return name, country, coords, res
+
+
+def is_valid_geocoding_dict(dict):
+    """
+    Function to check if the dictionary is valid as input for pelias structured geocoding
+    :param dict: dictionary describing the location
+
+    :return: Boolean
+    """
+    # todo: Write test(s) for this function to test/test_distances.py
+    allowed_keys = ["country", "region", "county", "locality", "borough", "address", "postalcode", "neighbourhood"]
+    if len(dict) == 0:
+        print("Error! Empty dictionary provided.")
+        raise ValueError
+    for key in dict:
+        if key not in allowed_keys:
+            print("Error! Parameter '%s' is not available. Please check the input data.")
+            raise ValueError
+    # warnings
+    if "country" not in dict.keys():
+        print("Warning! You did not provide a country. The results may be wrong.")
+    if "locality" not in dict.keys():
+        print("Warning! You did not provide a locality (city). The results may be inaccurate.")
 
 
 def get_route(coords, profile=None):
