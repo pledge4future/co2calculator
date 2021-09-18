@@ -45,7 +45,7 @@ def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, stops=Non
     elif distance is None:
         coords = []
         for loc in stops:
-            loc_name, loc_country, loc_coords = geocoding_structured(loc)
+            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
             coords.append(loc_coords)
         distance = get_route(coords, "driving-car")
     co2e = emission_factor_df[(emission_factor_df["size_class"] == size) &
@@ -77,7 +77,7 @@ def calc_co2_motorbike(size=None, distance=None, stops=None):
     elif distance is None:
         coords = []
         for loc in stops:
-            loc_name, loc_country, loc_coords = geocoding_structured(loc)
+            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
             coords.append(loc_coords)
         distance = get_route(coords, "driving-car")
     co2e = emission_factor_df[(emission_factor_df["size_class"] == size)]["co2e"].values[0]
@@ -112,7 +112,7 @@ def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, di
         distance = 0
         coords = []
         for loc in stops:
-            loc_name, loc_country, loc_coords = geocoding(loc)
+            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
             coords.append(loc_coords)
         for i in range(0, len(coords) - 1):
             # compute great circle distance between locations
@@ -151,7 +151,7 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
         distance = 0
         coords = []
         for loc in stops:
-            loc_name, loc_country, loc_coords = geocoding(loc)
+            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
             coords.append(loc_coords)
         for i in range(len(coords) - 1):
             # compute great circle distance between locations
@@ -381,4 +381,3 @@ def commuting_emissions_group(aggr_co2, n_participants, n_members):
     group_co2e = aggr_co2 / n_participants * n_members
 
     return group_co2e
-
