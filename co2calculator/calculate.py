@@ -62,9 +62,12 @@ def calc_co2_motorbike(size=None, distance=None, stops=None):
     :param distance: Distance travelled in km;
                         alternatively param <locations> can be provided
     :param stops: List of locations as dictionaries in the form
-                        e.g.,  {"address": "Marktplatz",
+                        e.g.,  [{"address": "Im Neuenheimer Feld 348",
                                 "locality": "Heidelberg",
-                                 "country": "Germany"}
+                                 "country": "Germany"},
+                                 {"country": "Germany",
+                                 "locality": "Berlin",
+                                 "address": "Alexanderplatz 1"}]
                         can have intermediate stops (multiple dictionaries within the list)
                         alternatively param <distance> can be provided
 
@@ -95,9 +98,12 @@ def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, di
     :param distance: Distance travelled in km;
                         alternatively param <stops> can be provided
     :param stops: List of locations as dictionaries in the form
-                        e.g.,  {"address": "Marktplatz",
+                        e.g.,  [{"address": "Im Neuenheimer Feld 348",
                                 "locality": "Heidelberg",
-                                 "country": "Germany"}
+                                 "country": "Germany"},
+                                 {"country": "Germany",
+                                 "locality": "Berlin",
+                                 "address": "Alexanderplatz 1"}]
                         can have intermediate stops (multiple dictionaries within the list)
                         alternatively param <distance> can be provided
 
@@ -134,9 +140,12 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
     :param distance: Distance travelled in km;
                         alternatively param <stops> can be provided
     :param stops: List of locations as dictionaries in the form
-                        e.g.,  {"address": "Marktplatz",
+                        e.g.,  [{"address": "Willy-Brandt-Platz 5",
                                 "locality": "Heidelberg",
-                                 "country": "Germany"}
+                                 "country": "Germany"},
+                                 {"country": "Germany",
+                                 "locality": "Berlin",
+                                 "address": "Alexanderplatz 1"}]
                         can have intermediate stops (multiple dictionaries within the list)
                         alternatively param <distance> can be provided
 

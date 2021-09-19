@@ -94,7 +94,7 @@ def geocoding(address):
 def geocoding_structured(loc_dict):
     """
     Function to obtain coordinates for a given address
-    :param loc_dict: dictionary describing the location. The dictionary kan have the keys:
+    :param loc_dict: dictionary describing the location. The dictionary can have the keys:
         country: highest-level administrative divisions supported in a search.
                     Full country name or two-/three-letter abbreviations supported
                     e.g., Germany / "DE" / "DEU"
@@ -106,7 +106,7 @@ def geocoding_structured(loc_dict):
         locality: equivalent to what are commonly referred to as cities
                     e.g., Bangkok, Caracas
         borough: mostly known in the context of NY, may exist in other cities like Mexico City
-                    e.g. Manhatten in NY
+                    e.g. Manhattan in NY
                         Iztapalapa in Mexico City
         postalcode: postal code; !! Not working in many countries !!
         address: street name, optionally also house number
