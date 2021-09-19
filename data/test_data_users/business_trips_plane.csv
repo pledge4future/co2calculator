@@ -1,3 +1,31 @@
 id;user_id;IATA_start;IATA_destination;flight_class;roundtrip
 1;1;FRA;LJU;Economy class;False
 2;2;ZRH;FRA;Business class;False
+3;1;MUC;LHR;Economy class;True
+4;3;STR;ATL;Business class;False
+5;3;IAD;STR;Economy class;False
+6;5;FRA;TPE;Average;False
+7;5;TPE;FRA;First class;False
+8;7;FRA;SFO;Average;True
+9;7;FRA;TLV;Business class;True
+10;8;BER;ATH;Economy class;False
+11;8;ATH,MUC;Economy class;False
+12;10;FRA;IST;Economy class;False
+13;11;STR;LHR;Economy class;False
+14;11;LHR;HND;Economy class;False
+15;11;HND;PEK;Economy class;False
+16;11;PEK;HKG;Business class;False
+17;11;HKG;FRA;Business class;False
+18;15;FRA;DEN;Average;True
+19;15;DEN;BIL;Average;True
+20;15;BIL;SDY;Average;True
+21;16;CDG;MUC;First class;False
+22;16;MUC;DME;Business class;True
+23;19;FRA;MAD;Average;True
+24;19;STR;HRG;Economy class;True
+25;21;FRA;JNB;Average;True
+26;21;HAM;SVO;Economy class;False
+27;21;SVO;HND;Economy class;False
+28;21;HND;IST;Economy class;False
+29;21;IST;HAM;Economy class;False
+30;22;FRA;YYZ;Business class;True
