@@ -32,10 +32,10 @@ detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 
 
 def calc_co2_car(
-    distance: Kilometer,
-    passengers: int = None,
-    size: str = None,
-    fuel_type: str = None,
+        distance: Kilometer,
+        passengers: int = None,
+        size: str = None,
+        fuel_type: str = None,
 ) -> Kilogram:
     """
     Function to compute the emissions of a car trip.
@@ -77,7 +77,7 @@ def calc_co2_car(
         (emission_factor_df["subcategory"] == transport_mode)
         & (emission_factor_df["size_class"] == size)
         & (emission_factor_df["fuel_type"] == fuel_type)
-    ]["co2e"].values[0]
+        ]["co2e"].values[0]
     emissions = distance * co2e / passengers
 
     return emissions
@@ -108,18 +108,18 @@ def calc_co2_motorbike(distance: Kilometer = None, size: str = None) -> Kilogram
     co2e = emission_factor_df[
         (emission_factor_df["subcategory"] == transport_mode)
         & (emission_factor_df["size_class"] == size)
-    ]["co2e"].values[0]
+        ]["co2e"].values[0]
     emissions = distance * co2e
 
     return emissions
 
 
 def calc_co2_bus(
-    distance: Kilometer,
-    size: str = None,
-    fuel_type: str = None,
-    occupancy: int = None,
-    vehicle_range: str = None,
+        distance: Kilometer,
+        size: str = None,
+        fuel_type: str = None,
+        occupancy: int = None,
+        vehicle_range: str = None,
 ) -> Kilogram:
     """
     Function to compute the emissions of a bus trip.
@@ -170,16 +170,16 @@ def calc_co2_bus(
         & (emission_factor_df["fuel_type"] == fuel_type)
         & (emission_factor_df["occupancy"] == occupancy)
         & (emission_factor_df["range"] == vehicle_range)
-    ]["co2e"].values[0]
+        ]["co2e"].values[0]
     emissions = distance * co2e
 
     return emissions
 
 
 def calc_co2_train(
-    distance: Kilometer,
-    fuel_type: str = None,
-    vehicle_range: str = None,
+        distance: Kilometer,
+        fuel_type: str = None,
+        vehicle_range: str = None,
 ) -> Kilogram:
     """
     Function to compute the emissions of a train trip.
@@ -212,7 +212,7 @@ def calc_co2_train(
         (emission_factor_df["subcategory"] == transport_mode)
         & (emission_factor_df["fuel_type"] == fuel_type)
         & (emission_factor_df["range"] == vehicle_range)
-    ]["co2e"].values[0]
+        ]["co2e"].values[0]
     emissions = distance * co2e
 
     return emissions
@@ -261,7 +261,7 @@ def calc_co2_plane(distance: Kilometer, seating_class: str = None) -> Kilogram:
             (emission_factor_df["subcategory"] == transport_mode)
             & (emission_factor_df["range"] == flight_range)
             & (emission_factor_df["seating"] == seating_class)
-        ]["co2e"].values[0]
+            ]["co2e"].values[0]
     except IndexError:
         default_seating = FlightClass.ECONOMY
         warnings.warn(
@@ -271,7 +271,7 @@ def calc_co2_plane(distance: Kilometer, seating_class: str = None) -> Kilogram:
         co2e = emission_factor_df[
             (emission_factor_df["range"] == flight_range)
             & (emission_factor_df["seating"] == default_seating)
-        ]["co2e"].values[0]
+            ]["co2e"].values[0]
     # multiply emission factor with distance
     emissions = distance * co2e
 
@@ -302,7 +302,7 @@ def calc_co2_ferry(distance: Kilometer, seating_class: str = None) -> Kilogram:
     co2e = emission_factor_df[
         (emission_factor_df["subcategory"] == transport_mode)
         & (emission_factor_df["seating"] == seating_class)
-    ]["co2e"].values[0]
+        ]["co2e"].values[0]
     # multiply emission factor with distance
     emissions = distance * co2e
 
@@ -310,7 +310,7 @@ def calc_co2_ferry(distance: Kilometer, seating_class: str = None) -> Kilogram:
 
 
 def calc_co2_electricity(
-    consumption: float, fuel_type: str = None, energy_share: float = 1
+        consumption: float, fuel_type: str = None, energy_share: float = 1
 ) -> Kilogram:
     """Function to compute electricity emissions
 
@@ -332,7 +332,7 @@ def calc_co2_electricity(
     co2e = emission_factor_df[
         (emission_factor_df["category"] == "electricity")
         & (emission_factor_df["fuel_type"] == fuel_type)
-    ]["co2e"].values[0]
+        ]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
     emissions = consumption * energy_share / KWH_TO_TJ * co2e
@@ -341,7 +341,7 @@ def calc_co2_electricity(
 
 
 def calc_co2_heating(
-    consumption: float, fuel_type: str, unit: str = None, area_share: float = 1.0
+        consumption: float, fuel_type: str, unit: str = None, area_share: float = 1.0
 ) -> Kilogram:
     """Function to compute heating emissions
 
@@ -367,7 +367,7 @@ def calc_co2_heating(
         )
     valid_unit_choices = ["kWh", "l", "kg", "m^3"]
     assert (
-        unit in valid_unit_choices
+            unit in valid_unit_choices
     ), f"unit={unit} is invalid. Valid choices are {', '.join(valid_unit_choices)}"
     if unit != "kWh":
         try:
@@ -390,7 +390,7 @@ def calc_co2_heating(
     co2e = emission_factor_df[
         (emission_factor_df["category"] == "heating")
         & (emission_factor_df["fuel_type"] == fuel_type)
-    ]["co2e"].values[0]
+        ]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
     emissions = consumption_kwh * area_share / KWH_TO_TJ * co2e
@@ -399,16 +399,16 @@ def calc_co2_heating(
 
 
 def calc_co2_businesstrip(
-    transportation_mode: str,
-    start=None,
-    destination=None,
-    distance: Kilometer = None,
-    size: str = None,
-    fuel_type: str = None,
-    occupancy: int = None,
-    seating: str = None,
-    passengers: int = None,
-    roundtrip: bool = False,
+        transportation_mode: str,
+        start=None,
+        destination=None,
+        distance: Kilometer = None,
+        size: str = None,
+        fuel_type: str = None,
+        occupancy: int = None,
+        seating: str = None,
+        passengers: int = None,
+        roundtrip: bool = False,
 ) -> Tuple[Kilogram, Kilometer, str, str]:
     """Function to compute emissions for business trips based on transportation mode and trip specifics
 
@@ -521,12 +521,12 @@ def range_categories(distance: Kilometer) -> Tuple[RangeCategory, str]:
 
 
 def calc_co2_commuting(
-    transportation_mode: str,
-    weekly_distance: Kilometer,
-    size: str = None,
-    fuel_type: str = None,
-    occupancy: int = None,
-    passengers: int = None,
+        transportation_mode: str,
+        weekly_distance: Kilometer,
+        size: str = None,
+        fuel_type: str = None,
+        occupancy: int = None,
+        passengers: int = None,
 ) -> Kilogram:
     """Calculate co2 emissions for commuting per mode of transport
 
@@ -591,15 +591,16 @@ def calc_co2_commuting(
         weekly_co2e = co2e * weekly_distance
 
     else:
-        raise ValueError(
-            f"Transportation mode {transportation_mode} not found in database."
-        )
+        raise ValueError('Transportation mode "%s" not found in database' % transportation_mode)
+
+    # multiply with work_weeks to obtain total (e.g. annual/monthly) co2e
+    # total_co2e = weekly_co2e #* work_weeks
 
     return weekly_co2e
 
 
 def commuting_emissions_group(
-    aggr_co2: Kilogram, n_participants: int, n_members: int
+        aggr_co2: Kilogram, n_participants: int, n_members: int
 ) -> Kilogram:
     """Calculate the group's co2e emissions from commuting.
 
