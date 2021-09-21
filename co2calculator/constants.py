@@ -7,8 +7,17 @@ import enum
 KWH_TO_TJ = 277777.77777778
 
 
-@enum.unique
-class HeatingFuel(str, enum.Enum):
+class CommutingTransportationMode(enum.Enum):
+    CAR = 'Car'
+    BUS = 'Bus'
+    TRAIN = 'Train'
+    BIKE = 'Bike'
+    EBIKE = 'E-bike'
+    MOTORBIKE = 'Motorbike'
+    TRAM = 'Tram'
+
+
+class HeatingFuel(enum.Enum):
     """Enum for heating fuel types"""
 
     HEAT_PUMP_AIR = "heat_pump_air"
