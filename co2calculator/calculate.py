@@ -374,16 +374,14 @@ def calc_co2_heating(
             conversion_factor = conversion_factor_df[
                 (conversion_factor_df["fuel"] == fuel_type)
                 & (conversion_factor_df["unit"] == unit)
-            ]["conversion_value"].values[0]
-        except KeyError:
-            raise ValueError(
-                f"""
-                No conversion data is available for this fuel type.
-                Conversion is only supported for the following fuel types and units:
-                {conversion_factor_df["fuel", "unit"]}.
-                Alternatively, provide consumption in the unit kWh.
-                """
-            )
+                ]["conversion_value"].values[0]
+        except (KeyError, IndexError):
+            print(
+                "No conversion data is available for this fuel type. Conversion is only supported for the following"
+                "fuel types and units. Alternatively, provide consumption in the unit kWh.\n")
+            print(conversion_factor_df[["fuel", "unit"]])
+            raise ValueError("No conversion data is available for this fuel type. Provide consumption in a "
+                             "different unit.")
 
         consumption_kwh = consumption * conversion_factor
     else:
