@@ -385,11 +385,11 @@ def calc_co2_commuting(transportation_mode, weekly_distance=None,
     """
     # get weekly co2e for respective mode of transport
     if transportation_mode == "car":
-        weekly_co2e = calc_co2_car(passengers=passengers, size=size, fuel_type=fuel_type, distance=weekly_distance)
+        weekly_co2e, _ = calc_co2_car(passengers=passengers, size=size, fuel_type=fuel_type, distance=weekly_distance)
     elif transportation_mode == "motorbike":
-        weekly_co2e = calc_co2_motorbike(size=size, distance=weekly_distance)
+        weekly_co2e, _ = calc_co2_motorbike(size=size, distance=weekly_distance)
     elif transportation_mode == "bus":
-        weekly_co2e = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy, vehicle_range="average",
+        weekly_co2e, _ = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy, vehicle_range="average",
                                    distance=weekly_distance)
     elif transportation_mode == "train":
         weekly_co2e = calc_co2_train(fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance)
