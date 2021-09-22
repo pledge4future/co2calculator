@@ -11,7 +11,7 @@ class CommutingTransportationMode(enum.Enum):
     CAR = 'Car'
     BUS = 'Bus'
     TRAIN = 'Train'
-    BIKE = 'Bike'
+    BICYCLE = 'Bicycle'
     EBIKE = 'E-bike'
     MOTORBIKE = 'Motorbike'
     TRAM = 'Tram'
