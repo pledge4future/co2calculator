@@ -4,3 +4,4 @@ id;group_id;area_share;consumption_kwh;fuel_type
 3;1;;4659;solar
 4;3;0.3;9659;german energy mix
 5;4;;45256;german energy mix
+6;5;0.7;50000;german energy mix
