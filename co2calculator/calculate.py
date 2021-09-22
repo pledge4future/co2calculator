@@ -368,7 +368,7 @@ def range_categories(distance):
 
 
 def calc_co2_commuting(transportation_mode, weekly_distance=None,
-                       size=None, fuel_type=None, occupancy=None, passengers=None, work_weeks=None):
+                       size=None, fuel_type=None, occupancy=None, passengers=None):
     """
     Calculate co2 emissions for commuting per mode of transport
     :param transportation_mode: [car, bus, train, bicycle, pedelec, motorbike, tram]
