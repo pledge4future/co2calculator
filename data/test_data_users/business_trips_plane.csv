@@ -29,3 +29,23 @@ id;user_id;IATA_start;IATA_destination;flight_class;roundtrip
 28;21;HND;IST;Economy class;False
 29;21;IST;HAM;Economy class;False
 30;22;FRA;YYZ;Business class;True
+31;25;FRA;GRU;Average;False
+32;25;GRU,SDU;Average;False
+33;25;GIG;LIS;Business class;False
+34;25;LIS;FRA;Business class;False
+35;29;FRA;LIS;Economy class;True
+36;30;LHR;JFK;Average;True
+37;31;LHR;DUB;Premium economy class;True
+38;33;AMS;LHR;Economy class;False
+39;33;LHR;FRA;Economy class;False
+40;36;ARN;OSL;Average;False
+41;37;MUC;TXL;Premium economy class;False
+42;38;FRA;FCO;Business class;True
+43;39;DUS;PMI;First class;True
+44;38;FRA;CPH;Economy class;True
+45;40;FRA;TFN;Economy class;True
+46;42;HHN;RAK;Economy class;False
+47;42;RAK;FRA;Economy class;False
+48;43;FRA;CDG;First class;False
+49;43;CDG;NCE;First class;False
+50;43;NCE;FRA;Business class;False
