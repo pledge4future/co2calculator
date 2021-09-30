@@ -1,51 +1,51 @@
-id;user_id;IATA_start;IATA_destination;flight_class;roundtrip
-1;1;FRA;LJU;Economy class;False
-2;2;ZRH;FRA;Business class;False
-3;1;MUC;LHR;Economy class;True
-4;3;STR;ATL;Business class;False
-5;3;IAD;STR;Economy class;False
-6;5;FRA;TPE;Average;False
+id;user_id;IATA_start;IATA_destination;flight_class;roundtrip;year
+1;1;FRA;LJU;Economy class;False;2018
+2;2;ZRH;FRA;Business class;False;2018
+3;1;MUC;LHR;Economy class;True;2018
+4;3;STR;ATL;Business class;False;2018
+5;3;IAD;STR;Economy class;False;2018
+6;5;FRA;TPE;Average;False;2018
 7;5;TPE;FRA;First class;False
-8;7;FRA;SFO;Average;True
-9;7;FRA;TLV;Business class;True
-10;8;BER;ATH;Economy class;False
-11;8;ATH,MUC;Economy class;False
-12;10;FRA;IST;Economy class;False
-13;11;STR;LHR;Economy class;False
-14;11;LHR;HND;Economy class;False
-15;11;HND;PEK;Economy class;False
-16;11;PEK;HKG;Business class;False
-17;11;HKG;FRA;Business class;False
-18;15;FRA;DEN;Average;True
-19;15;DEN;BIL;Average;True
-20;15;BIL;SDY;Average;True
-21;16;CDG;MUC;First class;False
-22;16;MUC;DME;Business class;True
-23;19;FRA;MAD;Average;True
-24;19;STR;HRG;Economy class;True
-25;21;FRA;JNB;Average;True
-26;21;HAM;SVO;Economy class;False
-27;21;SVO;HND;Economy class;False
-28;21;HND;IST;Economy class;False
-29;21;IST;HAM;Economy class;False
-30;22;FRA;YYZ;Business class;True
-31;25;FRA;GRU;Average;False
-32;25;GRU,SDU;Average;False
-33;25;GIG;LIS;Business class;False
-34;25;LIS;FRA;Business class;False
-35;29;FRA;LIS;Economy class;True
-36;30;LHR;JFK;Average;True
-37;31;LHR;DUB;Premium economy class;True
-38;33;AMS;LHR;Economy class;False
-39;33;LHR;FRA;Economy class;False
-40;36;ARN;OSL;Average;False
-41;37;MUC;TXL;Premium economy class;False
-42;38;FRA;FCO;Business class;True
-43;39;DUS;PMI;First class;True
-44;38;FRA;CPH;Economy class;True
-45;40;FRA;TFN;Economy class;True
-46;42;HHN;RAK;Economy class;False
-47;42;RAK;FRA;Economy class;False
-48;43;FRA;CDG;First class;False
-49;43;CDG;NCE;First class;False
-50;43;NCE;FRA;Business class;False
+8;7;FRA;SFO;Average;True;2018
+9;7;FRA;TLV;Business class;True;2018
+10;8;BER;ATH;Economy class;False;2018
+11;8;ATH,MUC;Economy class;False;2018
+12;10;FRA;IST;Economy class;False;2018
+13;11;STR;LHR;Economy class;False;2018
+14;11;LHR;HND;Economy class;False;2019
+15;11;HND;PEK;Economy class;False;2019
+16;11;PEK;HKG;Business class;False;2019
+17;11;HKG;FRA;Business class;False;2019
+18;15;FRA;DEN;Average;True;2018
+19;15;DEN;BIL;Average;True;2018
+20;15;BIL;SDY;Average;True;2018
+21;16;CDG;MUC;First class;False;2018
+22;16;MUC;DME;Business class;True;2018
+23;19;FRA;MAD;Average;True;2019
+24;19;STR;HRG;Economy class;True;2018
+25;21;FRA;JNB;Average;True;2018
+26;21;HAM;SVO;Economy class;False;2019
+27;21;SVO;HND;Economy class;False;2019
+28;21;HND;IST;Economy class;False;2019
+29;21;IST;HAM;Economy class;False;2019
+30;22;FRA;YYZ;Business class;True;2018
+31;25;FRA;GRU;Average;False;2018
+32;25;GRU,SDU;Average;False;2018
+33;25;GIG;LIS;Business class;False;2019
+34;25;LIS;FRA;Business class;False;2019
+35;29;FRA;LIS;Economy class;True;2019
+36;30;LHR;JFK;Average;True;2018
+37;31;LHR;DUB;Premium economy class;True;2018
+38;33;AMS;LHR;Economy class;False;2018
+39;33;LHR;FRA;Economy class;False;2018
+40;36;ARN;OSL;Average;False;2018
+41;37;MUC;TXL;Premium economy class;False;2018
+42;38;FRA;FCO;Business class;True;2018
+43;39;DUS;PMI;First class;True;2018
+44;38;FRA;CPH;Economy class;True;2019
+45;40;FRA;TFN;Economy class;True;2018
+46;42;HHN;RAK;Economy class;False;2018
+47;42;RAK;FRA;Economy class;False;2018
+48;43;FRA;CDG;First class;False;2019
+49;43;CDG;NCE;First class;False;2019
+50;43;NCE;FRA;Business class;False;2019
