@@ -1,5 +1,35 @@
 id;user_id;passengers;car_fuel;car_size;distance_km;country_start;region_start;county_start;locality_start;borough_start;address_start;country_dest;region_dest;county_dest;locality_dest;borough_dest;address_dest;roundtrip
 1;2;3;gasoline;medium;444;Germany;;;Heidelberg;;Willy-Brandt-Platz 5;Switzerland;;;Basel;;Centralbahnstrasse 10;False
 2;2;2;gasoline;medium;444;Germany;;;Heidelberg;;Willy-Brandt-Platz 5;Austria;;;Villach;;Bahnhofplatz 1;True
-3;1;1;diesel;large;;Slovenia;;;Ljubljana;;Trg Osvobodilne fronte 7;Austria;;;Vienna;;Am Hauptbahnhof 1;False
-;;;;;;Germany;;;Hamburg;;Hachmannplatz 16;Denmark;;;Copenhagen;;Bernstorffsgade;True
+3;1;1;diesel;large;373;Slovenia;;;Ljubljana;;Trg Osvobodilne fronte 7;Austria;;;Vienna;;Am Hauptbahnhof 1;False
+4;15;1;diesel;large;340;Germany;;;Hamburg;;Hachmannplatz 16;Denmark;;;Copenhagen;;Bernstorffsgade;True
+5;26;3;gasoline;large;135;Slovenia;;;Ljubljana;;Trg Osvobodilne fronte 7;Croatia;;;Zagreb;;Vrbik 8;False
+6;31;3;gasoline;large;92;Serbia;;;Beograd;;Danijelova 32;Serbia;;;Novi Sad;;Dr Zorana Đinđića 1;True
+7;27;2;diesel;medium;190;Bosnia and Herzegovina;;;Banja Luka;;Patre 5;Bosnia and Herzegovina;;;Sarajevo;;Obala Kulina bana 7;True
+8;30;1;diesel;medium;948;Croatia;;;Dubrovnik;;Obala Ivana Pavla II 44 A;Austria;;;Vienna;;Universitätsring 1;False
+9;6;3;gasoline;large;55;Germany;;;Heidelberg;;Im Neuenheimer Feld 229;Germany;;;Karlsruhe;;Grabener Allee 15 A;True
+10;6;4;diesel;large;56;Germany;;;Heidelberg;;Im Neuenheimer Feld 348;Germany;;;Bretten;;Salzhofen 9;True
+11;7;2;gasoline;medium;213;Italy;;;Milano;;Via Andrea Solari 19;Italy;;;Bologna;;Viale del Risorgimento 4;True
+12;26;3;gasoline;large;73;Italy;;;Florence;;Via di San Bonaventura, 13;Italy;;;Lucca;;Via S. Nicolao 81;True
+13;30;2;diesel;medium;304;Italy;;;Pescara;;Viale Pindaro 42;Italy;;;Bari;;Via Edoardo Orabona 4;False
+14;15;1;diesel;large;275;Italy;;;Olbia;;Banchina Isola Bianca;Italy;;;Cagliari;;Via Marengo 2;False
+15;28;4;gasoline;medium;251;Spain;;;Jaen;;C. Santo Reino 1;Spain;;;Seville;;C. Astronomía 1;True
+16;19;1;diesel;large;409;Spain;;;Murcia;;C. Santo Cristo 1;Spain;;;Malaga;;C. Salinas 6;True
+17;20;2;gasoline;large;307;Spain;;;Zaragoza;;C. de San Juan Bosco 7;Spain;;;Barcelona;;Carrer de Nicaragua 46;False
+18;29;1;gasoline;medium;322;Spain;;;Barcelona;;Carrer de Martí i Franquès 1-11;France;;;Toulouse;;15 Imp. Teynier;True
+19;13;3;gasoline;large;101;Spain;;;Santander;;Av Herrera Oria, S/N;Spain;;;Bilbao;;Barrio Sarriena s/n;False
+20;42;2;diesel;medium;254;Germany;;;Leipzig;;Augustuspl. 10;Czech Republic;;;Prague;;Londýnská 674/55;True
+21;42;1;gasoline;large;272;Germany;;;Hannover;;Große Pfahlstraße 5A;Germany;;;Leipzig;;Mariannenstraße 7;True
+22;15;1;diesel;medium;256;Germany;;;Dortmund;;Emil-Figge-Straße 80;The Netherlands;;;Rotterdam;;Sheffieldstraat 8;True
+23;44;1;diesel;large;134;Belgium;;;Antwerpen;;Prins Boudewijnlaan 41;France;;;Lille;;42 Rue Paul Duez;False
+24;42;3;diesel;medium;331;Poland;;;Krakow;;Bartosza Głowackiego 10;Ukraine;;;Lviv;;Tuhan-Baranovskoho St 7;True
+25;16;4;gasoline;medium;96;Morocco;;;Rabat;;Av. des Nations Unies;Morocco;;;Casablanca;;Classe Des élèves ingenieurs;True
+26;17;2;diesel;medium;87;Germany;;;Lübeck;;Hinter den Kirschkaten 10;Germany;;;Kiel;;Schauenburgerstraße 116;False
+27;35;1;diesel;medium;188;Germany;;;Flensburg;;Kanzleistraße 91-93;Denmark;;;Aarhus;;Bygn. 1220-1223;True
+28;37;2;diesel;large;68;Denmark;;;Copenhagen;;Lyngbyvej 20;Sweden;;;Lund;;Sölvegatan 10;False
+29;34;2;diesel;medium;210;Sweden;;;Linköping;;Teknikringen 10;Sweden;;;Stockholm;;Universitetsvägen 10B;True
+30;24;1;gasoline;large;227;Norway;;;Oslo;;Østre Aker vei 24;Sweden;;;Karlstadt;;Universitetsgatan 2;True
+31;24;2;gasoline;medium;467;Norway;;;Bergen;;Damsgårdsveien 135;Norway;;;Oslo;;Sem Sælands vei 1;False
+32;33;3;diesel;medium;62;Portugal;;;Coimbra;;R. do Norte 37;Portugal;;;Aveiro;;R. de Luís Cipriano 21;True
+33;22;2;diesel;medium;340;Romania;;;Cluj-Napoca;;Strada Tăietura Turcului 47;Romania;;;Timișoara;;Piața Sfântul Iosif cel Nou 8;True
+34;19;1;gasoline;medium;83;UK;;;Manchester;;61 Mosley St;UK;;;Leeds;;15 Mill Green Gardens;True
