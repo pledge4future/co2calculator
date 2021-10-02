@@ -1,31 +1,31 @@
-id;user_id;fuel_type;size;occupancy;country_start;region_start;county_start;locality_start;borough_start;address_start;country_dest;region_dest;county_dest;locality_dest;borough_dest;address_dest;roundtrip
-1;2;diesel;large;80;Germany;;;Heidelberg;;Willy-Brandt-Platz 5;Italy;;;Bolzano;;;True
-2;1;diesel;average;50;Germany;;;Heidelberg;;Willy-Brandt-Platz 5;Austria;;;Villach;;Bahnhofplatz 1;False
-3;2;diesel;large;80;Slovenia;;;Ljubljana;;Trg Osvobodilne fronte 7;Germany;;;Mannheim;;Heinrich-von-Stephan-Straße;True
-4;3;diesel;average;50;Germany;;;Hamburg;;Hachmannplatz 16;Denmark;;;Copenhagen;;Bernstorffsgade;False
-5;4;diesel;average;30;UK;;;London;;164 Buckingham Palace Road;UK;;;Oxford;;Oxford OX1 2BU;True
-6;5;diesel;average;20;USA;;;New York;;625 8th Avenue;USA;;;Washington;;102 H St NE;False
-7;24;diesel;average;20;Germany;;;Heidelberg;;Alte Eppelheimer Straße/Emil-Maier-Straße;France;;;Bonn;;Joseph-Beuys-Allee;True
-8;5;diesel;large;80;Croatia;;;Zagreb;;Avenija Marina Držića 4;Germany;;;Frankfurt;;Stuttgarter Straße 26;False
-9;21;diesel;average;50;Germany;;;Frankfurt;;Stuttgarter Straße 26;Germany;;;Essen;;Freiheit 5a;True
-10;6;diesel;average;40;Germany;;;Essen;;Freiheit 5a;Germany;;;Freiburg;;Bismarckallee 1A;False
-11;7;diesel;average;50;Sweden;;;Stockholm;;Klarabergsviadukten 72;Norway;;;Oslo;;Schweigaards gate 12;True
-12;8;diesel;average;50;Italy;;;Trento;;Via Lungoadige Monte Grappa;Italy;;;Trieste;;Piazza della Libertà 9;True
-13;12;diesel;average;50;Italy;;;Trento;;Via Lungoadige Monte Grappa;Italy;;;Bologna;;Piazza XX Settembre 6;False
-14;9;diesel;average;50;Spain;;;Madrid;;Intercambiador de Plaza Elíptica;Spain;;;Toledo;;Av. Castilla la Mancha 4;True
-15;14;diesel;average;10;Slovenia;;;Ljubljana;;Trg Osvobodilne fronte 7;Slovenia;;;Koper;;Kolodvorska cesta;True
-16;10;diesel;average;40;USA;;;New York;;625 8th Avenue;USA;;;Boston;;Essex St & Atlantic Ave;True
-17;14;diesel;average;50;Norway;;;Oslo;;Schweigaards gate 12;Sweden;;;Malmö;;Norra Vallgatan;False
-18;17;/;average;40;Slovakia;;;Bratislava;;Bottova ;Austria;;;Vienna;;Busbahnhof Wiedner Gürtel;False
-19;18;diesel;average;40;Belgium;;;Brussels;;Avenue Fonsny 47B;The Netherlands;;;Amsterdam;;Piarcoplein 1;True
-20;19;diesel;average;30;Estonia;;;Tallinn;;Lastekodu 46;Latvia;;;Riga;;Prāgas iela 1;True
-21;41;diesel;average;50;Croatia;;;Dubrovnik;;Obala Ivana Pavla II 44 A;Croatia;;;Split;;Obala kneza Domagoja 12;True
-22;12;diesel;average;40;UK;;;London;;164 Buckingham Palace Road;UK;;;Edinburgh;;13-14 Multrees Walk;False
-23;7;diesel;average;40;UK;;;London;;164 Buckingham Palace Road;UK;;;Manchester;;Chorlton Street;False
-24;18;diesel;average;30;Germany;;;Berlin;;Masurenallee 4-6;Czech Republic;;;Prague;;Pod výtopnou 13/10;True
-25;19;diesel;average;50;Austria;;;Vienna;;Busbahnhof Wiedner Gürtel;Czech Republic;;;Prague;;Pod výtopnou 13/10;False
-26;35;diesel;average;40;Spain;;;Bilbao;;Gurtubay Kalea 1;Spain;;;San Sebastian;;Federico García Lorca Pasealekua 2;True
-27;11;/;average;20;Portugal;;;Lisbon;;R. Prof. Lima Basto 133;Portugal;;;Porto;;Campo 24 de Agosto;False
-28;32;diesel;average;40;Italy;;;Rome;;Largo Guido Mazzoni;Italy;;;Florence;;Parcheggio Villa Costanza, Scandicci;False
-29;25;diesel;average;50;Austria;;;Vienna;;Busbahnhof Wiedner Gürtel;Hungary;;;Budapest;;Etele tér 5.;True
-30;45;diesel;average;40;Spain;;;Seville;;Avenida Kansas City;Spain;;;Granada;;Av. de Juan Pablo II;True
+id;user_id;fuel_type;size;occupancy;country_start;region_start;county_start;locality_start;borough_start;address_start;country_dest;region_dest;county_dest;locality_dest;borough_dest;address_dest;roundtrip;year
+1;2;diesel;large;80;Germany;;;Heidelberg;;Willy-Brandt-Platz 5;Italy;;;Bolzano;;;True;2019
+2;1;diesel;average;50;Germany;;;Heidelberg;;Willy-Brandt-Platz 5;Austria;;;Villach;;Bahnhofplatz 1;False;2018
+3;2;diesel;large;80;Slovenia;;;Ljubljana;;Trg Osvobodilne fronte 7;Germany;;;Mannheim;;Heinrich-von-Stephan-Straße;True;2018
+4;3;diesel;average;50;Germany;;;Hamburg;;Hachmannplatz 16;Denmark;;;Copenhagen;;Bernstorffsgade;False;2019
+5;4;diesel;average;30;UK;;;London;;164 Buckingham Palace Road;UK;;;Oxford;;Oxford OX1 2BU;True;2018
+6;5;diesel;average;20;USA;;;New York;;625 8th Avenue;USA;;;Washington;;102 H St NE;False;2019
+7;24;diesel;average;20;Germany;;;Heidelberg;;Alte Eppelheimer Straße/Emil-Maier-Straße;France;;;Bonn;;Joseph-Beuys-Allee;True;2018
+8;5;diesel;large;80;Croatia;;;Zagreb;;Avenija Marina Držića 4;Germany;;;Frankfurt;;Stuttgarter Straße 26;False;2018
+9;21;diesel;average;50;Germany;;;Frankfurt;;Stuttgarter Straße 26;Germany;;;Essen;;Freiheit 5a;True;2019
+10;6;diesel;average;40;Germany;;;Essen;;Freiheit 5a;Germany;;;Freiburg;;Bismarckallee 1A;False;2018
+11;7;diesel;average;50;Sweden;;;Stockholm;;Klarabergsviadukten 72;Norway;;;Oslo;;Schweigaards gate 12;True;2018
+12;8;diesel;average;50;Italy;;;Trento;;Via Lungoadige Monte Grappa;Italy;;;Trieste;;Piazza della Libertà 9;True;2018
+13;12;diesel;average;50;Italy;;;Trento;;Via Lungoadige Monte Grappa;Italy;;;Bologna;;Piazza XX Settembre 6;False;2018
+14;9;diesel;average;50;Spain;;;Madrid;;Intercambiador de Plaza Elíptica;Spain;;;Toledo;;Av. Castilla la Mancha 4;True;2018
+15;14;diesel;average;10;Slovenia;;;Ljubljana;;Trg Osvobodilne fronte 7;Slovenia;;;Koper;;Kolodvorska cesta;True;2019
+16;10;diesel;average;40;USA;;;New York;;625 8th Avenue;USA;;;Boston;;Essex St & Atlantic Ave;True;2018
+17;14;diesel;average;50;Norway;;;Oslo;;Schweigaards gate 12;Sweden;;;Malmö;;Norra Vallgatan;False;2018
+18;17;/;average;40;Slovakia;;;Bratislava;;Bottova ;Austria;;;Vienna;;Busbahnhof Wiedner Gürtel;False;2018
+19;18;diesel;average;40;Belgium;;;Brussels;;Avenue Fonsny 47B;The Netherlands;;;Amsterdam;;Piarcoplein 1;True;2019
+20;19;diesel;average;30;Estonia;;;Tallinn;;Lastekodu 46;Latvia;;;Riga;;Prāgas iela 1;True;2018
+21;41;diesel;average;50;Croatia;;;Dubrovnik;;Obala Ivana Pavla II 44 A;Croatia;;;Split;;Obala kneza Domagoja 12;True;2018
+22;12;diesel;average;40;UK;;;London;;164 Buckingham Palace Road;UK;;;Edinburgh;;13-14 Multrees Walk;False;2018
+23;7;diesel;average;40;UK;;;London;;164 Buckingham Palace Road;UK;;;Manchester;;Chorlton Street;False;2018
+24;18;diesel;average;30;Germany;;;Berlin;;Masurenallee 4-6;Czech Republic;;;Prague;;Pod výtopnou 13/10;True;2019
+25;19;diesel;average;50;Austria;;;Vienna;;Busbahnhof Wiedner Gürtel;Czech Republic;;;Prague;;Pod výtopnou 13/10;False;2018
+26;35;diesel;average;40;Spain;;;Bilbao;;Gurtubay Kalea 1;Spain;;;San Sebastian;;Federico García Lorca Pasealekua 2;True;2018
+27;11;/;average;20;Portugal;;;Lisbon;;R. Prof. Lima Basto 133;Portugal;;;Porto;;Campo 24 de Agosto;False;2019
+28;32;diesel;average;40;Italy;;;Rome;;Largo Guido Mazzoni;Italy;;;Florence;;Parcheggio Villa Costanza, Scandicci;False;2018
+29;25;diesel;average;50;Austria;;;Vienna;;Busbahnhof Wiedner Gürtel;Hungary;;;Budapest;;Etele tér 5.;True;2018
+30;45;diesel;average;40;Spain;;;Seville;;Avenida Kansas City;Spain;;;Granada;;Av. de Juan Pablo II;True;2019
