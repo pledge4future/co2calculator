@@ -1,6 +1,27 @@
-id;user_id;start;destination;seating_class;country_start;region_start;county_start;locality_start;borough_start;address_start;country_dest;region_dest;county_dest;locality_dest;borough_dest;address_dest;roundtrip
-1;1;Nice, France;Bastia, Corse, France;Car passenger;France;;;Nice;;;France;Corse;;Bastia;;;False
-2;2;;;Foot passenger;Germany;;;Rostock;;;Sweden;;;Trelleborg;;;True
-3;2;;;Car passenger;Spain;;;Los Cristianos;;;Spain;;;San Sebasti�n de la Gomera;;;True
-4;3;;;Foot passenger;Germany;;;Bensersiel;;;Germany;;;Langeoog;;;True
-5;1;;;Car passenger;New Zealand;;;Auckland;Devonport;;New Zealand;Waiheke island;;Auckland;;;True
+id;user_id;start;destination;seating_class;country_start;region_start;county_start;locality_start;borough_start;address_start;country_dest;region_dest;county_dest;locality_dest;borough_dest;address_dest;roundtrip;year
+1;1;Nice; France;Car passenger;France;;;Corse;;;France;;;Nice;;;FALSE;2018
+2;2;;;Foot passenger;Germany;;;Rostock;;;Sweden;;;Trelleborg;;;True;2019
+3;2;;;Car passenger;Spain;;;Los Cristianos;;;Spain;;;San Sebastián de la Gomera;;;True;2019
+4;3;;;Foot passenger;Germany;;;Bensersiel;;;Germany;;;Langeoog;;;True;2018
+5;1;;;Car passenger;New Zealand;;;Auckland;Devonport;;New Zealand;Waiheke island;;Auckland;;;True;2018
+6;11;;;Car passenger;UK;;;Pembroke;;;Ireland;;;Rosslare;;;True;2018
+7;44;;;Car passenger;UK;;;Fishguard;;;Ireland;;;Rosslare;;;True;2019
+8;12;;;Car passenger;UK;;;Liverpool;;;Ireland;;;Dublin;;;false;2019
+9;15;;;Car passenger;UK;;;Larne;;;UK;;;Cairnryan;;;True;2018
+10;26;;;Car passenger;Sweden;;;Gothenburg;;;Germany;;;Kiel;;;false;2018
+11;37;;;Car passenger;Sweden;;;Stockholm;;;Finland;;;Helsinki;;;True;2018
+12;36;;;Foot passenger;Sweden;;;Malmö;;;Germany;;;Travemünde;;;True;2019
+13;42;;;Car passenger;Denmark;;;Grenaa;;;Sweden;;;Varberg;;;True;2019
+14;42;;;Foot passenger;Denmark;;;Rødby;;;Germany;;;Puttgarden;;;True;2018
+15;35;;;Car passenger;Italy;;;Termoli;;;Italy;;;San Domino;;;True;2018
+16;33;;;Car passenger;Albania;;;Durrës;;;Italy;;;Bari;;;True;2019
+17;23;;;Car passenger;Croatia;;;Dubrovnik;;;Italy;;;Bari;;;True;2019
+18;25;;;Car passenger;Greece;;;Sami;;;Greece;;;Patras;;;True;2018
+19;12;;;Car passenger;Italy;;;Catania;;;Italy;;;Salerno;;;True;2018
+20;5;;;Car passenger;France;;;Bastia;;;Italy;;;Livorno;;;false;2019
+21;7;;;Foot passenger;Croatia;;;Pula;;;Italy;;;Venice;;;false;2018
+22;19;;;Car passenger;Croatia;;;Zadar;;;Italy;;;Ancona;;;True;2019
+23;22;;;Car passenger;Spain;;;Malaga;;;Spain;;;Melilla;;;True;2019
+24;36;;;Foot passenger;Spain;;;Almeria;;;Spain;;;Melilla;;;True;2018
+25;25;;;Car passenger;France;;;Roscoff;;;UK;;;Plymouth;;;True;2019
+26;24;;;Car passenger;France;;;Calais;;;UK;;;Dover;;;True;2018
