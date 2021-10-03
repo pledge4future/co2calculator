@@ -7,6 +7,13 @@ import enum
 KWH_TO_TJ = 277777.77777778
 
 
+class BusinessTripTransportationMode(enum.Enum):
+    CAR = 'Car'
+    BUS = 'Bus'
+    TRAIN = 'Train'
+    PLANE = 'Plane'
+
+
 class CommutingTransportationMode(enum.Enum):
     CAR = 'Car'
     BUS = 'Bus'
@@ -133,3 +140,10 @@ class TransportationMode(str, enum.Enum):
     TRAM = "tram"
     BICYCLE = "bicycle"
     PEDELEC = "pedelec"
+
+
+class Unit(enum.Enum):
+    KWH = "kwh"
+    KG = "kg"
+    L = "l"
+    M3 = "m^3"
