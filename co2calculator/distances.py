@@ -135,14 +135,14 @@ def geocoding_structured(loc_dict):
         layer = feature["properties"]["layer"]
         if loc_dict["locality"] is not None and loc_dict["address"] is not None:
             if layer != "address" or layer != "locality" and n_results > 1:
-                print("Data type not matching search (%s instead of address or locality. Skipping %s, %s" % (layer, name, coords))
+                print(f"Data type not matching search ({layer} instead of address or locality. Skipping {name}, {coords}")
                 continue
         confidence = feature["properties"]["confidence"]
         if confidence < 0.8 and n_results > 1:
-            print("Low confidence: %.1f. Skipping %s, %s" % (confidence, name, coords))
+            print(f"Low confidence: {confidence:.1f}. Skipping {name}, {coords}")
             continue
         break
-    print("%i location(s) found. Using this result: %s, %s (data type: %s)" % (n_results, name, country, layer))
+    print(f"{n_results} location(s) found. Using this result: {name}, {country} (data type: {layer})")
     print("Coords: ", coords)
 
     return name, country, coords, res
@@ -158,13 +158,14 @@ def is_valid_geocoding_dict(dict):
     # todo: Write test(s) for this function to test/test_distances.py
     allowed_keys = ["country", "region", "county", "locality", "borough", "address", "postalcode", "neighbourhood"]
     if len(dict) == 0:
-        print("Error! Empty dictionary provided.")
-        raise ValueError
+        raise ValueError("Error! Empty dictionary provided.")
     for key in dict:
         if key not in allowed_keys:
-            print("Error! Parameter '%s' is not available. Please check the input data.")
-            raise ValueError
+            raise ValueError("Error! Parameter '%s' is not available. Please check the input data.")
     # warnings
+    # todo: instead of prints, use
+    #  import warnings
+    #  warnings.warn("..")
     if "country" not in dict.keys():
         print("Warning! You did not provide a country. The results may be wrong.")
     if "locality" not in dict.keys():
