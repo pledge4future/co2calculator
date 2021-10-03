@@ -125,6 +125,7 @@ def geocoding_structured(loc_dict):
     n_results = len(call["features"])
     res = call["features"]
     print(res)
+    assert n_results != 0, "No places found with these search parameters"
     if n_results == 0:
         raise Exception("No places found with these search parameters")
 
@@ -157,11 +158,9 @@ def is_valid_geocoding_dict(dict):
     """
     # todo: Write test(s) for this function to test/test_distances.py
     allowed_keys = ["country", "region", "county", "locality", "borough", "address", "postalcode", "neighbourhood"]
-    if len(dict) == 0:
-        raise ValueError("Error! Empty dictionary provided.")
+    assert len(dict) != 0, "Error! Empty dictionary provided."
     for key in dict:
-        if key not in allowed_keys:
-            raise ValueError("Error! Parameter '%s' is not available. Please check the input data.")
+        assert key in allowed_keys, f"Error! Parameter {key} is not available. Please check the input data."
     # warnings
     # todo: instead of prints, use
     #  import warnings
