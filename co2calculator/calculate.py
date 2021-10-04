@@ -392,7 +392,7 @@ def calc_co2_commuting(transportation_mode, weekly_distance=None,
         weekly_co2e = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy, vehicle_range="average",
                                    distance=weekly_distance)
     elif transportation_mode == "train":
-        calc_co2_train(fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance)
+        weekly_co2e = calc_co2_train(fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance)
     elif transportation_mode == "tram":
         co2e = emission_factor_df[(emission_factor_df["name"] == "Strassen-Stadt-U-Bahn")]["co2e"].values[0]
         weekly_co2e = co2e * weekly_distance
