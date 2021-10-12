@@ -91,27 +91,26 @@ def geocoding(address):
     return name, country, coords
 
 
-def geocoding_structured(country=None, region=None, county=None, locality=None, borough=None, postalcode=None,
-                         address=None, neighbourhood=None):
+def geocoding_structured(loc_dict):
     """
     Function to obtain coordinates for a given address
-    :param country: highest-level administrative divisions supported in a search.
+    :param loc_dict: dictionary describing the location. The dictionary can have the keys:
+        country: highest-level administrative divisions supported in a search.
                     Full country name or two-/three-letter abbreviations supported
                     e.g., Germany / "DE" / "DEU"
-    :param region: first-level administrative divisions within countries, analogous to states and provinces
+        region: first-level administrative divisions within countries, analogous to states and provinces
                     in the US and Canada
                     e.g., Delaware, Ontario, Ardennes, Baden-Württemberg
-    :param county: administrative divisions between localities and regions
+        county: administrative divisions between localities and regions
                     e.g., Alb-Donau-Kreis
-    :param locality: equivalent to what are commonly referred to as cities
+        locality: equivalent to what are commonly referred to as cities
                     e.g., Bangkok, Caracas
-    :param borough: mostly known in the context of NY, may exist in other cities like Mexico City
-                    e.g. Manhatten in NY
+        borough: mostly known in the context of NY, may exist in other cities like Mexico City
+                    e.g. Manhattan in NY
                         Iztapalapa in Mexico City
-                        todo: check if also used for e.g. german "Stadtteile"
-    :param postalcode: postal code
-    :param address: street name, optionally also house number
-    :param neighbourhood: vernacular geographic entities that may not necessarily be official administrative
+        postalcode: postal code; !! Not working in many countries !!
+        address: street name, optionally also house number
+        neighbourhood: vernacular geographic entities that may not necessarily be official administrative
                         divisions but are important nonetheless
                     e.g. Notting Hill in London
                     Le Marais in Paris
@@ -120,10 +119,13 @@ def geocoding_structured(country=None, region=None, county=None, locality=None, 
 
     clnt = openrouteservice.Client(key=ors_api_key)
 
-    call = pelias_structured(clnt, country=country, region=region, county=county, locality=locality, borough=borough,
-                             postalcode=postalcode, address=address, neighbourhood=neighbourhood)
+    is_valid_geocoding_dict(loc_dict)
+
+    call = pelias_structured(clnt, **loc_dict)
     n_results = len(call["features"])
     res = call["features"]
+    print(res)
+    assert n_results != 0, "No places found with these search parameters"
     if n_results == 0:
         raise Exception("No places found with these search parameters")
 
@@ -132,19 +134,41 @@ def geocoding_structured(country=None, region=None, county=None, locality=None, 
         country = feature["properties"]["country"]
         coords = feature["geometry"]["coordinates"]
         layer = feature["properties"]["layer"]
-        if locality is not None and postalcode is not None and address is not None:
+        if loc_dict["locality"] is not None and loc_dict["address"] is not None:
             if layer != "address" or layer != "locality" and n_results > 1:
-                print("Data type not matching search (%s instead of address or locality. Skipping %s, %s" % (layer, name, coords))
+                print(f"Data type not matching search ({layer} instead of address or locality. Skipping {name}, {coords}")
                 continue
         confidence = feature["properties"]["confidence"]
         if confidence < 0.8 and n_results > 1:
-            print("Low confidence: %.1f. Skipping %s, %s" % (confidence, name, coords))
+            print(f"Low confidence: {confidence:.1f}. Skipping {name}, {coords}")
             continue
         break
-    print("%i location(s) found. Using this result: %s, %s (data type: %s)" % (n_results, name, country, layer))
+    print(f"{n_results} location(s) found. Using this result: {name}, {country} (data type: {layer})")
     print("Coords: ", coords)
 
     return name, country, coords, res
+
+
+def is_valid_geocoding_dict(dict):
+    """
+    Function to check if the dictionary is valid as input for pelias structured geocoding
+    :param dict: dictionary describing the location
+
+    :return: Boolean
+    """
+    # todo: Write test(s) for this function to test/test_distances.py
+    allowed_keys = ["country", "region", "county", "locality", "borough", "address", "postalcode", "neighbourhood"]
+    assert len(dict) != 0, "Error! Empty dictionary provided."
+    for key in dict:
+        assert key in allowed_keys, f"Error! Parameter {key} is not available. Please check the input data."
+    # warnings
+    # todo: instead of prints, use
+    #  import warnings
+    #  warnings.warn("..")
+    if "country" not in dict.keys():
+        print("Warning! You did not provide a country. The results may be wrong.")
+    if "locality" not in dict.keys():
+        print("Warning! You did not provide a locality (city). The results may be inaccurate.")
 
 
 def get_route(coords, profile=None):

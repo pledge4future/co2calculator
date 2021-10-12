@@ -4,7 +4,9 @@
 
 import os
 import pandas as pd
-from .distances import haversine, geocoding_airport, geocoding, get_route
+import glob
+import numpy as np
+from .distances import haversine, geocoding_airport, geocoding, get_route, geocoding_structured
 from .constants import KWH_TO_TJ
 
 
@@ -23,14 +25,18 @@ def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, stops=Non
     :param fuel_type: type of fuel the car is using
                         ["diesel", "gasoline", "cng", "electric", "average"]
     :param distance: Distance travelled in km;
-                        alternatively param <locations> can be provided
-    :param stops: List of locations in the form 'address, locality, country';
-                        can have intermediate stops
-                        e.g. ["Im Neuenheimer Feld 348, Heidelberg, Germany", "Marienplatz, Stuttgart, Germany",
-                         "Bahnhof Basel, Basel, Switzerland"]
+                        alternatively param <stops> can be provided
+    :param stops: List of locations as dictionaries in the form
+                        e.g.,  [{"address": "Im Neuenheimer Feld 348",
+                                "locality": "Heidelberg",
+                                 "country": "Germany"},
+                                 {"country": "Germany",
+                                 "locality": "Berlin",
+                                 "address": "Alexanderplatz 1"}]
+                        can have intermediate stops (> 2 dictionaries within the list)
                         alternatively param <distance> can be provided
 
-    :return: Total emissions of trip in co2 equivalents, distance of the trip
+    :return: Total emissions of trip in co2 equivalents
     """
     if distance is None and stops is None:
         print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
@@ -38,7 +44,7 @@ def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, stops=Non
     elif distance is None:
         coords = []
         for loc in stops:
-            loc_name, loc_country, loc_coords = geocoding(loc)
+            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
             coords.append(loc_coords)
         distance = get_route(coords, "driving-car")
     co2e = emission_factor_df[(emission_factor_df["size_class"] == size) &
@@ -55,9 +61,14 @@ def calc_co2_motorbike(size=None, distance=None, stops=None):
                         ["small", "medium", "large", "average"]
     :param distance: Distance travelled in km;
                         alternatively param <locations> can be provided
-    :param stops: List of locations in the form 'address, locality, country';
-                        can have intermediate stops
-                        e.g. ["Marktplatz, Heidelberg, Germany", "Im Neuenheimer Feld 348, Heidelberg, Germany"]
+    :param stops: List of locations as dictionaries in the form
+                        e.g.,  [{"address": "Im Neuenheimer Feld 348",
+                                "locality": "Heidelberg",
+                                 "country": "Germany"},
+                                 {"country": "Germany",
+                                 "locality": "Berlin",
+                                 "address": "Alexanderplatz 1"}]
+                        can have intermediate stops (multiple dictionaries within the list)
                         alternatively param <distance> can be provided
 
     :return: Total emissions of trip in co2 equivalents, distance of the trip
@@ -68,7 +79,7 @@ def calc_co2_motorbike(size=None, distance=None, stops=None):
     elif distance is None:
         coords = []
         for loc in stops:
-            loc_name, loc_country, loc_coords = geocoding(loc)
+            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
             coords.append(loc_coords)
         distance = get_route(coords, "driving-car")
     co2e = emission_factor_df[(emission_factor_df["size_class"] == size)]["co2e"].values[0]
@@ -86,8 +97,15 @@ def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, di
     :param vehicle_range: range/haul of the vehicle     ["local", "long-distance"]
     :param distance: Distance travelled in km;
                         alternatively param <stops> can be provided
-    :param stops: List of locations, ideally in the form 'address, locality, country';
-                    alternatively param <distance> can be provided
+    :param stops: List of locations as dictionaries in the form
+                        e.g.,  [{"address": "Im Neuenheimer Feld 348",
+                                "locality": "Heidelberg",
+                                 "country": "Germany"},
+                                 {"country": "Germany",
+                                 "locality": "Berlin",
+                                 "address": "Alexanderplatz 1"}]
+                        can have intermediate stops (multiple dictionaries within the list)
+                        alternatively param <distance> can be provided
 
     :return: Total emissions of trip in co2 equivalents, distance of the trip
     """
@@ -99,7 +117,7 @@ def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, di
         distance = 0
         coords = []
         for loc in stops:
-            loc_name, loc_country, loc_coords = geocoding(loc)
+            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
             coords.append(loc_coords)
         for i in range(0, len(coords) - 1):
             # compute great circle distance between locations
@@ -121,8 +139,15 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
     :param vehicle_range: range/haul of the vehicle       ["local", "long-distance"]
     :param distance: Distance travelled in km;
                         alternatively param <stops> can be provided
-    :param stops: List of train stations, ideally in the form 'address, locality, country';
-                    alternatively param <distance> can be provided
+    :param stops: List of locations as dictionaries in the form
+                        e.g.,  [{"address": "Willy-Brandt-Platz 5",
+                                "locality": "Heidelberg",
+                                 "country": "Germany"},
+                                 {"country": "Germany",
+                                 "locality": "Berlin",
+                                 "address": "Alexanderplatz 1"}]
+                        can have intermediate stops (multiple dictionaries within the list)
+                        alternatively param <distance> can be provided
 
     :return: Total emissions of trip in co2 equivalents, distance of the trip
     """
@@ -134,7 +159,7 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
         distance = 0
         coords = []
         for loc in stops:
-            loc_name, loc_country, loc_coords = geocoding(loc)
+            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
             coords.append(loc_coords)
         for i in range(len(coords) - 1):
             # compute great circle distance between locations
@@ -185,8 +210,10 @@ def calc_co2_plane(start, destination, seating_class="average"):
 def calc_co2_ferry(start, destination, seating_class="average"):
     """
     Function to compute emissions of a ferry trip
-    :param start: city of start port in the form "<city>, <country>"
-    :param destination: city of destination port in the form "<city>, <country>"
+    :param start: dictionary of location of start port,
+                        e.g., in the form {"locality":<city>, "county":<country>}
+    :param destination: dictionary of location of destination port,
+                        e.g., in the form {"locality":<city>, "county":<country>}
     :param seating_class: ["average", "Foot passenger", "Car passenger"]
 
     :return: Total emissions of sea travel in co2 equivalents, distance of the trip
@@ -195,8 +222,8 @@ def calc_co2_ferry(start, destination, seating_class="average"):
     #  cities even have a port?
     detour_coefficient = 1  # Todo
     # get geographic coordinates of ports
-    _, _, geom_start = geocoding(start)
-    _, _, geom_dest = geocoding(destination)
+    _, _, geom_start, _ = geocoding_structured(start)
+    _, _, geom_dest, _ = geocoding_structured(destination)
     # compute great circle distance between airports
     distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
     # add detour constant
@@ -243,12 +270,12 @@ def calc_co2_heating(consumption, unit, fuel_type, area_share=1):
                 & (conversion_factor_df["unit"] == unit)
                 ]["conversion_value"].values[0]
         except KeyError:
-            print(
-                "No conversion data is available for this fuel type. Conversion is only supported for the following"
-                "fuel types and units. Alternatively, provide consumption in the unit kWh.\n")
-            print(conversion_factor_df[["fuel", "unit"]])
-            raise ValueError("No conversion data is available for this fuel type. Provide consumption in a "
-                             "different unit.")
+            raise ValueError(f'''
+                No conversion data is available for this fuel type.
+                Conversion is only supported for the following fuel types and units:
+                {conversion_factor_df["fuel", "unit"]}.
+                Alternatively, provide consumption in the unit kWh.
+                ''')
 
         consumption_kwh = consumption * conversion_factor
     else:
@@ -307,7 +334,7 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
     elif transportation_mode == "ferry":
         emissions, dist = calc_co2_ferry(start, destination, seating_class=seating)
     else:
-        assert ValueError("No emission factor available for the specified mode of transport.")
+        raise ValueError("No emission factor available for the specified mode of transport.")
     if roundtrip is True:
         emissions *= 2
 
@@ -365,7 +392,7 @@ def calc_co2_commuting(transportation_mode, weekly_distance=None,
         weekly_co2e = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy, vehicle_range="average",
                                    distance=weekly_distance)
     elif transportation_mode == "train":
-        calc_co2_train(fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance)
+        weekly_co2e = calc_co2_train(fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance)
     elif transportation_mode == "tram":
         co2e = emission_factor_df[(emission_factor_df["name"] == "Strassen-Stadt-U-Bahn")]["co2e"].values[0]
         weekly_co2e = co2e * weekly_distance
