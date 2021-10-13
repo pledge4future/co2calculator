@@ -11,6 +11,7 @@ from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_autocomplete, pelias_structured
 import os
 from dotenv import load_dotenv
+import pandas as pd
 
 load_dotenv()  # take environment variables from .env.
 
@@ -146,7 +147,28 @@ def geocoding_structured(loc_dict):
     print(f"{n_results} location(s) found. Using this result: {name}, {country} (data type: {layer})")
     print("Coords: ", coords)
 
+    # todo: check if to return res or not!
     return name, country, coords, res
+
+
+def geocoding_train_stations(station_name, country_code):
+    """
+    Function to obtain coordinates for a given train station
+
+    :param station_name: Name of the train station, e.g., "Heidelberg Hbf"
+    :param country_code: Two-letter country code of the train station, e.g., "DE" for Germany
+
+    :return: Name, country and coordinates of the found location
+    """
+    stations_df = pd.read_csv(f"{script_path}/../data/stations/stations.csv", sep=";", low_memory=False,
+                              usecols=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+    target_station = stations_df[stations_df["name"] == station_name]
+    # todo: include check if country is correct
+    # todo: use FuzzyWuzzy (or similar package) to find correct stations even if names do not perfectly match
+    # todo: decide: use field "name" or field "slug" ("slug" has no accents, umlautzeichen, etc.)
+    coords = target_station[["latitude", "longitude"]].to_numpy()[0]
+
+    return station_name, country_code, coords
 
 
 def is_valid_geocoding_dict(dict):
@@ -174,7 +196,7 @@ def is_valid_geocoding_dict(dict):
 def get_route(coords, profile=None):
     """
     Obtain the distance of a route between given waypoints using a given profile
-    :param coords: list of [lat,long] coordinate-lists
+    :param coords: list of [lat,long] coordinates
     :param profile: driving-car, cycling-regular
     :return: distance of the route
     """
