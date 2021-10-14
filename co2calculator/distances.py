@@ -12,6 +12,8 @@ from openrouteservice.geocode import pelias_search, pelias_autocomplete, pelias_
 import os
 from dotenv import load_dotenv
 import pandas as pd
+# from thefuzz import fuzz
+# from thefuzz import process
 
 load_dotenv()  # take environment variables from .env.
 
@@ -162,8 +164,13 @@ def geocoding_train_stations(station_name, country_code):
     """
     stations_df = pd.read_csv(f"{script_path}/../data/stations/stations.csv", sep=";", low_memory=False,
                               usecols=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+    # remove stations with no coordinates
+    stations_df.dropna(subset=["latitude", "longitude"], inplace=True)
+
     target_station = stations_df[stations_df["name"] == station_name]
-    # todo: include check if country is correct
+    target_country = target_station["country"].values[0]
+    if target_country != country_code:
+        print("Warning! The found train station is not ")
     # todo: use FuzzyWuzzy (or similar package) to find correct stations even if names do not perfectly match
     # todo: decide: use field "name" or field "slug" ("slug" has no accents, umlautzeichen, etc.)
     coords = target_station[["latitude", "longitude"]].to_numpy()[0]
