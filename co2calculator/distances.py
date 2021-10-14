@@ -8,12 +8,12 @@ Functions for obtaining the distance between given addresses.
 import numpy as np
 import openrouteservice
 from openrouteservice.directions import directions
-from openrouteservice.geocode import pelias_search, pelias_autocomplete, pelias_structured
+from openrouteservice.geocode import pelias_search, pelias_structured
 import os
 from dotenv import load_dotenv
 import pandas as pd
-# from thefuzz import fuzz
-# from thefuzz import process
+from thefuzz import fuzz
+from thefuzz import process
 
 load_dotenv()  # take environment variables from .env.
 
@@ -153,7 +153,7 @@ def geocoding_structured(loc_dict):
     return name, country, coords, res
 
 
-def geocoding_train_stations(station_name, country_code):
+def geocoding_train_stations(station_name, country_code=None):
     """
     Function to obtain coordinates for a given train station
 
@@ -167,15 +167,19 @@ def geocoding_train_stations(station_name, country_code):
     # remove stations with no coordinates
     stations_df.dropna(subset=["latitude", "longitude"], inplace=True)
 
-    target_station = stations_df[stations_df["name"] == station_name]
-    target_country = target_station["country"].values[0]
-    if target_country != country_code:
-        print("Warning! The found train station is not ")
-    # todo: use FuzzyWuzzy (or similar package) to find correct stations even if names do not perfectly match
-    # todo: decide: use field "name" or field "slug" ("slug" has no accents, umlautzeichen, etc.)
-    coords = target_station[["latitude", "longitude"]].to_numpy()[0]
+    # filter by country, if country provided
+    if country_code is not None:
+        stations_in_country_df = stations_df[stations_df["country"] == country_code]
+    else:
+        stations_in_country_df = stations_df
 
-    return station_name, country_code, coords
+    choices = stations_in_country_df["slug"].values
+    res_station_slug, score = process.extractOne(station_name, choices)
+    res_station = stations_in_country_df[stations_in_country_df["slug"] == res_station_slug]
+    res_country, res_station_name = res_station[["country", "name"]].values[0]
+    coords = res_station[["latitude", "longitude"]].values
+
+    return res_station_name, res_country, coords
 
 
 def is_valid_geocoding_dict(dict):
