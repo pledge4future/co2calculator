@@ -3,6 +3,8 @@
 """Functions to calculate co2 emissions"""
 
 import os
+import sys
+
 import pandas as pd
 import glob
 import numpy as np
@@ -180,7 +182,7 @@ def calc_co2_plane(start, destination, seating_class="average"):
     :param seating_class: Seating class in the airplane; Emission factors differ between seating classes because
                           business class or first class seats take up more space. An airplane with more such therefore
                           needs to have higher capacity to transport less people -> more co2
-                          ["average", "Economy class", "Business class", "Premium economy class", "First class"]
+                          ["average", "economy_class", "business_class", "premium_economy_class", "first_class"]
 
     :return: Total emissions of flight in co2 equivalents, distance of the trip
     """
@@ -198,9 +200,18 @@ def calc_co2_plane(start, destination, seating_class="average"):
         flight_range = "short-haul"
     elif distance > 1500:
         flight_range = "long-haul"
-    # Todo: Error handling: What if no airplane with that range and seating class found
-    co2e = emission_factor_df[(emission_factor_df["range"] == flight_range) &
-                              (emission_factor_df["seating"] == seating_class)]["co2e"].values[0]
+    seating_choices = ["average", "economy_class", "business_class", "premium_economy_class", "first_class"]
+    if seating_class not in seating_choices:
+        raise ValueError(f"No emission factor available for the specified seating class '{seating_class}'.\n"
+                         f"Please use one of the following: {seating_choices}")
+    try:
+        co2e = emission_factor_df[(emission_factor_df["range"] == flight_range) &
+                                  (emission_factor_df["seating"] == seating_class)]["co2e"].values[0]
+    except IndexError:
+        print(f"Warning! Seating class '{seating_class}' not available for {flight_range} flights. Switching to "
+              f"Economy class...")
+        co2e = emission_factor_df[(emission_factor_df["range"] == flight_range) &
+                                  (emission_factor_df["seating"] == "economy_claass")]["co2e"].values[0]
     # multiply emission factor with distance
     emissions = distance * co2e
 
@@ -270,12 +281,12 @@ def calc_co2_heating(consumption, unit, fuel_type, area_share=1):
                 & (conversion_factor_df["unit"] == unit)
                 ]["conversion_value"].values[0]
         except KeyError:
-            raise ValueError(f'''
+            raise ValueError(f"""
                 No conversion data is available for this fuel type.
                 Conversion is only supported for the following fuel types and units:
                 {conversion_factor_df["fuel", "unit"]}.
                 Alternatively, provide consumption in the unit kWh.
-                ''')
+                """)
 
         consumption_kwh = consumption * conversion_factor
     else:
@@ -334,7 +345,8 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
     elif transportation_mode == "ferry":
         emissions, dist = calc_co2_ferry(start, destination, seating_class=seating)
     else:
-        raise ValueError("No emission factor available for the specified mode of transport.")
+        raise ValueError(f"No emission factor available for the specified mode of transport '{transportation_mode}'.")
+        sys.exit()
     if roundtrip is True:
         emissions *= 2
 
@@ -397,7 +409,7 @@ def calc_co2_commuting(transportation_mode, weekly_distance=None,
         co2e = emission_factor_df[(emission_factor_df["subcategory"] == transportation_mode)]["co2e"].values[0]
         weekly_co2e = co2e * weekly_distance
     else:
-        raise ValueError('Transportation mode "%s" not found in database' % transportation_mode)
+        raise ValueError(f"Transportation mode {transportation_mode} not found in database.")
 
     return weekly_co2e
 
