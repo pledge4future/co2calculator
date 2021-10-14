@@ -153,15 +153,21 @@ def geocoding_structured(loc_dict):
     return name, country, coords, res
 
 
-def geocoding_train_stations(station_name, country_code=None):
+def geocoding_train_stations(loc_dist):
     """
     Function to obtain coordinates for a given train station
 
-    :param station_name: Name of the train station, e.g., "Heidelberg Hbf"
-    :param country_code: Two-letter country code of the train station, e.g., "DE" for Germany
+    :param loc_dict: dictionary describing the location. The dictionary can have the keys:
+        country: highest-level administrative divisions supported in a search.
+                    Only two-letter abbreviations supported
+                    e.g., "DE"
+        station_name: Name of the train station
+                    e.g., "Heidelberg Hbf"
 
     :return: Name, country and coordinates of the found location
     """
+    station_name = loc_dist["station_name"]
+    country_code = loc_dist["country"]
     stations_df = pd.read_csv(f"{script_path}/../data/stations/stations.csv", sep=";", low_memory=False,
                               usecols=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
     # remove stations with no coordinates
