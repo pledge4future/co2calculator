@@ -83,8 +83,8 @@
 81,vehicle,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Battery Electric Vehicle, medium car",P.km,medium,,,,electric,kg/P.km,0.05563,,
 82,vehicle,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Battery Electric Vehicle, large car",P.km,large,,,,electric,kg/P.km,0.06646,,
 83,vehicle,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Battery Electric Vehicle, average car",P.km,average,,,,electric,kg/P.km,0.05728,,
-84,public transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, domestic, average passenger",P.km,average,,,domestic,kerosine,kg/P.km,0.2443,,with RF (radiative forcing)
-85,public transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, short-haul, average passenger",P.km,average,,,short-haul,kerosine,kg/P.km,0.15553,,with RF
+84,public transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, domestic, average passenger",P.km,,,,domestic,kerosine,kg/P.km,0.2443,average,with RF (radiative forcing)
+85,public transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, short-haul, average passenger",P.km,,,,short-haul,kerosine,kg/P.km,0.15553,average,with RF
 86,public transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, short-haul, Economy class passenger",P.km,,,,short-haul,kerosine,kg/P.km,0.15298,economy_class,with RF <= 3700 km 
 87,public transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, short-haul, Business class passenger",P.km,,,,short-haul,kerosine,kg/P.km,0.22947,business_class,with RF <= 3700 km 
 88,public transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, long-haul, average passenger",P.km,,,,long-haul,kerosine,kg/P.km,0.19085,average,with RF > 3700 km
