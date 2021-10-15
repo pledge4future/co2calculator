@@ -346,7 +346,6 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
         emissions, dist = calc_co2_ferry(start, destination, seating_class=seating)
     else:
         raise ValueError(f"No emission factor available for the specified mode of transport '{transportation_mode}'.")
-        sys.exit()
     if roundtrip is True:
         emissions *= 2
 
