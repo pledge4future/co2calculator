@@ -368,7 +368,7 @@ def range_categories(distance):
 
 
 def calc_co2_commuting(transportation_mode, weekly_distance=None,
-                       size=None, fuel_type=None, occupancy=None, passengers=None, work_weeks=None):
+                       size=None, fuel_type=None, occupancy=None, passengers=None):
     """
     Calculate co2 emissions for commuting per mode of transport
     :param transportation_mode: [car, bus, train, bicycle, pedelec, motorbike, tram]
@@ -377,19 +377,16 @@ def calc_co2_commuting(transportation_mode, weekly_distance=None,
     :param fuel_type: fuel type of car, bus or train if applicable
     :param occupancy: occupancy [%], if applicable/known (only for bus): [20, 50, 80, 100]
     :param passengers: number of passengers, if applicable (only for car)
-    :param work_weeks: number of working weeks per year,
-                i.e., 52 (weeks per year) - 4 (paid leave) - 2 (public holidays) = 42
-                or number of working weeks per month
-                i.e., 4 (or 4.4) (or only 2 if on leave etc.)
-    :return: total emissions for the given number of weeks and the respective mode of transport
+
+    :return: total weekly emissions for the respective mode of transport
     """
     # get weekly co2e for respective mode of transport
     if transportation_mode == "car":
-        weekly_co2e = calc_co2_car(passengers=passengers, size=size, fuel_type=fuel_type, distance=weekly_distance)
+        weekly_co2e, _ = calc_co2_car(passengers=passengers, size=size, fuel_type=fuel_type, distance=weekly_distance)
     elif transportation_mode == "motorbike":
-        weekly_co2e = calc_co2_motorbike(size=size, distance=weekly_distance)
+        weekly_co2e, _ = calc_co2_motorbike(size=size, distance=weekly_distance)
     elif transportation_mode == "bus":
-        weekly_co2e = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy, vehicle_range="average",
+        weekly_co2e, _ = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy, vehicle_range="average",
                                    distance=weekly_distance)
     elif transportation_mode == "train":
         weekly_co2e = calc_co2_train(fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance)
@@ -402,10 +399,7 @@ def calc_co2_commuting(transportation_mode, weekly_distance=None,
     else:
         raise ValueError('Transportation mode "%s" not found in database' % transportation_mode)
 
-    # multiply with work_weeks to obtain total (e.g. annual/monthly) co2e
-    total_co2e = weekly_co2e * work_weeks
-
-    return total_co2e
+    return weekly_co2e
 
 
 def commuting_emissions_group(aggr_co2, n_participants, n_members):
