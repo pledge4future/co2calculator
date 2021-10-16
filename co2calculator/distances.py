@@ -153,7 +153,7 @@ def geocoding_structured(loc_dict):
     return name, country, coords, res
 
 
-def geocoding_train_stations(loc_dist):
+def geocoding_train_stations(loc_dict):
     """
     Function to obtain coordinates for a given train station
 
@@ -166,8 +166,11 @@ def geocoding_train_stations(loc_dist):
 
     :return: Name, country and coordinates of the found location
     """
-    station_name = loc_dist["station_name"]
-    country_code = loc_dist["country"]
+    station_name = loc_dict["station_name"]
+    if "country" in loc_dict:
+        country_code = loc_dict["country"]
+    else:
+        country_code = None
     stations_df = pd.read_csv(f"{script_path}/../data/stations/stations.csv", sep=";", low_memory=False,
                               usecols=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
     # remove stations with no coordinates
@@ -180,7 +183,7 @@ def geocoding_train_stations(loc_dist):
         stations_in_country_df = stations_df
 
     choices = stations_in_country_df["slug"].values
-    res_station_slug, score = process.extractOne(station_name, choices)
+    res_station_slug, score = process.extractOne(station_name, choices, scorer=fuzz.partial_ratio)
     res_station = stations_in_country_df[stations_in_country_df["slug"] == res_station_slug]
     res_country, res_station_name = res_station[["country", "name"]].values[0]
     coords = res_station[["latitude", "longitude"]].values
