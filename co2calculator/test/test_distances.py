@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from co2calculator.distances import haversine, geocoding_airport, is_valid_geocoding_dict
+from co2calculator.distances import haversine, geocoding_airport, is_valid_geocoding_dict, geocoding_train_stations
 from co2calculator.calculate import calc_co2_plane
 import math
 import numpy as np
@@ -75,7 +75,7 @@ def test_valid_geocoding_dict():
                 "neighbourhood": None
                 }
 
-    # Check if raises error
+    # Call function; test will pass if no error is raised
     is_valid_geocoding_dict(loc_dict)
 
 
@@ -133,3 +133,14 @@ def test_plane_invalid_seating_range_combo():
     with pytest.raises(IndexError) as e:
         calc_co2_plane(start=start, destination=dest, seating_class=seating)
     assert e.type is IndexError
+
+
+def test_geocoding_train_stations_invalid():
+    # Given parameters
+    station_dict = {"country": "DE",
+                    "address": "Heidelberg Hbf"}  # invalid parameters; has to be specified as "station_name"
+
+    # Check if raises error
+    with pytest.raises(ValueError) as e:
+        geocoding_train_stations(station_dict)
+    assert e.type is ValueError

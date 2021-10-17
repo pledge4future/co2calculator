@@ -166,7 +166,10 @@ def geocoding_train_stations(loc_dict):
 
     :return: Name, country and coordinates of the found location
     """
-    station_name = loc_dict["station_name"]
+    if "station_name" in loc_dict:
+        station_name = loc_dict["station_name"]
+    else:
+        raise ValueError("No 'station_name' provided. Cannot search for train station.")
     if "country" in loc_dict:
         country_code = loc_dict["country"]
     else:
