@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from co2calculator.distances import haversine, geocoding_airport
+from co2calculator.distances import haversine, geocoding_airport, is_valid_geocoding_dict
 from co2calculator.calculate import calc_co2_plane
 import math
 import numpy as np
@@ -64,28 +64,32 @@ def test_geocoding_structured():
 
 
 def test_valid_geocoding_dict():
-    pass
+    # Given parameters
+    loc_dict = {"country": "DE",
+                "region": "Baden-Württemberg",
+                "county": "Rhein-Neckar-Kreis",
+                "locality": "Heidelberg",
+                "borough": "Rohrbach",
+                "address": "Im Bosseldorn 25",
+                "postalcode": "69126",
+                "neighbourhood": None
+                }
+
+    # Check if raises error
+    is_valid_geocoding_dict(loc_dict)
 
 
 def test_invalid_geocoding_dict():
-    pass
-
-
-def test_plane():
     # Given parameters
-    start = "MUC"
-    dest = "DME"
-    seating = "business_class"
-    # distance between "MUC" "DME": 1943.5387
-    # add detour coefficient (95 km): 2038.5387 --> range class: long-haul
-    # emission factor for business class and long-haul: 0.42385
-    # 2038.5387 * 0.42385 = 864.0346
-    co2e_kg_expected = 864.03
+    loc_dict = {"country": "DE",
+                "locality": "Heidelberg",
+                "adress": "Im Bosseldorn 25",  # wrong spelling of "address"
+                }
 
-    # Calculate co2e
-    co2e, dist = calc_co2_plane(start=start, destination=dest, seating_class=seating)
-    # Check if expected result matches calculated result
-    assert round(co2e, 2) == co2e_kg_expected
+    # Check if raises error
+    with pytest.raises(AssertionError) as e:
+        is_valid_geocoding_dict(loc_dict)
+    assert e.type is AssertionError
 
 
 def test_plane():
@@ -121,7 +125,7 @@ def test_plane_invalid_seating_range_combo():
     # Given parameters
     start = "ZRH"
     dest = "FRA"
-    # flight between Frankfurt and Zurich is short-haul
+    # flight between Frankfurt and Zurich is short-haul (<= 1500 km)
     seating = "premium_economy_class"
     # Premium economy class is not available for short-haul flights -> Error should be raised!
 

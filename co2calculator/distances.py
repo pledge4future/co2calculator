@@ -191,25 +191,23 @@ def geocoding_train_stations(loc_dict):
     return res_station_name, res_country, coords
 
 
-def is_valid_geocoding_dict(dict):
+def is_valid_geocoding_dict(geocoding_dict):
     """
-    Function to check if the dictionary is valid as input for pelias structured geocoding
-    :param dict: dictionary describing the location
-
-    :return: Boolean
+    Function to check if the dictionary is valid as input for pelias structured geocoding. Raises error if it is not
+    the case
+    :param geocoding_dict: dictionary describing the location
     """
-    # todo: Write test(s) for this function to test/test_distances.py
     allowed_keys = ["country", "region", "county", "locality", "borough", "address", "postalcode", "neighbourhood"]
-    assert len(dict) != 0, "Error! Empty dictionary provided."
-    for key in dict:
+    assert len(geocoding_dict) != 0, "Error! Empty dictionary provided."
+    for key in geocoding_dict:
         assert key in allowed_keys, f"Error! Parameter {key} is not available. Please check the input data."
     # warnings
     # todo: instead of prints, use
     #  import warnings
     #  warnings.warn("..")
-    if "country" not in dict.keys():
+    if "country" not in geocoding_dict.keys():
         print("Warning! You did not provide a country. The results may be wrong.")
-    if "locality" not in dict.keys():
+    if "locality" not in geocoding_dict.keys():
         print("Warning! You did not provide a locality (city). The results may be inaccurate.")
 
 
