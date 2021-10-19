@@ -145,8 +145,10 @@ def test_plane_invalid_seating_class():
 def test_plane_invalid_seating_range_combo():
     """
     Test if calculation of CO2 emissions for flights raises an error if the query results in an invalid combination
-    of range and reating class
+    of range and seating class
     """
+    if not os.path.isfile(f"{script_path}/../../.env"):
+        pytest.skip("Skipping this test because no file '.env' was found.")
     # Given parameters
     start = "ZRH"
     dest = "FRA"
@@ -164,6 +166,8 @@ def test_geocoding_train_stations_invalid():
     """
     Test geocoding of train stations if dictionary with invalid parameters is provided
     """
+    if not os.path.isfile(f"{script_path}/../../.env"):
+        pytest.skip("Skipping this test because no file '.env' was found.")
     # Given parameters
     station_dict = {"country": "DE",
                     "address": "Heidelberg Hbf"}  # invalid parameters; has to be specified as "station_name"
