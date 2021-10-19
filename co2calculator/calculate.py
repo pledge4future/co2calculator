@@ -161,7 +161,10 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
         distance = 0
         coords = []
         for loc in stops:
-            loc_name, loc_country, loc_coords = geocoding_train_stations(loc)
+            try:
+                loc_name, loc_country, loc_coords = geocoding_train_stations(loc)
+            except RuntimeWarning:
+                loc_name, loc_country, loc_coords = geocoding_structured(loc)
             coords.append(loc_coords)
         for i in range(len(coords) - 1):
             # compute great circle distance between locations

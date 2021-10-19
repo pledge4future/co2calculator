@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 import pandas as pd
 from thefuzz import fuzz
 from thefuzz import process
+import warnings
 
 load_dotenv()  # take environment variables from .env.
 
@@ -166,25 +167,27 @@ def geocoding_train_stations(loc_dict):
 
     :return: Name, country and coordinates of the found location
     """
-    if "station_name" in loc_dict:
-        station_name = loc_dict["station_name"]
-    else:
-        raise ValueError("No 'station_name' provided. Cannot search for train station.")
-    if "country" in loc_dict:
-        country_code = loc_dict["country"]
-    else:
-        country_code = None
     stations_df = pd.read_csv(f"{script_path}/../data/stations/stations.csv", sep=";", low_memory=False,
                               usecols=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
     # remove stations with no coordinates
     stations_df.dropna(subset=["latitude", "longitude"], inplace=True)
-
-    # filter by country, if country provided
-    if country_code is not None:
-        stations_in_country_df = stations_df[stations_df["country"] == country_code]
+    countries_eu = stations_df["country"].unique()
+    if "country" in loc_dict:
+        country_code = loc_dict["country"]
+        if country_code not in countries_eu:
+            warnings.warn("The provided country is not within Europe. "
+                          "Please provide the address of the station instead of the station name for accurate results.")
     else:
-        stations_in_country_df = stations_df
+        raise ValueError("No 'country' provided.  Cannot search for train station")
+    if "station_name" in loc_dict:
+        station_name = loc_dict["station_name"]
+    else:
+        raise ValueError("No 'station_name' provided. Cannot search for train station.")
 
+    # filter stations by country
+    stations_in_country_df = stations_df[stations_df["country"] == country_code]
+
+    # use thefuzz to find best match
     choices = stations_in_country_df["slug"].values
     res_station_slug, score = process.extractOne(station_name, choices, scorer=fuzz.partial_ratio)
     res_station = stations_in_country_df[stations_in_country_df["slug"] == res_station_slug]
