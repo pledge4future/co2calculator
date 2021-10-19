@@ -116,7 +116,7 @@ def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, di
     detour_coefficient = 1.5
     if distance is None and stops is None:
         print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
-              "travelled train stations in the form 'address, locality, country'")
+              "travelled bus stations in the form 'address, locality, country'")
     elif distance is None and stops is not None:
         distance = 0
         coords = []
@@ -164,7 +164,9 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
             try:
                 loc_name, loc_country, loc_coords = geocoding_train_stations(loc)
             except RuntimeWarning:
-                loc_name, loc_country, loc_coords = geocoding_structured(loc)
+                loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
+            except ValueError:
+                loc_name, loc_country, loc_coords, res = geocoding_structured(loc)
             coords.append(loc_coords)
         for i in range(len(coords) - 1):
             # compute great circle distance between locations

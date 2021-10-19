@@ -138,14 +138,13 @@ def geocoding_structured(loc_dict):
         country = feature["properties"]["country"]
         coords = feature["geometry"]["coordinates"]
         layer = feature["properties"]["layer"]
-        if loc_dict["locality"] is not None and loc_dict["address"] is not None:
-            if layer != "address" or layer != "locality" and n_results > 1:
+        if "locality" in loc_dict.keys() and "address" in loc_dict.keys():
+            if (layer != "address" and layer != "locality" and layer != "street") and n_results > 1:
                 print(f"Data type not matching search ({layer} instead of address or locality. Skipping {name}, {coords}")
                 continue
         confidence = feature["properties"]["confidence"]
-        if confidence < 0.8 and n_results > 1:
-            print(f"Low confidence: {confidence:.1f}. Skipping {name}, {coords}")
-            continue
+        if confidence < 0.8:
+            warnings.warn(f"Low confidence: {confidence:.1f} for result {name}, {coords}")
         break
     print(f"{n_results} location(s) found. Using this result: {name}, {country} (data type: {layer})")
     print("Coords: ", coords)
