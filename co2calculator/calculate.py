@@ -3,31 +3,28 @@
 """Functions to calculate co2 emissions"""
 
 import os
-import sys
 
 import pandas as pd
-import glob
-import numpy as np
+import warnings
 from .distances import haversine
-from .distances import geocoding_airport, geocoding, geocoding_structured, geocoding_train_stations
+from .distances import geocoding_airport, geocoding_structured, geocoding_train_stations
 from .distances import get_route
 from .constants import KWH_TO_TJ
-
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
 conversion_factor_df = pd.read_csv(f"{script_path}/../data/conversion_factors_heating.csv")
 
 
-def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, stops=None):
+def calc_co2_car(distance: float = None, stops: list = None, passengers: int = None, size: str = None, fuel_type: str = None):
     """
     Function to compute the emissions of a car trip.
     :param passengers: Number of passengers in the car (including the person answering the questionnaire),
-                        [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                        [1, 2, 3, 4, 5, 6, 7, 8, 9]                             default: 1
     :param size: size of car
-                        ["small", "medium", "large", "average"]
+                        ["small", "medium", "large", "average"]                 default: "average"
     :param fuel_type: type of fuel the car is using
-                        ["diesel", "gasoline", "cng", "electric", "average"]
+                        ["diesel", "gasoline", "cng", "electric", "average"]    default: "average"
     :param distance: Distance travelled in km;
                         alternatively param <stops> can be provided
     :param stops: List of locations as dictionaries in the form
@@ -42,9 +39,20 @@ def calc_co2_car(passengers, size=None, fuel_type=None, distance=None, stops=Non
 
     :return: Total emissions of trip in co2 equivalents
     """
+    # Set default values
+    if passengers is None:
+        passengers = 1
+        warnings.warn(f"Number of car passengers was not provided. Using default value: '{passengers}'")
+    if size is None:
+        size = "average"
+        warnings.warn(f"Car size was not provided. Using default value: '{size}'")
+    if fuel_type is None:
+        fuel_type = "average"
+        warnings.warn(f"Car fuel type was not provided. Using default value: '{fuel_type}'")
+    # Check if distance of stops provided
     if distance is None and stops is None:
-        print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
-              "travelled locations in the form 'address, locality, country'")
+        assert ValueError("Travel parameters missing. Please provide either the distance in km or a list of"
+                          "dictionaries of travelled locations.")
     elif distance is None:
         coords = []
         for loc in stops:
@@ -65,7 +73,7 @@ def calc_co2_motorbike(size=None, distance=None, stops=None):
                         ["small", "medium", "large", "average"]
     :param distance: Distance travelled in km;
                         alternatively param <locations> can be provided
-    :param stops: List of locations as dictionaries in the form
+    :param stops: List of locations as dictionaries in the form # todo: **kwargs instead of list of dictionaries?
                         e.g.,  [{"address": "Im Neuenheimer Feld 348",
                                 "locality": "Heidelberg",
                                  "country": "Germany"},
@@ -170,7 +178,7 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
             coords.append(loc_coords)
         for i in range(len(coords) - 1):
             # compute great circle distance between locations
-            distance += haversine(coords[i][1], coords[i][0], coords[i+1][1], coords[i+1][0])
+            distance += haversine(coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0])
         distance *= detour_coefficient
     co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)
                               & (emission_factor_df["range"] == vehicle_range)]["co2e"].values[0]
@@ -263,7 +271,7 @@ def calc_co2_electricity(consumption, fuel_type, energy_share=1):
     co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
-    emissions = consumption*energy_share/KWH_TO_TJ * co2e
+    emissions = consumption * energy_share / KWH_TO_TJ * co2e
 
     return emissions
 
@@ -300,7 +308,7 @@ def calc_co2_heating(consumption, unit, fuel_type, area_share=1):
     co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
-    emissions = consumption_kwh*area_share / KWH_TO_TJ * co2e
+    emissions = consumption_kwh * area_share / KWH_TO_TJ * co2e
 
     return emissions
 
@@ -338,7 +346,7 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
     elif start is not None and destination is not None and distance is None:
         stops = [start, destination]
     if transportation_mode == "car":
-        emissions, dist = calc_co2_car(passengers, size=size, fuel_type=fuel_type, distance=distance, stops=stops)
+        emissions, dist = calc_co2_car(distance=distance, stops=stops, passengers=passengers, size=size, fuel_type=fuel_type)
     elif transportation_mode == "bus":
         emissions, dist = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy,
                                        vehicle_range="long-distance", distance=distance, stops=stops)
@@ -403,7 +411,7 @@ def calc_co2_commuting(transportation_mode, weekly_distance=None,
         weekly_co2e, _ = calc_co2_motorbike(size=size, distance=weekly_distance)
     elif transportation_mode == "bus":
         weekly_co2e, _ = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy, vehicle_range="average",
-                                   distance=weekly_distance)
+                                      distance=weekly_distance)
     elif transportation_mode == "train":
         weekly_co2e = calc_co2_train(fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance)
     elif transportation_mode == "tram":
