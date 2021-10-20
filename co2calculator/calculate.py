@@ -291,7 +291,7 @@ def calc_co2_ferry(start: dict, destination: dict, seating_class: str = None):
     return emissions, distance
 
 
-def calc_co2_electricity(consumption, fuel_type, energy_share=1):
+def calc_co2_electricity(consumption: float, fuel_type: str = None, energy_share: float = 1):
     """
     Function to compute electricity emissions
     :param consumption: energy consumption
@@ -299,6 +299,10 @@ def calc_co2_electricity(consumption, fuel_type, energy_share=1):
     :param energy_share: the research group's approximate share of the total electricity energy consumption
     :return: total emissions of electricity energy consumption
     """
+    # Set defaults
+    if fuel_type is None:
+        fuel_type = "german_energy_mix"
+        warnings.warn(f"No fuel type or energy mix specified. Using default value: '{fuel_type}'")
     co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
@@ -307,15 +311,22 @@ def calc_co2_electricity(consumption, fuel_type, energy_share=1):
     return emissions
 
 
-def calc_co2_heating(consumption, unit, fuel_type, area_share=1):
+def calc_co2_heating(consumption: float, fuel_type: str, unit: str = None, area_share: float = 1.0):
     """
     Function to compute heating emissions
     :param consumption: energy consumption
-    :param unit: unit of energy consumption [kwh, kg, l, m^3]
     :param fuel_type: fuel type used for heating
+    :param unit: unit of energy consumption [kwh, kg, l, m^3]
     :param area_share: share of building area used by research group
     :return: total emissions of heating energy consumption
     """
+    # Set defaults
+    if unit is None:
+        unit = "kWh"
+        warnings.warn(f"Unit was not provided. Assuming default value: '{unit}'")
+    if area_share > 1:
+        warnings.warn(f"Share of building area must be a float in the interval (0,1], but was set to '{area_share}'\n."
+                      f"The parameter will be set to '1.0' instead")
     valid_unit_choices = ["kWh", "l", "kg", "m^3"]
     assert unit in valid_unit_choices, f"unit={unit} is invalid. Valid choices are {', '.join(valid_unit_choices)}"
     if unit != "kWh":
@@ -344,8 +355,9 @@ def calc_co2_heating(consumption, unit, fuel_type, area_share=1):
     return emissions
 
 
-def calc_co2_businesstrip(transportation_mode, start=None, destination=None, distance=None, size="average",
-                          fuel_type="average", occupancy=50, seating="average", passengers=1, roundtrip=False):
+def calc_co2_businesstrip(transportation_mode: str, start=None, destination=None, distance: float = None,
+                          size: str = None, fuel_type: str = None, occupancy: int = None, seating: str = None,
+                          passengers: int = None, roundtrip: bool = False):
     """
     Function to compute emissions for business trips based on transportation mode and trip specifics
     :param transportation_mode: mode of transport [car, bus, train, plane]
@@ -360,7 +372,7 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
                     - only used for plane
     :param passengers: Number of passengers in the vehicle (including the participant), number from 1 to 9
                                                 - only used for car
-    :param roundtrip: whether the trip is a roundtrip or not [True, False]
+    :param roundtrip: whether the trip is a round trip or not [True, False]
 
     :return:    Emissions of the business trip in co2 equivalents,
                 Distance of the business trip,
@@ -370,8 +382,9 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
     if distance is None and (start is None or destination is None):
         assert ValueError("Either start and destination or distance must be provided.")
     elif distance is not None and (start is not None or destination is not None):
-        print("Warning! Both distance and start/stop location were provided. Only distance will be used for emission "
-              "calculation.")
+        warnings.warn("Both distance and start/stop location were provided. "
+                      "Only distance will be used for emission calculation.")
+        stops = None
     elif start is None and destination is None and distance is not None:
         stops = None
     elif start is not None and destination is not None and distance is None:
@@ -399,7 +412,7 @@ def calc_co2_businesstrip(transportation_mode, start=None, destination=None, dis
     return emissions, dist, range_category, range_description
 
 
-def range_categories(distance):
+def range_categories(distance: float):
     """
     Function to categorize a trip according to the travelled distance
     :param distance: Distance travelled in km
@@ -422,8 +435,8 @@ def range_categories(distance):
     return range_cat, range_description
 
 
-def calc_co2_commuting(transportation_mode, weekly_distance=None,
-                       size=None, fuel_type=None, occupancy=None, passengers=None):
+def calc_co2_commuting(transportation_mode: str, weekly_distance: float = None,
+                       size: str = None, fuel_type: str = None, occupancy: int = None, passengers: int = None):
     """
     Calculate co2 emissions for commuting per mode of transport
     :param transportation_mode: [car, bus, train, bicycle, pedelec, motorbike, tram]
@@ -441,7 +454,7 @@ def calc_co2_commuting(transportation_mode, weekly_distance=None,
     elif transportation_mode == "motorbike":
         weekly_co2e, _ = calc_co2_motorbike(size=size, distance=weekly_distance)
     elif transportation_mode == "bus":
-        weekly_co2e, _ = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy, vehicle_range="average",
+        weekly_co2e, _ = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy, vehicle_range="local",
                                       distance=weekly_distance)
     elif transportation_mode == "train":
         weekly_co2e = calc_co2_train(fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance)
