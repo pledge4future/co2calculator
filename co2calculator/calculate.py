@@ -16,7 +16,8 @@ emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
 conversion_factor_df = pd.read_csv(f"{script_path}/../data/conversion_factors_heating.csv")
 
 
-def calc_co2_car(distance: float = None, stops: list = None, passengers: int = None, size: str = None, fuel_type: str = None):
+def calc_co2_car(distance: float = None, stops: list = None, passengers: int = None, size: str = None,
+                 fuel_type: str = None):
     """
     Function to compute the emissions of a car trip.
     :param distance: Distance travelled in km;
@@ -66,7 +67,7 @@ def calc_co2_car(distance: float = None, stops: list = None, passengers: int = N
     return emissions, distance
 
 
-def calc_co2_motorbike(distance: float = None, stops: list =None, size: str = None):
+def calc_co2_motorbike(distance: float = None, stops: list = None, size: str = None):
     """
     Function to compute the emissions of a car trip.
     :param distance: Distance travelled in km;
@@ -90,8 +91,8 @@ def calc_co2_motorbike(distance: float = None, stops: list =None, size: str = No
         size = "average"
         warnings.warn(f"Size of motorbike was not provided. Using default value: '{size}'")
     if distance is None and stops is None:
-        print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
-              "travelled locations in the form 'address, locality, country'")
+        raise ValueError("Travel parameters missing. Please provide either the distance in km or a list of"
+                         "dictionaries for each travelled location")
     elif distance is None:
         coords = []
         for loc in stops:
@@ -104,7 +105,8 @@ def calc_co2_motorbike(distance: float = None, stops: list =None, size: str = No
     return emissions, distance
 
 
-def calc_co2_bus(distance: float = None, stops: list = None, size: str = None, fuel_type: str = None, occupancy: int = 50, vehicle_range: str = None):
+def calc_co2_bus(distance: float = None, stops: list = None, size: str = None, fuel_type: str = None,
+                 occupancy: int = 50, vehicle_range: str = None):
     """
     Function to compute the emissions of a bus trip.
     :param distance: Distance travelled in km;
@@ -140,8 +142,8 @@ def calc_co2_bus(distance: float = None, stops: list = None, size: str = None, f
         warnings.warn(f"Intended range of trip was not provided. Using default value: '{vehicle_range}'")
     detour_coefficient = 1.5
     if distance is None and stops is None:
-        print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
-              "travelled bus stations in the form 'address, locality, country'")
+        raise ValueError("Travel parameters missing. Please provide either the distance in km or a list of"
+                         "dictionaries for each travelled bus station")
     elif distance is None and stops is not None:
         distance = 0
         coords = []
@@ -187,8 +189,8 @@ def calc_co2_train(distance: float = None, stops: list = None, fuel_type: str = 
         warnings.warn(f"Intended range of trip was not provided. Using default value: '{vehicle_range}'")
     detour_coefficient = 1.2
     if distance is None and stops is None:
-        print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
-              "travelled train stations in the form 'address, locality, country'")
+        raise ValueError("Travel parameters missing. Please provide either the distance in km or a list of"
+                         "dictionaries for each travelled train station")
     elif distance is None:
         distance = 0
         coords = []
@@ -249,10 +251,11 @@ def calc_co2_plane(start: str, destination: str, seating_class: str = None):
         co2e = emission_factor_df[(emission_factor_df["range"] == flight_range) &
                                   (emission_factor_df["seating"] == seating_class)]["co2e"].values[0]
     except IndexError:
-        print(f"Warning! Seating class '{seating_class}' not available for {flight_range} flights. Switching to "
-              f"Economy class...")
+        default_seating = "economy_class"
+        warnings.warn(f"Seating class '{seating_class}' not available for {flight_range} flights. Switching to "
+                      f"'{default_seating}'...")
         co2e = emission_factor_df[(emission_factor_df["range"] == flight_range) &
-                                  (emission_factor_df["seating"] == "economy_claass")]["co2e"].values[0]
+                                  (emission_factor_df["seating"] == default_seating)]["co2e"].values[0]
     # multiply emission factor with distance
     emissions = distance * co2e
 
@@ -390,7 +393,8 @@ def calc_co2_businesstrip(transportation_mode: str, start=None, destination=None
     elif start is not None and destination is not None and distance is None:
         stops = [start, destination]
     if transportation_mode == "car":
-        emissions, dist = calc_co2_car(distance=distance, stops=stops, passengers=passengers, size=size, fuel_type=fuel_type)
+        emissions, dist = calc_co2_car(distance=distance, stops=stops, passengers=passengers, size=size,
+                                       fuel_type=fuel_type)
     elif transportation_mode == "bus":
         emissions, dist = calc_co2_bus(size=size, fuel_type=fuel_type, occupancy=occupancy,
                                        vehicle_range="long-distance", distance=distance, stops=stops)
