@@ -19,12 +19,6 @@ conversion_factor_df = pd.read_csv(f"{script_path}/../data/conversion_factors_he
 def calc_co2_car(distance: float = None, stops: list = None, passengers: int = None, size: str = None, fuel_type: str = None):
     """
     Function to compute the emissions of a car trip.
-    :param passengers: Number of passengers in the car (including the person answering the questionnaire),
-                        [1, 2, 3, 4, 5, 6, 7, 8, 9]                             default: 1
-    :param size: size of car
-                        ["small", "medium", "large", "average"]                 default: "average"
-    :param fuel_type: type of fuel the car is using
-                        ["diesel", "gasoline", "cng", "electric", "average"]    default: "average"
     :param distance: Distance travelled in km;
                         alternatively param <stops> can be provided
     :param stops: List of locations as dictionaries in the form
@@ -36,6 +30,12 @@ def calc_co2_car(distance: float = None, stops: list = None, passengers: int = N
                                  "address": "Alexanderplatz 1"}]
                         can have intermediate stops (> 2 dictionaries within the list)
                         alternatively param <distance> can be provided
+    :param passengers: Number of passengers in the car (including the person answering the questionnaire),
+                        [1, 2, 3, 4, 5, 6, 7, 8, 9]                             default: 1
+    :param size: size of car
+                        ["small", "medium", "large", "average"]                 default: "average"
+    :param fuel_type: type of fuel the car is using
+                        ["diesel", "gasoline", "cng", "electric", "average"]    default: "average"
 
     :return: Total emissions of trip in co2 equivalents
     """
@@ -45,7 +45,7 @@ def calc_co2_car(distance: float = None, stops: list = None, passengers: int = N
         warnings.warn(f"Number of car passengers was not provided. Using default value: '{passengers}'")
     if size is None:
         size = "average"
-        warnings.warn(f"Car size was not provided. Using default value: '{size}'")
+        warnings.warn(f"Size of car was not provided. Using default value: '{size}'")
     if fuel_type is None:
         fuel_type = "average"
         warnings.warn(f"Car fuel type was not provided. Using default value: '{fuel_type}'")
@@ -66,11 +66,9 @@ def calc_co2_car(distance: float = None, stops: list = None, passengers: int = N
     return emissions, distance
 
 
-def calc_co2_motorbike(size=None, distance=None, stops=None):
+def calc_co2_motorbike(distance: float = None, stops: list =None, size: str = None):
     """
     Function to compute the emissions of a car trip.
-    :param size: size of motorbike
-                        ["small", "medium", "large", "average"]
     :param distance: Distance travelled in km;
                         alternatively param <locations> can be provided
     :param stops: List of locations as dictionaries in the form # todo: **kwargs instead of list of dictionaries?
@@ -82,9 +80,15 @@ def calc_co2_motorbike(size=None, distance=None, stops=None):
                                  "address": "Alexanderplatz 1"}]
                         can have intermediate stops (multiple dictionaries within the list)
                         alternatively param <distance> can be provided
+    :param size: size of motorbike
+                        ["small", "medium", "large", "average"]
 
     :return: Total emissions of trip in co2 equivalents, distance of the trip
     """
+    # Set default values
+    if size is None:
+        size = "average"
+        warnings.warn(f"Size of motorbike was not provided. Using default value: '{size}'")
     if distance is None and stops is None:
         print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
               "travelled locations in the form 'address, locality, country'")
@@ -100,13 +104,9 @@ def calc_co2_motorbike(size=None, distance=None, stops=None):
     return emissions, distance
 
 
-def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, distance=None, stops=None):
+def calc_co2_bus(distance: float = None, stops: list = None, size: str = None, fuel_type: str = None, occupancy: int = 50, vehicle_range: str = None):
     """
     Function to compute the emissions of a bus trip.
-    :param size: size class of the bus;                 ["medium", "large", "average"]
-    :param fuel_type: type of fuel the bus is using;    ["diesel"]
-    :param occupancy: number of people on the bus       [20, 50, 80, 100]
-    :param vehicle_range: range/haul of the vehicle     ["local", "long-distance"]
     :param distance: Distance travelled in km;
                         alternatively param <stops> can be provided
     :param stops: List of locations as dictionaries in the form
@@ -118,9 +118,26 @@ def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, di
                                  "address": "Alexanderplatz 1"}]
                         can have intermediate stops (multiple dictionaries within the list)
                         alternatively param <distance> can be provided
+    :param size: size class of the bus;                 ["medium", "large", "average"]
+    :param fuel_type: type of fuel the bus is using;    ["diesel"]
+    :param occupancy: number of people on the bus       [20, 50, 80, 100]
+    :param vehicle_range: range/haul of the vehicle     ["local", "long-distance"]
 
     :return: Total emissions of trip in co2 equivalents, distance of the trip
     """
+    # Set default values
+    if size is None:
+        size = "average"
+        warnings.warn(f"Size of car was not provided. Using default value: '{size}'")
+    if fuel_type is None:
+        fuel_type = "average"
+        warnings.warn(f"Car fuel type was not provided. Using default value: '{fuel_type}'")
+    if occupancy is None:
+        occupancy = 50
+        warnings.warn(f"Occupancy was not provided. Using default value: '{occupancy}'")
+    if vehicle_range is None:
+        vehicle_range = "long-distance"
+        warnings.warn(f"Intended range of trip was not provided. Using default value: '{vehicle_range}'")
     detour_coefficient = 1.5
     if distance is None and stops is None:
         print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
@@ -144,11 +161,9 @@ def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, di
     return emissions, distance
 
 
-def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None):
+def calc_co2_train(distance: float = None, stops: list = None, fuel_type: str = None, vehicle_range: str = None):
     """
     Function to compute the emissions of a train trip.
-    :param fuel_type: type of fuel the train is using;    ["diesel", "electric", "average"]
-    :param vehicle_range: range/haul of the vehicle       ["local", "long-distance"]
     :param distance: Distance travelled in km;
                         alternatively param <stops> can be provided
     :param stops: List of locations as dictionaries in the form
@@ -158,9 +173,18 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
                                  "country": "DE"]
                         can have intermediate stops (multiple dictionaries within the list)
                         alternatively param <distance> can be provided
+    :param fuel_type: type of fuel the train is using;    ["diesel", "electric", "average"]
+    :param vehicle_range: range/haul of the vehicle       ["local", "long-distance"]
 
     :return: Total emissions of trip in co2 equivalents, distance of the trip
     """
+    # Set default values
+    if fuel_type is None:
+        fuel_type = "average"
+        warnings.warn(f"Car fuel type was not provided. Using default value: '{fuel_type}'")
+    if vehicle_range is None:
+        vehicle_range = "long-distance"
+        warnings.warn(f"Intended range of trip was not provided. Using default value: '{vehicle_range}'")
     detour_coefficient = 1.2
     if distance is None and stops is None:
         print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
@@ -187,7 +211,7 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
     return emissions, distance
 
 
-def calc_co2_plane(start, destination, seating_class="average"):
+def calc_co2_plane(start: str, destination: str, seating_class: str = None):
     """
     Function to compute emissions of a plane trip
     :param start: IATA code of start airport
@@ -199,6 +223,10 @@ def calc_co2_plane(start, destination, seating_class="average"):
 
     :return: Total emissions of flight in co2 equivalents, distance of the trip
     """
+    # Set defaults
+    if seating_class is None:
+        seating_class = "average"
+        warnings.warn(f"Seating class was not provided. Using default value: '{seating_class}'")
     detour_constant = 95  # 95 km as used by MyClimate and ges 1point5, see also
     # Méthode pour la réalisation des bilans d’émissions de gaz à effet de serre conformément à l’article L. 229­25 du code de l’environnement – 2016 – Version 4
     # get geographic coordinates of airports
@@ -231,7 +259,7 @@ def calc_co2_plane(start, destination, seating_class="average"):
     return emissions, distance
 
 
-def calc_co2_ferry(start, destination, seating_class="average"):
+def calc_co2_ferry(start: dict, destination: dict, seating_class: str = None):
     """
     Function to compute emissions of a ferry trip
     :param start: dictionary of location of start port,
@@ -242,6 +270,9 @@ def calc_co2_ferry(start, destination, seating_class="average"):
 
     :return: Total emissions of sea travel in co2 equivalents, distance of the trip
     """
+    if seating_class is None:
+        seating_class = "average"
+        warnings.warn(f"Seating class was not provided. Using default value: '{seating_class}'")
     # todo: Do we have a way of checking if there even exists a ferry connection between the given cities (of if the
     #  cities even have a port?
     detour_coefficient = 1  # Todo
