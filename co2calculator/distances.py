@@ -177,7 +177,7 @@ def geocoding_train_stations(loc_dict):
             warnings.warn("The provided country is not within Europe. "
                           "Please provide the address of the station instead of the station name for accurate results.")
     else:
-        raise ValueError("No 'country' provided.  Cannot search for train station")
+        raise ValueError("No 'country' provided. Cannot search for train station")
     if "station_name" in loc_dict:
         station_name = loc_dict["station_name"]
     else:
@@ -211,9 +211,9 @@ def is_valid_geocoding_dict(geocoding_dict):
     #  import warnings
     #  warnings.warn("..")
     if "country" not in geocoding_dict.keys():
-        print("Warning! You did not provide a country. The results may be wrong.")
+        warnings.warn("Country was not provided. The results may be wrong.")
     if "locality" not in geocoding_dict.keys():
-        print("Warning! You did not provide a locality (city). The results may be inaccurate.")
+        warnings.warn("Locality (city) was not provided. The results may be inaccurate.")
 
 
 def get_route(coords, profile=None):
@@ -229,9 +229,9 @@ def get_route(coords, profile=None):
 
     allowed_profiles = ["driving-car", "cycling-regular"]
     if profile not in allowed_profiles or profile is None:
-        print("Warning! Specified profile not available or no profile passed.\n"
-              "Profile set to 'driving-car' by default.")
         profile = "driving-car"
+        warnings.warn(f"Warning! Specified profile not available or no profile passed.\n"
+                      f"Profile set to '{profile}' by default.")
     route = directions(clnt, coords, profile=profile)
     dist = route["routes"][0]["summary"]["distance"]
 
