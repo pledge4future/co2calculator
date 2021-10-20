@@ -130,8 +130,8 @@ def calc_co2_bus(distance: float = None, stops: list = None, size: str = None, f
         size = "average"
         warnings.warn(f"Size of car was not provided. Using default value: '{size}'")
     if fuel_type is None:
-        fuel_type = "average"
-        warnings.warn(f"Car fuel type was not provided. Using default value: '{fuel_type}'")
+        fuel_type = "diesel"
+        warnings.warn(f"Bus fuel type was not provided. Using default value: '{fuel_type}'")
     if occupancy is None:
         occupancy = 50
         warnings.warn(f"Occupancy was not provided. Using default value: '{occupancy}'")
