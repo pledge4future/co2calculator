@@ -8,7 +8,9 @@ import sys
 import pandas as pd
 import glob
 import numpy as np
-from .distances import haversine, geocoding_airport, geocoding, get_route, geocoding_structured
+from .distances import haversine
+from .distances import geocoding_airport, geocoding, geocoding_structured, geocoding_train_stations
+from .distances import get_route
 from .constants import KWH_TO_TJ
 
 
@@ -114,7 +116,7 @@ def calc_co2_bus(size=None, fuel_type=None, occupancy=50, vehicle_range=None, di
     detour_coefficient = 1.5
     if distance is None and stops is None:
         print("Warning! Travel parameters missing. Please provide either the distance in km or a list of"
-              "travelled train stations in the form 'address, locality, country'")
+              "travelled bus stations in the form 'address, locality, country'")
     elif distance is None and stops is not None:
         distance = 0
         coords = []
@@ -142,12 +144,10 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
     :param distance: Distance travelled in km;
                         alternatively param <stops> can be provided
     :param stops: List of locations as dictionaries in the form
-                        e.g.,  [{"address": "Willy-Brandt-Platz 5",
-                                "locality": "Heidelberg",
-                                 "country": "Germany"},
-                                 {"country": "Germany",
-                                 "locality": "Berlin",
-                                 "address": "Alexanderplatz 1"}]
+                        e.g.,  [{"station_name": "Heidelberg Hbf",
+                                 "country": "DE"},
+                                 {"station_name": "Berlin Hauptbahnhof",
+                                 "country": "DE"]
                         can have intermediate stops (multiple dictionaries within the list)
                         alternatively param <distance> can be provided
 
@@ -161,7 +161,12 @@ def calc_co2_train(fuel_type=None, vehicle_range=None, distance=None, stops=None
         distance = 0
         coords = []
         for loc in stops:
-            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
+            try:
+                loc_name, loc_country, loc_coords = geocoding_train_stations(loc)
+            except RuntimeWarning:
+                loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
+            except ValueError:
+                loc_name, loc_country, loc_coords, res = geocoding_structured(loc)
             coords.append(loc_coords)
         for i in range(len(coords) - 1):
             # compute great circle distance between locations

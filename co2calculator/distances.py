@@ -8,9 +8,13 @@ Functions for obtaining the distance between given addresses.
 import numpy as np
 import openrouteservice
 from openrouteservice.directions import directions
-from openrouteservice.geocode import pelias_search, pelias_autocomplete, pelias_structured
+from openrouteservice.geocode import pelias_search, pelias_structured
 import os
 from dotenv import load_dotenv
+import pandas as pd
+from thefuzz import fuzz
+from thefuzz import process
+import warnings
 
 load_dotenv()  # take environment variables from .env.
 
@@ -134,47 +138,88 @@ def geocoding_structured(loc_dict):
         country = feature["properties"]["country"]
         coords = feature["geometry"]["coordinates"]
         layer = feature["properties"]["layer"]
-        if loc_dict["locality"] is not None and loc_dict["address"] is not None:
-            if layer != "address" or layer != "locality" and n_results > 1:
+        if "locality" in loc_dict.keys() and "address" in loc_dict.keys():
+            if (layer != "address" and layer != "locality" and layer != "street") and n_results > 1:
                 print(f"Data type not matching search ({layer} instead of address or locality. Skipping {name}, {coords}")
                 continue
         confidence = feature["properties"]["confidence"]
-        if confidence < 0.8 and n_results > 1:
-            print(f"Low confidence: {confidence:.1f}. Skipping {name}, {coords}")
-            continue
+        if confidence < 0.8:
+            warnings.warn(f"Low confidence: {confidence:.1f} for result {name}, {coords}")
         break
     print(f"{n_results} location(s) found. Using this result: {name}, {country} (data type: {layer})")
     print("Coords: ", coords)
 
+    # todo: check if to return res or not!
     return name, country, coords, res
 
 
-def is_valid_geocoding_dict(dict):
+def geocoding_train_stations(loc_dict):
     """
-    Function to check if the dictionary is valid as input for pelias structured geocoding
-    :param dict: dictionary describing the location
+    Function to obtain coordinates for a given train station
 
-    :return: Boolean
+    :param loc_dict: dictionary describing the location. The dictionary can have the keys:
+        country: highest-level administrative divisions supported in a search.
+                    Only two-letter abbreviations supported
+                    e.g., "DE"
+        station_name: Name of the train station
+                    e.g., "Heidelberg Hbf"
+
+    :return: Name, country and coordinates of the found location
     """
-    # todo: Write test(s) for this function to test/test_distances.py
+    stations_df = pd.read_csv(f"{script_path}/../data/stations/stations.csv", sep=";", low_memory=False,
+                              usecols=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+    # remove stations with no coordinates
+    stations_df.dropna(subset=["latitude", "longitude"], inplace=True)
+    countries_eu = stations_df["country"].unique()
+    if "country" in loc_dict:
+        country_code = loc_dict["country"]
+        if country_code not in countries_eu:
+            warnings.warn("The provided country is not within Europe. "
+                          "Please provide the address of the station instead of the station name for accurate results.")
+    else:
+        raise ValueError("No 'country' provided.  Cannot search for train station")
+    if "station_name" in loc_dict:
+        station_name = loc_dict["station_name"]
+    else:
+        raise ValueError("No 'station_name' provided. Cannot search for train station.")
+
+    # filter stations by country
+    stations_in_country_df = stations_df[stations_df["country"] == country_code]
+
+    # use thefuzz to find best match
+    choices = stations_in_country_df["slug"].values
+    res_station_slug, score = process.extractOne(station_name, choices, scorer=fuzz.partial_ratio)
+    res_station = stations_in_country_df[stations_in_country_df["slug"] == res_station_slug]
+    res_country, res_station_name = res_station[["country", "name"]].values[0]
+    coords = res_station[["latitude", "longitude"]].values
+
+    return res_station_name, res_country, coords
+
+
+def is_valid_geocoding_dict(geocoding_dict):
+    """
+    Function to check if the dictionary is valid as input for pelias structured geocoding. Raises error if it is not
+    the case
+    :param geocoding_dict: dictionary describing the location
+    """
     allowed_keys = ["country", "region", "county", "locality", "borough", "address", "postalcode", "neighbourhood"]
-    assert len(dict) != 0, "Error! Empty dictionary provided."
-    for key in dict:
+    assert len(geocoding_dict) != 0, "Error! Empty dictionary provided."
+    for key in geocoding_dict:
         assert key in allowed_keys, f"Error! Parameter {key} is not available. Please check the input data."
     # warnings
     # todo: instead of prints, use
     #  import warnings
     #  warnings.warn("..")
-    if "country" not in dict.keys():
+    if "country" not in geocoding_dict.keys():
         print("Warning! You did not provide a country. The results may be wrong.")
-    if "locality" not in dict.keys():
+    if "locality" not in geocoding_dict.keys():
         print("Warning! You did not provide a locality (city). The results may be inaccurate.")
 
 
 def get_route(coords, profile=None):
     """
     Obtain the distance of a route between given waypoints using a given profile
-    :param coords: list of [lat,long] coordinate-lists
+    :param coords: list of [lat,long] coordinates
     :param profile: driving-car, cycling-regular
     :return: distance of the route
     """
