@@ -48,7 +48,7 @@ The `co2calculator` allows to quantify the emissions for individual business tri
 
 Geocoding is done using the [openrouteservice](https://openrouteservice.org/dev/#/api-docs) geocoding service, which is built on top of the [Pelias](https://github.com/pelias/pelias), a modular, open-source search engine for the world.
 
-To find airports [geocoding_airport](https://github.com/pledge4future/co2calculator/blob/5ac4e624f742f404299276e013f0f0194e5ba6da/co2calculator/distances.py#L45), we use [Pelias search](https://github.com/pelias/documentation/blob/master/search.md) with the search text "Airplane" + **IATA-code**. To find train stations inside the EU [geocoding_train_stations](https://github.com/pledge4future/co2calculator/blob/5ac4e624f742f404299276e013f0f0194e5ba6da/co2calculator/distances.py#L156), we use the train station database of [Trainline EU](https://github.com/trainline-eu/stations). For other modes of transport, we use [structured geocoding](https://github.com/pelias/documentation/blob/master/structured-geocoding.md) ([geocoding_structured](https://github.com/pledge4future/co2calculator/blob/5ac4e624f742f404299276e013f0f0194e5ba6da/co2calculator/distances.py#L98)). The structured geocoding parameters are:
+To find airports [geocoding_airport](https://github.com/pledge4future/co2calculator/blob/5ac4e624f742f404299276e013f0f0194e5ba6da/co2calculator/distances.py#L45), we use [Pelias search](https://github.com/pelias/documentation/blob/master/search.md) with the search text "Airplane" + **IATA-code**. To find train stations inside the EU [geocoding_train_stations](https://github.com/pledge4future/co2calculator/blob/5ac4e624f742f404299276e013f0f0194e5ba6da/co2calculator/distances.py#L156), we use the train station database of [Trainline EU](https://github.com/trainline-eu/stations). For train trips outside if the EU and other modes of transport, we use [structured geocoding](https://github.com/pelias/documentation/blob/master/structured-geocoding.md) ([geocoding_structured](https://github.com/pledge4future/co2calculator/blob/5ac4e624f742f404299276e013f0f0194e5ba6da/co2calculator/distances.py#L98)). The structured geocoding parameters are:
 - country: highest-level administrative division supported in a search. Full country name or two-/three-letter abbreviations supported
     - e.g., Germany / "DE" / "DEU"
 - region: first-level administrative divisions within countries, analogous to states and provinces in the US and Canada
@@ -94,7 +94,7 @@ Bus | - (assumes "diesel")| [medium, large, average] | in % [20, 50, 80, 100] | 
 Plane | - | - | - | [average, Economy class, Business class, Premium economy class, First class] | - | - (determined from distance)
 Ferry | - | - | - | [average, Foot passenger, Car passenger] | - | -
 
-These specifica determine how high the emission factors (in kg CO<sub>2</sub>e/km) are. 
+These specifica determine how high the emission factors (in kg CO<sub>2</sub>e/km) are. If these parameters are not specified, the default values in the following table are used:
 
 ### Default values of the specifica of the modes of transport
 
