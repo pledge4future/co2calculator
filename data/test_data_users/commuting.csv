@@ -1,2 +1,9 @@
 username;group_id;from_timestamp;to_timestamp;transportation_mode;annual_workweeks;distance;size;fuel_type;occupancy;passengers
 maja_musterfrau;1;2018-04-01;2018-10-01;bicycle;45;4.5;;;;
+heinrich_lohrmann;3;2018-01-01;2018-12-31;car;42;55;medium;diesel;;1
+renate_berg;1;2018-10-01;2019-03-01;train;44;75;;electric;;
+urs_wehrli;4;2019-01-01;2019-04-30;bus;45;90;large;diesel;80;
+urs_wehrli;4;2019-05-01;2019-12-31;car;45;82;small;gasoline;;1
+martin_schmidt;5;2018-01-01;2018-12-31;bicycle;44;48;;;;
+martin_schmidt;5;2018-01-01;2018-12-31;car;44;12;average;gasoline;;2
+elisa_gundermann;2;2018-03-01;2019-12-31;tram;42;20;;;;
