@@ -1,6 +1,6 @@
-id;name;representative_user_id;n_members
-1;sustainability_group;1;10
-2;LMU_geo;4;8
-3;hydro_group_bonn;15;9
-4;exp_phys_HD;21;7
-5;eco_group_TUD;24;11
+id;name;institution_id;n_employees;representative
+1;sustainability_group;;10;maja_musterfrau
+2;LMU_geo;;8;erica_johnson
+3;hydro_group_bonn;;9;andrea_hoffmann
+4;exp_phys_HD;;7;xao_li
+5;eco_group_TUD;;11;martin_schmidt

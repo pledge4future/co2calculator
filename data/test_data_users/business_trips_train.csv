@@ -1,31 +1,31 @@
-id;user-id;fuel_type;country_start;region_start;county_start;locality_start;borough_start;address_start;country_dest;region_dest;county_dest;locality_dest;borough_dest;address_dest;roundtrip;year
-1;5;electric;Germany;;;Heidelberg;;Willy-Brandt-Platz 5;Switzerland;;;Basel;;Centralbahnstrasse 10;False;2018
-2;12;electric;Germany;;;Heidelberg;;Willy-Brandt-Platz 5;Austria;;;Villach;;Bahnhofplatz 1;True;2018
-3;12;electric;Slovenia;;;Ljubljana;;Trg Osvobodilne fronte 7;Austria;;;Vienna;;Am Hauptbahnhof 1;False;2018
-4;20;diesel;Germany;;;Hamburg;;Hachmannplatz 16;Denmark;;;Copenhagen;;Bernstorffsgade;True;2018
-5;14;electric;Germany;;;Berlin;;Europaplatz 1;France;;;Paris;;Rue du 8 Mai 1945;True;2018
-6;6;electric;Germany;;;Munich;;Bayerstraﬂe 10A;Germany;;;D¸sseldorf;;Konrad-Adenauer-Platz 14;False;2019
-7;19;diesel;USA;;;Chicago;;225 S Canal Street;USA;;;St. Louis;;430 S 15th Street;True;2018
-8;35;electric;Sweden;;;Lund;;Bangatan 1;Sweden;;;Umea;;J‰rnv‰gstorget;True;2018
-9;15;electric;Norway;;;Bergen;;Stromgaten 4;Norway;;;Oslo;;Jernbanetorget 1;True;2018
-10;39;diesel;Denmark;;;Aalborg;;John F. Kennedys Pl. 3;Denmark;;;Copenhagen;;Bernstorffsgade;False;2018
-11;20;electric;Switzerland;;;Zurich;;Bahnhofplatz;Germany;;;Freiburg;;Bismarckallee 5;True;2019
-12;20;electric;Belgium;;;Brussels;;Carr de l' Europe;Germany;;;Cologne;;Trankgasse 11;True;2019
-13;3;electric;Austria;;;Graz;;Europaplatz 7;Germany;;;Munich;;Bayerstraﬂe 10A;True;2018
-14;43;electric;Italy;;;Rome;;Via Giovanni Giolitti, 40;Italy;;;Milan;;Piazza Duca d'Aosta, 1;False;2018
-15;33;electric;Netherlands;;;Amsterdam;;Stationsplein;Belgium;;;Gent;;Kon. Maria Hendrikaplein 1;True;2018
-16;29;electric;Portugal;;;Lisbon;;Cais do SodrÈ;Spain;;;Madrid;;Pl. del Emperador Carlos V;True;2019
-17;4;electric;Poland;;;Warsaw;;al. Jerozolimskie 54;Germany;;;Berlin;;Europaplatz 1;True;2019
-18;6;diesel;Lithuania;;;Vilnius;;Geleûinkelio g. 16;Lithuania;;;Klaipeda;;Priesto?io g. 5;False;2018
-19;31;diesel;Estonia;;;Tallinn;;Toompuiestee 37;Latvia;;;Riga;;Stacijas laukums 2;True;2019
-20;8;diesel;Czech Republic;;;Liberec;;N·draûÌ 435;Germany;;;Dresden;;Wiener Platz 4;True;2018
-21;41;diesel;Croatia;;;Zagreb;;Trg Kralja Tomislava 12;Croatia;;;Rijeka;;Trg kralja Tomislava 2;True;2018
-22;14;diesel;Serbia;;;Belgrad;;Prokop;Romania;;;Bucharest;;Bulevardul Dinicu Golescu 31;False;2019
-23;34;diesel;United Kingdom;;;Durham;;Station Approach;United Kingdom;;;Edinburgh;;Princes Street;True;2019
-24;34;diesel;Germany;;;Nuremberg;;Bahnhofsplatz;Germany;;;Regensburg;;Bahnhofstraﬂe 18;True;2018
-25;29;electric;Switzerland;;;Bern;;Bahnhofplatz 10A;France;;;Grenoble;;1 Place de la Gare;True;2019
-26;14;electric;Belgium;;;Antwerpen;;Koningin Astridplein 27;France;;;Paris;;18 Rue de Dunkerque;False;2019
-27;32;electric;Sweden;;;Gˆteborg;;Drottningtorget 5;Denmark;;;Copenhagen;;Bernstorffsgade;True;2018
-28;32;electric;Italy;;;Bologna;;Piazza delle Medaglie d'Oro;Austria;;;Innsbruck;;S¸dtiroler Platz 3;True;2019
-29;14;electric;Spain;;;Barcelona;;Av. del MarquËs de l'Argentera, S/N;Spain;;;Bilbao;;Hurtado de Amezaga Kalea;True;2019
-30;11;electric;China;;;Bejing;;Bejing South Railway Station Road;China;;;Shanghai;;Shengui Road;False;2019
+username;group_id;timestamp;fuel_type;roundtrip;address_start;locality_start;country_start;address_dest;locality_dest;country_dest
+gunilla_andersson;4;2018-08-18;electric;False;Willy-Brandt-Platz 5;Heidelberg;Germany;Centralbahnstrasse 10;Basel;Switzerland
+sara_curreli;4;2018-09-17;electric;True;Willy-Brandt-Platz 5;Heidelberg;Germany;Bahnhofplatz 1;Villach;Austria
+sara_curreli;4;2018-09-23;electric;False;Trg Osvobodilne fronte 7;Ljubljana;Slovenia;Am Hauptbahnhof 1;Vienna;Austria
+arttu_perkkonen;3;2018-06-23;diesel;True;Hachmannplatz 16;Hamburg;Germany;Bernstorffsgade;Copenhagen;Denmark
+heinrich_lohrmann;3;2018-05-10;electric;True;Europaplatz 1;Berlin;Germany;Rue du 8 Mai 1945;Paris;France
+erik_johansson;4;2019-08-02;electric;False;Bayerstra√üe 10A;Munich;Germany;Konrad-Adenauer-Platz 14;D√ºsseldorf;Germany
+salli_heiskanen;3;2018-03-22;diesel;True;225 S Canal Street;Chicago;USA;430 S 15th Street;St. Louis;USA
+kendrick_vollmer;1;2018-08-20;electric;True;Bangatan 1;Lund;Sweden;J√§rnv√§gstorget;Umea;Sweden
+andrea_hoffmann;3;2018-01-08;electric;True;Stromgaten 4;Bergen;Norway;Jernbanetorget 1;Oslo;Norway
+hans_findeis;4;2018-01-25;diesel;False;John F. Kennedys Pl. 3;Aalborg;Denmark;Bernstorffsgade;Copenhagen;Denmark
+arttu_perkkonen;3;2019-03-18;electric;True;Bahnhofplatz;Zurich;Switzerland;Bismarckallee 5;Freiburg;Germany
+arttu_perkkonen;3;2019-01-22;electric;True;Carr de l' Europe;Brussels;Belgium;Trankgasse 11;Cologne;Germany
+john_walsh;4;2018-05-06;electric;True;Europaplatz 7;Graz;Austria;Bayerstra√üe 10A;Munich;Germany
+holger_schumann;4;2018-01-19;electric;False;Via Giovanni Giolitti, 40;Rome;Italy;Piazza Duca d'Aosta, 1;Milan;Italy
+murat_t√ºrk√ºler;4;2018-01-15;electric;True;Stationsplein;Amsterdam;Netherlands;Kon. Maria Hendrikaplein 1;Gent;Belgium
+henrik_bast;4;2019-02-04;electric;True;Cais do Sodr√©;Lisbon;Portugal;Pl. del Emperador Carlos V;Madrid;Spain
+erica_johnson;2;2019-03-12;electric;True;al. Jerozolimskie 54;Warsaw;Poland;Europaplatz 1;Berlin;Germany
+erik_johansson;4;2018-04-10;diesel;False;Gele¬ûinkelio g. 16;Vilnius;Lithuania;Priesto?io g. 5;Klaipeda;Lithuania
+iwan_novikow;2;2019-11-04;diesel;True;Toompuiestee 37;Tallinn;Estonia;Stacijas laukums 2;Riga;Latvia
+pierre_bigot;1;2018-09-07;diesel;True;N√°dra¬û√≠ 435;Liberec;Czech Republic;Wiener Platz 4;Dresden;Germany
+gerhard_braun;4;2018-05-01;diesel;True;Trg Kralja Tomislava 12;Zagreb;Croatia;Trg kralja Tomislava 2;Rijeka;Croatia
+heinrich_lohrmann;3;2019-07-16;diesel;False;Prokop;Belgrad;Serbia;Bulevardul Dinicu Golescu 31;Bucharest;Romania
+sophie_eisenbichler;3;2019-04-12;diesel;True;Station Approach;Durham;United Kingdom;Princes Street;Edinburgh;United Kingdom
+sophie_eisenbichler;3;2018-01-05;diesel;True;Bahnhofsplatz;Nuremberg;Germany;Bahnhofstra√üe 18;Regensburg;Germany
+henrik_bast;4;2019-04-16;electric;True;Bahnhofplatz 10A;Bern;Switzerland;1 Place de la Gare;Grenoble;France
+heinrich_lohrmann;3;2019-03-25;electric;False;Koningin Astridplein 27;Antwerpen;Belgium;18 Rue de Dunkerque;Paris;France
+gerda_hahnemann;1;2018-01-18;electric;True;Drottningtorget 5;G√∂teborg;Sweden;Bernstorffsgade;Copenhagen;Denmark
+gerda_hahnemann;1;2019-06-09;electric;True;Piazza delle Medaglie d'Oro;Bologna;Italy;S√ºdtiroler Platz 3;Innsbruck;Austria
+heinrich_lohrmann;3;2019-08-21;electric;True;Av. del Marqu√®s de l'Argentera, S/N;Barcelona;Spain;Hurtado de Amezaga Kalea;Bilbao;Spain
+claudio_puccini;3;2019-11-16;electric;False;Bejing South Railway Station Road;Bejing;China;Shengui Road;Shanghai;China

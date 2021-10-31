@@ -1,27 +1,27 @@
-id;user_id;start;destination;seating_class;country_start;region_start;county_start;locality_start;borough_start;address_start;country_dest;region_dest;county_dest;locality_dest;borough_dest;address_dest;roundtrip;year
-1;1;Nice; France;Car passenger;France;;;Corse;;;France;;;Nice;;;FALSE;2018
-2;2;;;Foot passenger;Germany;;;Rostock;;;Sweden;;;Trelleborg;;;True;2019
-3;2;;;Car passenger;Spain;;;Los Cristianos;;;Spain;;;San Sebastián de la Gomera;;;True;2019
-4;3;;;Foot passenger;Germany;;;Bensersiel;;;Germany;;;Langeoog;;;True;2018
-5;1;;;Car passenger;New Zealand;;;Auckland;Devonport;;New Zealand;Waiheke island;;Auckland;;;True;2018
-6;11;;;Car passenger;UK;;;Pembroke;;;Ireland;;;Rosslare;;;True;2018
-7;44;;;Car passenger;UK;;;Fishguard;;;Ireland;;;Rosslare;;;True;2019
-8;12;;;Car passenger;UK;;;Liverpool;;;Ireland;;;Dublin;;;false;2019
-9;15;;;Car passenger;UK;;;Larne;;;UK;;;Cairnryan;;;True;2018
-10;26;;;Car passenger;Sweden;;;Gothenburg;;;Germany;;;Kiel;;;false;2018
-11;37;;;Car passenger;Sweden;;;Stockholm;;;Finland;;;Helsinki;;;True;2018
-12;36;;;Foot passenger;Sweden;;;Malmö;;;Germany;;;Travemünde;;;True;2019
-13;42;;;Car passenger;Denmark;;;Grenaa;;;Sweden;;;Varberg;;;True;2019
-14;42;;;Foot passenger;Denmark;;;Rødby;;;Germany;;;Puttgarden;;;True;2018
-15;35;;;Car passenger;Italy;;;Termoli;;;Italy;;;San Domino;;;True;2018
-16;33;;;Car passenger;Albania;;;Durrës;;;Italy;;;Bari;;;True;2019
-17;23;;;Car passenger;Croatia;;;Dubrovnik;;;Italy;;;Bari;;;True;2019
-18;25;;;Car passenger;Greece;;;Sami;;;Greece;;;Patras;;;True;2018
-19;12;;;Car passenger;Italy;;;Catania;;;Italy;;;Salerno;;;True;2018
-20;5;;;Car passenger;France;;;Bastia;;;Italy;;;Livorno;;;false;2019
-21;7;;;Foot passenger;Croatia;;;Pula;;;Italy;;;Venice;;;false;2018
-22;19;;;Car passenger;Croatia;;;Zadar;;;Italy;;;Ancona;;;True;2019
-23;22;;;Car passenger;Spain;;;Malaga;;;Spain;;;Melilla;;;True;2019
-24;36;;;Foot passenger;Spain;;;Almeria;;;Spain;;;Melilla;;;True;2018
-25;25;;;Car passenger;France;;;Roscoff;;;UK;;;Plymouth;;;True;2019
-26;24;;;Car passenger;France;;;Calais;;;UK;;;Dover;;;True;2018
+username;group_id;timestamp;roundtrip;locality_start;country_start;locality_dest;country_dest
+maja_musterfrau;1;2018-02-03;False;Corse;France;Nice;France
+max_mustermann;1;2019-01-17;True;Rostock;Germany;Trelleborg;Sweden
+max_mustermann;1;2019-08-08;True;Los Cristianos;Spain;San Sebastián de la Gomera;Spain
+john_walsh;4;2018-01-15;True;Bensersiel;Germany;Langeoog;Germany
+maja_musterfrau;1;2018-04-03;True;Auckland;New Zealand;Auckland;New Zealand
+claudio_puccini;3;2018-02-17;True;Pembroke;UK;Rosslare;Ireland
+renate_berg;1;2019-01-26;True;Fishguard;UK;Rosslare;Ireland
+sara_curreli;4;2019-02-02;False;Liverpool;UK;Dublin;Ireland
+andrea_hoffmann;3;2018-07-02;True;Larne;UK;Cairnryan;UK
+agnes_kämmerer;3;2018-09-12;False;Gothenburg;Sweden;Kiel;Germany
+patrick_hofer;3;2018-04-11;True;Stockholm;Sweden;Helsinki;Finland
+henrike_gustavsson;1;2019-03-24;True;Malmö;Sweden;Travemünde;Germany
+vishma_sampath;3;2019-04-19;True;Grenaa;Denmark;Varberg;Sweden
+vishma_sampath;3;2018-09-09;True;Rødby;Denmark;Puttgarden;Germany
+kendrick_vollmer;1;2018-08-14;True;Termoli;Italy;San Domino;Italy
+murat_türküler;4;2019-06-08;True;Durrës;Albania;Bari;Italy
+anamika_singh;4;2019-03-13;True;Dubrovnik;Croatia;Bari;Italy
+claudia_müller;4;2018-05-18;True;Sami;Greece;Patras;Greece
+sara_curreli;4;2018-04-19;True;Catania;Italy;Salerno;Italy
+gunilla_andersson;4;2019-03-02;False;Bastia;France;Livorno;Italy
+cecile_meunier;2;2018-06-15;False;Pula;Croatia;Venice;Italy
+salli_heiskanen;3;2019-03-23;True;Zadar;Croatia;Ancona;Italy
+nguyen_tranh;4;2019-08-18;True;Malaga;Spain;Melilla;Spain
+henrike_gustavsson;1;2018-01-27;True;Almeria;Spain;Melilla;Spain
+claudia_müller;4;2019-05-04;True;Roscoff;France;Plymouth;UK
+martin_schmidt;5;2018-01-12;True;Calais;France;Dover;UK
