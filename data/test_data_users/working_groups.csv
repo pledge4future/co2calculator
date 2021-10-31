@@ -1,6 +1,6 @@
 id;name;institution_id;n_employees;representative
-1;sustainability_group;;10;maja_musterfrau
-2;LMU_geo;;8;erica_johnson
-3;hydro_group_bonn;;9;andrea_hoffmann
-4;exp_phys_HD;;7;xao_li
-5;eco_group_TUD;;11;martin_schmidt
+1;European Molecular Biology Laboratory;grid.4709.a;64;maja_musterfrau
+2;International Institute for Environment and Development;grid.425205.4;73;erica_johnson
+3;Center of Advanced European Studies and Research;grid.438114.b;24;andrea_hoffmann
+4;Max Planck Institute for Astronomy;grid.429508.2;22;xao_li
+5;Leibniz Institute of Ecological Urban and Regional Development;grid.424805.f;11;martin_schmidt
