@@ -25,6 +25,6 @@ fatima_uenal;4;2018-01-01;2019-31-12;train;46;60;;electric;;
 martin_schmidt;5;2018-01-01;2018-12-31;train;46;800;;electric;;
 martin_schmidt;5;2018-01-01;2018-12-31;train;46;600;;electric;;
 agne_minderyte;1;2018-01-01;2018-12-31;motorbike;46;44;medium;;;
-claudio_puccini;3;2018-01-01;2018-03-31;hybrid;42;75;average;;;3
-claudio_puccini;3;2018-04-01;2018-10-31;hybrid;42;75;average;;;1
+claudio_puccini;3;2018-01-01;2018-03-31;car;42;75;average;hybrid;;3
+claudio_puccini;3;2018-04-01;2018-10-31;car;42;75;average;hybrid;;1
 claudio_puccini;3;2018-11-01;2019-05-31;pedelec;42;72;;;;
