@@ -1,5 +1,12 @@
 username;group_id;from_timestamp;to_timestamp;transportation_mode;annual_workweeks;distance;size;fuel_type;occupancy;passengers
-maja_musterfrau;1;2018-04-01;2018-10-01;bicycle;45;4.5;;;;
+maja_musterfrau;1;2018-04-01;2018-10-01;bicycle;45;40;;;;
+maja_musterfrau;1;2018-01-01;2018-04-01;tram;45;45;;;;
+maja_musterfrau;1;2018-10-01;2018-12-31;tram;45;45;;;;
+max_mustermann;1;2018-01-01;2018-12-31;train;48;60;;average;;
+max_mustermann;1;2018-04-01;2018-10-31;bicycle;48;20;;;;
+max_mustermann;1;2018-01-01;2018-04-31;bus;48;20;large;diesel;50;
+max_mustermann;1;2018-11-01;2018-12-31;bus;48;20;large;diesel;50;
+max_mustermann;1;2019-01-01;2019-12-31;bicycle;47;75;;;;
 heinrich_lohrmann;3;2018-01-01;2018-12-31;car;42;55;medium;diesel;;1
 renate_berg;1;2018-10-01;2019-03-01;train;44;75;;electric;;
 urs_wehrli;4;2019-01-01;2019-04-30;bus;45;90;large;diesel;80;
@@ -7,3 +14,9 @@ urs_wehrli;4;2019-05-01;2019-12-31;car;45;82;small;gasoline;;1
 martin_schmidt;5;2018-01-01;2018-12-31;bicycle;44;48;;;;
 martin_schmidt;5;2018-01-01;2018-12-31;car;44;12;average;gasoline;;2
 elisa_gundermann;2;2018-03-01;2019-12-31;tram;42;20;;;;
+cecile_meunier;2;2018-01-01;2019-03-01;car;46;102;medium;diesel;;1
+cecile_meunier;2;2019-03-01;2019-12-31;car;46;102;medium;electric;;1
+salli_heiskanen;3;2018-01-01;2018-12-31;car;46;110;large;plug-in_hybrid;;1
+salli_heiskanen;3;2018-01-01;2018-12-31;car;46;68;large;plug-in_hybrid;;1
+xao_li;4;2018-01-01;2018-04-30;bus;45;120;average;diesel;20;
+xao_li;4;2019-05-01;2019-12-31;pedelec;45;100;;;;
