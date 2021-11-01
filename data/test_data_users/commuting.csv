@@ -20,3 +20,11 @@ salli_heiskanen;3;2018-01-01;2018-12-31;car;46;110;large;plug-in_hybrid;;1
 salli_heiskanen;3;2018-01-01;2018-12-31;car;46;68;large;plug-in_hybrid;;1
 xao_li;4;2018-01-01;2018-04-30;bus;45;120;average;diesel;20;
 xao_li;4;2019-05-01;2019-12-31;pedelec;45;100;;;;
+fatima_uenal;4;2018-01-01;2019-31-12;bus;46;20;medium;diesel;80;
+fatima_uenal;4;2018-01-01;2019-31-12;train;46;60;;electric;;
+martin_schmidt;5;2018-01-01;2018-12-31;train;46;800;;electric;;
+martin_schmidt;5;2018-01-01;2018-12-31;train;46;600;;electric;;
+agne_minderyte;1;2018-01-01;2018-12-31;motorbike;46;44;medium;;;
+claudio_puccini;3;2018-01-01;2018-03-31;hybrid;42;75;average;;;3
+claudio_puccini;3;2018-04-01;2018-10-31;hybrid;42;75;average;;;1
+claudio_puccini;3;2018-11-01;2019-05-31;pedelec;42;72;;;;
