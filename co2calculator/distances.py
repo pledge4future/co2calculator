@@ -5,6 +5,7 @@
 Functions for obtaining the distance between given addresses.
 """
 
+from typing import Tuple
 import numpy as np
 import openrouteservice
 from openrouteservice.directions import directions
@@ -22,7 +23,7 @@ ors_api_key = os.getenv('ORS_API_KEY')
 script_path = os.path.dirname(os.path.realpath(__file__))
 
 
-def haversine(lat_start, long_start, lat_dest, long_dest):
+def haversine(lat_start: float, long_start: float, lat_dest: float, long_dest: float) -> float:
     """
     Function to compute the distance as the crown flies between given locations
     :param lat_start: latitude of Start
@@ -42,7 +43,7 @@ def haversine(lat_start, long_start, lat_dest, long_dest):
     return c * r  # distance in km
 
 
-def geocoding_airport(iata):
+def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
     """
     Function to obtain the coordinates of an airport by the IATA code
     :param iata: IATA airport code
@@ -76,7 +77,7 @@ def geocoding(address):
     Function to obtain coordinates for a given address
     :param address: Location/Address to be searched
             user should give address in the form:
-            <adress>, <locality>, <country>
+            <address>, <locality>, <country>
             e.g. Hauptbahnhof, Heidelberg, Germany
             e.g. Im Neuenheimer Feld 348, Heidelberg, Germany
             e.g. Heidelberg, Germany
@@ -177,7 +178,7 @@ def geocoding_train_stations(loc_dict):
             warnings.warn("The provided country is not within Europe. "
                           "Please provide the address of the station instead of the station name for accurate results.")
     else:
-        raise ValueError("No 'country' provided.  Cannot search for train station")
+        raise ValueError("No 'country' provided. Cannot search for train station")
     if "station_name" in loc_dict:
         station_name = loc_dict["station_name"]
     else:
@@ -207,16 +208,13 @@ def is_valid_geocoding_dict(geocoding_dict):
     for key in geocoding_dict:
         assert key in allowed_keys, f"Error! Parameter {key} is not available. Please check the input data."
     # warnings
-    # todo: instead of prints, use
-    #  import warnings
-    #  warnings.warn("..")
     if "country" not in geocoding_dict.keys():
-        print("Warning! You did not provide a country. The results may be wrong.")
+        warnings.warn("Country was not provided. The results may be wrong.")
     if "locality" not in geocoding_dict.keys():
-        print("Warning! You did not provide a locality (city). The results may be inaccurate.")
+        warnings.warn("Locality (city) was not provided. The results may be inaccurate.")
 
 
-def get_route(coords, profile=None):
+def get_route(coords: tuple, profile=None):
     """
     Obtain the distance of a route between given waypoints using a given profile
     :param coords: list of [lat,long] coordinates
@@ -229,9 +227,9 @@ def get_route(coords, profile=None):
 
     allowed_profiles = ["driving-car", "cycling-regular"]
     if profile not in allowed_profiles or profile is None:
-        print("Warning! Specified profile not available or no profile passed.\n"
-              "Profile set to 'driving-car' by default.")
         profile = "driving-car"
+        warnings.warn(f"Warning! Specified profile not available or no profile passed.\n"
+                      f"Profile set to '{profile}' by default.")
     route = directions(clnt, coords, profile=profile)
     dist = route["routes"][0]["summary"]["distance"]
 

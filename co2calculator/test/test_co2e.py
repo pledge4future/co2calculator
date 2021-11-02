@@ -84,7 +84,7 @@ def test_car_given_dist():
     co2e_kg_expected = 34.19  # emission factor: 0.231 kg/P.km
 
     # Calculate co2e
-    co2e, _ = calc_co2_car(passengers, size=car_size, fuel_type=fuel_type, distance=distance_km)
+    co2e, _ = calc_co2_car(distance=distance_km, passengers=passengers, size=car_size, fuel_type=fuel_type)
 
     # Check if expected result matches calculated result
     assert round(co2e, 2) == co2e_kg_expected
