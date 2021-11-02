@@ -106,7 +106,7 @@ def calc_co2_motorbike(distance: float = None, stops: list = None, size: str = N
 
 
 def calc_co2_bus(distance: float = None, stops: list = None, size: str = None, fuel_type: str = None,
-                 occupancy: int = 50, vehicle_range: str = None) -> Tuple[float, float]:
+                 occupancy: int = None, vehicle_range: str = None) -> Tuple[float, float]:
     """
     Function to compute the emissions of a bus trip.
     :param distance: Distance travelled in km;
