@@ -366,7 +366,7 @@ def calc_co2_businesstrip(transportation_mode: str, start=None, destination=None
                           passengers: int = None, roundtrip: bool = False) -> Tuple[float, float, str, str]:
     """
     Function to compute emissions for business trips based on transportation mode and trip specifics
-    :param transportation_mode: mode of transport [car, bus, train, plane]
+    :param transportation_mode: mode of transport [car, bus, train, plane, ferry]
     :param start: Start of the trip (alternatively, distance can be provided)
     :param destination: Destination of the trip (alternatively, distance can be provided)
     :param distance: Distance travelled in km (alternatively, start and destination can be provided)
