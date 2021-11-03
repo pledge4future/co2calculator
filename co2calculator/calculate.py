@@ -36,7 +36,7 @@ def calc_co2_car(distance: float = None, stops: list = None, passengers: int = N
     :param size: size of car
                         ["small", "medium", "large", "average"]                 default: "average"
     :param fuel_type: type of fuel the car is using
-                        ["diesel", "gasoline", "cng", "electric", "average"]    default: "average"
+                        ["diesel", "gasoline", "cng", "electric", "hybrid", "plug-in_hybrid", "average"]    default: "average"
 
     :return: Total emissions of trip in co2 equivalents
     """
@@ -130,7 +130,7 @@ def calc_co2_bus(distance: float = None, stops: list = None, size: str = None, f
     # Set default values
     if size is None:
         size = "average"
-        warnings.warn(f"Size of car was not provided. Using default value: '{size}'")
+        warnings.warn(f"Size of bus was not provided. Using default value: '{size}'")
     if fuel_type is None:
         fuel_type = "diesel"
         warnings.warn(f"Bus fuel type was not provided. Using default value: '{fuel_type}'")
