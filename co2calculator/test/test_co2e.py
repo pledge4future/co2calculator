@@ -1,21 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-Test co2e calculations
-"""
+"""Test co2e calculations"""
 
 import os
 
-from co2calculator import *
+from co2calculator import (
+    calc_co2_car,
+    calc_co2_heating,
+    calc_co2_bus,
+    calc_co2_train,
+    calc_co2_commuting,
+    calc_co2_electricity,
+    calc_co2_ferry,
+    calc_co2_plane,
+    calc_co2_motorbike,
+    calc_co2_businesstrip,
+)
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 
 
 def test_heating_woodchips():
-    """
-    Test co2e calculation for heating: woodchips
-    :return:
-    """
+    """Test co2e calculation for heating: woodchips"""
     # Given parameters
     fuel_type = "woodchips"  # emission factor: 9322 kg/TJ
     consumption = 250
@@ -31,10 +37,7 @@ def test_heating_woodchips():
 
 
 def test_electricity():
-    """
-    Test co2e calculation for electricity
-    :return:
-    """
+    """Test co2e calculation for electricity"""
     # Given parameters
     fuel_type = "german_energy_mix"
     consumption_kwh = 10000
@@ -48,10 +51,7 @@ def test_electricity():
 
 
 def test_bus_given_dist():
-    """
-    Test co2e calculation for a bus trip of given distance
-    :return:
-    """
+    """Test co2e calculation for a bus trip of given distance"""
     # Given parameters
     fuel_type = "diesel"
     distance_km = 549
@@ -61,21 +61,20 @@ def test_bus_given_dist():
     co2e_kg_expected = 12.30  # emission factor: 0.0224 kg/P.km
 
     # Calculate co2e
-    co2e, _ = calc_co2_bus(size=bus_size,
-                           fuel_type=fuel_type,
-                           occupancy=occupancy,
-                           vehicle_range=bus_range,
-                           distance=distance_km)
+    co2e, _ = calc_co2_bus(
+        size=bus_size,
+        fuel_type=fuel_type,
+        occupancy=occupancy,
+        vehicle_range=bus_range,
+        distance=distance_km,
+    )
 
     # Check if expected result matches calculated result
     assert round(co2e, 2) == co2e_kg_expected
 
 
 def test_car_given_dist():
-    """
-    Test co2e calculation for a car trip of given distance
-    :return:
-    """
+    """Test co2e calculation for a car trip of given distance"""
     # Given parameters
     fuel_type = "gasoline"
     distance_km = 444
@@ -84,17 +83,16 @@ def test_car_given_dist():
     co2e_kg_expected = 34.19  # emission factor: 0.231 kg/P.km
 
     # Calculate co2e
-    co2e, _ = calc_co2_car(distance=distance_km, passengers=passengers, size=car_size, fuel_type=fuel_type)
+    co2e, _ = calc_co2_car(
+        distance=distance_km, passengers=passengers, size=car_size, fuel_type=fuel_type
+    )
 
     # Check if expected result matches calculated result
     assert round(co2e, 2) == co2e_kg_expected
 
 
 def test_train_given_dist():
-    """
-    Test co2e calculation for a train trip of given distance
-    :return:
-    """
+    """Test co2e calculation for a train trip of given distance"""
     # Given parameters
     fuel_type = "electric"
     distance_km = 1162
@@ -103,17 +101,16 @@ def test_train_given_dist():
     # (still has to be checked by expert though! only 0.00948 kg/P.km according to Öko-Institut)
 
     # Calculate co2e
-    co2e, _ = calc_co2_train(fuel_type=fuel_type, vehicle_range=train_range, distance=distance_km)
+    co2e, _ = calc_co2_train(
+        fuel_type=fuel_type, vehicle_range=train_range, distance=distance_km
+    )
 
     # Check if expected result matches calculated result
     assert round(co2e, 2) == co2e_kg_expected
 
 
 def test_commuting_car():
-    """
-    Test co2 calculation for commuting by car
-    :return:
-    """
+    """Test co2 calculation for commuting by car"""
     # Given parameters
     mode = "car"
     distance = 30
@@ -125,21 +122,20 @@ def test_commuting_car():
     # 0.231 * 30 = 6.93
 
     # Calculate co2e
-    co2e = calc_co2_commuting(transportation_mode=mode,
-                              weekly_distance=distance,
-                              passengers=passengers,
-                              size=car_size,
-                              fuel_type=fuel_type)
+    co2e = calc_co2_commuting(
+        transportation_mode=mode,
+        weekly_distance=distance,
+        passengers=passengers,
+        size=car_size,
+        fuel_type=fuel_type,
+    )
 
     # Check if expected result matches calculated result
     assert round(co2e, 2) == co2e_kg_expected
 
 
 def test_commuting_bike():
-    """
-    Test co2 calculation for commuting by bike
-    :return:
-    """
+    """Test co2 calculation for commuting by bike"""
     # Given parameters
     mode = "bicycle"
     distance = 60
@@ -148,8 +144,7 @@ def test_commuting_bike():
     # 0.231 * 30 = 6.93
 
     # Calculate co2e
-    co2e = calc_co2_commuting(transportation_mode=mode,
-                              weekly_distance=distance)
+    co2e = calc_co2_commuting(transportation_mode=mode, weekly_distance=distance)
 
     # Check if expected result matches calculated result
     assert round(co2e, 2) == co2e_kg_expected
