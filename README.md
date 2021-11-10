@@ -21,8 +21,9 @@ The CO<sub>2</sub> Calculator uses the [OpenRouteService (ORS) API](https://open
 
 ## Contribution guidelines
 
-If you want to contribute to this project, please fork this repository and create a pull request if you want to contribute
-your changes back to this repository. Contributing to the project also requires the installation of the packages listed in `requirements-dev.txt`.
+If you want to contribute to this project, please fork this repository and create a pull request with your suggested changes.
+
+Running the unit tests and applying the pre-commit hooks requires installing the packages listed in `requirements-dev.txt`.
 
 ```
 $ pip install -r requirements-dev.txt
