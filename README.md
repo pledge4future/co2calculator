@@ -1,4 +1,4 @@
-# CO<sub>2</sub> Calculator 
+# CO<sub>2</sub> Calculator
 
 Python package to calculate CO2 emissions of business trips, heating and electricity consumption.
 
@@ -18,6 +18,35 @@ The CO<sub>2</sub> Calculator uses the [OpenRouteService (ORS) API](https://open
 2) In the Dev dashboard, switch to the tab `TOKENS` and request a free token.
 3) Once you have the key, click on it to copy it to clipboard.
 4) Insert the key into [sample.env](sample.env) and rename the file to `.env`.
+
+## Contribution guidelines
+
+If you want to contribute to this project, please fork this repository and create a pull request with your suggested changes.
+
+Running the unit tests and applying the pre-commit hooks requires installing the packages listed in `requirements-dev.txt`.
+
+```
+$ pip install -r requirements-dev.txt
+```
+
+### Install pre-commit hooks
+
+To ensure coding style we use pre-commit hooks. Install them locally using
+
+```
+$ pre-commit install
+```
+
+They will be run automatically every time you try to create a commit. `black` will adapt the code automatically to
+conform to PEP8 code style. After this has been done you may need to add the file again to the staging area.
+
+### Run tests
+
+After you have made changes to the code, run the units tests by executing
+
+```
+$ pytest
+```
 
 ## 📄 References
 

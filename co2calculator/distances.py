@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-Functions for obtaining the distance between given addresses.
-"""
+"""Functions for obtaining the distance between given addresses."""
+
 
 from typing import Tuple
 import numpy as np
@@ -19,11 +18,13 @@ import warnings
 
 load_dotenv()  # take environment variables from .env.
 
-ors_api_key = os.getenv('ORS_API_KEY')
+ors_api_key = os.getenv("ORS_API_KEY")
 script_path = os.path.dirname(os.path.realpath(__file__))
 
 
-def haversine(lat_start: float, long_start: float, lat_dest: float, long_dest: float) -> float:
+def haversine(
+    lat_start: float, long_start: float, lat_dest: float, long_dest: float
+) -> float:
     """
     Function to compute the distance as the crown flies between given locations
     :param lat_start: latitude of Start
@@ -33,10 +34,16 @@ def haversine(lat_start: float, long_start: float, lat_dest: float, long_dest: f
     :return: Distance in km
     """
     # convert angles from degree to radians
-    lat_start, long_start, lat_dest, long_dest = np.deg2rad([lat_start, long_start, lat_dest, long_dest])
+    lat_start, long_start, lat_dest, long_dest = np.deg2rad(
+        [lat_start, long_start, lat_dest, long_dest]
+    )
     # compute zeta
-    a = np.sin((lat_dest - lat_start) / 2) ** 2 + np.cos(lat_start) * np.cos(lat_dest) * np.sin(
-        (long_dest - long_start) / 2) ** 2
+    a = (
+        np.sin((lat_dest - lat_start) / 2) ** 2
+        + np.cos(lat_start)
+        * np.cos(lat_dest)
+        * np.sin((long_dest - long_start) / 2) ** 2
+    )
     c = 2 * np.arcsin(np.sqrt(a))
     r = 6371
 
@@ -51,7 +58,7 @@ def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
     """
     clnt = openrouteservice.Client(key=ors_api_key)
 
-    call = pelias_search(clnt, "%s Airport" % iata)
+    call = pelias_search(clnt, f"{iata} Airport")
 
     for feature in call["features"]:
         try:
@@ -63,7 +70,9 @@ def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
         except KeyError:
             # unfortunately, not all osm tags are available with geocoding, so osm entries might not be found and filter
             # for "aerodrome" tag not possible (could be done with ORS maybe?)
-            if (feature["properties"]["confidence"] == 1) & (feature["properties"]["match_type"] == "exact"):
+            if (feature["properties"]["confidence"] == 1) & (
+                feature["properties"]["match_type"] == "exact"
+            ):
                 name = feature["properties"]["name"]
                 geom = feature["geometry"]["coordinates"]
                 country = feature["properties"]["country_a"]
@@ -140,14 +149,22 @@ def geocoding_structured(loc_dict):
         coords = feature["geometry"]["coordinates"]
         layer = feature["properties"]["layer"]
         if "locality" in loc_dict.keys() and "address" in loc_dict.keys():
-            if (layer != "address" and layer != "locality" and layer != "street") and n_results > 1:
-                print(f"Data type not matching search ({layer} instead of address or locality. Skipping {name}, {coords}")
+            if (
+                layer != "address" and layer != "locality" and layer != "street"
+            ) and n_results > 1:
+                print(
+                    f"Data type not matching search ({layer} instead of address or locality. Skipping {name}, {coords}"
+                )
                 continue
         confidence = feature["properties"]["confidence"]
         if confidence < 0.8:
-            warnings.warn(f"Low confidence: {confidence:.1f} for result {name}, {coords}")
+            warnings.warn(
+                f"Low confidence: {confidence:.1f} for result {name}, {coords}"
+            )
         break
-    print(f"{n_results} location(s) found. Using this result: {name}, {country} (data type: {layer})")
+    print(
+        f"{n_results} location(s) found. Using this result: {name}, {country} (data type: {layer})"
+    )
     print("Coords: ", coords)
 
     # todo: check if to return res or not!
@@ -167,16 +184,22 @@ def geocoding_train_stations(loc_dict):
 
     :return: Name, country and coordinates of the found location
     """
-    stations_df = pd.read_csv(f"{script_path}/../data/stations/stations.csv", sep=";", low_memory=False,
-                              usecols=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+    stations_df = pd.read_csv(
+        f"{script_path}/../data/stations/stations.csv",
+        sep=";",
+        low_memory=False,
+        usecols=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+    )
     # remove stations with no coordinates
     stations_df.dropna(subset=["latitude", "longitude"], inplace=True)
     countries_eu = stations_df["country"].unique()
     if "country" in loc_dict:
         country_code = loc_dict["country"]
         if country_code not in countries_eu:
-            warnings.warn("The provided country is not within Europe. "
-                          "Please provide the address of the station instead of the station name for accurate results.")
+            warnings.warn(
+                "The provided country is not within Europe. "
+                "Please provide the address of the station instead of the station name for accurate results."
+            )
     else:
         raise ValueError("No 'country' provided. Cannot search for train station")
     if "station_name" in loc_dict:
@@ -189,8 +212,12 @@ def geocoding_train_stations(loc_dict):
 
     # use thefuzz to find best match
     choices = stations_in_country_df["slug"].values
-    res_station_slug, score = process.extractOne(station_name, choices, scorer=fuzz.partial_ratio)
-    res_station = stations_in_country_df[stations_in_country_df["slug"] == res_station_slug]
+    res_station_slug, score = process.extractOne(
+        station_name, choices, scorer=fuzz.partial_ratio
+    )
+    res_station = stations_in_country_df[
+        stations_in_country_df["slug"] == res_station_slug
+    ]
     res_country, res_station_name = res_station[["country", "name"]].values[0]
     coords = res_station[["latitude", "longitude"]].values
 
@@ -203,15 +230,28 @@ def is_valid_geocoding_dict(geocoding_dict):
     the case
     :param geocoding_dict: dictionary describing the location
     """
-    allowed_keys = ["country", "region", "county", "locality", "borough", "address", "postalcode", "neighbourhood"]
+    allowed_keys = [
+        "country",
+        "region",
+        "county",
+        "locality",
+        "borough",
+        "address",
+        "postalcode",
+        "neighbourhood",
+    ]
     assert len(geocoding_dict) != 0, "Error! Empty dictionary provided."
     for key in geocoding_dict:
-        assert key in allowed_keys, f"Error! Parameter {key} is not available. Please check the input data."
+        assert (
+            key in allowed_keys
+        ), f"Error! Parameter {key} is not available. Please check the input data."
     # warnings
     if "country" not in geocoding_dict.keys():
         warnings.warn("Country was not provided. The results may be wrong.")
     if "locality" not in geocoding_dict.keys():
-        warnings.warn("Locality (city) was not provided. The results may be inaccurate.")
+        warnings.warn(
+            "Locality (city) was not provided. The results may be inaccurate."
+        )
 
 
 def get_route(coords: tuple, profile=None):
@@ -228,8 +268,10 @@ def get_route(coords: tuple, profile=None):
     allowed_profiles = ["driving-car", "cycling-regular"]
     if profile not in allowed_profiles or profile is None:
         profile = "driving-car"
-        warnings.warn(f"Warning! Specified profile not available or no profile passed.\n"
-                      f"Profile set to '{profile}' by default.")
+        warnings.warn(
+            f"Warning! Specified profile not available or no profile passed.\n"
+            f"Profile set to '{profile}' by default."
+        )
     route = directions(clnt, coords, profile=profile)
     dist = route["routes"][0]["summary"]["distance"]
 
