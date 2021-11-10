@@ -1,12 +1,22 @@
 # CO<sub>2</sub> Calculator
 
-Python package to calculate CO2 emissions of business trips, heating and electricity consumption.
+[![status: experimental](https://github.com/GIScience/badges/raw/master/status/experimental.svg)](https://github.com/GIScience/badges#experimental)
 
-## ℹ️ Description
+Python package to calculate work related CO2 emissions from heating and electricity consumption as well as business trips and commuting.
 
-This package is part of [Pledge4Future](https://pledge4future.org/), a project to quantify, monitor and reduce work-related emissions collectively and sustainably. [more info]
+## ℹ️  Description
 
-## ⌨ How to Use
+This package is part of [Pledge4Future](https://pledge4future.org/), a project to quantify, monitor and reduce work-related emissions collectively and sustainably. 
+
+## :computer:  Installation
+
+This package requires Python 3.9 and the packages listed in `requirements.txt`
+
+```
+$ pip install -r requirements.txt
+```
+
+## ⌨  How to Use
 
 Learn how to use `co2calculator` in our detailed [documentation](https://github.com/pledge4future/co2calculator/blob/dev/docs/documentation.md). [...]
 
@@ -19,7 +29,7 @@ The CO<sub>2</sub> Calculator uses the [OpenRouteService (ORS) API](https://open
 3) Once you have the key, click on it to copy it to clipboard.
 4) Insert the key into [sample.env](sample.env) and rename the file to `.env`.
 
-## Contribution guidelines
+## :couple:  Contribution guidelines
 
 If you want to contribute to this project, please fork this repository and create a pull request with your suggested changes.
 
@@ -71,7 +81,7 @@ $ pytest
 
 ## 🤝 Project partners
 
-[...]
+- [openrouteservice](https://openrouteservice.org/)
 
 ## ⚖️ License
 
