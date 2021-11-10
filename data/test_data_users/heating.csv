@@ -1,2 +1,2 @@
-id,group_id,consumption_kwh,consumption_l,consumption_kg,fuel_type,cost_per_kwh_euros,co2e_kg
-1,1,0,0,250,woodchips,0.067,
+id;group_id;consumption;energy_unit;fuel_type;cost_per_kwh_euros;co2e_kg
+1;1;250;kg;woodchips;0.067;

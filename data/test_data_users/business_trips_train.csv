@@ -1,2 +1,3 @@
-id,user-id,distance_km,train_fuel,co2e
-1,1,1162,electric,
+id;user-id;train_fuel;distance_km;stops;roundtrip
+1;1;electric;1162;;False
+2;1;electric;;Hauptbahnhof, Heidelberg, Germany-Bahnhof Basel, Basel, Switzerland;True

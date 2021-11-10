@@ -2,110 +2,142 @@
 
 Draft for webpage
 
-29.11.2020, Hannah Weiser
+02.08.2021, Hannah Weiser, Veit Ulrich
 
 Welcome!
 
-\<Some hard facts about mobility and its contribution to greenhouse gas emissions firing the crisis.>
+Transport is responsible for about one quarter of the greenhouse gas emissions in Europe. The greenhouse gas emissions of the transport sector in Europe are only declining slowly and still remain higher than in 1990.
 
-As part of the assessment of your institutions' total carbon footprint of 2019, we want to quantify the emissions from business and field trips.
+As part of the assessment of your institutions' total carbon footprint we would like to quantify the emissions from business and field trips.
+
+\_
 
 **_What we ask you to do:_**
 
-We ask you to answer the following questions about the business trips and field trips you took in 2019. Check your travel expense forms to fill in the info for each trip individually.
+We ask you to answer the following questions about the business trips and field trips you took in the previous year. Check your travel expense forms to fill in the information for each trip individually.
 
-We would like to emphasize that we ask for this **anonymous data** to get an aggregated database (we all like data, don't we?) for your **entire institution** to suggest further mitigation actions! Please give honest replies.
+We would like to emphasize that we ask for this **anonymous data** to get an aggregated database for your **entire institution** to suggest further mitigation actions! Please give honest replies.
 
 _Thank you for your participation!_
 
 \_\_
 
-1\. Were you employed or a long-term guest at \<insert institution name> **for at least 6 months in 2019?**
+1\. Were you employed or a long-term guest at \<insert institution name> **for at least 6 months in the previous year?**
 
 * [ ] Yes
 * [ ] No
 
 `(If "Yes" then further questions will pop up. If "No", there is only a submit button and the message "Thank you, you're done!")`
 
-2\. Did you go on a business or field trip **in 2019**, which was related to your work at \<insert institution name>? **Important**: Do not include excursions (field trips with students as part of courses). 
+2\. Did you go on a business or field trip **during the previous year**, which was related to your work at \<insert institution name>? **Important**: Do not include excursions (field trips with students as part of courses). 
 
 * [ ] Yes
 * [ ] No
 
-`(If "Yes" then further questions will pop up. If "No", there is only a submit button and the message "Thank you, you're done!")`
+`(If "Yes", then further questions will pop up. If "No", there is only a submit button and the message "Thank you, you're done!")`
 
-3\. Which modes of transport did you use?
+3a. Which mode of transport did you use?
+
+If one trip was done with different modes of transport (e.g. train and bus), please enter them as individual trips or select the dominant mode of transport.
 
 * [ ] Air travel
 * [ ] Car travel
-* [ ] Public transport
+* [ ] Train
+* [ ] Bus
+* [ ] Ferry
 
-`(Multiple choice. If "Air travel" ticked -> show questions 4, if "Car travel" ticked -> show questions 5, if "Public transport" ticked -> show questions 6)`
+`(Single choice. If "Air travel" ticked -> show questions 4, if "Car travel" ticked -> show questions 5, if "Train" ticked -> show questions 6, if "Bus" ticked -> show questions 7, if "Ferry" ticked -> show questions 8)`
 
-4a. Please list the flight route for each air travel.
+3b. Please provide the start location and the destination of the trip. Alternatively, you can provide the distance of the trip.
 
-If possible, write down the airport codes (e.g. FRA for Frankfurt) but if you don't know it, then just put down the city names. **Please include all intermediate stops.**
+Start location\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-Example: FRA-EZE-SCL-LSC-SCL-EZE-FRA or Frankfurt-Buenos Aires-Santiago-La Serena-Santiago-Buenos Aires-Frankfurt).
+Destination\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-Trip 1 itinerary \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+Distance\_\_\_\_\_\_\_\_\_\_\_km
 
-...
+3c. Was the trip a round trip?
 
-`("add trip" button to add more numbered trips (Trip 2, Trip 3, etc.) to enter the respective itinerary)`
+* [ ] Yes
+* [ ] No
 
-4b. Which **seat classes** were you travelling on?
+4\. Please select the **seating class** you were on during the flight. If you do not remember, please select "average".
 
-`Rows according to trips given in 4a. For each trip the tick options "Economy", "Premium Economy" and "Business"`
+* [ ] Average
+* [ ] Economy
+* [ ] Premium economy
+* [ ] Business class
+* [ ] First class
 
-4c. If you remember, please list the **carrier airline** for each trip. Otherwise please choose "I don't know/other".
+`("add trip" button to add more trips. Goes back to question 3)`
 
-_(Carbon emissions differ between different airlines mainly due to different airplane models used. If you used several different airlines for a single trip then either split up your trip or list the dominant one.)_
+5a. How many passengers were travelling in the car (including yourself)?
 
-`Rows according to trips given in 4a. For each trip the tick options "Lufthansa", "Air France", "Iberia", "United", "Delta", "American Airlines", "Lan Chile", "Alitalia", "KLM", "British Airways", "I don't know/other"`
+* [ ] 1
+* [ ] 2
+* [ ] 3
+* [ ] 4
+* [ ] 5
+* [ ] 6
+* [ ] 7
+* [ ] 8
+* [ ] 9
 
-5a. Please list the distance (km) for each car travel.
+5b. What was the size of the car? If you do not know, please select "average".
 
-_(You can use _[_OpenStreetMap_](https://www.openstreetmap.org/)_ to obtain the distance from start to destination address. If you took the same route to get to your destination and back, please enter the total distance.)_
+* [ ] small (\< 1.4 l)
+* [ ] medium (1.4 - 2 l)
+* [ ] large (2-9 l)
+* [ ] Average
 
-Trip 1 distance \_\_\_\_\_km
+5c. What was the fuel type of the car? If you do not know, please select "average".
 
-...
+* [ ] Diesel
+* [ ] Gasoline
+* [ ] Compressed natural gas
+* [ ] Hybrid
+* [ ] Plug-in hybrid
+* [ ] Battery electric
+* [ ] Average
 
-`("add trip" button to add more numbered trips (Trip 2, Trip 3, etc.) to enter the respective itinerary)`
+`("add trip" button to add more trips. Goes back to question 3)`
 
-5b. How many passengers were travelling in the car?
+6\. What was the fuel type of the train? If the trip included both train types, please select “Average” or select the dominant train type. If you do not know the fuel type of the train, please select "Average".
 
-`Rows according to trips given in 5a. For each trip the tick options "1 (only me)", "2", "3", "4", "5", "6" and "7"`
+* [ ] Electric
+* [ ] Diesel
+* [ ] Average
 
-5c. What was the size class of the car?
+`("add trip" button to add more trips. Goes back to question 3)`
 
-`Rows according to trips given in 5a. For each trip the tick options "< 1.4 l", "1.4 - 2 l" and "2-9 l" and "Use average"`
+7a. What was the fuel type of the bus?
 
-5d. What was the fuel type of the car?
+If the trip included buses with multiple fuel types, please select the dominant fuel type. If you do not know the fuel type of the bus, please select “diesel”.
 
-`Rows according to trips given in 5a. For each trip the tick options "Diesel", "Petrol", "Electric", "Compressed natural gas", "Ethanol" and "Use average"`
+* [ ] Diesel
+* [ ] Hydrogen
+* [ ] Compressed natural gas
+* [ ] Electric
 
-5e. What emission class does the car belong to?
+7b. What was the occupancy of the bus?
 
-`Rows according to trips given in 5a. For each trip the tick options "Before Euro-1", "Euro-1", "Euro-2", "Euro-3", "Euro-4", "Euro-5" and "Use average"`
+* [ ] 20 %
+* [ ] 50 %
+* [ ] 80 %
+* [ ] 100 %
 
-5f. What streets did you mostly use?
+7c. What was the size class of the bus? If you do not remember, please select "average".
 
-`Rows according to trips given in 5a. For each trip the tick options "Urban", "Overland", "Highway" and "Use average"`
+* [ ] Medium
+* [ ] Large
+* [ ] Average
 
-6a. Please list the travel route for each travel by public transport.
+`("add trip" button to add more trips. Goes back to question 3)`
 
-_(If one travel was done with different modes of transport (e.g. train and bus), please enter them as individual trips or list the dominant one in 5b. If you used the same connection to get to your destination and back, please enter the total distance.)_
+8\. Please indicate whether you were foot passenger or car passenger.
 
-Trip 1 itinerary \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+* [ ] Foot passenger
+* [ ] Car passenger
+* [ ] Average
 
-...
-
-`("add trip" button to add more numbered trips (Trip 2, Trip 3, etc.) to enter the respective itinerary)`
-
-6b. What type of transport did you use?
-
-`Rows according to trips given in 6a. For each trip the tick options "Train Diesel", "Train electric", "Train average" and "Bus".`
-
-7\. Anything else you think we should know?
+`("add trip" button to add more trips. Goes back to question 3)`

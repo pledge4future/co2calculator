@@ -1,3 +1,4 @@
-id,user_id,distance_km,bus_fuel,bus_size,occupancy,co2e_kg
-1,2,549,diesel,large,80,
-2,1,231,diesel,average,50,
+id;user_id;bus_fuel;bus_size;occupancy;distance_km;stops;roundtrip;co2e_kg
+1;2;diesel;large;80;549;;False;
+2;1;diesel;average;50;231;;True;
+3;2;diesel;average;50;;Hauptbahnhof, Heidelberg, Germany-Bahnhof Basel, Basel, Switzerland;

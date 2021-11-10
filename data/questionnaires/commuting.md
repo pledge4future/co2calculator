@@ -2,92 +2,116 @@
 
 Draft for webpage
 
-29.11.2020, Hannah Weiser
+02.08.2021, Hannah Weiser, Veit Ulrich
 
 Welcome!
 
-\<Some hard facts about mobility and its contribution to greenhouse gas emissions firing the crisis.>
+Transport is responsible for about one quarter of the greenhouse gas emissions in Europe. The greenhouse gas emissions of the transport sector in Europe are only declining slowly and still remain higher than in 1990.
 
-As part of the assessment of your institutions' total carbon footprint of 2019, we want to quantify the emissions from commuting between your home and your workplace.
+As part of the assessment of your institutions' total carbon footprint of the previous year, we want to quantify the emissions from commuting between your home and your workplace.
 
 **_What we ask you to do:_**
 
-We ask you to answer the following questions about how you're commuting to work.
+We ask you to answer the following questions about how you are commuting to work.
 
-We would like to emphasize that we ask for this **anonymous data** to get an aggregated database (we all like data, don't we?) for your **entire institution** to suggest further mitigation actions! Please give honest replies.
+We would like to emphasize that we ask for this **anonymous data** to get an aggregated database for your **entire institution** to suggest further mitigation actions! Please give honest replies.
 
 _Thank you for your participation!_
 
 \_\_
 
-1\. Were you employed or a long-term guest at \<insert institution name> **for at least 6 months in 2019?**
+1\. Please enter the number of weeks you were working in the previous year. Please account for all times you were not working such as paid leave, public holidays, or a contract not lasting the entire year. Example: 52 (weeks per year) - 4 (paid leave) - 2 (public holidays) = 46
 
-* [ ] Yes
-* [ ] No
+Number of workweeks\_\_\_\_\_\_
 
-`(If "Yes" then next question(s) will pop up. If "No", there is only a submit button and the message "Thank you, you're done!")`
 
-2\. For how many months did you regularly commute to your institution?
+2\. Please select your transportation mode. If your commute contains multiple transportation modes, please answer the following questions separately for each transportation mode. You can add a transportation mode by clicking the button “Add transportation mode” at the bottom of the form.
 
-\_\_\_\_\_
+* [ ] car
+* [ ] bus
+* [ ] train
+* [ ] bicycle
+* [ ] e-bike
+* [ ] motorbike
+* [ ] tram
 
-_(If you were not commuting to the institution for a longer timespan of 2019, e.g. because you were not employed, in parental leave, etc., we will omit this time span in our calculation. Otherwise, we will only omit 4 weeks of holidays.)_
+`Single choice. If "Car" ticked -> show questions 4, if "Bus" ticked -> show questions 5, if "Train" ticked -> show questions 6, if “Motorbike” ticked -> show questions 7`
 
-\_\_
 
-3\. How many km did you usually commute per week in 2019 by ...
+3\. Please enter the distance you commuted per week in the previous year with the transportation mode `transportation mode selected in question 2`.
 
-* [ ] car: \_\_\_\_\_
-* [ ] bike: \_\_\_\_\_
-* [ ] e-bike: \_\_\_\_\_
-* [ ] train: \_\_\_\_\_
-* [ ] tram: \_\_\_\_\_
-* [ ] bus: \_\_\_\_\_
-* [ ] e-scooter: \_\_\_\_\_
+Please enter your usual commuting behaviour. If you often use a different mode of transport if there is bad weather or in the cold season, please account for this by estimating the mean distance for each transportation mode over the entire year.
 
-_(If you use different modes of transport, enter them individually. E.g. 6 km per train and 4 km per bike each day with a 5-day working week: train: 30 km, bike: 20 km. Enter your usual commuting behaviour. If you often use a different mode of transport if there is bad weather or in the cold season, you might want to account for this i.e. use the other mode of transport for the weekly distance for one or multiple days when calculating the weekly distance.)_
+Distance \_\_\_\_\_\_\_ km
 
-`Questions 4a to c only appear/activated if "car" was ticked in question 3`
 
-4a. What is the size class of the car?
 
-* [ ] \< 1.4 l
-* [ ] 1.4 - 2 l
-* [ ] 2 - 9 l
+4a. What was the size class of the car? If you do not know, please select "Use average".
+
+* [ ] small (\< 1.4 l)
+* [ ] medium (1.4 - 2 l)
+* [ ] large (2 - 9 l)
 * [ ] Use average
 
-4b. What is the fuel type of the car?
+4b. What was the fuel type of the car? If you do not know, please select "average".
 
 * [ ] Diesel
-* [ ] Petrol
-* [ ] Electric
+* [ ] Gasoline
 * [ ] Compressed natural gas
-* [ ] Ethanol
-* [ ] Use average
+* [ ] Hybrid
+* [ ] Plug-in hybrid
+* [ ] Electric
+* [ ] Average
 
-4c. What emission class does the car belong to?
+4c. How many passengers (including yourself) were usually in the car?
 
-* [ ] Before Euro-1
-* [ ] Euro-1
-* [ ] Euro-2
-* [ ] Euro-3
-* [ ] Euro-4
-* [ ] Euro-5
-* [ ] Use average
-
-4d. What streets did you mostly use?
-
-* [ ] Urban
-* [ ] Overland
-* [ ] Highway
-* [ ] Use average
-
-4e. How many passengers were usually in the car?
-
-* [ ] 1 (only me)
+* [ ] 1
 * [ ] 2
 * [ ] 3
 * [ ] 4
 * [ ] 5
+* [ ] 6
+* [ ] 7
+* [ ] 8
+* [ ] 9
 
-5\. Anything else you think we should know?
+`("add transportation mode" button to add more transportation modes to the commute. Goes back to question 2)`
+
+5a. What was the occupancy of the bus?
+
+* [ ] 20 %
+* [ ] 50 %
+* [ ] 80 %
+* [ ] 100 %
+
+5b. What was the size class of the bus? If you do not know, please select "Average".
+
+* [ ] Medium
+* [ ] Large
+* [ ] Average
+
+5c. What was the fuel type of the bus?
+
+* [ ] Diesel
+* [ ] Electric
+* [ ] Hydrogen
+* [ ] Compressed natural gas
+
+`("add transportation mode" button to add more transportation modes to the commute. Goes back to question 2)`
+
+6\. What was the fuel type of the train? If your commute includes both train types, please select “Average” or select the dominant fuel type. If you do not know the fuel type of the train, please select "Average".
+
+* [ ] Electric
+* [ ] Diesel
+* [ ] Average
+
+`("add transportation mode" button to add more transportation modes to the commute. Goes back to question 2)`
+
+7\. What was the size class of the motorbike? I you do not know, please select "Average".
+
+* [ ] Small
+* [ ] Medium
+* [ ] Large
+* [ ] Average
+
+`("add transportation mode" button to add more transportation modes to the commute. Goes back to question 2)`

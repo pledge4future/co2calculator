@@ -1,3 +1,3 @@
-id,user_id,IATA_start,IATA_destination,flight_class,roundtrip,co2e
-1,1,FRA,LJU,economy,False,
-2,2,ZRH,FRA,first,False,
+id;user_id;IATA_start;IATA_destination;flight_class;roundtrip
+1;1;FRA;LJU;Economy class;False
+2;2;ZRH;FRA;Business class;False
