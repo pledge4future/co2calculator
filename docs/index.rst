@@ -21,7 +21,6 @@ Welcome to co2calculator's documentation!
 
    calculate/heating
 
-
 Indices and tables
 ==================
 

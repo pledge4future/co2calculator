@@ -16,9 +16,9 @@
 #
 import os
 import sys
+from pathlib import Path
 
-sys.path.insert(0, os.path.abspath("../co2calculator"))
-print(sys.path)
+sys.path.insert(0, os.path.abspath(".."))
 
 # -- Project information -----------------------------------------------------
 
@@ -35,7 +35,12 @@ release = "0.1.0"
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx.ext.autodoc", "sphinx.ext.coverage", "sphinx.ext.napoleon"]
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.coverage",
+    "sphinx.ext.napoleon",
+    "crate.sphinx.csv",
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

@@ -377,8 +377,8 @@ def calc_co2_ferry(
 def calc_co2_electricity(
     consumption: float, fuel_type: str = None, energy_share: float = 1
 ) -> float:
-    """
-    Function to compute electricity emissions
+    """Function to compute electricity emissions
+
     :param consumption: energy consumption
     :param fuel_type: energy (mix) used for electricity [german_energy_mix, solar]
     :param energy_share: the research group's approximate share of the total electricity energy consumption
@@ -403,13 +403,18 @@ def calc_co2_electricity(
 def calc_co2_heating(
     consumption: float, fuel_type: str, unit: str = None, area_share: float = 1.0
 ) -> float:
-    """
-    Function to compute heating emissions
+    """Function to compute heating emissions
+
     :param consumption: energy consumption
-    :param fuel_type: fuel type used for heating
+    :param fuel_type: fuel type used for heating [coal, district_heating, electricity, gas, heat_pump_air, heat_pump_ground, liquid_gas, oil, pellet, solar, woodchips]
     :param unit: unit of energy consumption [kwh, kg, l, m^3]
     :param area_share: share of building area used by research group
+    :type consumption: float
+    :type fuel_type: str
+    :type unit: str
+    :type area_share: float
     :return: total emissions of heating energy consumption
+    :rtype: float
     """
     # Set defaults
     if unit is None:
@@ -466,8 +471,8 @@ def calc_co2_businesstrip(
     passengers: int = None,
     roundtrip: bool = False,
 ) -> Tuple[float, float, str, str]:
-    """
-    Function to compute emissions for business trips based on transportation mode and trip specifics
+    """Function to compute emissions for business trips based on transportation mode and trip specifics
+
     :param transportation_mode: mode of transport [car, bus, train, plane, ferry]
     :param start: Start of the trip (alternatively, distance can be provided)
     :param destination: Destination of the trip (alternatively, distance can be provided)
@@ -541,8 +546,8 @@ def calc_co2_businesstrip(
 
 
 def range_categories(distance: float) -> Tuple[str, str]:
-    """
-    Function to categorize a trip according to the travelled distance
+    """Function to categorize a trip according to the travelled distance
+
     :param distance: Distance travelled in km
     :return: Range category of the trip [very short haul, short haul, medium haul, long haul]
              Range description (i.e., what range of distances does to category correspond to)
@@ -571,8 +576,8 @@ def calc_co2_commuting(
     occupancy: int = None,
     passengers: int = None,
 ) -> float:
-    """
-    Calculate co2 emissions for commuting per mode of transport
+    """Calculate co2 emissions for commuting per mode of transport
+
     :param transportation_mode: [car, bus, train, bicycle, pedelec, motorbike, tram]
     :param weekly_distance: distance in km per week
     :param size: size of car or bus if applicable: [small, medium, large, average]
@@ -625,9 +630,9 @@ def calc_co2_commuting(
 def commuting_emissions_group(
     aggr_co2: float, n_participants: int, n_members: int
 ) -> float:
-    """
-    Calculate the group's co2e emissions from commuting.
-    Assumption: a representative sample of group members answered the questionnaire.
+    """Calculate the group's co2e emissions from commuting.
+
+    .. note:: Assumption: a representative sample of group members answered the questionnaire.
     :param aggr_co2: (Annual/monthly) co2e emissions from commuting, aggregated for all group members who answered the
                             questionnaire (can also be calculated for only one mode of transport)
     :param n_participants: Number of group members who answered the questionnaire

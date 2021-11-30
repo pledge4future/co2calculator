@@ -25,8 +25,8 @@ script_path = os.path.dirname(os.path.realpath(__file__))
 def haversine(
     lat_start: float, long_start: float, lat_dest: float, long_dest: float
 ) -> float:
-    """
-    Function to compute the distance as the crown flies between given locations
+    """Function to compute the distance as the crown flies between given locations
+
     :param lat_start: latitude of Start
     :param long_start: Longitude of Start
     :param lat_dest: Latitude of Destination
@@ -51,8 +51,8 @@ def haversine(
 
 
 def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
-    """
-    Function to obtain the coordinates of an airport by the IATA code
+    """Function to obtain the coordinates of an airport by the IATA code
+
     :param iata: IATA airport code
     :return: name, coordinates and country of the found airport
     """
@@ -82,8 +82,8 @@ def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
 
 
 def geocoding(address):
-    """
-    Function to obtain coordinates for a given address
+    """Function to obtain coordinates for a given address
+
     :param address: Location/Address to be searched
             user should give address in the form:
             <address>, <locality>, <country>
@@ -106,8 +106,8 @@ def geocoding(address):
 
 
 def geocoding_structured(loc_dict):
-    """
-    Function to obtain coordinates for a given address
+    """Function to obtain coordinates for a given address
+
     :param loc_dict: dictionary describing the location. The dictionary can have the keys:
         country: highest-level administrative divisions supported in a search.
                     Full country name or two-/three-letter abbreviations supported
@@ -172,8 +172,7 @@ def geocoding_structured(loc_dict):
 
 
 def geocoding_train_stations(loc_dict):
-    """
-    Function to obtain coordinates for a given train station
+    """Function to obtain coordinates for a given train station
 
     :param loc_dict: dictionary describing the location. The dictionary can have the keys:
         country: highest-level administrative divisions supported in a search.
@@ -225,9 +224,9 @@ def geocoding_train_stations(loc_dict):
 
 
 def is_valid_geocoding_dict(geocoding_dict):
-    """
-    Function to check if the dictionary is valid as input for pelias structured geocoding. Raises error if it is not
+    """Function to check if the dictionary is valid as input for pelias structured geocoding. Raises error if it is not
     the case
+
     :param geocoding_dict: dictionary describing the location
     """
     allowed_keys = [
@@ -255,8 +254,8 @@ def is_valid_geocoding_dict(geocoding_dict):
 
 
 def get_route(coords: tuple, profile=None):
-    """
-    Obtain the distance of a route between given waypoints using a given profile
+    """Obtain the distance of a route between given waypoints using a given profile
+
     :param coords: list of [lat,long] coordinates
     :param profile: driving-car, cycling-regular
     :return: distance of the route
