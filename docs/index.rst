@@ -19,7 +19,8 @@ Welcome to co2calculator's documentation!
    :titlesonly:
    :includehidden:
 
-   calculate/heating
+   calculate/heating_electricity
+   calculate/emission_factors
 
 Indices and tables
 ==================

@@ -44,8 +44,13 @@ def calc_co2_car(
                         ["small", "medium", "large", "average"]                 default: "average"
     :param fuel_type: type of fuel the car is using
                         ["diesel", "gasoline", "cng", "electric", "hybrid", "plug-in_hybrid", "average"]    default: "average"
-
+    :type distance: float
+    :type stops: list[*dict]
+    :type passengers: int
+    :type size: str
+    :type fuel_type: str
     :return: Total emissions of trip in co2 equivalents
+    :rtype: float
     """
     # Set default values
     if passengers is None:
@@ -100,8 +105,11 @@ def calc_co2_motorbike(
                         alternatively param <distance> can be provided
     :param size: size of motorbike
                         ["small", "medium", "large", "average"]
-
+    :type distance: float
+    :type stops: list[*dict]
+    :type size: str
     :return: Total emissions of trip in co2 equivalents, distance of the trip
+    :rtype: float
     """
     # Set default values
     if size is None:
@@ -153,8 +161,14 @@ def calc_co2_bus(
     :param fuel_type: type of fuel the bus is using;    ["diesel"]
     :param occupancy: number of people on the bus       [20, 50, 80, 100]
     :param vehicle_range: range/haul of the vehicle     ["local", "long-distance"]
-
+    :type distance: float
+    :type stops: list[*dict]
+    :type size: str
+    :type fuel_type: str
+    :type occupancy: int
+    :type vehicle_range: str
     :return: Total emissions of trip in co2 equivalents, distance of the trip
+    :rtype: float
     """
     # Set default values
     if size is None:
@@ -221,8 +235,12 @@ def calc_co2_train(
                         alternatively param <distance> can be provided
     :param fuel_type: type of fuel the train is using;    ["diesel", "electric", "average"]
     :param vehicle_range: range/haul of the vehicle       ["local", "long-distance"]
-
+    :type distance: float
+    :type stops: list[*dict]
+    :type fuel_type: float
+    :type vehicle_range: str
     :return: Total emissions of trip in co2 equivalents, distance of the trip
+    :rtype: Tuple[float, float]
     """
     # Set default values
     if fuel_type is None:
@@ -278,8 +296,11 @@ def calc_co2_plane(
                           business class or first class seats take up more space. An airplane with more such therefore
                           needs to have higher capacity to transport less people -> more co2
                           ["average", "economy_class", "business_class", "premium_economy_class", "first_class"]
-
+    :type start: str
+    :type destination: str
+    :type seating_class: str
     :return: Total emissions of flight in co2 equivalents, distance of the trip
+    :rtype: Tuple[float, float]
     """
     # Set defaults
     if seating_class is None:
@@ -346,8 +367,11 @@ def calc_co2_ferry(
     :param destination: dictionary of location of destination port,
                         e.g., in the form {"locality":<city>, "county":<country>}
     :param seating_class: ["average", "Foot passenger", "Car passenger"]
-
+    :type start: dict
+    :type destination: dict
+    :type seating_class: str
     :return: Total emissions of sea travel in co2 equivalents, distance of the trip
+    :rtype: Tuple[float, float]
     """
     if seating_class is None:
         seating_class = "average"
@@ -382,7 +406,11 @@ def calc_co2_electricity(
     :param consumption: energy consumption
     :param fuel_type: energy (mix) used for electricity [german_energy_mix, solar]
     :param energy_share: the research group's approximate share of the total electricity energy consumption
+    :type consumption: float
+    :type fuel_type: str
+    :type energy_share: float
     :return: total emissions of electricity energy consumption
+    :rtype: float
     """
     # Set defaults
     if fuel_type is None:
@@ -486,11 +514,19 @@ def calc_co2_businesstrip(
     :param passengers: Number of passengers in the vehicle (including the participant), number from 1 to 9
                                                 - only used for car
     :param roundtrip: whether the trip is a round trip or not [True, False]
-
+    :type transportation_mode: str
+    :type distance: float
+    :type size: str
+    :type fuel_type: str
+    :type occupancy: int
+    :type seating: str
+    :type passengers: int
+    :type roundtrip: bool
     :return:    Emissions of the business trip in co2 equivalents,
                 Distance of the business trip,
                 Range category of the business trip [very short haul, short haul, medium haul, long haul]
                 Range description (i.e., what range of distances does to category correspond to)
+    :rtype: Tuple[float, float, str, str]
     """
     if distance is None and (start is None or destination is None):
         assert ValueError("Either start and destination or distance must be provided.")
@@ -549,8 +585,10 @@ def range_categories(distance: float) -> Tuple[str, str]:
     """Function to categorize a trip according to the travelled distance
 
     :param distance: Distance travelled in km
+    :type distance: float
     :return: Range category of the trip [very short haul, short haul, medium haul, long haul]
              Range description (i.e., what range of distances does to category correspond to)
+    :rtype: Tuple[str, str]
     """
     if distance <= 500:
         range_cat = "very short haul"
@@ -584,8 +622,14 @@ def calc_co2_commuting(
     :param fuel_type: fuel type of car, bus or train if applicable
     :param occupancy: occupancy [%], if applicable/known (only for bus): [20, 50, 80, 100]
     :param passengers: number of passengers, if applicable (only for car)
-
+    :type transportation_mode: str
+    :type weekly_distance: float
+    :type size: str
+    :type fuel_type: str
+    :type occupancy: int
+    :type passengers: int
     :return: total weekly emissions for the respective mode of transport
+    :rtype: float
     """
     # get weekly co2e for respective mode of transport
     if transportation_mode == "car":
@@ -637,7 +681,11 @@ def commuting_emissions_group(
                             questionnaire (can also be calculated for only one mode of transport)
     :param n_participants: Number of group members who answered the questionnaire
     :param n_members: Total number of members of the group
-    :return:
+    :type aggr_co2: float
+    :type n_participants: int
+    :type n_members: int
+    :return: Calculated or estimated emissions of the entire working group.
+    :rtype: float
     """
     group_co2e = aggr_co2 / n_participants * n_members
 
