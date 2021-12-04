@@ -17,7 +17,6 @@ In these cases, it is possible to specify the `unit`. The consumption will then 
     :header-rows: 1
     :stub-columns: 2
     :widths: 10 30 30 30
-    :included_cols: 1 2 3
 
 The parameter `area_share` accounts for the fact, that the heating energy consumption may often only be known for an entire building, while a working group just occupies parts of the buildin.
 In this case, the (approximate) share of the building floor space, that is occupied by the working group can be provided.

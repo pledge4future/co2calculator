@@ -39,7 +39,6 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.coverage",
     "sphinx.ext.napoleon",
-    "crate.sphinx.csv",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.viewcode",
 ]
