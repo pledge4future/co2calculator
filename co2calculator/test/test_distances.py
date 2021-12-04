@@ -1,21 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""Tests for distance computation"""
 
 import os
-from co2calculator.distances import haversine, geocoding_airport, is_valid_geocoding_dict, geocoding_train_stations
+from co2calculator.distances import (
+    haversine,
+    geocoding_airport,
+    is_valid_geocoding_dict,
+    geocoding_train_stations,
+)
 from co2calculator.calculate import calc_co2_plane, calc_co2_train
 import math
 import numpy as np
 import pytest
+import warnings
 
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 
 
 def test_haversine():
-    """
-    Test haversine function to calculate distance
-    """
+    """Test haversine function to calculate distance"""
     # Given parameters
     # a: Frankfurt airport (FRA)
     lat_a = 50.0264
@@ -33,9 +38,7 @@ def test_haversine():
 
 
 def test_geocoding_airport_FRA():
-    """
-    Test geocoding of airports using IATA code
-    """
+    """Test geocoding of airports using IATA code"""
     if not os.path.isfile(f"{script_path}/../../.env"):
         pytest.skip("Skipping this test because no file '.env' was found.")
     # Given parameters
@@ -50,9 +53,7 @@ def test_geocoding_airport_FRA():
 
 
 def test_geocoding_airport_JFK():
-    """
-    Test geocoding of airports using IATA code
-    """
+    """Test geocoding of airports using IATA code"""
     if not os.path.isfile(f"{script_path}/../../.env"):
         pytest.skip("Skipping this test because no file '.env' was found.")
     # Given parameters
@@ -67,37 +68,36 @@ def test_geocoding_airport_JFK():
 
 
 def test_geocoding_structured():
+    """To be implemented"""
     pass
 
 
 def test_valid_geocoding_dict():
-    """
-    Test if a valid geocoding dictionary is recognized as valid
-    """
+    """Test if a valid geocoding dictionary is recognized as valid"""
     # Given parameters
-    loc_dict = {"country": "DE",
-                "region": "Baden-Württemberg",
-                "county": "Rhein-Neckar-Kreis",
-                "locality": "Heidelberg",
-                "borough": "Rohrbach",
-                "address": "Im Bosseldorn 25",
-                "postalcode": "69126",
-                "neighbourhood": None
-                }
+    loc_dict = {
+        "country": "DE",
+        "region": "Baden-Württemberg",
+        "county": "Rhein-Neckar-Kreis",
+        "locality": "Heidelberg",
+        "borough": "Rohrbach",
+        "address": "Im Bosseldorn 25",
+        "postalcode": "69126",
+        "neighbourhood": None,
+    }
 
     # Call function; test will pass if no error is raised
     is_valid_geocoding_dict(loc_dict)
 
 
 def test_invalid_geocoding_dict():
-    """
-    Test if a providing an invalid geocoding raises an error
-    """
+    """Test if a providing an invalid geocoding raises an error"""
     # Given parameters
-    loc_dict = {"country": "DE",
-                "locality": "Heidelberg",
-                "adress": "Im Bosseldorn 25",  # wrong spelling of "address"
-                }
+    loc_dict = {
+        "country": "DE",
+        "locality": "Heidelberg",
+        "adress": "Im Bosseldorn 25",  # wrong spelling of "address"
+    }
 
     # Check if raises error
     with pytest.raises(AssertionError) as e:
@@ -106,9 +106,7 @@ def test_invalid_geocoding_dict():
 
 
 def test_plane():
-    """
-    Test calculation of CO2 emissions of flights
-    """
+    """Test calculation of CO2 emissions of flights"""
     if not os.path.isfile(f"{script_path}/../../.env"):
         pytest.skip("Skipping this test because no file '.env' was found.")
     # Given parameters
@@ -128,9 +126,7 @@ def test_plane():
 
 
 def test_plane_invalid_seating_class():
-    """
-    Test if calculation of CO2 emissions for flights raises an error if an invalid seating class if provided
-    """
+    """Test if calculation of CO2 emissions for flights raises an error if an invalid seating class if provided"""
     # Given parameters
     start = "ZRH"
     dest = "FRA"
@@ -156,21 +152,22 @@ def test_plane_invalid_seating_range_combo():
     seating = "premium_economy_class"
     # Premium economy class is not available for short-haul flights -> Error should be raised!
 
-    # Check if raises error
-    with pytest.raises(IndexError) as e:
+    # Check if raises warning
+    with pytest.warns(
+        UserWarning, match=r"Seating class '\w+' not available for short-haul flights"
+    ):
         calc_co2_plane(start=start, destination=dest, seating_class=seating)
-    assert e.type is IndexError
 
 
 def test_geocoding_train_stations_invalid():
-    """
-    Test geocoding of train stations if dictionary with invalid parameters is provided
-    """
+    """Test geocoding of train stations if dictionary with invalid parameters is provided"""
     if not os.path.isfile(f"{script_path}/../../.env"):
         pytest.skip("Skipping this test because no file '.env' was found.")
     # Given parameters
-    station_dict = {"country": "DE",
-                    "address": "Heidelberg Hbf"}  # invalid parameters; has to be specified as "station_name"
+    station_dict = {
+        "country": "DE",
+        "address": "Heidelberg Hbf",
+    }  # invalid parameters; has to be specified as "station_name"
 
     # Check if raises error
     with pytest.raises(ValueError) as e:
@@ -179,19 +176,14 @@ def test_geocoding_train_stations_invalid():
 
 
 def test_geocoding_train_stations_outside_europe():
-    """
-    Test geocoding of train stations outside of europe
-    """
+    """Test geocoding of train stations outside of europe"""
     if not os.path.isfile(f"{script_path}/../../.env"):
         pytest.skip("Skipping this test because no file '.env' was found.")
     # Given parameters
-    stops = [{"country": "CHN",
-              "address": "385 Meiyuan Rd",
-              "locality": "Shanghai"},
-             {"country": "CHN",
-              "region": "Beijing",
-              "address": "Beijing Station"}
-             ]
+    stops = [
+        {"country": "CHN", "address": "385 Meiyuan Rd", "locality": "Shanghai"},
+        {"country": "CHN", "region": "Beijing", "address": "Beijing Station"},
+    ]
     coords = [[121.450446, 31.251552], [116.42792, 39.902896]]
     fuel_type = "electric"
     vehicle_range = "long-distance"
@@ -202,7 +194,9 @@ def test_geocoding_train_stations_outside_europe():
     co2e_kg_expected = distance * emission_factor
 
     # Calculate co2e
-    co2e, dist = calc_co2_train(fuel_type=fuel_type, vehicle_range=vehicle_range, stops=stops)
+    co2e, dist = calc_co2_train(
+        fuel_type=fuel_type, vehicle_range=vehicle_range, stops=stops
+    )
 
     # Check if expected result matches calculated result
     assert co2e == pytest.approx(co2e_kg_expected, abs=0.1)

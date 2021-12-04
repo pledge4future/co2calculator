@@ -21,6 +21,7 @@ Welcome to co2calculator's documentation!
 
    calculate/heating_electricity
    calculate/emission_factors
+   distances
 
 Indices and tables
 ==================

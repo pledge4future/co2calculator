@@ -27,11 +27,16 @@ def haversine(
 ) -> float:
     """Function to compute the distance as the crown flies between given locations
 
-    :param lat_start: latitude of Start
-    :param long_start: Longitude of Start
-    :param lat_dest: Latitude of Destination
-    :param long_dest: Longitude of Destination
+    :param lat_start: latitude of start
+    :param long_start: Longitude of start
+    :param lat_dest: Latitude of destination
+    :param long_dest: Longitude of destination
+    :type lat_start: float
+    :type long_start: float
+    :type lat_dest: float
+    :type long_dest: float
     :return: Distance in km
+    :rtype: float
     """
     # convert angles from degree to radians
     lat_start, long_start, lat_dest, long_dest = np.deg2rad(
@@ -47,14 +52,16 @@ def haversine(
     c = 2 * np.arcsin(np.sqrt(a))
     r = 6371
 
-    return c * r  # distance in km
+    return c * r
 
 
 def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
     """Function to obtain the coordinates of an airport by the IATA code
 
     :param iata: IATA airport code
+    :type iata: str
     :return: name, coordinates and country of the found airport
+    :rtype: Tuple[str, Tuple[float, float], str]
     """
     clnt = openrouteservice.Client(key=ors_api_key)
 

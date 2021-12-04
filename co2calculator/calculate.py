@@ -16,6 +16,7 @@ emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
 conversion_factor_df = pd.read_csv(
     f"{script_path}/../data/conversion_factors_heating.csv"
 )
+detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 
 
 def calc_co2_car(
@@ -94,7 +95,7 @@ def calc_co2_motorbike(
     Function to compute the emissions of a car trip.
     :param distance: Distance travelled in km;
                         alternatively param <locations> can be provided
-    :param stops: List of locations as dictionaries in the form # todo: **kwargs instead of list of dictionaries?
+    :param stops: List of locations as dictionaries in the form
                         e.g.,  [{"address": "Im Neuenheimer Feld 348",
                                 "locality": "Heidelberg",
                                  "country": "Germany"},
@@ -134,6 +135,38 @@ def calc_co2_motorbike(
     emissions = distance * co2e
 
     return emissions, distance
+
+
+def apply_detour(distance, transportation_mode):
+    """
+    Function to apply specific detour parameters to a distance as the crow flies
+    :param distance: Distance as the crow flies between location of departure and destination of a trip
+    :param transportation_mode: Mode of transport used in the trip
+    :type distance: float
+    :type transportation_mode: str
+    :return: Distance accounted for detour
+    :rtype: float
+    """
+    try:
+        detour_coefficient = detour_df[
+            detour_df["transportation_mode"] == transportation_mode
+        ]["coefficient"].values[0]
+        detour_constant = detour_df[
+            detour_df["transportation_mode"] == transportation_mode
+        ]["constant [km]"].values[0]
+    except KeyError:
+        detour_coefficient = 1.0
+        detour_constant = 0.0
+        warnings.warn(
+            f"""
+        No detour coefficient or constant available for this transportation mode.
+        Detour parameters are available for the following transportation modes:
+        Using detour_coefficient = {detour_coefficient} and detour_constant = {detour_constant}.
+        """
+        )
+    distance_with_detour = detour_coefficient * distance + detour_constant
+
+    return distance_with_detour
 
 
 def calc_co2_bus(
@@ -187,7 +220,6 @@ def calc_co2_bus(
         warnings.warn(
             f"Intended range of trip was not provided. Using default value: '{vehicle_range}'"
         )
-    detour_coefficient = 1.5
     if distance is None and stops is None:
         raise ValueError(
             "Travel parameters missing. Please provide either the distance in km or a list of"
@@ -204,7 +236,7 @@ def calc_co2_bus(
             distance += haversine(
                 coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
             )
-        distance *= detour_coefficient
+        distance = apply_detour(distance, transportation_mode="bus")
     co2e = emission_factor_df[
         (emission_factor_df["size_class"] == size)
         & (emission_factor_df["fuel_type"] == fuel_type)
@@ -253,7 +285,6 @@ def calc_co2_train(
         warnings.warn(
             f"Intended range of trip was not provided. Using default value: '{vehicle_range}'"
         )
-    detour_coefficient = 1.2
     if distance is None and stops is None:
         raise ValueError(
             "Travel parameters missing. Please provide either the distance in km or a list of"
@@ -275,7 +306,7 @@ def calc_co2_train(
             distance += haversine(
                 coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
             )
-        distance *= detour_coefficient
+        distance = apply_detour(distance, transportation_mode="train")
     co2e = emission_factor_df[
         (emission_factor_df["fuel_type"] == fuel_type)
         & (emission_factor_df["range"] == vehicle_range)
@@ -308,9 +339,6 @@ def calc_co2_plane(
         warnings.warn(
             f"Seating class was not provided. Using default value: '{seating_class}'"
         )
-    detour_constant = 95  # 95 km as used by MyClimate and ges 1point5, see also
-    # Méthode pour la réalisation des bilans d’émissions de gaz à effet de serre conformément à l’article L. 229­25 du
-    # code de l’environnement – 2016 – Version 4
 
     # get geographic coordinates of airports
     _, geom_start, country_start = geocoding_airport(start)
@@ -318,7 +346,7 @@ def calc_co2_plane(
     # compute great circle distance between airports
     distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
     # add detour constant
-    distance += detour_constant
+    distance = apply_detour(distance, transportation_mode="plane")
     # retrieve whether distance is below or above 1500 km
     if distance <= 1500:
         flight_range = "short-haul"
@@ -380,14 +408,13 @@ def calc_co2_ferry(
         )
     # todo: Do we have a way of checking if there even exists a ferry connection between the given cities (of if the
     #  cities even have a port?
-    detour_coefficient = 1  # Todo
     # get geographic coordinates of ports
     _, _, geom_start, _ = geocoding_structured(start)
     _, _, geom_dest, _ = geocoding_structured(destination)
     # compute great circle distance between airports
     distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
-    # add detour constant
-    distance *= detour_coefficient
+
+    distance = apply_detour(distance, transportation_mode="ferry")
     # get emission factor
     co2e = emission_factor_df[(emission_factor_df["seating"] == seating_class)][
         "co2e"
