@@ -45,13 +45,13 @@ def calc_co2_car(
                         ["small", "medium", "large", "average"]                 default: "average"
     :param fuel_type: type of fuel the car is using
                         ["diesel", "gasoline", "cng", "electric", "hybrid", "plug-in_hybrid", "average"]    default: "average"
-    :type distance: float
-    :type stops: list[*dict]
+    :type distance: float or None
+    :type stops: list[*dict] or None
     :type passengers: int
     :type size: str
     :type fuel_type: str
-    :return: Total emissions of trip in co2 equivalents
-    :rtype: float
+    :return: Total emissions of trip in co2 equivalents, total distance of the trip
+    :rtype: tuple[float, float]
     """
     # Set default values
     if passengers is None:
@@ -110,7 +110,7 @@ def calc_co2_motorbike(
     :type stops: list[*dict]
     :type size: str
     :return: Total emissions of trip in co2 equivalents, distance of the trip
-    :rtype: float
+    :rtype: tuple[float, float]
     """
     # Set default values
     if size is None:
@@ -201,7 +201,7 @@ def calc_co2_bus(
     :type occupancy: int
     :type vehicle_range: str
     :return: Total emissions of trip in co2 equivalents, distance of the trip
-    :rtype: float
+    :rtype: tuple[float, float]
     """
     # Set default values
     if size is None:
@@ -272,7 +272,7 @@ def calc_co2_train(
     :type fuel_type: float
     :type vehicle_range: str
     :return: Total emissions of trip in co2 equivalents, distance of the trip
-    :rtype: Tuple[float, float]
+    :rtype: tuple[float, float]
     """
     # Set default values
     if fuel_type is None:
@@ -331,7 +331,7 @@ def calc_co2_plane(
     :type destination: str
     :type seating_class: str
     :return: Total emissions of flight in co2 equivalents, distance of the trip
-    :rtype: Tuple[float, float]
+    :rtype: tuple[float, float]
     """
     # Set defaults
     if seating_class is None:
@@ -399,7 +399,7 @@ def calc_co2_ferry(
     :type destination: dict
     :type seating_class: str
     :return: Total emissions of sea travel in co2 equivalents, distance of the trip
-    :rtype: Tuple[float, float]
+    :rtype: tuple[float, float]
     """
     if seating_class is None:
         seating_class = "average"
@@ -553,7 +553,7 @@ def calc_co2_businesstrip(
                 Distance of the business trip,
                 Range category of the business trip [very short haul, short haul, medium haul, long haul]
                 Range description (i.e., what range of distances does to category correspond to)
-    :rtype: Tuple[float, float, str, str]
+    :rtype: tuple[float, float, str, str]
     """
     if distance is None and (start is None or destination is None):
         assert ValueError("Either start and destination or distance must be provided.")
@@ -615,7 +615,7 @@ def range_categories(distance: float) -> Tuple[str, str]:
     :type distance: float
     :return: Range category of the trip [very short haul, short haul, medium haul, long haul]
              Range description (i.e., what range of distances does to category correspond to)
-    :rtype: Tuple[str, str]
+    :rtype: tuple[str, str]
     """
     if distance <= 500:
         range_cat = "very short haul"
