@@ -1,9 +1,11 @@
-
+==================================================
 Calculating emissions from heating and electricity
 ==================================================
 
+.. contents::
+
 Heating
-~~~~~~~
+-------
 
 Heating emissions are computed based on the consumption (typically in kWh) and the emission factors for a specified fuel type.
 
@@ -23,7 +25,7 @@ In this case, the (approximate) share of the building floor space, that is occup
 The `area_share` must be between 0.0 and 1.0 and is 1.0 by default.
 
 Electricity
-~~~~~~~~~~~
+-----------
 
 Heating emissions are computed based on the consumption (in kWh) and the emission factors for a specified energy mix or energy source.
 

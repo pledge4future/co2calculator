@@ -212,6 +212,11 @@ def calc_co2_bus(
         warnings.warn(
             f"Bus fuel type was not provided. Using default value: '{fuel_type}'"
         )
+    elif fuel_type not in ["diesel", "cng", "hydrogen"]:
+        warnings.warn(
+            f"Bus fuel type {fuel_type} not available. Using default value: 'diesel'"
+        )
+        fuel_type = "diesel"
     if occupancy is None:
         occupancy = 50
         warnings.warn(f"Occupancy was not provided. Using default value: '{occupancy}'")
@@ -533,7 +538,7 @@ def calc_co2_businesstrip(
     :param destination: Destination of the trip (alternatively, distance can be provided)
     :param distance: Distance travelled in km (alternatively, start and destination can be provided)
     :param size: Size class of the vehicle [small, medium, large, average] - only used for car and bus
-    :param fuel_type: Fuel type of the vehicle [diesel, gasoline, electricity, cng, hydrogen, average] - only used for
+    :param fuel_type: Fuel type of the vehicle [average, cng, diesel, electric, gasoline, hybrid, hydrogen, plug-in_hybrid] - only used for
                                                 car, bus and train
     :param occupancy: Occupancy of the vehicle in % [20, 50, 80, 100] - only used for bus
     :param seating: seating class ["average", "Economy class", "Premium economy class", "Business class", "First class"]
