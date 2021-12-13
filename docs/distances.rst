@@ -37,6 +37,20 @@ Bus trip
 The quantity of CO2e emitted by a bus trip depends on the
 bus ``size`` (average, medium, large) and the ``occupancy`` in % (20, 50, 80, 100).
 
+Train trip
+----------
+The quantity of CO2e emitted by a train trip depends on the
+``fuel_type`` (average, electric, diesel) and the ``vehicle_range`` (local, long-distance).
+
+Plane trip
+----------
+The quantity of CO2e emitted by a plane trip depends on the
+``seating_class`` (average, economy_class, business_class, premium_economy_class, first_class).
+
+Ferry trip
+----------
+The quantity of CO2e emitted by a ferry trip depends on the
+``seating_class`` (average, Foot passenger, Car passenger).
 
 Distance calculations
 ---------------------
