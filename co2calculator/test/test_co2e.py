@@ -3,7 +3,7 @@
 """Test co2e calculations"""
 
 import os
-
+import pytest
 from co2calculator import (
     calc_co2_car,
     calc_co2_heating,
@@ -33,7 +33,7 @@ def test_heating_woodchips():
     co2e = calc_co2_heating(consumption=consumption, unit=unit, fuel_type=fuel_type)
 
     # Check if expected result matches calculated result
-    assert round(co2e, 2) == co2e_kg_expected
+    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
 
 
 def test_electricity():
@@ -47,7 +47,7 @@ def test_electricity():
     co2e = calc_co2_electricity(consumption=consumption_kwh, fuel_type=fuel_type)
 
     # Check if expected result matches calculated result
-    assert round(co2e, 2) == co2e_kg_expected
+    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
 
 
 def test_bus_given_dist():
@@ -70,7 +70,7 @@ def test_bus_given_dist():
     )
 
     # Check if expected result matches calculated result
-    assert round(co2e, 2) == co2e_kg_expected
+    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
 
 
 def test_car_given_dist():
@@ -88,7 +88,7 @@ def test_car_given_dist():
     )
 
     # Check if expected result matches calculated result
-    assert round(co2e, 2) == co2e_kg_expected
+    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
 
 
 def test_train_given_dist():
@@ -106,7 +106,23 @@ def test_train_given_dist():
     )
 
     # Check if expected result matches calculated result
-    assert round(co2e, 2) == co2e_kg_expected
+    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
+
+
+def test_business_trip_plane_wrong_input():
+    """
+    Test if an error if raised if a dictionary instead of a string is provided as start location when using
+    plane as transport mode
+    """
+    start_loc = {"country": "DEU", "locality": "Frankfurt"}
+    stop_loc = "AMS"
+
+    # Check if raises error
+    with pytest.raises(ValueError) as e:
+        _, _, _, _ = calc_co2_businesstrip(
+            transportation_mode="plane", start=start_loc, destination=stop_loc
+        )
+    assert e.type is ValueError
 
 
 def test_commuting_car():
@@ -131,7 +147,7 @@ def test_commuting_car():
     )
 
     # Check if expected result matches calculated result
-    assert round(co2e, 2) == co2e_kg_expected
+    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
 
 
 def test_commuting_bike():
@@ -147,4 +163,4 @@ def test_commuting_bike():
     co2e = calc_co2_commuting(transportation_mode=mode, weekly_distance=distance)
 
     # Check if expected result matches calculated result
-    assert round(co2e, 2) == co2e_kg_expected
+    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)

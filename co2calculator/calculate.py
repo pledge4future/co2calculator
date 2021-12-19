@@ -571,6 +571,22 @@ def calc_co2_businesstrip(
     elif start is None and destination is None and distance is not None:
         stops = None
     elif start is not None and destination is not None and distance is None:
+        # check if stops are provided in the right form
+        if transportation_mode == "car" and (
+            type(start) != str or type(destination) != str
+        ):
+            raise ValueError(
+                "Wrong data type for start and destination."
+                "Please provide a three letter IATA code for train stations."
+            )
+        elif transportation_mode != "car" and (
+            type(start) != dict or type(destination) != dict
+        ):
+            raise ValueError(
+                "Wrong data type for start and destination."
+                "Please provide a dictionary."
+            )
+
         stops = [start, destination]
     if transportation_mode == "car":
         emissions, dist = calc_co2_car(

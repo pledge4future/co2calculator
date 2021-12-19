@@ -51,16 +51,20 @@ Calculating a train trip may thus look like this::
         destination=dest_dict
         roundtrip: bool = False)
 
-b) Geocoding for other trips
+We use the fuzzy string matching package `thefuzz <https://github.com/seatgeek/thefuzz>`_ to find the train station in the database which best matches the
+user input.
+
+c) Geocoding for other trips
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For other trips, we use `Pelias structured geocoding <https://github.com/pelias/documentation/blob/master/structured-geocoding.md>`_
+For other trips (e.g., car or bus), we use `Pelias structured geocoding <https://github.com/pelias/documentation/blob/master/structured-geocoding.md>`_
 as included in `openrouteservice <https://openrouteservice.org/>`_.
 This means, the user has different predefined fields to specify an address.
 
 .. autofunction:: co2calculator.distances.geocoding_structured
 
-
+Usually, good results can be achieved by specifying `country`, `locality` and `address`. Further specifications
+are usually not needed and can sometimes even negatively effect the geocoding results.
 
 Distance computation
 --------------------
