@@ -709,6 +709,7 @@ def commuting_emissions_group(
     """Calculate the group's co2e emissions from commuting.
 
     .. note:: Assumption: a representative sample of group members answered the questionnaire.
+
     :param aggr_co2: (Annual/monthly) co2e emissions from commuting, aggregated for all group members who answered the
                             questionnaire (can also be calculated for only one mode of transport)
     :param n_participants: Number of group members who answered the questionnaire

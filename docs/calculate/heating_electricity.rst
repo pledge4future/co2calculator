@@ -1,6 +1,6 @@
-==================================================
-Calculating emissions from heating and electricity
-==================================================
+=======================
+Heating and electricity
+=======================
 
 .. contents::
 

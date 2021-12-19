@@ -20,8 +20,10 @@ Welcome to co2calculator's documentation!
    :includehidden:
 
    calculate/heating_electricity
+   businesstrips
+   commuting
    calculate/emission_factors
-   distances
+
 
 Indices and tables
 ==================
