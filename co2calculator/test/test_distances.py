@@ -17,8 +17,8 @@ import pytest
 
 
 script_path = os.path.dirname(os.path.realpath(__file__))
-if not (os.path.isfile(f"{script_path}/../../.env") or os.environ.get("ORS_API_KEY")):
-    ORS_API_KEY = None
+if not (os.path.isfile(f"{script_path}/../../.env")):
+    ORS_API_KEY = os.environ.get("ORS_API_KEY")
 
 
 def test_haversine():
