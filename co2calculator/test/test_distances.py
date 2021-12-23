@@ -14,11 +14,12 @@ from co2calculator.calculate import calc_co2_plane, calc_co2_train
 import math
 import numpy as np
 import pytest
+from dotenv import load_dotenv
 
+load_dotenv()
 
 script_path = os.path.dirname(os.path.realpath(__file__))
-if not (os.path.isfile(f"{script_path}/../../.env")):
-    ORS_API_KEY = os.environ.get("ORS_API_KEY")
+ORS_API_KEY = os.environ.get("ORS_API_KEY")
 
 
 def test_haversine():
@@ -124,7 +125,7 @@ def test_plane():
     # Calculate co2e
     co2e, dist = calc_co2_plane(start=start, destination=dest, seating_class=seating)
     # Check if expected result matches calculated result
-    assert round(co2e, 2) == co2e_kg_expected
+    assert co2e == pytest.approx(co2e_kg_expected, 0.01)
 
 
 def test_plane_invalid_seating_class():
@@ -155,9 +156,11 @@ def test_plane_invalid_seating_range_combo():
     # Premium economy class is not available for short-haul flights -> Error should be raised!
 
     # Check if raises error
-    with pytest.raises(IndexError) as e:
+    # Check if raises warning
+    with pytest.warns(
+        UserWarning, match=r"Seating class '\w+' not available for short-haul flights"
+    ):
         calc_co2_plane(start=start, destination=dest, seating_class=seating)
-    assert e.type is IndexError
 
 
 def test_geocoding_train_stations_invalid():
