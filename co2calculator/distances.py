@@ -10,6 +10,7 @@ import openrouteservice
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 import pandas as pd
 from thefuzz import fuzz
@@ -19,7 +20,7 @@ import warnings
 load_dotenv()  # take environment variables from .env.
 
 ORS_API_KEY = os.environ.get("ORS_API_KEY")
-script_path = os.path.dirname(os.path.realpath(__file__))
+script_path = str(Path(__file__).parent)
 
 
 def haversine(
