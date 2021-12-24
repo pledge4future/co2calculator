@@ -4,6 +4,7 @@
 """Python tests"""
 
 import os
+from pathlib import Path
 from co2calculator.distances import (
     haversine,
     geocoding_airport,
@@ -18,6 +19,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 ORS_API_KEY = os.environ.get("ORS_API_KEY")
+script_path = str(Path(__file__).parent.parent)
 
 
 def test_haversine():
