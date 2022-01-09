@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.abspath(".."))
 # -- Project information -----------------------------------------------------
 
 project = "co2calculator"
-copyright = "2021, Christina Ludwig, Veit Ulrich, Hannah Weiser"
+copyright = "2022, Christina Ludwig, Veit Ulrich, Hannah Weiser"
 author = "Christina Ludwig, Veit Ulrich, Hannah Weiser"
 
 # The full version, including alpha/beta/rc tags

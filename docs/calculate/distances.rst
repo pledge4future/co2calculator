@@ -96,3 +96,15 @@ b) Road distance
 Calculating the road distance using `openrouteservice <https://openrouteservice.org/>`_.
 
 This approach is only used for the transport mode ``car``.
+
+Here is an example of how this works using the ``openrouteservice`` `Python library <https://pypi.org/project/openrouteservice/>`_).
+::
+
+    import openrouteservice
+    from openrouteservice.directions import directions
+
+    clnt = openrouteservice.Client(key=ors_api_key)
+
+    # coords: list/tuple of locations [lat,long]
+    route = directions(clnt, coords, profile="driving-car")
+    distance = route["routes"][0]["summary"]["distance"]
