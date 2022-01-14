@@ -4,6 +4,7 @@
 
 import os
 from typing import Optional
+from attr.validators import optional
 
 import pytest
 
@@ -13,53 +14,51 @@ script_path = os.path.dirname(os.path.realpath(__file__))
 
 
 @pytest.mark.parametrize(
-    "distance,stops,passengers,size,fuel_type,expected_emissions,expected_distance",
+    "distance,passengers,size,fuel_type,expected_emissions",
     [
         pytest.param(
             100,
             None,
             None,
             None,
-            None,
             21.5,
-            100,
-            id="Distance-based w/ defaults",
+            id="w/ defaults",
         ),
         pytest.param(
             444,
-            None,
             3,
             "medium",
             "gasoline",
             34.188,
-            444,
-            id="Distance-based w/ specs",
+            id="w/ specs",
         ),
     ],
 )
 def test_calc_co2_car__distance_based(
-    distance: Optional[float],
-    stops: Optional[list],
+    distance: float,
     passengers: Optional[int],
     size: Optional[str],
     fuel_type: Optional[str],
     expected_emissions: float,
-    expected_distance: float,
 ):
-    """Test: Calculate emissions based on given distance.
+    """Test: Calculate car-trip emissions based on given distance.
     Expect: Returns emissions and distance.
     """
     actual_emissions, actual_distance = candidate.calc_co2_car(
-        distance, stops, passengers, size, fuel_type
+        distance=distance,
+        stops=None,
+        passengers=passengers,
+        size=size,
+        fuel_type=fuel_type,
     )
 
     assert actual_emissions == expected_emissions
-    assert actual_distance == expected_distance
+    assert actual_distance == distance
 
 
 @pytest.mark.skip(reason="Not implemented yet")
 def test_calc_co2_car__stops_based():
-    """Test: Calculate emissions based on given stops.
+    """Test: Calculate car-trip emissions based on given stops.
     Expect: Returns emissions and distance.
     """
     assert True
@@ -70,7 +69,136 @@ def test_co2_car__failed():
     Expect: Raises ValueError.
     """
     with pytest.raises(ValueError):
-        candidate.calc_co2_car()
+        candidate.calc_co2_car(distance=None, stops=None)
+
+
+@pytest.mark.parametrize(
+    "distance,size,expected_emissions",
+    [
+        pytest.param(100, None, 2.34, id="w/ defaults"),
+        pytest.param(100, "medium", 2.39, id="w/ size"),
+    ],
+)
+def test_calc_co2_motorbike__distance_based(
+    distance: float, size: Optional[str], expected_emissions: float
+):
+    """Test: Calculate motorbike-trip emissions based on given distance.
+    Expect: Returns emissions and distance.
+    """
+    actual_emissions, actual_distance = candidate.calc_co2_motorbike(
+        distance=distance, stops=None, size=size
+    )
+
+    assert actual_emissions == expected_emissions
+    assert actual_distance == distance
+
+
+@pytest.mark.skip(reason="Not implemented yet")
+def test_calc_co2_motorbike__stops_based():
+    """Test: Calculate motorbike-trip emissions based on given stops.
+    Expect: Returns emissions and distance.
+    """
+    assert True
+
+
+def test_calc_co2_motorbike__failed():
+    """Test: Calling calc_co2_motorbike with no arguments.
+    Expect: Raises ValueError.
+    """
+    with pytest.raises(ValueError):
+        candidate.calc_co2_motorbike(distance=None, stops=None)
+
+
+@pytest.mark.parametrize(
+    "distance,size,fuel_type,occupancy,vehicle_range,expected_emissions",
+    [
+        pytest.param(549, None, None, None, None, 21.63, id="w/ defaults"),
+        pytest.param(549, "large", "diesel", 80, "long-distance", 12.3, id="w/ specs"),
+    ],
+)
+def test_calc_co2_bus__distance_based(
+    distance: float,
+    size: Optional[str],
+    fuel_type: Optional[str],
+    occupancy: Optional[int],
+    vehicle_range: Optional[str],
+    expected_emissions: float,
+):
+    """Test: Calculate bus-trip emissions based on given distance.
+    Expect: Returns emissions and distance.
+    """
+
+    # Calculate co2e
+    actual_emissions, actual_distance = candidate.calc_co2_bus(
+        distance=distance,
+        stops=None,
+        size=size,
+        fuel_type=fuel_type,
+        occupancy=occupancy,
+        vehicle_range=vehicle_range,
+    )
+
+    assert round(actual_emissions, 2) == expected_emissions
+    assert actual_distance == actual_distance
+
+
+@pytest.mark.skip(reason="Not implemented yet")
+def test_calc_co2_bus__stops_based():
+    """Test: Calculate bus-trip emissions based on given stops.
+    Expect: Returns emissions and distance.
+    """
+    assert True
+
+
+def test_calc_co2_bus__failed():
+    """Test: Calling calc_co2_bus with no arguments.
+    Expect: Raises ValueError.
+    """
+    with pytest.raises(ValueError):
+        candidate.calc_co2_bus(distance=None, stops=None)
+
+
+@pytest.mark.parametrize(
+    "distance,fuel_type,vehicle_range,expected_emissions",
+    [
+        pytest.param(1162, None, None, 38.23, id="w/ defaults"),
+        pytest.param(1162, "electric", "long-distance", 37.18, id="w/ specs"),
+    ],
+)
+def test_train__distance_based(
+    distance: float,
+    fuel_type: Optional[str],
+    vehicle_range: Optional[str],
+    expected_emissions: float,
+):
+    """Test: Calculate train-trip emissions based on given distance.
+    Expect: Returns emissions and distance.
+    """
+    actual_emissions, actual_distance = candidate.calc_co2_train(
+        distance=distance,
+        stops=None,
+        fuel_type=fuel_type,
+        vehicle_range=vehicle_range,
+    )
+
+    # Check if expected result matches calculated result
+    assert round(actual_emissions, 2) == expected_emissions
+
+
+@pytest.mark.skip(reason="Not implemented yet")
+def test_calc_co2_train__stops_based():
+    """Test: Calculate train-trip emissions based on given stops.
+    Expect: Returns emissions and distance.
+    """
+    assert True
+
+
+def test_calc_co2_train__failed():
+    """Test: Calling calc_co2_train with no arguments.
+    Expect: Raises ValueError.
+    """
+    with pytest.raises(ValueError):
+        candidate.calc_co2_train(distance=None, stops=None)
 
 
 def test_heating_woodchips():
@@ -105,63 +233,6 @@ def test_electricity():
 
     # Check if expected result matches calculated result
     assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
-
-
-def test_bus_given_dist():
-    """Test co2e calculation for a bus trip of given distance"""
-    # Given parameters
-    fuel_type = "diesel"
-    distance_km = 549
-    bus_size = "large"
-    bus_range = "long-distance"
-    occupancy = 80
-    co2e_kg_expected = 12.30  # emission factor: 0.0224 kg/P.km
-
-    # Calculate co2e
-    co2e, _ = candidate.calc_co2_bus(
-        size=bus_size,
-        fuel_type=fuel_type,
-        occupancy=occupancy,
-        vehicle_range=bus_range,
-        distance=distance_km,
-    )
-
-    # Check if expected result matches calculated result
-    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
-
-
-def test_train_given_dist():
-    """Test co2e calculation for a train trip of given distance"""
-    # Given parameters
-    fuel_type = "electric"
-    distance_km = 1162
-    train_range = "long-distance"
-    co2e_kg_expected = 37.18  # assuming emission factor: 0.032 kg/P.km
-    # (still has to be checked by expert though! only 0.00948 kg/P.km according to Öko-Institut)
-
-    # Calculate co2e
-    co2e, _ = candidate.calc_co2_train(
-        fuel_type=fuel_type, vehicle_range=train_range, distance=distance_km
-    )
-
-    # Check if expected result matches calculated result
-    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
-
-
-def test_business_trip_plane_wrong_input():
-    """
-    Test if an error if raised if a dictionary instead of a string is provided as start location when using
-    plane as transport mode
-    """
-    start_loc = {"country": "DEU", "locality": "Frankfurt"}
-    stop_loc = "AMS"
-
-    # Check if raises error
-    with pytest.raises(ValueError) as e:
-        _, _, _, _ = calc_co2_businesstrip(
-            transportation_mode="plane", start=start_loc, destination=stop_loc
-        )
-    assert e.type is ValueError
 
 
 @pytest.mark.parametrize(
