@@ -1,21 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Test co2e calculations"""
+"""Test co2calculator.calculate"""
 
 import os
+from typing import Optional
+
 import pytest
-from co2calculator import (
-    calc_co2_car,
-    calc_co2_heating,
-    calc_co2_bus,
-    calc_co2_train,
-    calc_co2_commuting,
-    calc_co2_electricity,
-    calc_co2_ferry,
-    calc_co2_plane,
-    calc_co2_motorbike,
-    calc_co2_businesstrip,
-)
+
+import co2calculator.calculate as candidate
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -30,7 +22,9 @@ def test_heating_woodchips():
     co2e_kg_expected = 43.63
 
     # Calculate co2e
-    co2e = calc_co2_heating(consumption=consumption, unit=unit, fuel_type=fuel_type)
+    co2e = candidate.calc_co2_heating(
+        consumption=consumption, unit=unit, fuel_type=fuel_type
+    )
 
     # Check if expected result matches calculated result
     assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
@@ -44,7 +38,9 @@ def test_electricity():
     co2e_kg_expected = 3942.65  # emission factor: 109518 kg/TJ
 
     # Calculate co2e
-    co2e = calc_co2_electricity(consumption=consumption_kwh, fuel_type=fuel_type)
+    co2e = candidate.calc_co2_electricity(
+        consumption=consumption_kwh, fuel_type=fuel_type
+    )
 
     # Check if expected result matches calculated result
     assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
@@ -61,7 +57,7 @@ def test_bus_given_dist():
     co2e_kg_expected = 12.30  # emission factor: 0.0224 kg/P.km
 
     # Calculate co2e
-    co2e, _ = calc_co2_bus(
+    co2e, _ = candidate.calc_co2_bus(
         size=bus_size,
         fuel_type=fuel_type,
         occupancy=occupancy,
@@ -83,7 +79,7 @@ def test_car_given_dist():
     co2e_kg_expected = 34.19  # emission factor: 0.231 kg/P.km
 
     # Calculate co2e
-    co2e, _ = calc_co2_car(
+    co2e, _ = candidate.calc_co2_car(
         distance=distance_km, passengers=passengers, size=car_size, fuel_type=fuel_type
     )
 
@@ -101,7 +97,7 @@ def test_train_given_dist():
     # (still has to be checked by expert though! only 0.00948 kg/P.km according to Öko-Institut)
 
     # Calculate co2e
-    co2e, _ = calc_co2_train(
+    co2e, _ = candidate.calc_co2_train(
         fuel_type=fuel_type, vehicle_range=train_range, distance=distance_km
     )
 
@@ -125,29 +121,31 @@ def test_business_trip_plane_wrong_input():
     assert e.type is ValueError
 
 
-def test_commuting_car():
+@pytest.mark.parametrize(
+    "transportation_mode,weekly_distance,size,fuel_type,occupancy,passengers,expected",
+    [pytest.param("car", 30, "medium", "gasoline", None, None, 6.93, id="Car commute")],
+)
+def test_commuting_car(
+    transportation_mode: str,
+    weekly_distance: float,
+    size: str,
+    fuel_type: str,
+    occupancy: Optional[int],
+    passengers: Optional[int],
+    expected: float,
+):
     """Test co2 calculation for commuting by car"""
-    # Given parameters
-    mode = "car"
-    distance = 30
-    passengers = 1
-    car_size = "medium"
-    fuel_type = "gasoline"
-    co2e_kg_expected = 6.93
-    # emission factor for car, medium, gasoline: 0.231
-    # 0.231 * 30 = 6.93
 
-    # Calculate co2e
-    co2e = calc_co2_commuting(
-        transportation_mode=mode,
-        weekly_distance=distance,
-        passengers=passengers,
-        size=car_size,
+    # Calculate co2 emissions
+    co2e = candidate.calc_co2_commuting(
+        transportation_mode=transportation_mode,
+        weekly_distance=weekly_distance,
+        size=size,
         fuel_type=fuel_type,
+        occupancy=occupancy,
+        passengers=passengers,
     )
-
-    # Check if expected result matches calculated result
-    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
+    assert round(co2e, 2) == expected
 
 
 def test_commuting_bike():
@@ -160,7 +158,9 @@ def test_commuting_bike():
     # 0.231 * 30 = 6.93
 
     # Calculate co2e
-    co2e = calc_co2_commuting(transportation_mode=mode, weekly_distance=distance)
+    co2e = candidate.calc_co2_commuting(
+        transportation_mode=mode, weekly_distance=distance
+    )
 
     # Check if expected result matches calculated result
     assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
