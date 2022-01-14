@@ -12,6 +12,67 @@ import co2calculator.calculate as candidate
 script_path = os.path.dirname(os.path.realpath(__file__))
 
 
+@pytest.mark.parametrize(
+    "distance,stops,passengers,size,fuel_type,expected_emissions,expected_distance",
+    [
+        pytest.param(
+            100,
+            None,
+            None,
+            None,
+            None,
+            21.5,
+            100,
+            id="Distance-based w/ defaults",
+        ),
+        pytest.param(
+            444,
+            None,
+            3,
+            "medium",
+            "gasoline",
+            34.188,
+            444,
+            id="Distance-based w/ specs",
+        ),
+    ],
+)
+def test_calc_co2_car__distance_based(
+    distance: Optional[float],
+    stops: Optional[list],
+    passengers: Optional[int],
+    size: Optional[str],
+    fuel_type: Optional[str],
+    expected_emissions: float,
+    expected_distance: float,
+):
+    """Test: Calculate emissions based on given distance.
+    Expect: Returns emissions and distance.
+    """
+    actual_emissions, actual_distance = candidate.calc_co2_car(
+        distance, stops, passengers, size, fuel_type
+    )
+
+    assert actual_emissions == expected_emissions
+    assert actual_distance == expected_distance
+
+
+@pytest.mark.skip(reason="Not implemented yet")
+def test_calc_co2_car__stops_based():
+    """Test: Calculate emissions based on given stops.
+    Expect: Returns emissions and distance.
+    """
+    assert True
+
+
+def test_co2_car__failed():
+    """Test: Calling calc_co2_car with no arguments.
+    Expect: Raises ValueError.
+    """
+    with pytest.raises(ValueError):
+        candidate.calc_co2_car()
+
+
 def test_heating_woodchips():
     """Test co2e calculation for heating: woodchips"""
     # Given parameters
@@ -63,24 +124,6 @@ def test_bus_given_dist():
         occupancy=occupancy,
         vehicle_range=bus_range,
         distance=distance_km,
-    )
-
-    # Check if expected result matches calculated result
-    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
-
-
-def test_car_given_dist():
-    """Test co2e calculation for a car trip of given distance"""
-    # Given parameters
-    fuel_type = "gasoline"
-    distance_km = 444
-    car_size = "medium"
-    passengers = 3
-    co2e_kg_expected = 34.19  # emission factor: 0.231 kg/P.km
-
-    # Calculate co2e
-    co2e, _ = candidate.calc_co2_car(
-        distance=distance_km, passengers=passengers, size=car_size, fuel_type=fuel_type
     )
 
     # Check if expected result matches calculated result

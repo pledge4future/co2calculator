@@ -71,7 +71,7 @@ def calc_co2_car(
         )
     # Check if distance of stops provided
     if distance is None and stops is None:
-        assert ValueError(
+        raise ValueError(
             "Travel parameters missing. Please provide either the distance in km or a list of"
             "dictionaries of travelled locations."
         )
