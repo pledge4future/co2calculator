@@ -38,6 +38,7 @@ repos:
         description: Forces to replace line ending by the UNIX 'lf' character.
       - id: pretty-format-json
         args: [ '--no-sort-keys' ]
+        exclude: Pipfile.lock
       - id: no-commit-to-branch
         args: [ --branch, master ]
       - id: no-commit-to-branch

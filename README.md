@@ -6,14 +6,26 @@ Python package to calculate work related CO2 emissions from heating and electric
 
 ## ℹ️  Description
 
-This package is part of [Pledge4Future](https://pledge4future.org/), a project to quantify, monitor and reduce work-related emissions collectively and sustainably. 
+This package is part of [Pledge4Future](https://pledge4future.org/), a project to quantify, monitor and reduce work-related emissions collectively and sustainably.
 
 ## :computer:  Installation
 
-This package requires Python 3.9 and the packages listed in `requirements.txt`
+This package requires Python 3.9. Dependencies are managed by [pipenv](https://pipenv.pypa.io/en/latest/basics/).
 
+Get ready:
+```shell
+$ pip install pipenv
+$ pipenv install
 ```
-$ pip install -r requirements.txt
+
+Execute code:
+```shell
+$ pipenv shell
+$ (co2calculator) python ...
+```
+or
+```shell
+$ pipenv run python ...
 ```
 
 ## ⌨  How to Use
