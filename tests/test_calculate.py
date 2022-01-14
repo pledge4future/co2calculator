@@ -7,6 +7,7 @@ from typing import Optional
 from attr.validators import optional
 
 import pytest
+from pytest_mock import MockerFixture
 
 import co2calculator.calculate as candidate
 
@@ -199,6 +200,106 @@ def test_calc_co2_train__failed():
     """
     with pytest.raises(ValueError):
         candidate.calc_co2_train(distance=None, stops=None)
+
+
+@pytest.mark.parametrize(
+    "seating_class,mocked_distance,expected_emissions",
+    [
+        pytest.param(None, 1000, 170.31, id="w/ defaults, short-haul"),
+        pytest.param(None, 2000, 399.83, id="w/ defaults, long-haul"),
+        pytest.param("economy_class", 1000, 167.51, id="w/ seating_class"),
+    ],
+)
+def test_calc_co2_plane(
+    mocker: MockerFixture,
+    seating_class: Optional[str],
+    mocked_distance: float,
+    expected_emissions: float,
+):
+    """Test: Calculate plane-trip emissions based on start and destination.
+    Expect: Returns emissions and distance.
+    """
+    # Mocking functions called by calc_co2_plane
+    patched_geocoding_airport = mocker.patch(
+        "co2calculator.calculate.geocoding_airport",
+        return_value=("TEST", (1.0, 2.0), "TEST"),
+    )
+    patched_haversine = mocker.patch(
+        "co2calculator.calculate.haversine",
+        return_value=mocked_distance,
+    )
+
+    # Test
+    actual_emissions, _ = candidate.calc_co2_plane(
+        start="SOME", destination="SOME", seating_class=seating_class
+    )
+
+    assert round(actual_emissions, 2) == expected_emissions
+
+    assert patched_geocoding_airport.call_count == 2
+    patched_haversine.assert_called_once()
+
+
+def test_calc_co2_plane__failed(mocker: MockerFixture):
+    """Test: Calculation on plane-trip emissions fails due to false input.
+    Expect: Raises ValueError.
+    """
+    # Mocking functions called by calc_co2_plane
+    patched_geocoding_airport = mocker.patch(
+        "co2calculator.calculate.geocoding_airport",
+        return_value=("TEST", (1.0, 2.0), "TEST"),
+    )
+    patched_haversine = mocker.patch(
+        "co2calculator.calculate.haversine",
+        return_value=1,
+    )
+
+    with pytest.raises(ValueError):
+        candidate.calc_co2_plane(
+            start="SOME", destination="SOME", seating_class="NON-EXISTANT"
+        )
+
+    assert patched_geocoding_airport.call_count == 2
+    patched_haversine.assert_called_once()
+
+
+@pytest.mark.parametrize(
+    "seating_class,expected_emissions",
+    [
+        pytest.param(None, 24.43, id="w/ defaults"),
+        pytest.param("average", 24.43, id="w/ seating_class: 'average'"),
+        # TODO: Investigate why foot and car passenger fail
+        # pytest.param("Foot passenger", 1, id="w/ seating_class: 'Foot passenger'"),
+        # pytest.param("Car passenger", 1, id="w/ seating_class: 'Car passenger"),
+    ],
+)
+def test_calc_ferry(
+    mocker: MockerFixture, seating_class: Optional[str], expected_emissions: float
+):
+    """Test: Calculate ferry-trip emissions based on start and destination.
+    Expect: Returns emissions and distance.
+    """
+    # Mocking functions called by calc_co2_plane
+    # TODO: Check if return mock (especially `coords` & `res`) is correct
+    # (type annotation missing)
+    patched_geocoding = mocker.patch(
+        "co2calculator.calculate.geocoding_structured",
+        return_value=("NAME", "COUNTRY", (1.0, 2.0), "RES"),
+    )
+    patched_haversine = mocker.patch(
+        "co2calculator.calculate.haversine",
+        return_value=100,
+    )
+
+    # Test
+    actual_emissions, _ = candidate.calc_co2_ferry(
+        start={}, destination={}, seating_class=seating_class
+    )
+
+    assert actual_emissions == expected_emissions
+
+    assert patched_geocoding.call_count == 2
+    patched_haversine.assert_called_once()
 
 
 def test_heating_woodchips():

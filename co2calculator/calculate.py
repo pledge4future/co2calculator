@@ -367,6 +367,7 @@ def calc_co2_plane(
         flight_range = "short-haul"
     elif distance > 1500:
         flight_range = "long-haul"
+    # NOTE: Should be checked before geocoding and haversine calculation
     seating_choices = [
         "average",
         "economy_class",
