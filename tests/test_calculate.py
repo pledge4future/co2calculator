@@ -3,7 +3,7 @@
 """Test co2calculator.calculate"""
 
 import os
-from typing import Optional
+from typing import Optional, List, Dict
 from attr.validators import optional
 
 import pytest
@@ -23,7 +23,7 @@ script_path = os.path.dirname(os.path.realpath(__file__))
             None,
             None,
             21.5,
-            id="w/ defaults",
+            id="defaults",
         ),
         pytest.param(
             444,
@@ -31,7 +31,7 @@ script_path = os.path.dirname(os.path.realpath(__file__))
             "medium",
             "gasoline",
             34.188,
-            id="w/ specs",
+            id="optional arguments",
         ),
     ],
 )
@@ -57,12 +57,51 @@ def test_calc_co2_car__distance_based(
     assert actual_distance == distance
 
 
-@pytest.mark.skip(reason="Not implemented yet")
-def test_calc_co2_car__stops_based():
+@pytest.mark.parametrize(
+    "stops,passengers,size,fuel_type,expected_emissions",
+    [
+        pytest.param([{}], None, None, None, 9.03, id="1 stop, defaults"),
+        pytest.param([{}, {}], None, None, None, 9.03, id="2 stops, defaults"),
+        pytest.param(
+            [{}], 1, "average", "gasoline", 9.408, id="1 stop, optional arguments"
+        ),
+        pytest.param(
+            [{}, {}], 1, "average", "gasoline", 9.408, id="2 stops, optional arguments"
+        ),
+    ],
+)
+def test_calc_co2_car__stops_based(
+    mocker: MockerFixture,
+    stops: List[Dict],
+    passengers: int,
+    size: str,
+    fuel_type: str,
+    expected_emissions: float,
+) -> None:
     """Test: Calculate car-trip emissions based on given stops.
     Expect: Returns emissions and distance.
     """
-    assert True
+    patched_geocoding = mocker.patch(
+        "co2calculator.calculate.geocoding_structured",
+        return_value=("NAME", "COUNTRY", (1.0, 2.0), "RES"),
+    )
+    patched_get_route = mocker.patch(
+        "co2calculator.calculate.get_route",
+        return_value=42,
+    )
+
+    actual_emissions, _ = candidate.calc_co2_car(
+        distance=None,
+        stops=stops,
+        passengers=passengers,
+        size=size,
+        fuel_type=fuel_type,
+    )
+
+    assert actual_emissions == expected_emissions
+
+    assert patched_geocoding.call_count == len(stops)
+    patched_get_route.assert_called_once()
 
 
 def test_co2_car__failed():
@@ -76,8 +115,8 @@ def test_co2_car__failed():
 @pytest.mark.parametrize(
     "distance,size,expected_emissions",
     [
-        pytest.param(100, None, 2.34, id="w/ defaults"),
-        pytest.param(100, "medium", 2.39, id="w/ size"),
+        pytest.param(100, None, 2.34, id=" defaults"),
+        pytest.param(100, "medium", 2.39, id="size"),
     ],
 )
 def test_calc_co2_motorbike__distance_based(
@@ -113,8 +152,10 @@ def test_calc_co2_motorbike__failed():
 @pytest.mark.parametrize(
     "distance,size,fuel_type,occupancy,vehicle_range,expected_emissions",
     [
-        pytest.param(549, None, None, None, None, 21.63, id="w/ defaults"),
-        pytest.param(549, "large", "diesel", 80, "long-distance", 12.3, id="w/ specs"),
+        pytest.param(549, None, None, None, None, 21.63, id="defaults"),
+        pytest.param(
+            549, "large", "diesel", 80, "long-distance", 12.3, id="optional arguments"
+        ),
     ],
 )
 def test_calc_co2_bus__distance_based(
@@ -162,8 +203,8 @@ def test_calc_co2_bus__failed():
 @pytest.mark.parametrize(
     "distance,fuel_type,vehicle_range,expected_emissions",
     [
-        pytest.param(1162, None, None, 38.23, id="w/ defaults"),
-        pytest.param(1162, "electric", "long-distance", 37.18, id="w/ specs"),
+        pytest.param(1162, None, None, 38.23, id="defaults"),
+        pytest.param(1162, "electric", "long-distance", 37.18, id="optional arguments"),
     ],
 )
 def test_train__distance_based(
@@ -205,9 +246,9 @@ def test_calc_co2_train__failed():
 @pytest.mark.parametrize(
     "seating_class,mocked_distance,expected_emissions",
     [
-        pytest.param(None, 1000, 170.31, id="w/ defaults, short-haul"),
-        pytest.param(None, 2000, 399.83, id="w/ defaults, long-haul"),
-        pytest.param("economy_class", 1000, 167.51, id="w/ seating_class"),
+        pytest.param(None, 1000, 170.31, id="defaults, short-haul"),
+        pytest.param(None, 2000, 399.83, id="defaults, long-haul"),
+        pytest.param("economy_class", 1000, 167.51, id="seating_class"),
     ],
 )
 def test_calc_co2_plane(
@@ -266,11 +307,11 @@ def test_calc_co2_plane__failed(mocker: MockerFixture):
 @pytest.mark.parametrize(
     "seating_class,expected_emissions",
     [
-        pytest.param(None, 24.43, id="w/ defaults"),
-        pytest.param("average", 24.43, id="w/ seating_class: 'average'"),
+        pytest.param(None, 24.43, id="defaults"),
+        pytest.param("average", 24.43, id="seating_class: 'average'"),
         # TODO: Investigate why foot and car passenger fail
-        # pytest.param("Foot passenger", 1, id="w/ seating_class: 'Foot passenger'"),
-        # pytest.param("Car passenger", 1, id="w/ seating_class: 'Car passenger"),
+        # pytest.param("Foot passenger", 1, id="seating_class: 'Foot passenger'"),
+        # pytest.param("Car passenger", 1, id="seating_class: 'Car passenger"),
     ],
 )
 def test_calc_ferry(
