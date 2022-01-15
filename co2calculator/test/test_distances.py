@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-"""Python tests"""
+"""Tests for distance computation"""
 
 import os
 from pathlib import Path
@@ -37,7 +36,7 @@ def test_haversine():
     distance = haversine(lat_a, long_a, lat_b, long_b)
 
     # Check if expected result matches calculated result
-    assert math.isclose(distance, distance_expected, rel_tol=0.01)
+    assert distance == pytest.approx(distance_expected, rel=0.01)
 
 
 def test_geocoding_airport_FRA():
@@ -125,7 +124,7 @@ def test_plane():
     # Calculate co2e
     co2e, dist = calc_co2_plane(start=start, destination=dest, seating_class=seating)
     # Check if expected result matches calculated result
-    assert co2e == pytest.approx(co2e_kg_expected, 0.01)
+    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
 
 
 def test_plane_invalid_seating_class():
@@ -155,7 +154,6 @@ def test_plane_invalid_seating_range_combo():
     seating = "premium_economy_class"
     # Premium economy class is not available for short-haul flights -> Error should be raised!
 
-    # Check if raises error
     # Check if raises warning
     with pytest.warns(
         UserWarning, match=r"Seating class '\w+' not available for short-haul flights"

@@ -26,13 +26,18 @@ script_path = str(Path(__file__).parent)
 def haversine(
     lat_start: float, long_start: float, lat_dest: float, long_dest: float
 ) -> float:
-    """
-    Function to compute the distance as the crown flies between given locations
-    :param lat_start: latitude of Start
-    :param long_start: Longitude of Start
-    :param lat_dest: Latitude of Destination
-    :param long_dest: Longitude of Destination
+    """Function to compute the distance as the crown flies between given locations
+
+    :param lat_start: latitude of start
+    :param long_start: Longitude of start
+    :param lat_dest: Latitude of destination
+    :param long_dest: Longitude of destination
+    :type lat_start: float
+    :type long_start: float
+    :type lat_dest: float
+    :type long_dest: float
     :return: Distance in km
+    :rtype: float
     """
     # convert angles from degree to radians
     lat_start, long_start, lat_dest, long_dest = np.deg2rad(
@@ -48,14 +53,16 @@ def haversine(
     c = 2 * np.arcsin(np.sqrt(a))
     r = 6371
 
-    return c * r  # distance in km
+    return c * r
 
 
 def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
-    """
-    Function to obtain the coordinates of an airport by the IATA code
+    """Function to obtain the coordinates of an airport by the IATA code
+
     :param iata: IATA airport code
+    :type iata: str
     :return: name, coordinates and country of the found airport
+    :rtype: Tuple[str, Tuple[float, float], str]
     """
     clnt = openrouteservice.Client(key=ORS_API_KEY)
 
@@ -83,8 +90,8 @@ def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
 
 
 def geocoding(address):
-    """
-    Function to obtain coordinates for a given address
+    """Function to obtain coordinates for a given address
+
     :param address: Location/Address to be searched
             user should give address in the form:
             <address>, <locality>, <country>
@@ -107,28 +114,39 @@ def geocoding(address):
 
 
 def geocoding_structured(loc_dict):
-    """
-    Function to obtain coordinates for a given address
-    :param loc_dict: dictionary describing the location. The dictionary can have the keys:
-        country: highest-level administrative divisions supported in a search.
-                    Full country name or two-/three-letter abbreviations supported
-                    e.g., Germany / "DE" / "DEU"
-        region: first-level administrative divisions within countries, analogous to states and provinces
-                    in the US and Canada
-                    e.g., Delaware, Ontario, Ardennes, Baden-Württemberg
-        county: administrative divisions between localities and regions
-                    e.g., Alb-Donau-Kreis
-        locality: equivalent to what are commonly referred to as cities
-                    e.g., Bangkok, Caracas
-        borough: mostly known in the context of NY, may exist in other cities like Mexico City
-                    e.g. Manhattan in NY
-                        Iztapalapa in Mexico City
-        postalcode: postal code; !! Not working in many countries !!
-        address: street name, optionally also house number
-        neighbourhood: vernacular geographic entities that may not necessarily be official administrative
+    """Function to obtain coordinates for a given address
+
+    :param loc_dict: dictionary describing the location.
+
+    .. code-block:: none
+
+     The dictionary can have the keys:
+        country:        highest-level administrative divisions supported in a search.
+
+                        Full country name or two-/three-letter abbreviations supported
+                        e.g., Germany / "DE" / "DEU"
+
+        region:         first-level administrative divisions within countries, analogous to states and provinces
+                        in the US and Canada
+                        e.g., Delaware, Ontario, Ardennes, Baden-Württemberg
+
+        county:         administrative divisions between localities and regions
+                        e.g., Alb-Donau-Kreis
+
+        locality:       equivalent to what are commonly referred to as cities
+                        e.g., Bangkok, Caracas
+
+        borough:        mostly known in the context of NY, may exist in other cities like Mexico City
+                        e.g. Manhattan in NY, Iztapalapa in Mexico City
+
+        postalcode:     postal code; !! Not working in many countries !!
+
+        address:        street name, optionally also house number
+
+        neighbourhood:  vernacular geographic entities that may not necessarily be official administrative
                         divisions but are important nonetheless
-                    e.g. Notting Hill in London
-                    Le Marais in Paris
+                        e.g. Notting Hill in London, Le Marais in Paris
+
     :return: Name, country and coordinates of the found location
     """
 
@@ -173,15 +191,20 @@ def geocoding_structured(loc_dict):
 
 
 def geocoding_train_stations(loc_dict):
-    """
-    Function to obtain coordinates for a given train station
+    """Function to obtain coordinates for a given train station
 
-    :param loc_dict: dictionary describing the location. The dictionary can have the keys:
-        country: highest-level administrative divisions supported in a search.
-                    Only two-letter abbreviations supported
-                    e.g., "DE"
-        station_name: Name of the train station
-                    e.g., "Heidelberg Hbf"
+    :param loc_dict: dictionary describing the location.
+
+    .. code-block:: none
+
+     The dictionary can have the keys:
+
+        country:        highest-level administrative divisions supported in a search.
+                        Only two-letter abbreviations supported
+                        e.g., 'DE'
+
+        station_name:   Name of the train station
+                        e.g., 'Heidelberg Hbf'
 
     :return: Name, country and coordinates of the found location
     """
@@ -226,9 +249,9 @@ def geocoding_train_stations(loc_dict):
 
 
 def is_valid_geocoding_dict(geocoding_dict):
-    """
-    Function to check if the dictionary is valid as input for pelias structured geocoding. Raises error if it is not
+    """Function to check if the dictionary is valid as input for pelias structured geocoding. Raises error if it is not
     the case
+
     :param geocoding_dict: dictionary describing the location
     """
     allowed_keys = [
@@ -256,8 +279,8 @@ def is_valid_geocoding_dict(geocoding_dict):
 
 
 def get_route(coords: tuple, profile=None):
-    """
-    Obtain the distance of a route between given waypoints using a given profile
+    """Obtain the distance of a route between given waypoints using a given profile
+
     :param coords: list of [lat,long] coordinates
     :param profile: driving-car, cycling-regular
     :return: distance of the route
