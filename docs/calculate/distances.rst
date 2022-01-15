@@ -7,7 +7,7 @@ Geocoding
 
 The first step in calculating the distance between two locations is to obtain the geographic coordinates of
 these locations, which is called *geocoding*. For this, we use the open-source geocoder `Pelias <https://pelias.io/>`_,
-as well as a database of train station.
+as well as a database of train stations.
 
 a) Geocoding for air travel
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
