@@ -10,6 +10,7 @@ import openrouteservice
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 import pandas as pd
 from thefuzz import fuzz
@@ -18,8 +19,8 @@ import warnings
 
 load_dotenv()  # take environment variables from .env.
 
-ors_api_key = os.getenv("ORS_API_KEY")
-script_path = os.path.dirname(os.path.realpath(__file__))
+ORS_API_KEY = os.environ.get("ORS_API_KEY")
+script_path = str(Path(__file__).parent)
 
 
 def haversine(
@@ -63,7 +64,7 @@ def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
     :return: name, coordinates and country of the found airport
     :rtype: Tuple[str, Tuple[float, float], str]
     """
-    clnt = openrouteservice.Client(key=ors_api_key)
+    clnt = openrouteservice.Client(key=ORS_API_KEY)
 
     call = pelias_search(clnt, f"{iata} Airport")
 
@@ -100,7 +101,7 @@ def geocoding(address):
     :return: Name, country and coordinates of the found location
     """
 
-    clnt = openrouteservice.Client(key=ors_api_key)
+    clnt = openrouteservice.Client(key=ORS_API_KEY)
 
     call = pelias_search(clnt, address)
     for feature in call["features"]:
@@ -149,7 +150,7 @@ def geocoding_structured(loc_dict):
     :return: Name, country and coordinates of the found location
     """
 
-    clnt = openrouteservice.Client(key=ors_api_key)
+    clnt = openrouteservice.Client(key=ORS_API_KEY)
 
     is_valid_geocoding_dict(loc_dict)
 
@@ -286,7 +287,7 @@ def get_route(coords: tuple, profile=None):
     """
     # coords: list of [lat,long] lists
     # profile may be: driving-car, cycling-regular
-    clnt = openrouteservice.Client(key=ors_api_key)
+    clnt = openrouteservice.Client(key=ORS_API_KEY)
 
     allowed_profiles = ["driving-car", "cycling-regular"]
     if profile not in allowed_profiles or profile is None:

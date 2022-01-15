@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 """Tests for distance computation"""
 
+"""Python tests"""
+
 import os
+from pathlib import Path
 from co2calculator.distances import (
     haversine,
     geocoding_airport,
@@ -13,10 +16,11 @@ from co2calculator.calculate import calc_co2_plane, calc_co2_train
 import math
 import numpy as np
 import pytest
-import warnings
+from dotenv import load_dotenv
 
-
-script_path = os.path.dirname(os.path.realpath(__file__))
+load_dotenv()
+ORS_API_KEY = os.environ.get("ORS_API_KEY")
+script_path = str(Path(__file__).parent.parent)
 
 
 def test_haversine():
@@ -39,7 +43,7 @@ def test_haversine():
 
 def test_geocoding_airport_FRA():
     """Test geocoding of airports using IATA code"""
-    if not os.path.isfile(f"{script_path}/../../.env"):
+    if ORS_API_KEY is None:
         pytest.skip("Skipping this test because no file '.env' was found.")
     # Given parameters
     iata = "FRA"  # Frankfurt Airport, Frankfurt a.M. (Germany)
@@ -54,7 +58,7 @@ def test_geocoding_airport_FRA():
 
 def test_geocoding_airport_JFK():
     """Test geocoding of airports using IATA code"""
-    if not os.path.isfile(f"{script_path}/../../.env"):
+    if ORS_API_KEY is None:
         pytest.skip("Skipping this test because no file '.env' was found.")
     # Given parameters
     iata = "JFK"  # John F. Kennedy International Airport, Queens, New York (USA)
@@ -68,7 +72,7 @@ def test_geocoding_airport_JFK():
 
 
 def test_geocoding_structured():
-    """To be implemented"""
+    """To do"""
     pass
 
 
@@ -107,7 +111,7 @@ def test_invalid_geocoding_dict():
 
 def test_plane():
     """Test calculation of CO2 emissions of flights"""
-    if not os.path.isfile(f"{script_path}/../../.env"):
+    if ORS_API_KEY is None:
         pytest.skip("Skipping this test because no file '.env' was found.")
     # Given parameters
     start = "MUC"
@@ -143,7 +147,7 @@ def test_plane_invalid_seating_range_combo():
     Test if calculation of CO2 emissions for flights raises an error if the query results in an invalid combination
     of range and seating class
     """
-    if not os.path.isfile(f"{script_path}/../../.env"):
+    if ORS_API_KEY is None:
         pytest.skip("Skipping this test because no file '.env' was found.")
     # Given parameters
     start = "ZRH"
@@ -161,7 +165,7 @@ def test_plane_invalid_seating_range_combo():
 
 def test_geocoding_train_stations_invalid():
     """Test geocoding of train stations if dictionary with invalid parameters is provided"""
-    if not os.path.isfile(f"{script_path}/../../.env"):
+    if ORS_API_KEY is None:
         pytest.skip("Skipping this test because no file '.env' was found.")
     # Given parameters
     station_dict = {
@@ -177,7 +181,7 @@ def test_geocoding_train_stations_invalid():
 
 def test_geocoding_train_stations_outside_europe():
     """Test geocoding of train stations outside of europe"""
-    if not os.path.isfile(f"{script_path}/../../.env"):
+    if ORS_API_KEY is None:
         pytest.skip("Skipping this test because no file '.env' was found.")
     # Given parameters
     stops = [

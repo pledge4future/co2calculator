@@ -3,6 +3,7 @@
 """Functions to calculate co2 emissions"""
 
 import os
+from pathlib import Path
 from typing import Tuple
 import pandas as pd
 import warnings
@@ -11,7 +12,7 @@ from .distances import geocoding_airport, geocoding_structured, geocoding_train_
 from .distances import get_route
 from .constants import KWH_TO_TJ
 
-script_path = os.path.dirname(os.path.realpath(__file__))
+script_path = str(Path(__file__).parent)
 emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
 conversion_factor_df = pd.read_csv(
     f"{script_path}/../data/conversion_factors_heating.csv"
