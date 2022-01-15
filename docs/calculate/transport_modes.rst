@@ -5,7 +5,7 @@ Transportation modes
 .. contents::
 
 Business trips can be calculated for different modes of transport.
-The overview here summarizes, which parameter influence the carbon emission intensity of a trip for the different transportation modes.
+The overview here summarizes, which parameters influence the carbon emission intensity of a trip for the different transportation modes.
 The specific emission factors for different configurations (e.g., vehicle size, fuel type, etc.) are documented under
 :doc:`Emission factors <emission_factors>`.
 
