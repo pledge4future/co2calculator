@@ -59,12 +59,12 @@ c) Geocoding for other trips
 
 For other trips (e.g., car or bus), we use `Pelias structured geocoding <https://github.com/pelias/documentation/blob/master/structured-geocoding.md>`_
 as included in `openrouteservice <https://openrouteservice.org/>`_.
-This means, the user has different predefined fields to specify an address.
+This means that the user has different predefined fields to specify an address.
 
 .. autofunction:: co2calculator.distances.geocoding_structured
 
-Usually, good results can be achieved by specifying `country`, `locality` and `address`. Further specifications
-are usually not needed and can sometimes even negatively effect the geocoding results.
+Good results can be achieved by specifying `country`, `locality` and `address`. Further specifications
+are usually not needed and can sometimes even negatively affect the geocoding results.
 
 Distance computation
 --------------------

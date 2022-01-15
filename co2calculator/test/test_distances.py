@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 """Tests for distance computation"""
 
-"""Python tests"""
-
 import os
 from pathlib import Path
 from co2calculator.distances import (
@@ -126,7 +124,7 @@ def test_plane():
     # Calculate co2e
     co2e, dist = calc_co2_plane(start=start, destination=dest, seating_class=seating)
     # Check if expected result matches calculated result
-    assert co2e == pytest.approx(co2e_kg_expected, 0.01)
+    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
 
 
 def test_plane_invalid_seating_class():
