@@ -54,6 +54,7 @@ def calc_co2_car(
     :return: Total emissions of trip in co2 equivalents, total distance of the trip
     :rtype: tuple[float, float]
     """
+    transport_mode = "car"
     # Set default values
     if passengers is None:
         passengers = 1
@@ -81,7 +82,8 @@ def calc_co2_car(
             coords.append(loc_coords)
         distance = get_route(coords, "driving-car")
     co2e = emission_factor_df[
-        (emission_factor_df["size_class"] == size)
+        (emission_factor_df["subcategory"] == transport_mode)
+        & (emission_factor_df["size_class"] == size)
         & (emission_factor_df["fuel_type"] == fuel_type)
     ]["co2e"].values[0]
     emissions = distance * co2e / passengers
@@ -93,7 +95,7 @@ def calc_co2_motorbike(
     distance: float = None, stops: list = None, size: str = None
 ) -> Tuple[float, float]:
     """
-    Function to compute the emissions of a car trip.
+    Function to compute the emissions of a motorbike trip.
     :param distance: Distance travelled in km;
                         alternatively param <locations> can be provided
     :param stops: List of locations as dictionaries in the form
@@ -204,6 +206,7 @@ def calc_co2_bus(
     :return: Total emissions of trip in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
     """
+    transport_mode = "bus"
     # Set default values
     if size is None:
         size = "average"
@@ -242,9 +245,10 @@ def calc_co2_bus(
             distance += haversine(
                 coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
             )
-        distance = apply_detour(distance, transportation_mode="bus")
+        distance = apply_detour(distance, transportation_mode=transport_mode)
     co2e = emission_factor_df[
-        (emission_factor_df["size_class"] == size)
+        (emission_factor_df["subcategory"] == transport_mode)
+        & (emission_factor_df["size_class"] == size)
         & (emission_factor_df["fuel_type"] == fuel_type)
         & (emission_factor_df["occupancy"] == occupancy)
         & (emission_factor_df["range"] == vehicle_range)
@@ -280,6 +284,7 @@ def calc_co2_train(
     :return: Total emissions of trip in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
     """
+    transport_mode = "train"
     # Set default values
     if fuel_type is None:
         fuel_type = "average"
@@ -312,9 +317,10 @@ def calc_co2_train(
             distance += haversine(
                 coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
             )
-        distance = apply_detour(distance, transportation_mode="train")
+        distance = apply_detour(distance, transportation_mode=transport_mode)
     co2e = emission_factor_df[
-        (emission_factor_df["fuel_type"] == fuel_type)
+        (emission_factor_df["subcategory"] == transport_mode)
+        & (emission_factor_df["fuel_type"] == fuel_type)
         & (emission_factor_df["range"] == vehicle_range)
     ]["co2e"].values[0]
     emissions = distance * co2e
@@ -339,6 +345,7 @@ def calc_co2_plane(
     :return: Total emissions of flight in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
     """
+    transport_mode = "plane"
     # Set defaults
     if seating_class is None:
         seating_class = "average"
@@ -352,7 +359,7 @@ def calc_co2_plane(
     # compute great circle distance between airports
     distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
     # add detour constant
-    distance = apply_detour(distance, transportation_mode="plane")
+    distance = apply_detour(distance, transportation_mode=transport_mode)
     # retrieve whether distance is below or above 1500 km
     if distance <= 1500:
         flight_range = "short-haul"
@@ -372,7 +379,8 @@ def calc_co2_plane(
         )
     try:
         co2e = emission_factor_df[
-            (emission_factor_df["range"] == flight_range)
+            (emission_factor_df["subcategory"] == transport_mode)
+            & (emission_factor_df["range"] == flight_range)
             & (emission_factor_df["seating"] == seating_class)
         ]["co2e"].values[0]
     except IndexError:
@@ -407,6 +415,7 @@ def calc_co2_ferry(
     :return: Total emissions of sea travel in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
     """
+    transport_mode = "ferry"
     if seating_class is None:
         seating_class = "average"
         warnings.warn(
@@ -420,11 +429,12 @@ def calc_co2_ferry(
     # compute great circle distance between airports
     distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
 
-    distance = apply_detour(distance, transportation_mode="ferry")
+    distance = apply_detour(distance, transportation_mode=transport_mode)
     # get emission factor
-    co2e = emission_factor_df[(emission_factor_df["seating"] == seating_class)][
-        "co2e"
-    ].values[0]
+    co2e = emission_factor_df[
+        (emission_factor_df["subcategory"] == transport_mode)
+        & (emission_factor_df["seating"] == seating_class)
+    ]["co2e"].values[0]
     # multiply emission factor with distance
     emissions = distance * co2e
 
@@ -451,9 +461,10 @@ def calc_co2_electricity(
         warnings.warn(
             f"No fuel type or energy mix specified. Using default value: '{fuel_type}'"
         )
-    co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)][
-        "co2e"
-    ].values[0]
+    co2e = emission_factor_df[
+        (emission_factor_df["category"] == "electricity")
+        & (emission_factor_df["fuel_type"] == fuel_type)
+    ]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
     emissions = consumption * energy_share / KWH_TO_TJ * co2e
@@ -510,9 +521,10 @@ def calc_co2_heating(
     else:
         consumption_kwh = consumption
 
-    co2e = emission_factor_df[(emission_factor_df["fuel_type"] == fuel_type)][
-        "co2e"
-    ].values[0]
+    co2e = emission_factor_df[
+        (emission_factor_df["category"] == "heating")
+        & (emission_factor_df["fuel_type"] == fuel_type)
+    ]["co2e"].values[0]
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
     emissions = consumption_kwh * area_share / KWH_TO_TJ * co2e
