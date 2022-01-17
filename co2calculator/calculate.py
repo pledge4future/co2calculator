@@ -115,6 +115,7 @@ def calc_co2_motorbike(
     :return: Total emissions of trip in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
     """
+    transport_mode = "motorbike"
     # Set default values
     if size is None:
         size = "average"
@@ -132,9 +133,10 @@ def calc_co2_motorbike(
             loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
             coords.append(loc_coords)
         distance = get_route(coords, "driving-car")
-    co2e = emission_factor_df[(emission_factor_df["size_class"] == size)][
-        "co2e"
-    ].values[0]
+    co2e = emission_factor_df[
+        (emission_factor_df["subcategory"] == transport_mode)
+        & (emission_factor_df["size_class"] == size)
+    ]["co2e"].values[0]
     emissions = distance * co2e
 
     return emissions, distance
