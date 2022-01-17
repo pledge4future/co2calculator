@@ -17,7 +17,8 @@ import pytest
 from dotenv import load_dotenv
 
 load_dotenv()
-ORS_API_KEY = os.environ.get("ORS_API_KEY")
+ORS_API_KEY = os.environ.get("WRONG_KEY")
+print(ORS_API_KEY)
 script_path = str(Path(__file__).parent.parent)
 
 

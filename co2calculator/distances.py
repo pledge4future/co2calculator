@@ -19,7 +19,8 @@ import warnings
 
 load_dotenv()  # take environment variables from .env.
 
-ORS_API_KEY = os.environ.get("ORS_API_KEY")
+ORS_API_KEY = os.environ.get("WRONG_KEY")
+print(ORS_API_KEY)
 script_path = str(Path(__file__).parent)
 
 
