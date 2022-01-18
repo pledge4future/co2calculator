@@ -1,17 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Test co2calculator.calculate"""
+"""Unit tests for co2calculator.calculate module"""
 
-import os
 from typing import Optional, List, Dict
-from attr.validators import optional
 
 import pytest
 from pytest_mock import MockerFixture
 
 import co2calculator.calculate as candidate
-
-script_path = os.path.dirname(os.path.realpath(__file__))
 
 
 @pytest.mark.parametrize(
@@ -531,3 +527,31 @@ def test_commuting_bike():
 
     # Check if expected result matches calculated result
     assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
+
+
+@pytest.mark.parametrize(
+    "distance,expected_category, expected_description",
+    [
+        pytest.param(0, "very short haul", "below 500 km", id="Distance: 0 km"),
+        pytest.param(500, "very short haul", "below 500 km", id="Distance: 500 km"),
+        pytest.param(501, "short haul", "500 to 1500 km", id="Distance: 501 km"),
+        pytest.param(1500, "short haul", "500 to 1500 km", id="Distance: 1500 km"),
+        pytest.param(1501, "medium haul", "1500 to 4000 km", id="Distance: 1501 km"),
+        pytest.param(4000, "medium haul", "1500 to 4000 km", id="Distance: 4000 km"),
+        pytest.param(4001, "long haul", "above 4000 km", id="Distance: 4001 km"),
+        pytest.param(42.7, "very short haul", "below 500 km", id="float"),
+        # NOTE: For the time being signed values are possible
+        pytest.param(-42.7, "very short haul", "below 500 km", id="signed float"),
+        pytest.param(-500, "very short haul", "below 500 km", id="signed int"),
+    ],
+)
+def test_range_categories(
+    distance: float, expected_category: str, expected_description: str
+) -> None:
+    """Test: Categorization of ranges
+    Expect: See test table
+    """
+    actual_category, actual_description = candidate.range_categories(distance)
+
+    assert actual_category == expected_category
+    assert actual_description == expected_description
