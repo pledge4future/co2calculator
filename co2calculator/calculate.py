@@ -54,13 +54,10 @@ def calc_co2_car(
     :return: Total emissions of trip in co2 equivalents, total distance of the trip
     :rtype: tuple[float, float]
     """
-<<<<<<< HEAD
-    transport_mode = "car"
-=======
-    # NOTE: Tests show very little emissions for diesel cars (as low as electric)!
     # NOTE: Tests fail for 'cng'  as `fuel_type` (IndexError)
 
->>>>>>> e9a2b16 (Leave NOTEs for test results)
+    transport_mode = "car"
+
     # Set default values
     if passengers is None:
         passengers = 1
@@ -214,13 +211,10 @@ def calc_co2_bus(
     :return: Total emissions of trip in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
     """
-<<<<<<< HEAD
-    transport_mode = "bus"
-=======
-    # NOTE: fuel_type is only 'diesel' - that makes the argument quite superfluous
     # NOTE: vehicle_rage 'local' fails with IndexError
 
->>>>>>> e9a2b16 (Leave NOTEs for test results)
+    transport_mode = "bus"
+
     # Set default values
     if size is None:
         size = "average"
@@ -298,12 +292,7 @@ def calc_co2_train(
     :return: Total emissions of trip in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
     """
-<<<<<<< HEAD
     transport_mode = "train"
-=======
-    # NOTE: fuel_type 'electric' shows higher emissions than 'diesel'
-
->>>>>>> e9a2b16 (Leave NOTEs for test results)
     # Set default values
     if fuel_type is None:
         fuel_type = "average"
@@ -435,6 +424,8 @@ def calc_co2_ferry(
     :return: Total emissions of sea travel in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
     """
+    # NOTE: 'Foot passenger' and 'Car passenger' fails with IndexError
+
     transport_mode = "ferry"
     if seating_class is None:
         seating_class = "average"

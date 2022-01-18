@@ -23,10 +23,10 @@ script_path = os.path.dirname(os.path.realpath(__file__))
         pytest.param(10, 1, "medium", None, 2.09, id="size: 'medium'"),
         pytest.param(10, 1, "large", None, 2.74, id="size: 'large'"),
         pytest.param(10, 1, "average", None, 2.15, id="size: 'average'"),
-        pytest.param(10, 1, None, "diesel", 0.23, id="fuel_type: 'diesel'"),
+        pytest.param(10, 1, None, "diesel", 2.01, id="fuel_type: 'diesel'"),
         pytest.param(10, 1, None, "gasoline", 2.24, id="fuel_type: 'gasoline'"),
         # pytest.param(10, 1, None, "cng", 31.82, id="fuel_type: 'cng'"),
-        pytest.param(10, 1, None, "electric", 0.32, id="fuel_type: 'electric'"),
+        pytest.param(10, 1, None, "electric", 0.57, id="fuel_type: 'electric'"),
         pytest.param(10, 1, None, "hybrid", 1.16, id="fuel_type: 'hybrid'"),
         pytest.param(
             10, 1, None, "plug-in_hybrid", 0.97, id="fuel_type: 'plug-in_hybrid'"
@@ -106,11 +106,11 @@ def test_co2_car__failed():
 @pytest.mark.parametrize(
     "distance,size,expected_emissions",
     [
-        pytest.param(100, None, 2.34, id="defaults"),
-        pytest.param(100, "small", 3.49, id="size: 'small'"),
-        pytest.param(100, "medium", 2.39, id="size: 'medium'"),
-        pytest.param(100, "large", 2.21, id="size: 'large'"),
-        pytest.param(100, "average", 2.34, id="size: 'average'"),
+        pytest.param(100, None, 11.34, id="defaults"),
+        pytest.param(100, "small", 8.28, id="size: 'small'"),
+        pytest.param(100, "medium", 10.09, id="size: 'medium'"),
+        pytest.param(100, "large", 13.24, id="size: 'large'"),
+        pytest.param(100, "average", 11.34, id="size: 'average'"),
     ],
 )
 def test_calc_co2_motorbike__distance_based(
@@ -119,19 +119,18 @@ def test_calc_co2_motorbike__distance_based(
     """Test: Calculate motorbike-trip emissions based on given distance.
     Expect: Returns emissions and distance.
     """
-    actual_emissions, actual_distance = candidate.calc_co2_motorbike(
+    actual_emissions, _ = candidate.calc_co2_motorbike(
         distance=distance, stops=None, size=size
     )
 
-    assert actual_emissions == expected_emissions
-    assert actual_distance == distance
+    assert round(actual_emissions, 2) == expected_emissions
 
 
 @pytest.mark.parametrize(
     "stops,expected_emissions",
     [
-        pytest.param([{}, {}], 0.9828, id="2 stops"),
-        pytest.param([{}, {}, {}], 0.9828, id="3 stops"),
+        pytest.param([{}, {}], 4.76154, id="2 stops"),
+        pytest.param([{}, {}, {}], 4.76154, id="3 stops"),
     ],
 )
 def test_calc_co2_motorbike__stops_based(
@@ -282,7 +281,7 @@ def test_calc_co2_bus__failed():
             1162, "electric", "long-distance", 37.18, id="all optional arguments"
         ),
         pytest.param(10, "electric", None, 0.32, id="fuel_type: 'electric'"),
-        pytest.param(10, "diesel", None, 0.22, id="fuel_type: 'diesel'"),
+        pytest.param(10, "diesel", None, 0.7, id="fuel_type: 'diesel'"),
         pytest.param(10, "average", None, 0.33, id="fuel_type: 'average'"),
         pytest.param(10, None, "local", 0.6, id="vehicle_range: 'local'"),
         pytest.param(
@@ -419,9 +418,9 @@ def test_calc_co2_plane__failed(mocker: MockerFixture):
 @pytest.mark.parametrize(
     "seating_class,expected_emissions",
     [
-        pytest.param(None, 24.43, id="defaults"),
-        pytest.param("average", 24.43, id="seating_class: 'average'"),
-        # TODO: Investigate why foot and car passenger fail
+        pytest.param(None, 11.29, id="defaults"),
+        pytest.param("average", 11.29, id="seating_class: 'average'"),
+        # TODO: IndexError for commented test arguments
         # pytest.param("Foot passenger", 1, id="seating_class: 'Foot passenger'"),
         # pytest.param("Car passenger", 1, id="seating_class: 'Car passenger"),
     ],
@@ -449,7 +448,7 @@ def test_calc_ferry(
         start={}, destination={}, seating_class=seating_class
     )
 
-    assert actual_emissions == expected_emissions
+    assert round(actual_emissions, 2) == expected_emissions
 
     assert patched_geocoding.call_count == 2
     patched_haversine.assert_called_once()
