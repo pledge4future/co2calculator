@@ -597,13 +597,17 @@ def calc_co2_businesstrip(
         stops = None
     elif start is not None and destination is not None and distance is None:
         # check if stops are provided in the right form
+        # NOTE: transportation_mode 'car' requires string type for start and destination
         if transportation_mode == "car" and (
             type(start) != str or type(destination) != str
         ):
-            raise ValueError(
-                "Wrong data type for start and destination."
-                "Please provide a three letter IATA code for train stations."
-            )
+            # NOTE: I turned off that type check since lower level functions expect dicts
+            # (calc_co2_car & geo_coding_structured both want dictionaries)
+            pass
+            # raise ValueError(
+            #     "Wrong data type for start and destination."
+            #     "Please provide a three letter IATA code for train stations."
+            # )
         elif transportation_mode != "car" and (
             type(start) != dict or type(destination) != dict
         ):
