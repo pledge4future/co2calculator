@@ -65,8 +65,46 @@ class TestCalculateBusinessTrip:
                     "locality": "Berlin",
                     "address": "Alexanderplatz 1",
                 },
+                # NOTE: This seems slightly unrealistic.
+                # TODO: Please check business logic (can be different branch)!
                 134720.48,
                 id="transportation_mode: 'car'",
+            ),
+            pytest.param(
+                "bus",
+                {
+                    "address": "Im Neuenheimer Feld 348",
+                    "locality": "Heidelberg",
+                    "country": "Germany",
+                },
+                {
+                    "country": "Germany",
+                    "locality": "Berlin",
+                    "address": "Alexanderplatz 1",
+                },
+                28.3,
+                id="transportation_mode: 'bus'",
+            ),
+            pytest.param(
+                "train",
+                {"station_name": "Heidelberg Hbf", "country": "DE"},
+                {"station_name": "Berlin Hbf", "country": "DE"},
+                24.66,
+                id="transportation_mode: 'train'",
+            ),
+            pytest.param(
+                "plane",
+                "FRA",
+                "BER",
+                290.21,
+                id="transportation_mode: 'plane'",
+            ),
+            pytest.param(
+                "ferry",
+                {"locality": "Friedrichshafen", "country": "DE"},
+                {"locality": "Konstanz", "country": "DE"},
+                2.57,
+                id="transportation_mode: 'ferry'",
             ),
         ],
     )
@@ -82,7 +120,7 @@ class TestCalculateBusinessTrip:
         Expect: Happy path
         """
         # NOTE: IMPORTANT - Test currently makes real web calls!
-        # TODO: Mock!
+        # TODO: Record responses and mock external calls!
         actual_emissions, _, _, _ = candidate.calc_co2_businesstrip(
             transportation_mode=transportation_mode,
             start=start,

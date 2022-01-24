@@ -323,8 +323,13 @@ def calc_co2_train(
             coords.append(loc_coords)
         for i in range(len(coords) - 1):
             # compute great circle distance between locations
+            # NOTE: Unpacking failed (nested np.array) for me.
+            # Please check if my changes are valid!
             distance += haversine(
-                coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
+                coords[i][0][1],
+                coords[i][0][0],
+                coords[i + 1][0][1],
+                coords[i + 1][0][0],
             )
         distance = apply_detour(distance, transportation_mode=transport_mode)
     co2e = emission_factor_df[
@@ -597,26 +602,28 @@ def calc_co2_businesstrip(
         stops = None
     elif start is not None and destination is not None and distance is None:
         # check if stops are provided in the right form
-        # NOTE: transportation_mode 'car' requires string type for start and destination
-        if transportation_mode == "car" and (
-            type(start) != str or type(destination) != str
-        ):
-            # NOTE: I turned off that type check since lower level functions expect dicts
-            # (calc_co2_car & geo_coding_structured both want dictionaries)
-            pass
-            # raise ValueError(
-            #     "Wrong data type for start and destination."
-            #     "Please provide a three letter IATA code for train stations."
-            # )
-        elif transportation_mode != "car" and (
-            type(start) != dict or type(destination) != dict
-        ):
-            raise ValueError(
-                "Wrong data type for start and destination."
-                "Please provide a dictionary."
-            )
+
+        # NOTE: I turned off that type check since lower level functions expect dicts
+        # Failed for 'car', 'train' and 'plane'.
+        # It will come back within this branch after functional tests are set up!
+
+        # if transportation_mode == "car" and (
+        #     type(start) != str or type(destination) != str
+        # ):
+        #     raise ValueError(
+        #         "Wrong data type for start and destination."
+        #         "Please provide a three letter IATA code for train stations."
+        #     )
+        # elif transportation_mode != "car" and (
+        #     type(start) != dict or type(destination) != dict
+        # ):
+        #     raise ValueError(
+        #         "Wrong data type for start and destination."
+        #         "Please provide a dictionary."
+        #     )
 
         stops = [start, destination]
+
     if transportation_mode == "car":
         emissions, dist = calc_co2_car(
             distance=distance,
