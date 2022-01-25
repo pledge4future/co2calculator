@@ -297,6 +297,8 @@ def get_route(coords: tuple, profile=None):
             f"Profile set to '{profile}' by default."
         )
     route = directions(clnt, coords, profile=profile)
-    dist = route["routes"][0]["summary"]["distance"]
+    dist = (
+        route["routes"][0]["summary"]["distance"] / 1000
+    )  # divide my 1000, as we're working with distances in km
 
     return dist
