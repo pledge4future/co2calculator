@@ -1,4 +1,6 @@
 pytest>=6.2.0
+pytest-mock>=3.6
+pytest-cov>=3.0
 pre_commit
 sphinx
 sphinx-toolbox

@@ -54,7 +54,10 @@ def calc_co2_car(
     :return: Total emissions of trip in co2 equivalents, total distance of the trip
     :rtype: tuple[float, float]
     """
+    # NOTE: Tests fail for 'cng'  as `fuel_type` (IndexError)
+
     transport_mode = "car"
+
     # Set default values
     if passengers is None:
         passengers = 1
@@ -71,7 +74,7 @@ def calc_co2_car(
         )
     # Check if distance of stops provided
     if distance is None and stops is None:
-        assert ValueError(
+        raise ValueError(
             "Travel parameters missing. Please provide either the distance in km or a list of"
             "dictionaries of travelled locations."
         )
@@ -208,7 +211,10 @@ def calc_co2_bus(
     :return: Total emissions of trip in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
     """
+    # NOTE: vehicle_rage 'local' fails with IndexError
+
     transport_mode = "bus"
+
     # Set default values
     if size is None:
         size = "average"
@@ -367,6 +373,7 @@ def calc_co2_plane(
         flight_range = "short-haul"
     elif distance > 1500:
         flight_range = "long-haul"
+    # NOTE: Should be checked before geocoding and haversine calculation
     seating_choices = [
         "average",
         "economy_class",
@@ -417,6 +424,8 @@ def calc_co2_ferry(
     :return: Total emissions of sea travel in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
     """
+    # NOTE: 'Foot passenger' and 'Car passenger' fails with IndexError
+
     transport_mode = "ferry"
     if seating_class is None:
         seating_class = "average"
