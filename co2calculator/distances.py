@@ -5,6 +5,7 @@
 
 
 from typing import Tuple
+from ._types import Kilometer, Coordinates, TrainStationDict, StructuredLocDict
 import numpy as np
 import openrouteservice
 from openrouteservice.directions import directions
@@ -25,8 +26,8 @@ script_path = str(Path(__file__).parent)
 
 def haversine(
     lat_start: float, long_start: float, lat_dest: float, long_dest: float
-) -> float:
-    """Function to compute the distance as the crown flies between given locations
+) -> Kilometer:
+    """Function to compute the distance as the crow flies between given locations
 
     :param lat_start: latitude of start
     :param long_start: Longitude of start
@@ -113,7 +114,7 @@ def geocoding(address):
     return name, country, coords
 
 
-def geocoding_structured(loc_dict):
+def geocoding_structured(loc_dict: StructuredLocDict):
     """Function to obtain coordinates for a given address
 
     :param loc_dict: dictionary describing the location.
@@ -190,7 +191,7 @@ def geocoding_structured(loc_dict):
     return name, country, coords, res
 
 
-def geocoding_train_stations(loc_dict):
+def geocoding_train_stations(loc_dict: TrainStationDict):
     """Function to obtain coordinates for a given train station
 
     :param loc_dict: dictionary describing the location.
@@ -278,7 +279,7 @@ def is_valid_geocoding_dict(geocoding_dict):
         )
 
 
-def get_route(coords: tuple, profile=None):
+def get_route(coords: Coordinates, profile: str = None) -> Kilometer:
     """Obtain the distance of a route between given waypoints using a given profile
 
     :param coords: list of [lat,long] coordinates
