@@ -7,8 +7,8 @@ from typing import Union, TypedDict, Tuple, List
 
 Kilometer = float
 Kilograms = float
-Coordinates = Union[Tuple[float, float], List[float, float]]  # NOTE: double check/test
-# Python 3.9: Coordinates = tuple[float, float] | list[float, float]
+Coordinates = Union[Tuple[float, float], List[float]]  # NOTE: and/or Sequence? check!
+# Python 3.9: Coordinates = tuple[float, float] | list[float]
 
 
 class TrainStationDict(TypedDict):
