@@ -5,6 +5,7 @@
 import os
 from pathlib import Path
 from typing import Tuple
+from ._types import Kilogram, Kilometer
 import pandas as pd
 import warnings
 from .distances import haversine
@@ -21,12 +22,12 @@ detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 
 
 def calc_co2_car(
-    distance: float = None,
+    distance: Kilometer = None,
     stops: list = None,
     passengers: int = None,
     size: str = None,
     fuel_type: str = None,
-) -> Tuple[float, float]:
+) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute the emissions of a car trip.
     :param distance: Distance travelled in km;
@@ -95,8 +96,8 @@ def calc_co2_car(
 
 
 def calc_co2_motorbike(
-    distance: float = None, stops: list = None, size: str = None
-) -> Tuple[float, float]:
+    distance: Kilometer = None, stops: list = None, size: str = None
+) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute the emissions of a motorbike trip.
     :param distance: Distance travelled in km;
@@ -145,7 +146,7 @@ def calc_co2_motorbike(
     return emissions, distance
 
 
-def apply_detour(distance, transportation_mode):
+def apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
     """
     Function to apply specific detour parameters to a distance as the crow flies
     :param distance: Distance as the crow flies between location of departure and destination of a trip
@@ -178,13 +179,13 @@ def apply_detour(distance, transportation_mode):
 
 
 def calc_co2_bus(
-    distance: float = None,
+    distance: Kilometer = None,
     stops: list = None,
     size: str = None,
     fuel_type: str = None,
     occupancy: int = None,
     vehicle_range: str = None,
-) -> Tuple[float, float]:
+) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute the emissions of a bus trip.
     :param distance: Distance travelled in km;
@@ -267,11 +268,11 @@ def calc_co2_bus(
 
 
 def calc_co2_train(
-    distance: float = None,
+    distance: Kilometer = None,
     stops: list = None,
     fuel_type: str = None,
     vehicle_range: str = None,
-) -> Tuple[float, float]:
+) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute the emissions of a train trip.
     :param distance: Distance travelled in km;
@@ -338,7 +339,7 @@ def calc_co2_train(
 
 def calc_co2_plane(
     start: str, destination: str, seating_class: str = None
-) -> Tuple[float, float]:
+) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute emissions of a plane trip
     :param start: IATA code of start airport
@@ -410,7 +411,7 @@ def calc_co2_plane(
 
 def calc_co2_ferry(
     start: dict, destination: dict, seating_class: str = None
-) -> Tuple[float, float]:
+) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute emissions of a ferry trip
     :param start: dictionary of location of start port,
@@ -454,7 +455,7 @@ def calc_co2_ferry(
 
 def calc_co2_electricity(
     consumption: float, fuel_type: str = None, energy_share: float = 1
-) -> float:
+) -> Kilogram:
     """Function to compute electricity emissions
 
     :param consumption: energy consumption
@@ -485,7 +486,7 @@ def calc_co2_electricity(
 
 def calc_co2_heating(
     consumption: float, fuel_type: str, unit: str = None, area_share: float = 1.0
-) -> float:
+) -> Kilogram:
     """Function to compute heating emissions
 
     :param consumption: energy consumption
@@ -547,14 +548,14 @@ def calc_co2_businesstrip(
     transportation_mode: str,
     start=None,
     destination=None,
-    distance: float = None,
+    distance: Kilometer = None,
     size: str = None,
     fuel_type: str = None,
     occupancy: int = None,
     seating: str = None,
     passengers: int = None,
     roundtrip: bool = False,
-) -> Tuple[float, float, str, str]:
+) -> Tuple[Kilogram, Kilometer, str, str]:
     """Function to compute emissions for business trips based on transportation mode and trip specifics
 
     :param transportation_mode: mode of transport [car, bus, train, plane, ferry]
@@ -653,7 +654,7 @@ def calc_co2_businesstrip(
     return emissions, dist, range_category, range_description
 
 
-def range_categories(distance: float) -> Tuple[str, str]:
+def range_categories(distance: Kilogram) -> Tuple[str, str]:
     """Function to categorize a trip according to the travelled distance
 
     :param distance: Distance travelled in km
@@ -680,12 +681,12 @@ def range_categories(distance: float) -> Tuple[str, str]:
 
 def calc_co2_commuting(
     transportation_mode: str,
-    weekly_distance: float = None,
+    weekly_distance: Kilometer = None,
     size: str = None,
     fuel_type: str = None,
     occupancy: int = None,
     passengers: int = None,
-) -> float:
+) -> Kilogram:
     """Calculate co2 emissions for commuting per mode of transport
 
     :param transportation_mode: [car, bus, train, bicycle, pedelec, motorbike, tram]
@@ -744,8 +745,8 @@ def calc_co2_commuting(
 
 
 def commuting_emissions_group(
-    aggr_co2: float, n_participants: int, n_members: int
-) -> float:
+    aggr_co2: Kilogram, n_participants: int, n_members: int
+) -> Kilogram:
     """Calculate the group's co2e emissions from commuting.
 
     .. note:: Assumption: a representative sample of group members answered the questionnaire.

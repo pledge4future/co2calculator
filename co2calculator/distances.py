@@ -5,6 +5,7 @@
 
 
 from typing import Tuple
+from ._types import Kilometer
 import numpy as np
 import openrouteservice
 from openrouteservice.directions import directions
@@ -25,8 +26,8 @@ script_path = str(Path(__file__).parent)
 
 def haversine(
     lat_start: float, long_start: float, lat_dest: float, long_dest: float
-) -> float:
-    """Function to compute the distance as the crown flies between given locations
+) -> Kilometer:
+    """Function to compute the distance as the crow flies between given locations
 
     :param lat_start: latitude of start
     :param long_start: Longitude of start
@@ -278,7 +279,7 @@ def is_valid_geocoding_dict(geocoding_dict):
         )
 
 
-def get_route(coords: tuple, profile=None):
+def get_route(coords, profile: str = None) -> Kilometer:
     """Obtain the distance of a route between given waypoints using a given profile
 
     :param coords: list of [lat,long] coordinates
@@ -297,6 +298,8 @@ def get_route(coords: tuple, profile=None):
             f"Profile set to '{profile}' by default."
         )
     route = directions(clnt, coords, profile=profile)
-    dist = route["routes"][0]["summary"]["distance"]
+    dist = (
+        route["routes"][0]["summary"]["distance"] / 1000
+    )  # divide my 1000, as we're working with distances in km
 
     return dist
