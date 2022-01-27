@@ -5,7 +5,7 @@
 
 
 from typing import Tuple
-from ._types import Kilometer, Coordinates, TrainStationDict, StructuredLocDict
+from ._types import Kilometer
 import numpy as np
 import openrouteservice
 from openrouteservice.directions import directions
@@ -114,7 +114,7 @@ def geocoding(address):
     return name, country, coords
 
 
-def geocoding_structured(loc_dict: StructuredLocDict):
+def geocoding_structured(loc_dict):
     """Function to obtain coordinates for a given address
 
     :param loc_dict: dictionary describing the location.
@@ -191,7 +191,7 @@ def geocoding_structured(loc_dict: StructuredLocDict):
     return name, country, coords, res
 
 
-def geocoding_train_stations(loc_dict: TrainStationDict):
+def geocoding_train_stations(loc_dict):
     """Function to obtain coordinates for a given train station
 
     :param loc_dict: dictionary describing the location.
@@ -279,7 +279,7 @@ def is_valid_geocoding_dict(geocoding_dict):
         )
 
 
-def get_route(coords: Coordinates, profile: str = None) -> Kilometer:
+def get_route(coords, profile: str = None) -> Kilometer:
     """Obtain the distance of a route between given waypoints using a given profile
 
     :param coords: list of [lat,long] coordinates
