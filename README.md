@@ -16,7 +16,7 @@ This package is part of [Pledge4Future](https://pledge4future.org/), a project t
 git clone https://github.com/pledge4future/co2calculator.git
 ```
 
-The repository has a submodule (https://github.com/trainline-eu/stations). This has to be pulles with the following command:
+The repository has a submodule (https://github.com/trainline-eu/stations). This has to be pulled with the following command:
 
 ```
 git submodule update --init --recursive
