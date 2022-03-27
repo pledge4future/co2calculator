@@ -2,16 +2,19 @@
 # coding: utf-8
 """Functions to calculate co2 emissions"""
 
-import os
-from pathlib import Path
-from typing import Tuple
-from ._types import Kilogram, Kilometer
-import pandas as pd
+import enum
 import warnings
-from .distances import haversine
-from .distances import geocoding_airport, geocoding_structured, geocoding_train_stations
-from .distances import get_route
+from pathlib import Path
+from typing import Tuple, Dict, Callable, List
+
+import pandas as pd
+from pydantic import BaseModel
+
+from ._types import Kilogram, Kilometer
 from .constants import KWH_TO_TJ
+from .distances import geocoding_airport, geocoding_structured
+from .distances import get_route
+from .distances import haversine
 
 script_path = str(Path(__file__).parent)
 emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
@@ -21,78 +24,149 @@ conversion_factor_df = pd.read_csv(
 detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 
 
-def calc_co2_car(
-    distance: Kilometer = None,
-    stops: list = None,
-    passengers: int = None,
-    size: str = None,
-    fuel_type: str = None,
-) -> Tuple[Kilogram, Kilometer]:
+class CalculationError(Exception):
+    """Base exception for all calculation errors"""
+
+
+class InputMissing(CalculationError):
+    """Raised if inputs are not sufficient for calculation"""
+
+
+@enum.unique
+class TransportationMode(str, enum.Enum):
+    """Available transportation modes"""
+
+    CAR = "car"
+    BUS = "bus"
+    TRAIN = "train"
+    PLANE = "plane"
+    FERRY = "ferry"
+
+
+class EmissionRequest(BaseModel):
+    """Generic model for emission calculation request"""
+
+    transportation_mode: TransportationMode
+    distance: Kilometer
+
+
+class Stop(BaseModel):  # Could be renamed to "waypoint"?
+    """Model for a waypoint of a trip"""
+
+    address: str
+    locality: str
+    country: str
+
+
+class StopList(BaseModel):
+    """Model for a list of waypoints"""
+
+    __root__: List[Stop]
+
+    def __iter__(self):
+        return iter(self.__root__)
+
+    def __getitem__(self, item):
+        return self.__root__[item]
+
+
+class DistanceRequest(BaseModel):
+    """Request-model to calculate distances"""
+
+    stops: StopList
+    transportation_mode: TransportationMode
+
+
+def trip_direct(request: DistanceRequest) -> Kilometer:
+    """Function to calculate the distance of a trip as a direct route between locations
+    :param request: validated input data
+    :return: Distance of the trip
+    :rtype: Kilometer
+
+    """
+    coords = []
+    for loc in DistanceRequest.stops:
+        loc_name, loc_country, loc_coords, _ = geocoding_structured(loc.dict())
+        coords.append(loc_coords)
+    distance = get_route(coords, "driving-car")
+    return distance
+
+
+def trip_detour(request: DistanceRequest) -> Kilometer:
+    """
+    Function to calculate the distance of a trip using the distance as the crow flies and detour coefficients/constants
+
+    :param request: validated input data
+    :return: Distance in kilometer
+    :rtype: Kilometer
+    """
+    distance = 0
+    coords = []
+    for loc in DistanceRequest.stops:
+        loc_name, loc_country, loc_coords, _ = geocoding_structured(loc.dict())
+        coords.append(loc_coords)
+    for i in range(0, len(coords) - 1):
+        # compute great circle distance between locations
+        distance += haversine(
+            coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
+        )
+    distance = apply_detour(
+        distance, transportation_mode=DistanceRequest.transportation_mode
+    )
+
+    return distance
+
+
+class Car(BaseModel):
+    """Vehicle type Car"""
+
+    @enum.unique
+    class Size(str, enum.Enum):
+        """Available sizes for cars"""
+
+        SMALL = "small"
+        MEDIUM = "medium"
+        LARGE = "large"
+        AVERAGE = "average"
+
+    @enum.unique
+    class FuelType(str, enum.Enum):
+        """Available fuel types for cars"""
+
+        DIESEL = "diesel"
+        GASOLINE = "gasoline"
+        CNG = "cng"
+        ELECTRIC = "electric"
+        HYBRID = "hybrid"
+        PLUG_IN_HYBRID = "plug-in_hybrid"
+        AVERAGE = "average"
+        HYDROGEN = "hydrogen"
+
+    size: Size
+    fuel_type: FuelType
+
+
+class CarEmissionRequest(EmissionRequest):
+    """Request-contract to calculate co2 emissions"""
+
+    passengers: int
+    vehicle: Car
+
+
+def calc_co2_car(request: CarEmissionRequest) -> float:
     """
     Function to compute the emissions of a car trip.
-    :param distance: Distance travelled in km;
-                        alternatively param <stops> can be provided
-    :param stops: List of locations as dictionaries in the form
-                        e.g.,  [{"address": "Im Neuenheimer Feld 348",
-                                "locality": "Heidelberg",
-                                 "country": "Germany"},
-                                 {"country": "Germany",
-                                 "locality": "Berlin",
-                                 "address": "Alexanderplatz 1"}]
-                        can have intermediate stops (> 2 dictionaries within the list)
-                        alternatively param <distance> can be provided
-    :param passengers: Number of passengers in the car (including the person answering the questionnaire),
-                        [1, 2, 3, 4, 5, 6, 7, 8, 9]                             default: 1
-    :param size: size of car
-                        ["small", "medium", "large", "average"]                 default: "average"
-    :param fuel_type: type of fuel the car is using
-                        ["diesel", "gasoline", "cng", "electric", "hybrid", "plug-in_hybrid", "average"]    default: "average"
-    :type distance: float or None
-    :type stops: list[*dict] or None
-    :type passengers: int
-    :type size: str
-    :type fuel_type: str
+    :param request: Validated input data
     :return: Total emissions of trip in co2 equivalents, total distance of the trip
-    :rtype: tuple[float, float]
     """
-    # NOTE: Tests fail for 'cng'  as `fuel_type` (IndexError)
-
-    transport_mode = "car"
-
-    # Set default values
-    if passengers is None:
-        passengers = 1
-        warnings.warn(
-            f"Number of car passengers was not provided. Using default value: '{passengers}'"
-        )
-    if size is None:
-        size = "average"
-        warnings.warn(f"Size of car was not provided. Using default value: '{size}'")
-    if fuel_type is None:
-        fuel_type = "average"
-        warnings.warn(
-            f"Car fuel type was not provided. Using default value: '{fuel_type}'"
-        )
-    # Check if distance of stops provided
-    if distance is None and stops is None:
-        raise ValueError(
-            "Travel parameters missing. Please provide either the distance in km or a list of"
-            "dictionaries of travelled locations."
-        )
-    elif distance is None:
-        coords = []
-        for loc in stops:
-            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
-            coords.append(loc_coords)
-        distance = get_route(coords, "driving-car")
     co2e = emission_factor_df[
-        (emission_factor_df["subcategory"] == transport_mode)
-        & (emission_factor_df["size_class"] == size)
-        & (emission_factor_df["fuel_type"] == fuel_type)
+        (emission_factor_df["subcategory"] == request.transportation_mode.value)
+        & (emission_factor_df["size_class"] == request.vehicle.size.value)
+        & (emission_factor_df["fuel_type"] == request.vehicle.fuel_type.value)
     ]["co2e"].values[0]
-    emissions = distance * co2e / passengers
+    emissions = request.distance * co2e / request.passengers
 
-    return emissions, distance
+    return emissions
 
 
 def calc_co2_motorbike(
@@ -178,168 +252,100 @@ def apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
     return distance_with_detour
 
 
-def calc_co2_bus(
-    distance: Kilometer = None,
-    stops: list = None,
-    size: str = None,
-    fuel_type: str = None,
-    occupancy: int = None,
-    vehicle_range: str = None,
-) -> Tuple[Kilogram, Kilometer]:
+class Bus(BaseModel):
+    """Vehicle type Bus"""
+
+    @enum.unique
+    class Size(str, enum.Enum):
+        """Sizes for busses"""
+
+        MEDIUM = "medium"
+        LARGE = "large"
+        AVERAGE = "average"
+
+    class FuelType(str, enum.Enum):
+        """Fuel types for busses"""
+
+        DIESEL = "diesel"
+
+    class BusRange(str, enum.Enum):
+        """Range types for busses"""
+
+        LONG_DISTANCE = "long-distance"
+
+    size: Size
+    fuel_type: FuelType
+    occupancy: int  # TODO: Validate to 20, 50, 80 or 100
+    vehicle_range: BusRange
+
+
+class BusEmissionRequest(EmissionRequest):
+    """Request model for bus emission calculation"""
+
+    vehicle: Bus
+
+
+def calc_co2_bus(request: BusEmissionRequest) -> float:
     """
     Function to compute the emissions of a bus trip.
-    :param distance: Distance travelled in km;
-                        alternatively param <stops> can be provided
-    :param stops: List of locations as dictionaries in the form
-                        e.g.,  [{"address": "Im Neuenheimer Feld 348",
-                                "locality": "Heidelberg",
-                                 "country": "Germany"},
-                                 {"country": "Germany",
-                                 "locality": "Berlin",
-                                 "address": "Alexanderplatz 1"}]
-                        can have intermediate stops (multiple dictionaries within the list)
-                        alternatively param <distance> can be provided
-    :param size: size class of the bus;                 ["medium", "large", "average"]
-    :param fuel_type: type of fuel the bus is using;    ["diesel"]
-    :param occupancy: number of people on the bus       [20, 50, 80, 100]
-    :param vehicle_range: range/haul of the vehicle     ["local", "long-distance"]
-    :type distance: float
-    :type stops: list[*dict]
-    :type size: str
-    :type fuel_type: str
-    :type occupancy: int
-    :type vehicle_range: str
-    :return: Total emissions of trip in co2 equivalents, distance of the trip
-    :rtype: tuple[float, float]
+    :param request: ...
+    :return: Total emissions of trip in co2 equivalents
     """
-    # NOTE: vehicle_rage 'local' fails with IndexError
 
-    transport_mode = "bus"
-
-    # Set default values
-    if size is None:
-        size = "average"
-        warnings.warn(f"Size of bus was not provided. Using default value: '{size}'")
-    if fuel_type is None:
-        fuel_type = "diesel"
-        warnings.warn(
-            f"Bus fuel type was not provided. Using default value: '{fuel_type}'"
-        )
-    elif fuel_type not in ["diesel", "cng", "hydrogen"]:
-        warnings.warn(
-            f"Bus fuel type {fuel_type} not available. Using default value: 'diesel'"
-        )
-        fuel_type = "diesel"
-    if occupancy is None:
-        occupancy = 50
-        warnings.warn(f"Occupancy was not provided. Using default value: '{occupancy}'")
-    if vehicle_range is None:
-        vehicle_range = "long-distance"
-        warnings.warn(
-            f"Intended range of trip was not provided. Using default value: '{vehicle_range}'"
-        )
-    if distance is None and stops is None:
-        raise ValueError(
-            "Travel parameters missing. Please provide either the distance in km or a list of"
-            "dictionaries for each travelled bus station"
-        )
-    elif distance is None and stops is not None:
-        distance = 0
-        coords = []
-        for loc in stops:
-            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
-            coords.append(loc_coords)
-        for i in range(0, len(coords) - 1):
-            # compute great circle distance between locations
-            distance += haversine(
-                coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
-            )
-        distance = apply_detour(distance, transportation_mode=transport_mode)
     co2e = emission_factor_df[
-        (emission_factor_df["subcategory"] == transport_mode)
-        & (emission_factor_df["size_class"] == size)
-        & (emission_factor_df["fuel_type"] == fuel_type)
-        & (emission_factor_df["occupancy"] == occupancy)
-        & (emission_factor_df["range"] == vehicle_range)
+        (emission_factor_df["subcategory"] == request.transportation_mode.value)
+        & (emission_factor_df["size_class"] == request.vehicle.size.value)
+        & (emission_factor_df["fuel_type"] == request.vehicle.fuel_type.value)
+        & (emission_factor_df["occupancy"] == request.vehicle.occupancy)
+        & (emission_factor_df["range"] == request.vehicle.vehicle_range.value)
     ]["co2e"].values[0]
-    emissions = distance * co2e
+    emissions = request.distance * co2e
 
-    return emissions, distance
+    return emissions
 
 
-def calc_co2_train(
-    distance: Kilometer = None,
-    stops: list = None,
-    fuel_type: str = None,
-    vehicle_range: str = None,
-) -> Tuple[Kilogram, Kilometer]:
+class Train(BaseModel):
+    """Vehicle type Train"""
+
+    @enum.unique
+    class FuelType(str, enum.Enum):
+        """Fuel types of trains"""
+
+        DIESEL = "diesel"
+        ELECTRIC = "electric"
+        AVERAGE = "average"
+
+    class VehicleRange(str, enum.Enum):
+        """Range types of trains"""
+
+        LONG_DISTANCE = "long-distance"
+
+    fuel_type: FuelType
+    vehicle_range: VehicleRange
+
+
+class TrainEmissionRequest(EmissionRequest):
+    """Request model for train emission calculation"""
+
+    vehicle: Train
+
+
+def calc_co2_train(request: TrainEmissionRequest) -> float:
     """
     Function to compute the emissions of a train trip.
-    :param distance: Distance travelled in km;
-                        alternatively param <stops> can be provided
-    :param stops: List of locations as dictionaries in the form
-                        e.g.,  [{"station_name": "Heidelberg Hbf",
-                                 "country": "DE"},
-                                 {"station_name": "Berlin Hauptbahnhof",
-                                 "country": "DE"]
-                        can have intermediate stops (multiple dictionaries within the list)
-                        alternatively param <distance> can be provided
-    :param fuel_type: type of fuel the train is using;    ["diesel", "electric", "average"]
-    :param vehicle_range: range/haul of the vehicle       ["local", "long-distance"]
-    :type distance: float
-    :type stops: list[*dict]
-    :type fuel_type: float
-    :type vehicle_range: str
-    :return: Total emissions of trip in co2 equivalents, distance of the trip
-    :rtype: tuple[float, float]
+    :param request: ...
+    :type request: TrainEmissionRequest
+    :return: Total emissions of trip in co2 equivalents
+    :rtype: float
     """
-    transport_mode = "train"
-    # Set default values
-    if fuel_type is None:
-        fuel_type = "average"
-        warnings.warn(
-            f"Car fuel type was not provided. Using default value: '{fuel_type}'"
-        )
-    if vehicle_range is None:
-        vehicle_range = "long-distance"
-        warnings.warn(
-            f"Intended range of trip was not provided. Using default value: '{vehicle_range}'"
-        )
-    if distance is None and stops is None:
-        raise ValueError(
-            "Travel parameters missing. Please provide either the distance in km or a list of"
-            "dictionaries for each travelled train station"
-        )
-    elif distance is None:
-        distance = 0
-        coords = []
-        for loc in stops:
-            try:
-                loc_name, loc_country, loc_coords = geocoding_train_stations(loc)
-            except RuntimeWarning:
-                loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
-            except ValueError:
-                loc_name, loc_country, loc_coords, res = geocoding_structured(loc)
-            coords.append(loc_coords)
-        for i in range(len(coords) - 1):
-            # compute great circle distance between locations
-            # NOTE: Unpacking failed (nested np.array) for me.
-            # Please check if my changes are valid!
-            distance += haversine(
-                coords[i][0][1],
-                coords[i][0][0],
-                coords[i + 1][0][1],
-                coords[i + 1][0][0],
-            )
-        distance = apply_detour(distance, transportation_mode=transport_mode)
     co2e = emission_factor_df[
-        (emission_factor_df["subcategory"] == transport_mode)
-        & (emission_factor_df["fuel_type"] == fuel_type)
-        & (emission_factor_df["range"] == vehicle_range)
+        (emission_factor_df["subcategory"] == request.transportation_mode.value)
+        & (emission_factor_df["fuel_type"] == request.vehicle.fuel_type.value)
+        & (emission_factor_df["range"] == request.vehicle.vehicle_range.value)
     ]["co2e"].values[0]
-    emissions = distance * co2e
+    emissions = request.distance * co2e
 
-    return emissions, distance
+    return emissions
 
 
 def calc_co2_plane(
@@ -458,214 +464,107 @@ def calc_co2_ferry(
     return emissions, distance
 
 
-def calc_co2_electricity(
-    consumption: float, fuel_type: str = None, energy_share: float = 1
-) -> Kilogram:
-    """Function to compute electricity emissions
-
-    :param consumption: energy consumption
-    :param fuel_type: energy (mix) used for electricity [german_energy_mix, solar]
-    :param energy_share: the research group's approximate share of the total electricity energy consumption
-    :type consumption: float
-    :type fuel_type: str
-    :type energy_share: float
-    :return: total emissions of electricity energy consumption
-    :rtype: float
-    """
-    # Set defaults
-    if fuel_type is None:
-        fuel_type = "german_energy_mix"
-        warnings.warn(
-            f"No fuel type or energy mix specified. Using default value: '{fuel_type}'"
-        )
-    co2e = emission_factor_df[
-        (emission_factor_df["category"] == "electricity")
-        & (emission_factor_df["fuel_type"] == fuel_type)
-    ]["co2e"].values[0]
-    # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
-    # so consumption needs to be converted to TJ
-    emissions = consumption * energy_share / KWH_TO_TJ * co2e
-
-    return emissions
-
-
-def calc_co2_heating(
-    consumption: float, fuel_type: str, unit: str = None, area_share: float = 1.0
-) -> Kilogram:
-    """Function to compute heating emissions
-
-    :param consumption: energy consumption
-    :param fuel_type: fuel type used for heating [coal, district_heating, electricity, gas, heat_pump_air, heat_pump_ground, liquid_gas, oil, pellet, solar, woodchips]
-    :param unit: unit of energy consumption [kwh, kg, l, m^3]
-    :param area_share: share of building area used by research group
-    :type consumption: float
-    :type fuel_type: str
-    :type unit: str
-    :type area_share: float
-    :return: total emissions of heating energy consumption
-    :rtype: float
-    """
-    # Set defaults
-    if unit is None:
-        unit = "kWh"
-        warnings.warn(f"Unit was not provided. Assuming default value: '{unit}'")
-    if area_share > 1:
-        warnings.warn(
-            f"Share of building area must be a float in the interval (0,1], but was set to '{area_share}'\n."
-            f"The parameter will be set to '1.0' instead"
-        )
-    valid_unit_choices = ["kWh", "l", "kg", "m^3"]
-    assert (
-        unit in valid_unit_choices
-    ), f"unit={unit} is invalid. Valid choices are {', '.join(valid_unit_choices)}"
-    if unit != "kWh":
-        try:
-            conversion_factor = conversion_factor_df[
-                (conversion_factor_df["fuel"] == fuel_type)
-                & (conversion_factor_df["unit"] == unit)
-            ]["conversion_value"].values[0]
-        except KeyError:
-            raise ValueError(
-                f"""
-                No conversion data is available for this fuel type.
-                Conversion is only supported for the following fuel types and units:
-                {conversion_factor_df["fuel", "unit"]}.
-                Alternatively, provide consumption in the unit kWh.
-                """
-            )
-
-        consumption_kwh = consumption * conversion_factor
-    else:
-        consumption_kwh = consumption
-
-    co2e = emission_factor_df[
-        (emission_factor_df["category"] == "heating")
-        & (emission_factor_df["fuel_type"] == fuel_type)
-    ]["co2e"].values[0]
-    # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
-    # so consumption needs to be converted to TJ
-    emissions = consumption_kwh * area_share / KWH_TO_TJ * co2e
-
-    return emissions
-
-
 def calc_co2_businesstrip(
     transportation_mode: str,
     start=None,
     destination=None,
-    distance: Kilometer = None,
+    distance: float = None,
     size: str = None,
     fuel_type: str = None,
     occupancy: int = None,
     seating: str = None,
     passengers: int = None,
     roundtrip: bool = False,
-) -> Tuple[Kilogram, Kilometer, str, str]:
-    """Function to compute emissions for business trips based on transportation mode and trip specifics
+) -> Tuple[float, float, str, str]:
+    """Interface to calculate business trips"""
+    # TODO: Validate that type switch for `transportation_mode` is not a
+    # breaking change
 
-    :param transportation_mode: mode of transport [car, bus, train, plane, ferry]
-    :param start: Start of the trip (alternatively, distance can be provided)
-    :param destination: Destination of the trip (alternatively, distance can be provided)
-    :param distance: Distance travelled in km (alternatively, start and destination can be provided)
-    :param size: Size class of the vehicle [small, medium, large, average] - only used for car and bus
-    :param fuel_type: Fuel type of the vehicle [average, cng, diesel, electric, gasoline, hybrid, hydrogen, plug-in_hybrid] - only used for
-                                                car, bus and train
-    :param occupancy: Occupancy of the vehicle in % [20, 50, 80, 100] - only used for bus
-    :param seating: seating class ["average", "Economy class", "Premium economy class", "Business class", "First class"]
-                    - only used for plane
-    :param passengers: Number of passengers in the vehicle (including the participant), number from 1 to 9
-                                                - only used for car
-    :param roundtrip: whether the trip is a round trip or not [True, False]
-    :type transportation_mode: str
-    :type distance: float
-    :type size: str
-    :type fuel_type: str
-    :type occupancy: int
-    :type seating: str
-    :type passengers: int
-    :type roundtrip: bool
-    :return:    Emissions of the business trip in co2 equivalents,
-                Distance of the business trip,
-                Range category of the business trip [very short haul, short haul, medium haul, long haul]
-                Range description (i.e., what range of distances does to category correspond to)
-    :rtype: tuple[float, float, str, str]
-    """
-    if distance is None and (start is None or destination is None):
-        assert ValueError("Either start and destination or distance must be provided.")
-    elif distance is not None and (start is not None or destination is not None):
-        warnings.warn(
-            "Both distance and start/stop location were provided. "
-            "Only distance will be used for emission calculation."
+    # All co2 emissions are calculated for given distance. Hence, let's check
+    # if distance was parsed. If not, calculate that first.
+    # NOTE: Imho (Jakob): this should be taken care of by the caller (backend)
+
+    if not distance:
+        if start is None or destination is None:
+            raise InputMissing(
+                "for location based calculations: start and destination must not be None"
+            )
+
+        start_loc = Stop(**start)
+        dest_loc = Stop(**destination)
+        stops = StopList.parse_obj([start_loc, dest_loc])
+        dist_request = DistanceRequest(
+            stops=stops, transportation_mode=transportation_mode
         )
-        stops = None
-    elif start is None and destination is None and distance is not None:
-        stops = None
-    elif start is not None and destination is not None and distance is None:
-        # check if stops are provided in the right form
+        if (
+            dist_request.transportation_mode is TransportationMode.CAR
+            or dist_request.transportation_mode is TransportationMode.MOTORBIKE
+        ):
+            distance = trip_direct(dist_request)
+        if transportation_mode in [
+            TransportationMode.BUS,
+            TransportationMode.TRAIN,
+            TransportationMode.FERRY,
+            TransportationMode.PLANE,
+        ]:
+            distance = trip_detour(dist_request)
 
-        # NOTE: I turned off that type check since lower level functions expect dicts
-        # Failed for 'car', 'train' and 'plane'.
-        # It will come back within this branch after functional tests are set up!
+    # Validate input & set defaults
+    # NOTE: Inline `or` will set the defaults but won't raise a warning.
+    # TODO: Check how important warnings for defaults are!
+    request = EmissionRequest(
+        transportation_mode=transportation_mode,
+        distance=distance,
+    )
 
-        # if transportation_mode == "car" and (
-        #     type(start) != str or type(destination) != str
-        # ):
-        #     raise ValueError(
-        #         "Wrong data type for start and destination."
-        #         "Please provide a three letter IATA code for train stations."
-        #     )
-        # elif transportation_mode != "car" and (
-        #     type(start) != dict or type(destination) != dict
-        # ):
-        #     raise ValueError(
-        #         "Wrong data type for start and destination."
-        #         "Please provide a dictionary."
-        #     )
-
-        stops = [start, destination]
-
-    if transportation_mode == "car":
-        emissions, dist = calc_co2_car(
+    # Modify request based on transportation mode
+    if request.transportation_mode is TransportationMode.CAR:
+        request = CarEmissionRequest(
+            transportation_mode=TransportationMode.CAR,
             distance=distance,
-            stops=stops,
-            passengers=passengers,
-            size=size,
-            fuel_type=fuel_type,
+            passengers=passengers or 1,
+            vehicle=Car(
+                size=size or Car.Size.AVERAGE,
+                fuel_type=fuel_type or Car.FuelType.AVERAGE,
+            ),
         )
-    elif transportation_mode == "bus":
-        emissions, dist = calc_co2_bus(
-            size=size,
-            fuel_type=fuel_type,
-            occupancy=occupancy,
-            vehicle_range="long-distance",
+
+    if request.transportation_mode is TransportationMode.BUS:
+        request = BusEmissionRequest(
+            transportation_mode=TransportationMode.BUS,
             distance=distance,
-            stops=stops,
+            vehicle=Bus(
+                size=size or Bus.Size.AVERAGE,
+                fuel_type=fuel_type or Bus.FuelType.DIESEL,
+                occupancy=occupancy or 50,
+                vehicle_range=Bus.BusRange.LONG_DISTANCE,
+            ),
         )
-    elif transportation_mode == "train":
-        emissions, dist = calc_co2_train(
-            fuel_type=fuel_type,
-            vehicle_range="long-distance",
+
+    if request.transportation_mode is TransportationMode.TRAIN:
+        request = TrainEmissionRequest(
+            transportation_mode=TransportationMode.TRAIN,
             distance=distance,
-            stops=stops,
+            vehicle=Train(
+                fuel_type=fuel_type or Train.FuelType.AVERAGE,
+                vehicle_range=Train.VehicleRange.LONG_DISTANCE,
+            ),
         )
-    elif transportation_mode == "plane":
-        emissions, dist = calc_co2_plane(start, destination, seating_class=seating)
-    elif transportation_mode == "ferry":
-        emissions, dist = calc_co2_ferry(start, destination, seating_class=seating)
-    else:
-        raise ValueError(
-            f"No emission factor available for the specified mode of transport '{transportation_mode}'."
-        )
-    if roundtrip is True:
-        emissions *= 2
+    # Find the right computation for each transportation mode
+    computation: Dict[TransportationMode, Callable] = {
+        TransportationMode.CAR: calc_co2_car,
+        TransportationMode.BUS: calc_co2_bus,
+        TransportationMode.TRAIN: calc_co2_train,
+        # TODO: Complete with all modes
+    }
 
-    # categorize according to distance (range)
-    range_category, range_description = range_categories(dist)
+    emissions = computation[request.transportation_mode](request)
+    range_category, range_description = range_categories(distance)
 
-    return emissions, dist, range_category, range_description
+    return emissions, distance, range_category, range_description
 
 
-def range_categories(distance: Kilogram) -> Tuple[str, str]:
+def range_categories(distance: Kilometer) -> Tuple[str, str]:
     """Function to categorize a trip according to the travelled distance
 
     :param distance: Distance travelled in km
@@ -775,3 +674,94 @@ def commuting_emissions_group(
     group_co2e = aggr_co2 / n_participants * n_members
 
     return group_co2e
+
+
+def calc_co2_electricity(
+    consumption: float, fuel_type: str = None, energy_share: float = 1
+) -> Kilogram:
+    """Function to compute electricity emissions
+
+    :param consumption: energy consumption
+    :param fuel_type: energy (mix) used for electricity [german_energy_mix, solar]
+    :param energy_share: the research group's approximate share of the total electricity energy consumption
+    :type consumption: float
+    :type fuel_type: str
+    :type energy_share: float
+    :return: total emissions of electricity energy consumption
+    :rtype: float
+    """
+    # Set defaults
+    if fuel_type is None:
+        fuel_type = "german_energy_mix"
+        warnings.warn(
+            f"No fuel type or energy mix specified. Using default value: '{fuel_type}'"
+        )
+    co2e = emission_factor_df[
+        (emission_factor_df["category"] == "electricity")
+        & (emission_factor_df["fuel_type"] == fuel_type)
+    ]["co2e"].values[0]
+    # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
+    # so consumption needs to be converted to TJ
+    emissions = consumption * energy_share / KWH_TO_TJ * co2e
+
+    return emissions
+
+
+def calc_co2_heating(
+    consumption: float, fuel_type: str, unit: str = None, area_share: float = 1.0
+) -> Kilogram:
+    """Function to compute heating emissions
+
+    :param consumption: energy consumption
+    :param fuel_type: fuel type used for heating [coal, district_heating, electricity, gas, heat_pump_air, heat_pump_ground, liquid_gas, oil, pellet, solar, woodchips]
+    :param unit: unit of energy consumption [kwh, kg, l, m^3]
+    :param area_share: share of building area used by research group
+    :type consumption: float
+    :type fuel_type: str
+    :type unit: str
+    :type area_share: float
+    :return: total emissions of heating energy consumption
+    :rtype: float
+    """
+    # Set defaults
+    if unit is None:
+        unit = "kWh"
+        warnings.warn(f"Unit was not provided. Assuming default value: '{unit}'")
+    if area_share > 1:
+        warnings.warn(
+            f"Share of building area must be a float in the interval (0,1], but was set to '{area_share}'\n."
+            f"The parameter will be set to '1.0' instead"
+        )
+    valid_unit_choices = ["kWh", "l", "kg", "m^3"]
+    assert (
+        unit in valid_unit_choices
+    ), f"unit={unit} is invalid. Valid choices are {', '.join(valid_unit_choices)}"
+    if unit != "kWh":
+        try:
+            conversion_factor = conversion_factor_df[
+                (conversion_factor_df["fuel"] == fuel_type)
+                & (conversion_factor_df["unit"] == unit)
+            ]["conversion_value"].values[0]
+        except KeyError:
+            raise ValueError(
+                f"""
+                No conversion data is available for this fuel type.
+                Conversion is only supported for the following fuel types and units:
+                {conversion_factor_df["fuel", "unit"]}.
+                Alternatively, provide consumption in the unit kWh.
+                """
+            )
+
+        consumption_kwh = consumption * conversion_factor
+    else:
+        consumption_kwh = consumption
+
+    co2e = emission_factor_df[
+        (emission_factor_df["category"] == "heating")
+        & (emission_factor_df["fuel_type"] == fuel_type)
+    ]["co2e"].values[0]
+    # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
+    # so consumption needs to be converted to TJ
+    emissions = consumption_kwh * area_share / KWH_TO_TJ * co2e
+
+    return emissions
