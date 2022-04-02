@@ -324,17 +324,8 @@ def calc_co2_train(
 
         for i in range(len(coords) - 1):
             # compute great circle distance between locations
-            # NOTE: Unpacking failed (nested np.array) for me.
-            # Please check if my changes are valid!
-            print(i)
-            print(coords)
-            print(coords[i])
-            print(coords[i + 1])
             distance += haversine(
-                coords[i][1],
-                coords[i][0],
-                coords[i + 1][1],
-                coords[i + 1][0],
+                coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
             )
         distance = apply_detour(distance, transportation_mode=transport_mode)
     co2e = emission_factor_df[

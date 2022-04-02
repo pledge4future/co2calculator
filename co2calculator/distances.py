@@ -18,7 +18,6 @@ from thefuzz import fuzz
 from thefuzz import process
 import warnings
 
-
 load_dotenv()  # take environment variables from .env.
 
 ORS_API_KEY = os.environ.get("ORS_API_KEY")
@@ -251,7 +250,6 @@ def geocoding_train_stations(loc_dict):
     res_country, res_station_name = res_station[["country", "name"]].values[0]
 
     coords = (res_station.iloc[0]["latitude"], res_station.iloc[0]["longitude"])
-    print(f"Geocoding results: {coords}")
 
     return res_station_name, res_country, coords
 
