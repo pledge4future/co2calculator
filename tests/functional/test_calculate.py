@@ -65,9 +65,7 @@ class TestCalculateBusinessTrip:
                     "locality": "Berlin",
                     "address": "Alexanderplatz 1",
                 },
-                # NOTE: This seems slightly unrealistic.
-                # TODO: Please check business logic (can be different branch)!
-                134720.48,
+                134.72,
                 id="transportation_mode: 'car'",
             ),
             pytest.param(
@@ -96,7 +94,7 @@ class TestCalculateBusinessTrip:
                 "plane",
                 "FRA",
                 "BER",
-                290.21,
+                51.21,
                 id="transportation_mode: 'plane'",
             ),
             pytest.param(
