@@ -30,7 +30,7 @@ import co2calculator.calculate as candidate
         pytest.param(10, 1, None, "average", 2.15, id="fuel_type: 'average'"),
     ],
 )
-def test_calc_co2_car__distance_based(
+def test_calc_co2_car(
     distance: float,
     passengers: Optional[int],
     size: Optional[str],
@@ -42,7 +42,6 @@ def test_calc_co2_car__distance_based(
     """
     actual_emissions, actual_distance = candidate.calc_co2_car(
         distance=distance,
-        stops=None,
         passengers=passengers,
         size=size,
         fuel_type=fuel_type,
@@ -50,53 +49,6 @@ def test_calc_co2_car__distance_based(
 
     assert round(actual_emissions, 2) == expected_emissions
     assert actual_distance == distance
-
-
-@pytest.mark.parametrize(
-    "stops,expected_emissions",
-    [
-        pytest.param([{}, {}], 9.03, id="2 stops"),
-        pytest.param([{}, {}, {}], 9.03, id="3 stops"),
-    ],
-)
-def test_calc_co2_car__stops_based(
-    mocker: MockerFixture,
-    stops: List[Dict],
-    expected_emissions: float,
-) -> None:
-    """Test: Calculate car-trip emissions based on given stops.
-    Expect: Returns emissions and distance.
-    """
-    # Patching the get_route to return 42 kilometers irrespective of input
-    patched_geocoding = mocker.patch(
-        "co2calculator.calculate.geocoding_structured",
-        return_value=("NAME", "COUNTRY", (1.0, 2.0), "RES"),
-    )
-    patched_get_route = mocker.patch(
-        "co2calculator.calculate.get_route",
-        return_value=42,
-    )
-
-    actual_emissions, _ = candidate.calc_co2_car(
-        distance=None,
-        stops=stops,
-        passengers=None,
-        size=None,
-        fuel_type=None,
-    )
-
-    assert actual_emissions == expected_emissions
-
-    assert patched_geocoding.call_count == len(stops)
-    patched_get_route.assert_called_once()
-
-
-def test_co2_car__failed():
-    """Test: Calling calc_co2_car with no arguments.
-    Expect: Raises ValueError.
-    """
-    with pytest.raises(ValueError):
-        candidate.calc_co2_car(distance=None, stops=None)
 
 
 @pytest.mark.parametrize(
@@ -193,7 +145,7 @@ def test_calc_co2_motorbike__failed():
         ),
     ],
 )
-def test_calc_co2_bus__distance_based(
+def test_calc_co2_bus(
     distance: float,
     size: Optional[str],
     fuel_type: Optional[str],
@@ -208,7 +160,6 @@ def test_calc_co2_bus__distance_based(
     # Calculate co2e
     actual_emissions, actual_distance = candidate.calc_co2_bus(
         distance=distance,
-        stops=None,
         size=size,
         fuel_type=fuel_type,
         occupancy=occupancy,
@@ -217,56 +168,6 @@ def test_calc_co2_bus__distance_based(
 
     assert round(actual_emissions, 2) == expected_emissions
     assert actual_distance == actual_distance
-
-
-@pytest.mark.parametrize(
-    "stops,expected_emissions",
-    [
-        pytest.param([{}, {}], 1.97, id="2 stops"),
-        pytest.param([{}, {}, {}], 1.97, id="3 stops"),
-    ],
-)
-def test_calc_co2_bus__stops_based(
-    mocker: MockerFixture, stops: List[Dict], expected_emissions: float
-) -> None:
-    """Test: Calculate bus-trip emissions based on given stops.
-    Expect: Returns emissions and distance.
-    """
-    # Patching the apply_detour to return 50 kilometers irrespective of input
-    patched_geocoding = mocker.patch(
-        "co2calculator.calculate.geocoding_structured",
-        return_value=("NAME", "COUNTRY", (1.0, 2.0), "RES"),
-    )
-    patched_haversine = mocker.patch(
-        "co2calculator.calculate.haversine",
-        return_value=42,
-    )
-    patched_apply_detour = mocker.patch(
-        "co2calculator.calculate.apply_detour", return_value=50
-    )
-
-    actual_emissions, _ = candidate.calc_co2_bus(
-        distance=None,
-        stops=stops,
-        size=None,
-        fuel_type=None,
-        occupancy=None,
-        vehicle_range=None,
-    )
-
-    assert actual_emissions == expected_emissions
-
-    assert patched_geocoding.call_count == len(stops)
-    assert patched_haversine.call_count == len(stops) - 1
-    patched_apply_detour.assert_called_once()
-
-
-def test_calc_co2_bus__failed():
-    """Test: Calling calc_co2_bus with no arguments.
-    Expect: Raises ValueError.
-    """
-    with pytest.raises(ValueError):
-        candidate.calc_co2_bus(distance=None, stops=None)
 
 
 @pytest.mark.parametrize(
@@ -285,7 +186,7 @@ def test_calc_co2_bus__failed():
         ),
     ],
 )
-def test_train__distance_based(
+def test_calc_co2_train(
     distance: float,
     fuel_type: Optional[str],
     vehicle_range: Optional[str],
@@ -294,121 +195,45 @@ def test_train__distance_based(
     """Test: Calculate train-trip emissions based on given distance.
     Expect: Returns emissions and distance.
     """
+
     actual_emissions, _ = candidate.calc_co2_train(
-        distance=distance,
-        stops=None,
-        fuel_type=fuel_type,
-        vehicle_range=vehicle_range,
+        distance=distance, fuel_type=fuel_type, vehicle_range=vehicle_range
     )
 
-    # Check if expected result matches calculated result
     assert round(actual_emissions, 2) == expected_emissions
 
 
 @pytest.mark.parametrize(
-    "stops,expected_emissions",
+    "distance,seating_class,expected_emissions",
     [
-        pytest.param([{}, {}], 1.645, id="2 stops"),
-        pytest.param([{}, {}, {}], 1.645, id="3 stops"),
-    ],
-)
-def test_calc_co2_train__stops_based(
-    mocker: MockerFixture, stops: List[Dict], expected_emissions: float
-) -> None:
-    """Test: Calculate train-trip emissions based on given stops.
-    Expect: Returns emissions and distance.
-    """
-    # Patching the apply_detour to return 50 kilometers irrespective of input
-    patched_geocoding = mocker.patch(
-        "co2calculator.calculate.geocoding_structured",
-        return_value=("NAME", "COUNTRY", (1.0, 2.0), "RES"),
-    )
-    patched_haversine = mocker.patch(
-        "co2calculator.calculate.haversine",
-        return_value=42,
-    )
-    patched_apply_detour = mocker.patch(
-        "co2calculator.calculate.apply_detour", return_value=50
-    )
-
-    actual_emissions, _ = candidate.calc_co2_train(
-        distance=None, stops=stops, fuel_type=None, vehicle_range=None
-    )
-
-    assert actual_emissions == expected_emissions
-
-    assert patched_geocoding.call_count == len(stops)
-    assert patched_haversine.call_count == len(stops) - 1
-    patched_apply_detour.assert_called_once()
-
-
-def test_calc_co2_train__failed():
-    """Test: Calling calc_co2_train with no arguments.
-    Expect: Raises ValueError.
-    """
-    with pytest.raises(ValueError):
-        candidate.calc_co2_train(distance=None, stops=None)
-
-
-@pytest.mark.parametrize(
-    "seating_class,mocked_distance,expected_emissions",
-    [
-        pytest.param(None, 1000, 170.31, id="defaults, short-haul"),
-        pytest.param(None, 2000, 399.83, id="defaults, long-haul"),
-        pytest.param("economy_class", 1000, 167.51, id="seating_class"),
+        pytest.param(1000, None, 155.53, id="defaults, short-haul"),
+        pytest.param(2000, None, 381.7, id="defaults, long-haul"),
+        pytest.param(1000, "economy_class", 152.98, id="seating_class"),
     ],
 )
 def test_calc_co2_plane(
-    mocker: MockerFixture,
+    distance: float,
     seating_class: Optional[str],
-    mocked_distance: float,
     expected_emissions: float,
 ):
     """Test: Calculate plane-trip emissions based on start and destination.
     Expect: Returns emissions and distance.
     """
-    # Mocking functions called by calc_co2_plane
-    patched_geocoding_airport = mocker.patch(
-        "co2calculator.calculate.geocoding_airport",
-        return_value=("TEST", (1.0, 2.0), "TEST"),
-    )
-    patched_haversine = mocker.patch(
-        "co2calculator.calculate.haversine",
-        return_value=mocked_distance,
-    )
 
-    # Test
     actual_emissions, _ = candidate.calc_co2_plane(
-        start="SOME", destination="SOME", seating_class=seating_class
+        distance=distance, seating_class=seating_class
     )
 
     assert round(actual_emissions, 2) == expected_emissions
 
-    assert patched_geocoding_airport.call_count == 2
-    patched_haversine.assert_called_once()
 
-
-def test_calc_co2_plane__failed(mocker: MockerFixture):
+def test_calc_co2_plane__failed():
     """Test: Calculation on plane-trip emissions fails due to false input.
     Expect: Raises ValueError.
     """
-    # Mocking functions called by calc_co2_plane
-    patched_geocoding_airport = mocker.patch(
-        "co2calculator.calculate.geocoding_airport",
-        return_value=("TEST", (1.0, 2.0), "TEST"),
-    )
-    patched_haversine = mocker.patch(
-        "co2calculator.calculate.haversine",
-        return_value=1,
-    )
 
     with pytest.raises(ValueError):
-        candidate.calc_co2_plane(
-            start="SOME", destination="SOME", seating_class="NON-EXISTANT"
-        )
-
-    assert patched_geocoding_airport.call_count == 2
-    patched_haversine.assert_called_once()
+        candidate.calc_co2_plane(distance=1, seating_class="NON-EXISTANT")
 
 
 @pytest.mark.parametrize(
@@ -421,33 +246,16 @@ def test_calc_co2_plane__failed(mocker: MockerFixture):
         # pytest.param("Car passenger", 1, id="seating_class: 'Car passenger"),
     ],
 )
-def test_calc_ferry(
-    mocker: MockerFixture, seating_class: Optional[str], expected_emissions: float
-):
+def test_calc_ferry(seating_class: Optional[str], expected_emissions: float) -> None:
     """Test: Calculate ferry-trip emissions based on start and destination.
     Expect: Returns emissions and distance.
     """
-    # Mocking functions called by calc_co2_plane
-    # TODO: Check if return mock (especially `coords` & `res`) is correct
-    # (type annotation missing)
-    patched_geocoding = mocker.patch(
-        "co2calculator.calculate.geocoding_structured",
-        return_value=("NAME", "COUNTRY", (1.0, 2.0), "RES"),
-    )
-    patched_haversine = mocker.patch(
-        "co2calculator.calculate.haversine",
-        return_value=100,
-    )
 
-    # Test
     actual_emissions, _ = candidate.calc_co2_ferry(
-        start={}, destination={}, seating_class=seating_class
+        distance=100, seating_class=seating_class
     )
 
     assert round(actual_emissions, 2) == expected_emissions
-
-    assert patched_geocoding.call_count == 2
-    patched_haversine.assert_called_once()
 
 
 def test_heating_woodchips():
