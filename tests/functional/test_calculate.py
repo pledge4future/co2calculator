@@ -17,8 +17,14 @@ import pytest
 from co2calculator import calculate as candidate
 
 
+# NOTE: Those tests are currently more integration tests since they talk to
+# openrouteservice.org when executing.
+
+# TODO: Mock all calls to openrouteservice.org (or openrouteservice package)
+
+
 class TestCalculateBusinessTrip:
-    """Functional testing of business trip calculation calls from backend"""
+    """Functional testing of `calc_co2_businesstrip` calls from backend"""
 
     @pytest.mark.parametrize(
         "transportation_mode, expected_emissions",
@@ -28,7 +34,7 @@ class TestCalculateBusinessTrip:
             pytest.param("train", 1.38, id="transportation_mode: 'train'"),
         ],
     )
-    def test_business_trip__distance_based(
+    def test_calc_co2_business_trip__distance_based(
         self, transportation_mode: str, expected_emissions: float
     ) -> None:
         """Scenario: Backend asks for business trip calculation with distance input.
@@ -106,7 +112,7 @@ class TestCalculateBusinessTrip:
             ),
         ],
     )
-    def test_business_trip__stops_based(
+    def test_calc_co2_business_trip__stops_based(
         self,
         transportation_mode: str,
         start: Dict,
@@ -130,6 +136,35 @@ class TestCalculateBusinessTrip:
             seating=None,
             passengers=None,
             roundtrip=False,
+        )
+
+        assert round(actual_emissions, 2) == expected_emissions
+
+
+class TestCalculateCommuting:
+    """Functional testing of `calc_co2_commuting` calls from backend"""
+
+    @pytest.mark.parametrize(
+        "transportation_mode,expected_emissions",
+        [
+            pytest.param("car", 9.03, id="transportation_mode: 'car'"),
+            pytest.param("bus", 1.63, id="transportation_mode: 'bus'"),
+            pytest.param("train", 2.54, id="transportation_mode: 'train'"),
+            pytest.param("bicycle", 0.38, id="transportation_mode: 'bicycle'"),
+            pytest.param("pedelec", 0.63, id="transportation_mode: 'pedelec'"),
+            pytest.param("motorbike", 4.76, id="transportation_mode: 'motorbike'"),
+            pytest.param("tram", 2.3, id="transportation_mode: 'tram'"),
+        ],
+    )
+    def test_calc_co2_commuting(
+        self, transportation_mode: str, expected_emissions: float
+    ) -> None:
+        """SCENARIO: pledge4future's backend calls `calc_co2_commuting`
+        TEST: Main interface calls do not fail, return emissions
+        """
+
+        actual_emissions = candidate.calc_co2_commuting(
+            transportation_mode=transportation_mode, weekly_distance=42
         )
 
         assert round(actual_emissions, 2) == expected_emissions
