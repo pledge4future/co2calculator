@@ -326,6 +326,10 @@ def calc_co2_train(
             # compute great circle distance between locations
             # NOTE: Unpacking failed (nested np.array) for me.
             # Please check if my changes are valid!
+            print(i)
+            print(coords)
+            print(coords[i])
+            print(coords[i + 1])
             distance += haversine(
                 coords[i][1],
                 coords[i][0],
