@@ -2,7 +2,6 @@
 # coding: utf-8
 """Functions to calculate co2 emissions"""
 
-import os
 from pathlib import Path
 from typing import Tuple
 from ._types import Kilogram, Kilometer
@@ -322,10 +321,15 @@ def calc_co2_train(
             except ValueError:
                 loc_name, loc_country, loc_coords, res = geocoding_structured(loc)
             coords.append(loc_coords)
+
         for i in range(len(coords) - 1):
             # compute great circle distance between locations
             # NOTE: Unpacking failed (nested np.array) for me.
             # Please check if my changes are valid!
+            print(i)
+            print(coords)
+            print(coords[i])
+            print(coords[i + 1])
             distance += haversine(
                 coords[i][1],
                 coords[i][0],
