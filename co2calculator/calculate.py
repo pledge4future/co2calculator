@@ -711,6 +711,9 @@ def calc_co2_commuting(
     :return: total weekly emissions for the respective mode of transport
     :rtype: float
     """
+
+    # TODO: `weekly_distance` is optional but will break the code if None (#80)
+
     # get weekly co2e for respective mode of transport
     if transportation_mode == "car":
         weekly_co2e, _ = calc_co2_car(
@@ -730,7 +733,7 @@ def calc_co2_commuting(
             distance=weekly_distance,
         )
     elif transportation_mode == "train":
-        weekly_co2e = calc_co2_train(
+        weekly_co2e, _ = calc_co2_train(
             fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance
         )
     elif transportation_mode == "tram":
