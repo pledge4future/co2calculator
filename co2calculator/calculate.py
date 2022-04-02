@@ -21,7 +21,7 @@ detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 
 
 def calc_co2_car(
-    distance: Kilometer = None,
+    distance: Kilometer,
     passengers: int = None,
     size: str = None,
     fuel_type: str = None,
@@ -156,7 +156,7 @@ def apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
 
 
 def calc_co2_bus(
-    distance: Kilometer = None,
+    distance: Kilometer,
     size: str = None,
     fuel_type: str = None,
     occupancy: int = None,
@@ -218,7 +218,7 @@ def calc_co2_bus(
 
 
 def calc_co2_train(
-    distance: Kilometer = None,
+    distance: Kilometer,
     fuel_type: str = None,
     vehicle_range: str = None,
 ) -> Tuple[Kilogram, Kilometer]:
