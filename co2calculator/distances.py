@@ -153,6 +153,7 @@ def geocoding_structured(loc_dict):
 
     clnt = openrouteservice.Client(key=ORS_API_KEY)
 
+    # TODO: Replace loc_dict with pydantic.BaseModel approach
     is_valid_geocoding_dict(loc_dict)
 
     call = pelias_structured(clnt, **loc_dict)
@@ -163,6 +164,9 @@ def geocoding_structured(loc_dict):
     if n_results == 0:
         raise Exception("No places found with these search parameters")
 
+    # TODO: Validate respone with a pydantic.BaseModel (`PeliasStructuredResponse`)
+    # TODO: Unpack required data from response with a pydantic.BaseModel which we use internally
+    # as Point of Interest (or similar, e.g., `PointOfInterest`)
     for feature in res:
         name = feature["properties"]["name"]
         country = feature["properties"]["country"]
@@ -244,7 +248,8 @@ def geocoding_train_stations(loc_dict):
         stations_in_country_df["slug"] == res_station_slug
     ]
     res_country, res_station_name = res_station[["country", "name"]].values[0]
-    coords = res_station[["latitude", "longitude"]].values
+
+    coords = (res_station.iloc[0]["latitude"], res_station.iloc[0]["longitude"])
 
     return res_station_name, res_country, coords
 

@@ -2,7 +2,6 @@
 # coding: utf-8
 """Functions to calculate co2 emissions"""
 
-import os
 from pathlib import Path
 from typing import Tuple
 from ._types import Kilogram, Kilometer
@@ -56,6 +55,7 @@ def calc_co2_car(
     :rtype: tuple[float, float]
     """
     # NOTE: Tests fail for 'cng'  as `fuel_type` (IndexError)
+    # TODO: Remove stop-based - make distance-based only!
 
     transport_mode = "car"
 
@@ -321,6 +321,7 @@ def calc_co2_train(
             except ValueError:
                 loc_name, loc_country, loc_coords, res = geocoding_structured(loc)
             coords.append(loc_coords)
+
         for i in range(len(coords) - 1):
             # compute great circle distance between locations
             distance += haversine(
@@ -597,22 +598,28 @@ def calc_co2_businesstrip(
         stops = None
     elif start is not None and destination is not None and distance is None:
         # check if stops are provided in the right form
-        if transportation_mode == "car" and (
-            type(start) != str or type(destination) != str
-        ):
-            raise ValueError(
-                "Wrong data type for start and destination."
-                "Please provide a three letter IATA code for train stations."
-            )
-        elif transportation_mode != "car" and (
-            type(start) != dict or type(destination) != dict
-        ):
-            raise ValueError(
-                "Wrong data type for start and destination."
-                "Please provide a dictionary."
-            )
+
+        # NOTE: I turned off that type check since lower level functions expect dicts
+        # Failed for 'car', 'train' and 'plane'.
+        # It will come back within this branch after functional tests are set up!
+
+        # if transportation_mode == "car" and (
+        #     type(start) != str or type(destination) != str
+        # ):
+        #     raise ValueError(
+        #         "Wrong data type for start and destination."
+        #         "Please provide a three letter IATA code for train stations."
+        #     )
+        # elif transportation_mode != "car" and (
+        #     type(start) != dict or type(destination) != dict
+        # ):
+        #     raise ValueError(
+        #         "Wrong data type for start and destination."
+        #         "Please provide a dictionary."
+        #     )
 
         stops = [start, destination]
+
     if transportation_mode == "car":
         emissions, dist = calc_co2_car(
             distance=distance,
@@ -704,6 +711,9 @@ def calc_co2_commuting(
     :return: total weekly emissions for the respective mode of transport
     :rtype: float
     """
+
+    # TODO: `weekly_distance` is optional but will break the code if None (#80)
+
     # get weekly co2e for respective mode of transport
     if transportation_mode == "car":
         weekly_co2e, _ = calc_co2_car(
@@ -723,7 +733,7 @@ def calc_co2_commuting(
             distance=weekly_distance,
         )
     elif transportation_mode == "train":
-        weekly_co2e = calc_co2_train(
+        weekly_co2e, _ = calc_co2_train(
             fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance
         )
     elif transportation_mode == "tram":
