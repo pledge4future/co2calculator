@@ -3,20 +3,22 @@
 
 """Functions for obtaining the distance between given addresses."""
 
-
+import os
+import warnings
+from pathlib import Path
 from typing import Tuple
-from ._types import Kilometer
+
 import numpy as np
 import openrouteservice
+import pandas as pd
+from dotenv import load_dotenv
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
-import os
-from pathlib import Path
-from dotenv import load_dotenv
-import pandas as pd
 from thefuzz import fuzz
 from thefuzz import process
-import warnings
+
+from calculate import Coordinates  # TODO: Or implement coordinate model in this file?
+from ._types import Kilometer
 
 load_dotenv()  # take environment variables from .env.
 
@@ -24,25 +26,19 @@ ORS_API_KEY = os.environ.get("ORS_API_KEY")
 script_path = str(Path(__file__).parent)
 
 
-def haversine(
-    lat_start: float, long_start: float, lat_dest: float, long_dest: float
-) -> Kilometer:
+def haversine(start: Coordinates, dest: Coordinates) -> Kilometer:
     """Function to compute the distance as the crow flies between given locations
 
-    :param lat_start: latitude of start
-    :param long_start: Longitude of start
-    :param lat_dest: Latitude of destination
-    :param long_dest: Longitude of destination
-    :type lat_start: float
-    :type long_start: float
-    :type lat_dest: float
-    :type long_dest: float
+    :param start: Coordinates of start
+    :type start: Coordinates
+    :param dest: Coordinates of destination
+    :type dest: Coordinates
     :return: Distance in km
     :rtype: float
     """
     # convert angles from degree to radians
     lat_start, long_start, lat_dest, long_dest = np.deg2rad(
-        [lat_start, long_start, lat_dest, long_dest]
+        [start.lat, start.lng, dest.lat, dest.lng]
     )
     # compute zeta
     a = (

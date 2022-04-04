@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Tuple, Dict, Callable, List
 
 import pandas as pd
-from pydantic import BaseModel
+from pydantic import BaseModel, PositiveInt
 
 from ._types import Kilogram, Kilometer
 from .constants import KWH_TO_TJ
@@ -50,30 +50,25 @@ class EmissionRequest(BaseModel):
     distance: Kilometer
 
 
-class Stop(BaseModel):  # Could be renamed to "waypoint"?
-    """Model for a waypoint of a trip"""
+class Address(BaseModel):
+    """Model for a waypoint address of a trip"""
 
     address: str
     locality: str
     country: str
 
 
-class StopList(BaseModel):
-    """Model for a list of waypoints"""
+class Coordinates(BaseModel):
+    """Model of the coordinates of a location"""
 
-    __root__: List[Stop]
-
-    def __iter__(self):
-        return iter(self.__root__)
-
-    def __getitem__(self, item):
-        return self.__root__[item]
+    lat: float
+    lng: float
 
 
 class DistanceRequest(BaseModel):
     """Request-model to calculate distances"""
 
-    stops: StopList
+    locations: List[Address]
     transportation_mode: TransportationMode
 
 
@@ -85,7 +80,7 @@ def trip_direct(request: DistanceRequest) -> Kilometer:
 
     """
     coords = []
-    for loc in DistanceRequest.stops:
+    for loc in request.locations:
         loc_name, loc_country, loc_coords, _ = geocoding_structured(loc.dict())
         coords.append(loc_coords)
     distance = get_route(coords, "driving-car")
@@ -102,17 +97,13 @@ def trip_detour(request: DistanceRequest) -> Kilometer:
     """
     distance = 0
     coords = []
-    for loc in DistanceRequest.stops:
+    for loc in request.locations:
         loc_name, loc_country, loc_coords, _ = geocoding_structured(loc.dict())
         coords.append(loc_coords)
     for i in range(0, len(coords) - 1):
         # compute great circle distance between locations
-        distance += haversine(
-            coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
-        )
-    distance = apply_detour(
-        distance, transportation_mode=DistanceRequest.transportation_mode
-    )
+        distance += haversine(coords[i], coords[i + 1])
+    distance = apply_detour(distance, transportation_mode=request.transportation_mode)
 
     return distance
 
@@ -142,14 +133,14 @@ class Car(BaseModel):
         AVERAGE = "average"
         HYDROGEN = "hydrogen"
 
-    size: Size
-    fuel_type: FuelType
+    size: Size = Size.AVERAGE
+    fuel_type: FuelType = FuelType.AVERAGE
 
 
 class CarEmissionRequest(EmissionRequest):
     """Request-contract to calculate co2 emissions"""
 
-    passengers: int
+    passengers: PositiveInt
     vehicle: Car
 
 
@@ -273,10 +264,10 @@ class Bus(BaseModel):
 
         LONG_DISTANCE = "long-distance"
 
-    size: Size
-    fuel_type: FuelType
+    size: Size = Size.AVERAGE
+    fuel_type: FuelType = FuelType.DIESEL
     occupancy: int  # TODO: Validate to 20, 50, 80 or 100
-    vehicle_range: BusRange
+    vehicle_range: BusRange = BusRange.LONG_DISTANCE
 
 
 class BusEmissionRequest(EmissionRequest):
@@ -315,13 +306,13 @@ class Train(BaseModel):
         ELECTRIC = "electric"
         AVERAGE = "average"
 
-    class VehicleRange(str, enum.Enum):
+    class BusRange(str, enum.Enum):
         """Range types of trains"""
 
         LONG_DISTANCE = "long-distance"
 
-    fuel_type: FuelType
-    vehicle_range: VehicleRange
+    fuel_type: FuelType = FuelType.AVERAGE
+    vehicle_range: BusRange = BusRange.LONG_DISTANCE
 
 
 class TrainEmissionRequest(EmissionRequest):
@@ -490,11 +481,11 @@ def calc_co2_businesstrip(
                 "for location based calculations: start and destination must not be None"
             )
 
-        start_loc = Stop(**start)
-        dest_loc = Stop(**destination)
-        stops = StopList.parse_obj([start_loc, dest_loc])
+        start_loc = Address(**start)
+        dest_loc = Address(**destination)
+        # stops = StopList.parse_obj([start_loc, dest_loc])
         dist_request = DistanceRequest(
-            stops=stops, transportation_mode=transportation_mode
+            stops=[start_loc, dest_loc], transportation_mode=transportation_mode
         )
         if (
             dist_request.transportation_mode is TransportationMode.CAR
@@ -508,6 +499,10 @@ def calc_co2_businesstrip(
             TransportationMode.PLANE,
         ]:
             distance = trip_detour(dist_request)
+        else:
+            raise ValueError(
+                f"Transportation mode {transportation_mode} not found in database."
+            )
 
     # Validate input & set defaults
     # NOTE: Inline `or` will set the defaults but won't raise a warning.
@@ -547,7 +542,7 @@ def calc_co2_businesstrip(
             distance=distance,
             vehicle=Train(
                 fuel_type=fuel_type or Train.FuelType.AVERAGE,
-                vehicle_range=Train.VehicleRange.LONG_DISTANCE,
+                vehicle_range=Train.BusRange.LONG_DISTANCE,
             ),
         )
     # Find the right computation for each transportation mode
