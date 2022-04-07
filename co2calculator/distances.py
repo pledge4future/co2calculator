@@ -482,13 +482,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             )
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode == "train":
-        # Stops for train distance calculations are formed like this:
-        # [
-        #     {"station_name": "Heidelberg Hbf", "country": "DE"},
-        #     {"station_name": "Berlin Hauptbahnhof", "country": "DE"}
-        # ]
-        # TODO: Validate with BaseModel
+    if request.transportation_mode in [TransportationMode.TRAIN]:
 
         distance = 0
         coords = []
@@ -509,7 +503,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             )
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode == "plane":
+    if request.transportation_mode in [TransportationMode.PLANE]:
         # Stops are IATA code of airports
         # TODO: Validate stops with BaseModel
 
@@ -519,9 +513,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode == "ferry":
-        # Stops are formatted like {"locality":<city>, "county":<country>}
-        # TODO: Validate stops with BaseModel
+    if request.transportation_mode in [TransportationMode.FERRY]:
 
         _, _, geom_start, _ = geocoding_structured(request.start.dict())
         _, _, geom_dest, _ = geocoding_structured(request.destination.dict())
