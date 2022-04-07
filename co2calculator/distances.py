@@ -19,7 +19,7 @@ from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
 from thefuzz import fuzz
 from thefuzz import process
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 
 from ._types import Kilometer
@@ -36,13 +36,13 @@ detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 
 # Module's models
 @enum.unique
-class TransportationMode(enum.Enum):
-    CAR = enum.auto()
-    MOTORBIKE = enum.auto()
-    BUS = enum.auto()
-    TRAIN = enum.auto()
-    PLANE = enum.auto()
-    FERRY = enum.auto()
+class TransportationMode(str, enum.Enum):
+    CAR = "car"
+    MOTORBIKE = "motorbike"
+    BUS = "bus"
+    TRAIN = "train"
+    PLANE = "plane"
+    FERRY = "ferry"
 
 
 class StructuredLocation(BaseModel):
@@ -56,13 +56,14 @@ class TrainStation(BaseModel):
     country: str  # NOTE: Could be improved with validator to country codes
 
 
+class Airport(BaseModel):
+    iata_code: str  # NOTE: Could be improved with validation of IATA codes
+
+
 class DistanceRequest(BaseModel):
     transportation_mode: TransportationMode
-    start: Union[StructuredLocation, TrainStation]
-    destination: Union[StructuredLocation, TrainStation]
-
-
-IataCode = str  # NOTE: Could be improved with validation of IATA codes
+    start: Union[StructuredLocation, TrainStation, Airport]
+    destination: Union[StructuredLocation, TrainStation, Airport]
 
 
 # Module's exceptions
@@ -388,69 +389,100 @@ def _apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
     return distance_with_detour
 
 
-def get_distance(start, destination, transportation_mode):
+def create_distance_request(
+    start: Union[str, dict],
+    destination: Union[str, dict],
+    transportation_mode: TransportationMode,
+) -> DistanceRequest:
+    """Transform and validate the user input into a proper model for distance calculations
+
+    Raises:
+        - InvalidSpatialInput for validation error
+        - InvalidSpatialInput for unknown transportation_mode
+    """
+
+    # Validate the spatial data wrt. the mode of transportation
+    # NOTE: Since `start` and `destination` are different depending on the `transportation_mode`,
+    # we map the respective models to the mode of transportation.
+    # NOTE: Eventually the user of co2calculator should use the models right away (improve their
+    # structure in that iteration too!).
+
+    try:
+        if transportation_mode in [
+            TransportationMode.CAR,
+            TransportationMode.MOTORBIKE,
+            TransportationMode.BUS,
+            TransportationMode.FERRY,
+        ]:
+            return DistanceRequest(
+                transportation_mode=transportation_mode,
+                start=StructuredLocation(**start),
+                destination=StructuredLocation(**destination),
+            )
+
+        if transportation_mode in [TransportationMode.TRAIN]:
+            return DistanceRequest(
+                transportation_mode=transportation_mode,
+                start=TrainStation(**start),
+                destination=TrainStation(**destination),
+            )
+
+        if transportation_mode in [TransportationMode.PLANE]:
+            return DistanceRequest(
+                transportation_mode=transportation_mode,
+                start=Airport(iata_code=start),
+                destination=Airport(iata_code=destination),
+            )
+
+    except ValidationError as e:
+        raise InvalidSpatialInput(e)
+
+    raise InvalidSpatialInput(f"unknown transportation_mode: '{transportation_mode}'")
+
+
+def get_distance(request: DistanceRequest) -> Kilometer:
     """Get the distance between start and destination
 
     Raises:
     - InvalidSpatialInput if start and stop are malformed or None
     """
 
-    # TODO: Refactor to meet DRY
+    detour_map = {
+        TransportationMode.CAR: False,
+        TransportationMode.MOTORBIKE: False,
+        TransportationMode.BUS: True,
+        TransportationMode.TRAIN: True,
+        TransportationMode.PLANE: True,
+        TransportationMode.FERRY: True,
+    }
 
-    if None in [start, destination]:
-        raise InvalidSpatialInput("neither distance or start/destination  provided")
-
-    if transportation_mode == "car":
-        # Stops are formatted like:
-        # [
-        #   {
-        #     "address": "Im Neuenheimer Feld 348",
-        #     "locality": "Heidelberg",
-        #     "country": "Germany"
-        #   },
-        #   {
-        #     "country": "Germany",
-        #     "locality": "Berlin",
-        #     "address": "Alexanderplatz 1"
-        #   }
-        # ]
-        # TODO: Validate with BaseModel
-
+    if request.transportation_mode in [
+        TransportationMode.CAR,
+        TransportationMode.MOTORBIKE,
+    ]:
         coords = []
-        for loc in [start, destination]:
-            _, _, loc_coords, _ = geocoding_structured(loc)
+        for loc in [request.start, request.destination]:
+            _, _, loc_coords, _ = geocoding_structured(loc.dict())
             coords.append(loc_coords)
         return get_route(coords, "driving-car")
 
-    if transportation_mode == "motorbike":
-        # Same model as car!
-        # [
-        #     {"address": "Im Neuenheimer Feld 348", "locality": "Heidelberg", "country": "Germany"},
-        #     {"country": "Germany", "locality": "Berlin", "address": "Alexanderplatz 1"}
-        # ]
-        coords = []
-        for loc in [start, destination]:
-            _, _, loc_coords, _ = geocoding_structured(loc)
-            coords.append(loc_coords)
-        distance = get_route(coords, "driving-car")
-
-    if transportation_mode == "bus":
+    if request.transportation_mode == "bus":
         # Same as car (StructuredLocation)
         # TODO: Validate with BaseModel
         # TODO: Question: Why are we not calculating the bus trip like `driving-car` routes?
 
         distance = 0
         coords = []
-        for loc in [start, destination]:
-            _, _, loc_coords, _ = geocoding_structured(loc)
+        for loc in [request.start, request.destination]:
+            _, _, loc_coords, _ = geocoding_structured(loc.dict())
             coords.append(loc_coords)
         for i in range(0, len(coords) - 1):
             distance += haversine(
                 coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
             )
-        return _apply_detour(distance, transportation_mode)
+        return _apply_detour(distance, request.transportation_mode)
 
-    if transportation_mode == "train":
+    if request.transportation_mode == "train":
         # Stops for train distance calculations are formed like this:
         # [
         #     {"station_name": "Heidelberg Hbf", "country": "DE"},
@@ -461,13 +493,13 @@ def get_distance(start, destination, transportation_mode):
         distance = 0
         coords = []
 
-        for loc in [start, destination]:
+        for loc in [request.start, request.destination]:
             try:
-                _, _, loc_coords = geocoding_train_stations(loc)
+                _, _, loc_coords = geocoding_train_stations(loc.dict())
             except RuntimeWarning:
-                _, _, loc_coords, _ = geocoding_structured(loc)
+                _, _, loc_coords, _ = geocoding_structured(loc.dict())
             except ValueError:
-                _, _, loc_coords, _ = geocoding_structured(loc)
+                _, _, loc_coords, _ = geocoding_structured(loc.dict())
             coords.append(loc_coords)
 
         for i in range(len(coords) - 1):
@@ -475,25 +507,25 @@ def get_distance(start, destination, transportation_mode):
             distance += haversine(
                 coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
             )
-        return _apply_detour(distance, transportation_mode)
+        return _apply_detour(distance, request.transportation_mode)
 
-    if transportation_mode == "plane":
+    if request.transportation_mode == "plane":
         # Stops are IATA code of airports
         # TODO: Validate stops with BaseModel
 
-        _, geom_start, _ = geocoding_airport(start)
-        _, geom_dest, _ = geocoding_airport(destination)
+        _, geom_start, _ = geocoding_airport(request.start.iata_code)
+        _, geom_dest, _ = geocoding_airport(request.destination.iata_code)
 
         distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
-        return _apply_detour(distance, transportation_mode)
+        return _apply_detour(distance, request.transportation_mode)
 
-    if transportation_mode == "ferry":
+    if request.transportation_mode == "ferry":
         # Stops are formatted like {"locality":<city>, "county":<country>}
         # TODO: Validate stops with BaseModel
 
-        _, _, geom_start, _ = geocoding_structured(start)
-        _, _, geom_dest, _ = geocoding_structured(destination)
+        _, _, geom_start, _ = geocoding_structured(request.start.dict())
+        _, _, geom_dest, _ = geocoding_structured(request.destination.dict())
         # compute great circle distance between airports
         distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
 
-        return _apply_detour(distance, transportation_mode)
+        return _apply_detour(distance, request.transportation_mode)

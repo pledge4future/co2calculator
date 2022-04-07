@@ -2,15 +2,16 @@
 # coding: utf-8
 """Functions to calculate co2 emissions"""
 
+from typing import Tuple
 from pathlib import Path
-from typing import Optional, Tuple, Union
 import warnings
 
 
 import pandas as pd
 
 
-from .distances import get_distance
+from .distances import create_distance_request, get_distance
+
 from .constants import KWH_TO_TJ
 from ._types import Kilogram, Kilometer
 
@@ -455,7 +456,8 @@ def calc_co2_businesstrip(
     # - If stop-based, calculate distance first, then continue only distance-based
 
     if not distance:
-        distance = get_distance(start, destination, transportation_mode)
+        request = create_distance_request(start, destination, transportation_mode)
+        distance = get_distance(request)
 
     if transportation_mode == "car":
         emissions, dist = calc_co2_car(
