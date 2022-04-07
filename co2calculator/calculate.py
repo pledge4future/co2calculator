@@ -10,10 +10,10 @@ import warnings
 import pandas as pd
 
 
-from .distances import create_distance_request, get_distance
-
-from .constants import KWH_TO_TJ
 from ._types import Kilogram, Kilometer
+from .distances import create_distance_request, get_distance
+from .constants import KWH_TO_TJ
+
 
 script_path = str(Path(__file__).parent)
 emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
