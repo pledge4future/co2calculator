@@ -61,61 +61,15 @@ def test_calc_co2_car(
         pytest.param(100, "average", 11.34, id="size: 'average'"),
     ],
 )
-def test_calc_co2_motorbike__distance_based(
+def test_calc_co2_motorbike(
     distance: float, size: Optional[str], expected_emissions: float
 ):
     """Test: Calculate motorbike-trip emissions based on given distance.
     Expect: Returns emissions and distance.
     """
-    actual_emissions, _ = candidate.calc_co2_motorbike(
-        distance=distance, stops=None, size=size
-    )
+    actual_emissions, _ = candidate.calc_co2_motorbike(distance=distance, size=size)
 
     assert round(actual_emissions, 2) == expected_emissions
-
-
-@pytest.mark.parametrize(
-    "stops,expected_emissions",
-    [
-        pytest.param([{}, {}], 4.76154, id="2 stops"),
-        pytest.param([{}, {}, {}], 4.76154, id="3 stops"),
-    ],
-)
-def test_calc_co2_motorbike__stops_based(
-    mocker: MockerFixture,
-    stops: List[Dict],
-    expected_emissions: float,
-) -> None:
-    """Test: Calculate motorbike-trip emissions based on given stops.
-    Expect: Returns emissions and distance.
-    """
-
-    # Patching the get_route to return 42 kilometers irrespective of input
-    patched_geocoding = mocker.patch(
-        "co2calculator.calculate.geocoding_structured",
-        return_value=("NAME", "COUNTRY", (1.0, 2.0), "RES"),
-    )
-    patched_get_route = mocker.patch(
-        "co2calculator.calculate.get_route",
-        return_value=42,
-    )
-
-    actual_emissions, _ = candidate.calc_co2_motorbike(
-        distance=None, stops=stops, size=None
-    )
-
-    assert actual_emissions == expected_emissions
-
-    assert patched_geocoding.call_count == len(stops)
-    patched_get_route.assert_called_once()
-
-
-def test_calc_co2_motorbike__failed():
-    """Test: Calling calc_co2_motorbike with no arguments.
-    Expect: Raises ValueError.
-    """
-    with pytest.raises(ValueError):
-        candidate.calc_co2_motorbike(distance=None, stops=None)
 
 
 @pytest.mark.parametrize(

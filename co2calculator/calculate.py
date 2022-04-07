@@ -73,47 +73,29 @@ def calc_co2_car(
 
 
 def calc_co2_motorbike(
-    distance: Kilometer = None, stops: list = None, size: str = None
+    distance: Kilometer = None, size: str = None
 ) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute the emissions of a motorbike trip.
-    :param distance: Distance travelled in km;
+    :param distance: Distance travelled by motorbike;
                         alternatively param <locations> can be provided
-    :param stops: List of locations as dictionaries in the form
-                        e.g.,  [{"address": "Im Neuenheimer Feld 348",
-                                "locality": "Heidelberg",
-                                 "country": "Germany"},
-                                 {"country": "Germany",
-                                 "locality": "Berlin",
-                                 "address": "Alexanderplatz 1"}]
-                        can have intermediate stops (multiple dictionaries within the list)
-                        alternatively param <distance> can be provided
     :param size: size of motorbike
                         ["small", "medium", "large", "average"]
-    :type distance: float
-    :type stops: list[*dict]
+    :type distance: Kilometer
     :type size: str
     :return: Total emissions of trip in co2 equivalents, distance of the trip
-    :rtype: tuple[float, float]
+    :rtype: tuple[Kilogram, Kilometer]
     """
+
     transport_mode = "motorbike"
+
     # Set default values
     if size is None:
         size = "average"
         warnings.warn(
             f"Size of motorbike was not provided. Using default value: '{size}'"
         )
-    if distance is None and stops is None:
-        raise ValueError(
-            "Travel parameters missing. Please provide either the distance in km or a list of"
-            "dictionaries for each travelled location"
-        )
-    elif distance is None:
-        coords = []
-        for loc in stops:
-            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
-            coords.append(loc_coords)
-        distance = get_route(coords, "driving-car")
+
     co2e = emission_factor_df[
         (emission_factor_df["subcategory"] == transport_mode)
         & (emission_factor_df["size_class"] == size)
@@ -495,12 +477,10 @@ def calc_co2_businesstrip(
     """
 
     # Evaluate if distance- or stop-based request.
-    #
     # Rules:
     # - `distance` is dominant;
     # - if distance not provided, take stops;
     # - if stops not available, raise error;
-    #
     # In general:
     # - If stop-based, calculate distance first, then continue only distance-based
 
