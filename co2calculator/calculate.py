@@ -683,6 +683,18 @@ def _get_distance(start, destination, transportation_mode):
             coords.append(loc_coords)
         return get_route(coords, "driving-car")
 
+    if transportation_mode == "motorbike":
+        # Same model as car!
+        # [
+        #     {"address": "Im Neuenheimer Feld 348", "locality": "Heidelberg", "country": "Germany"},
+        #     {"country": "Germany", "locality": "Berlin", "address": "Alexanderplatz 1"}
+        # ]
+        coords = []
+        for loc in [start, destination]:
+            _, _, loc_coords, _ = geocoding_structured(loc)
+            coords.append(loc_coords)
+        distance = get_route(coords, "driving-car")
+
     if transportation_mode == "bus":
         # TODO: Validate with BaseModel
         # TODO: Question: Why are we not calculating the bus trip like `driving-car` routes?
