@@ -216,7 +216,7 @@ def test_calc_co2_plane(
     seating_class: Optional[str],
     expected_emissions: float,
 ):
-    """Test: Calculate plane-trip emissions based on start and destination.
+    """Test: Calculate plane-trip emissions based on given distance.
     Expect: Returns emissions and distance.
     """
 
@@ -247,7 +247,7 @@ def test_calc_co2_plane__failed():
     ],
 )
 def test_calc_ferry(seating_class: Optional[str], expected_emissions: float) -> None:
-    """Test: Calculate ferry-trip emissions based on start and destination.
+    """Test: Calculate ferry-trip emissions based on given distance.
     Expect: Returns emissions and distance.
     """
 

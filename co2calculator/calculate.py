@@ -264,12 +264,12 @@ def calc_co2_plane(
 ) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute emissions of a plane trip
-    :param distance: Distance if plane flight
+    :param distance: Distance of plane flight
     :param seating_class: Seating class in the airplane; Emission factors differ between seating classes because
                           business class or first class seats take up more space. An airplane with more such therefore
                           needs to have higher capacity to transport less people -> more co2
                           ["average", "economy_class", "business_class", "premium_economy_class", "first_class"]
-    :type destination: Kilometer
+    :type distance: Kilometer
     :type seating_class: str
     :return: Total emissions of flight in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
@@ -331,9 +331,9 @@ def calc_co2_ferry(
 ) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute emissions of a ferry trip
-    :param destination: Distance of ferry trip
+    :param distance: Distance of ferry trip
     :param seating_class: ["average", "Foot passenger", "Car passenger"]
-    :type destination: Kilometer
+    :type distance: Kilometer
     :type seating_class: str
     :return: Total emissions of sea travel in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
