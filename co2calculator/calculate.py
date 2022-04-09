@@ -2,15 +2,18 @@
 # coding: utf-8
 """Functions to calculate co2 emissions"""
 
-from pathlib import Path
 from typing import Tuple
-from ._types import Kilogram, Kilometer
-import pandas as pd
+from pathlib import Path
 import warnings
-from .distances import haversine
-from .distances import geocoding_airport, geocoding_structured, geocoding_train_stations
-from .distances import get_route
+
+
+import pandas as pd
+
+
+from ._types import Kilogram, Kilometer
+from .distances import create_distance_request, get_distance
 from .constants import KWH_TO_TJ
+
 
 script_path = str(Path(__file__).parent)
 emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
@@ -21,33 +24,21 @@ detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 
 
 def calc_co2_car(
-    distance: Kilometer = None,
-    stops: list = None,
+    distance: Kilometer,
     passengers: int = None,
     size: str = None,
     fuel_type: str = None,
 ) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute the emissions of a car trip.
-    :param distance: Distance travelled in km;
-                        alternatively param <stops> can be provided
-    :param stops: List of locations as dictionaries in the form
-                        e.g.,  [{"address": "Im Neuenheimer Feld 348",
-                                "locality": "Heidelberg",
-                                 "country": "Germany"},
-                                 {"country": "Germany",
-                                 "locality": "Berlin",
-                                 "address": "Alexanderplatz 1"}]
-                        can have intermediate stops (> 2 dictionaries within the list)
-                        alternatively param <distance> can be provided
+    :param distance: Distance travelled by car;
     :param passengers: Number of passengers in the car (including the person answering the questionnaire),
                         [1, 2, 3, 4, 5, 6, 7, 8, 9]                             default: 1
     :param size: size of car
                         ["small", "medium", "large", "average"]                 default: "average"
     :param fuel_type: type of fuel the car is using
                         ["diesel", "gasoline", "cng", "electric", "hybrid", "plug-in_hybrid", "average"]    default: "average"
-    :type distance: float or None
-    :type stops: list[*dict] or None
+    :type distance: Kilometer
     :type passengers: int
     :type size: str
     :type fuel_type: str
@@ -55,7 +46,6 @@ def calc_co2_car(
     :rtype: tuple[float, float]
     """
     # NOTE: Tests fail for 'cng'  as `fuel_type` (IndexError)
-    # TODO: Remove stop-based - make distance-based only!
 
     transport_mode = "car"
 
@@ -73,18 +63,8 @@ def calc_co2_car(
         warnings.warn(
             f"Car fuel type was not provided. Using default value: '{fuel_type}'"
         )
-    # Check if distance of stops provided
-    if distance is None and stops is None:
-        raise ValueError(
-            "Travel parameters missing. Please provide either the distance in km or a list of"
-            "dictionaries of travelled locations."
-        )
-    elif distance is None:
-        coords = []
-        for loc in stops:
-            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
-            coords.append(loc_coords)
-        distance = get_route(coords, "driving-car")
+
+    # Get the co2 factor, calculate and return
     co2e = emission_factor_df[
         (emission_factor_df["subcategory"] == transport_mode)
         & (emission_factor_df["size_class"] == size)
@@ -96,47 +76,29 @@ def calc_co2_car(
 
 
 def calc_co2_motorbike(
-    distance: Kilometer = None, stops: list = None, size: str = None
+    distance: Kilometer = None, size: str = None
 ) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute the emissions of a motorbike trip.
-    :param distance: Distance travelled in km;
+    :param distance: Distance travelled by motorbike;
                         alternatively param <locations> can be provided
-    :param stops: List of locations as dictionaries in the form
-                        e.g.,  [{"address": "Im Neuenheimer Feld 348",
-                                "locality": "Heidelberg",
-                                 "country": "Germany"},
-                                 {"country": "Germany",
-                                 "locality": "Berlin",
-                                 "address": "Alexanderplatz 1"}]
-                        can have intermediate stops (multiple dictionaries within the list)
-                        alternatively param <distance> can be provided
     :param size: size of motorbike
                         ["small", "medium", "large", "average"]
-    :type distance: float
-    :type stops: list[*dict]
+    :type distance: Kilometer
     :type size: str
     :return: Total emissions of trip in co2 equivalents, distance of the trip
-    :rtype: tuple[float, float]
+    :rtype: tuple[Kilogram, Kilometer]
     """
+
     transport_mode = "motorbike"
+
     # Set default values
     if size is None:
         size = "average"
         warnings.warn(
             f"Size of motorbike was not provided. Using default value: '{size}'"
         )
-    if distance is None and stops is None:
-        raise ValueError(
-            "Travel parameters missing. Please provide either the distance in km or a list of"
-            "dictionaries for each travelled location"
-        )
-    elif distance is None:
-        coords = []
-        for loc in stops:
-            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
-            coords.append(loc_coords)
-        distance = get_route(coords, "driving-car")
+
     co2e = emission_factor_df[
         (emission_factor_df["subcategory"] == transport_mode)
         & (emission_factor_df["size_class"] == size)
@@ -146,41 +108,8 @@ def calc_co2_motorbike(
     return emissions, distance
 
 
-def apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
-    """
-    Function to apply specific detour parameters to a distance as the crow flies
-    :param distance: Distance as the crow flies between location of departure and destination of a trip
-    :param transportation_mode: Mode of transport used in the trip
-    :type distance: float
-    :type transportation_mode: str
-    :return: Distance accounted for detour
-    :rtype: float
-    """
-    try:
-        detour_coefficient = detour_df[
-            detour_df["transportation_mode"] == transportation_mode
-        ]["coefficient"].values[0]
-        detour_constant = detour_df[
-            detour_df["transportation_mode"] == transportation_mode
-        ]["constant [km]"].values[0]
-    except KeyError:
-        detour_coefficient = 1.0
-        detour_constant = 0.0
-        warnings.warn(
-            f"""
-        No detour coefficient or constant available for this transportation mode.
-        Detour parameters are available for the following transportation modes:
-        Using detour_coefficient = {detour_coefficient} and detour_constant = {detour_constant}.
-        """
-        )
-    distance_with_detour = detour_coefficient * distance + detour_constant
-
-    return distance_with_detour
-
-
 def calc_co2_bus(
-    distance: Kilometer = None,
-    stops: list = None,
+    distance: Kilometer,
     size: str = None,
     fuel_type: str = None,
     occupancy: int = None,
@@ -188,23 +117,12 @@ def calc_co2_bus(
 ) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute the emissions of a bus trip.
-    :param distance: Distance travelled in km;
-                        alternatively param <stops> can be provided
-    :param stops: List of locations as dictionaries in the form
-                        e.g.,  [{"address": "Im Neuenheimer Feld 348",
-                                "locality": "Heidelberg",
-                                 "country": "Germany"},
-                                 {"country": "Germany",
-                                 "locality": "Berlin",
-                                 "address": "Alexanderplatz 1"}]
-                        can have intermediate stops (multiple dictionaries within the list)
-                        alternatively param <distance> can be provided
+    :param distance: Distance travelled by bus;
     :param size: size class of the bus;                 ["medium", "large", "average"]
     :param fuel_type: type of fuel the bus is using;    ["diesel"]
     :param occupancy: number of people on the bus       [20, 50, 80, 100]
     :param vehicle_range: range/haul of the vehicle     ["local", "long-distance"]
-    :type distance: float
-    :type stops: list[*dict]
+    :type distance: Kilometer
     :type size: str
     :type fuel_type: str
     :type occupancy: int
@@ -238,23 +156,8 @@ def calc_co2_bus(
         warnings.warn(
             f"Intended range of trip was not provided. Using default value: '{vehicle_range}'"
         )
-    if distance is None and stops is None:
-        raise ValueError(
-            "Travel parameters missing. Please provide either the distance in km or a list of"
-            "dictionaries for each travelled bus station"
-        )
-    elif distance is None and stops is not None:
-        distance = 0
-        coords = []
-        for loc in stops:
-            loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
-            coords.append(loc_coords)
-        for i in range(0, len(coords) - 1):
-            # compute great circle distance between locations
-            distance += haversine(
-                coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
-            )
-        distance = apply_detour(distance, transportation_mode=transport_mode)
+
+    # Get co2 factor, calculate and return
     co2e = emission_factor_df[
         (emission_factor_df["subcategory"] == transport_mode)
         & (emission_factor_df["size_class"] == size)
@@ -268,32 +171,24 @@ def calc_co2_bus(
 
 
 def calc_co2_train(
-    distance: Kilometer = None,
-    stops: list = None,
+    distance: Kilometer,
     fuel_type: str = None,
     vehicle_range: str = None,
 ) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute the emissions of a train trip.
-    :param distance: Distance travelled in km;
-                        alternatively param <stops> can be provided
-    :param stops: List of locations as dictionaries in the form
-                        e.g.,  [{"station_name": "Heidelberg Hbf",
-                                 "country": "DE"},
-                                 {"station_name": "Berlin Hauptbahnhof",
-                                 "country": "DE"]
-                        can have intermediate stops (multiple dictionaries within the list)
-                        alternatively param <distance> can be provided
+    :param distance: Distance travelled by train;
     :param fuel_type: type of fuel the train is using;    ["diesel", "electric", "average"]
     :param vehicle_range: range/haul of the vehicle       ["local", "long-distance"]
-    :type distance: float
-    :type stops: list[*dict]
+    :type distance: Kilometer
     :type fuel_type: float
     :type vehicle_range: str
     :return: Total emissions of trip in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
     """
+
     transport_mode = "train"
+
     # Set default values
     if fuel_type is None:
         fuel_type = "average"
@@ -305,29 +200,8 @@ def calc_co2_train(
         warnings.warn(
             f"Intended range of trip was not provided. Using default value: '{vehicle_range}'"
         )
-    if distance is None and stops is None:
-        raise ValueError(
-            "Travel parameters missing. Please provide either the distance in km or a list of"
-            "dictionaries for each travelled train station"
-        )
-    elif distance is None:
-        distance = 0
-        coords = []
-        for loc in stops:
-            try:
-                loc_name, loc_country, loc_coords = geocoding_train_stations(loc)
-            except RuntimeWarning:
-                loc_name, loc_country, loc_coords, _ = geocoding_structured(loc)
-            except ValueError:
-                loc_name, loc_country, loc_coords, res = geocoding_structured(loc)
-            coords.append(loc_coords)
 
-        for i in range(len(coords) - 1):
-            # compute great circle distance between locations
-            distance += haversine(
-                coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
-            )
-        distance = apply_detour(distance, transportation_mode=transport_mode)
+    # Get the co2 factor, calculate and return
     co2e = emission_factor_df[
         (emission_factor_df["subcategory"] == transport_mode)
         & (emission_factor_df["fuel_type"] == fuel_type)
@@ -339,23 +213,23 @@ def calc_co2_train(
 
 
 def calc_co2_plane(
-    start: str, destination: str, seating_class: str = None
+    distance: Kilometer, seating_class: str = None
 ) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute emissions of a plane trip
-    :param start: IATA code of start airport
-    :param destination: IATA code of destination airport
+    :param distance: Distance of plane flight
     :param seating_class: Seating class in the airplane; Emission factors differ between seating classes because
                           business class or first class seats take up more space. An airplane with more such therefore
                           needs to have higher capacity to transport less people -> more co2
                           ["average", "economy_class", "business_class", "premium_economy_class", "first_class"]
-    :type start: str
-    :type destination: str
+    :type distance: Kilometer
     :type seating_class: str
     :return: Total emissions of flight in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
     """
+
     transport_mode = "plane"
+
     # Set defaults
     if seating_class is None:
         seating_class = "average"
@@ -363,14 +237,7 @@ def calc_co2_plane(
             f"Seating class was not provided. Using default value: '{seating_class}'"
         )
 
-    # get geographic coordinates of airports
-    _, geom_start, country_start = geocoding_airport(start)
-    _, geom_dest, country_dest = geocoding_airport(destination)
-    # compute great circle distance between airports
-    distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
-    # add detour constant
-    distance = apply_detour(distance, transportation_mode=transport_mode)
-    # retrieve whether distance is below or above 1500 km
+    # Retrieve whether distance is below or above 1500 km
     if distance <= 1500:
         flight_range = "short-haul"
     elif distance > 1500:
@@ -388,6 +255,8 @@ def calc_co2_plane(
             f"No emission factor available for the specified seating class '{seating_class}'.\n"
             f"Please use one of the following: {seating_choices}"
         )
+
+    # Get co2 factor, calculate and return
     try:
         co2e = emission_factor_df[
             (emission_factor_df["subcategory"] == transport_mode)
@@ -411,17 +280,13 @@ def calc_co2_plane(
 
 
 def calc_co2_ferry(
-    start: dict, destination: dict, seating_class: str = None
+    distance: Kilometer, seating_class: str = None
 ) -> Tuple[Kilogram, Kilometer]:
     """
     Function to compute emissions of a ferry trip
-    :param start: dictionary of location of start port,
-                        e.g., in the form {"locality":<city>, "county":<country>}
-    :param destination: dictionary of location of destination port,
-                        e.g., in the form {"locality":<city>, "county":<country>}
+    :param distance: Distance of ferry trip
     :param seating_class: ["average", "Foot passenger", "Car passenger"]
-    :type start: dict
-    :type destination: dict
+    :type distance: Kilometer
     :type seating_class: str
     :return: Total emissions of sea travel in co2 equivalents, distance of the trip
     :rtype: tuple[float, float]
@@ -437,12 +302,7 @@ def calc_co2_ferry(
     # todo: Do we have a way of checking if there even exists a ferry connection between the given cities (of if the
     #  cities even have a port?
     # get geographic coordinates of ports
-    _, _, geom_start, _ = geocoding_structured(start)
-    _, _, geom_dest, _ = geocoding_structured(destination)
-    # compute great circle distance between airports
-    distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
 
-    distance = apply_detour(distance, transportation_mode=transport_mode)
     # get emission factor
     co2e = emission_factor_df[
         (emission_factor_df["subcategory"] == transport_mode)
@@ -586,68 +446,49 @@ def calc_co2_businesstrip(
                 Range description (i.e., what range of distances does to category correspond to)
     :rtype: tuple[float, float, str, str]
     """
-    if distance is None and (start is None or destination is None):
-        assert ValueError("Either start and destination or distance must be provided.")
-    elif distance is not None and (start is not None or destination is not None):
-        warnings.warn(
-            "Both distance and start/stop location were provided. "
-            "Only distance will be used for emission calculation."
-        )
-        stops = None
-    elif start is None and destination is None and distance is not None:
-        stops = None
-    elif start is not None and destination is not None and distance is None:
-        # check if stops are provided in the right form
 
-        # NOTE: I turned off that type check since lower level functions expect dicts
-        # Failed for 'car', 'train' and 'plane'.
-        # It will come back within this branch after functional tests are set up!
+    # Evaluate if distance- or stop-based request.
+    # Rules:
+    # - `distance` is dominant;
+    # - if distance not provided, take stops;
+    # - if stops not available, raise error;
+    # In general:
+    # - If stop-based, calculate distance first, then continue only distance-based
 
-        # if transportation_mode == "car" and (
-        #     type(start) != str or type(destination) != str
-        # ):
-        #     raise ValueError(
-        #         "Wrong data type for start and destination."
-        #         "Please provide a three letter IATA code for train stations."
-        #     )
-        # elif transportation_mode != "car" and (
-        #     type(start) != dict or type(destination) != dict
-        # ):
-        #     raise ValueError(
-        #         "Wrong data type for start and destination."
-        #         "Please provide a dictionary."
-        #     )
-
-        stops = [start, destination]
+    if not distance:
+        request = create_distance_request(start, destination, transportation_mode)
+        distance = get_distance(request)
 
     if transportation_mode == "car":
         emissions, dist = calc_co2_car(
             distance=distance,
-            stops=stops,
             passengers=passengers,
             size=size,
             fuel_type=fuel_type,
         )
+
     elif transportation_mode == "bus":
         emissions, dist = calc_co2_bus(
+            distance=distance,
             size=size,
             fuel_type=fuel_type,
             occupancy=occupancy,
             vehicle_range="long-distance",
-            distance=distance,
-            stops=stops,
         )
+
     elif transportation_mode == "train":
         emissions, dist = calc_co2_train(
+            distance=distance,
             fuel_type=fuel_type,
             vehicle_range="long-distance",
-            distance=distance,
-            stops=stops,
         )
+
     elif transportation_mode == "plane":
-        emissions, dist = calc_co2_plane(start, destination, seating_class=seating)
+        emissions, dist = calc_co2_plane(distance, seating_class=seating)
+
     elif transportation_mode == "ferry":
-        emissions, dist = calc_co2_ferry(start, destination, seating_class=seating)
+        emissions, dist = calc_co2_ferry(distance, seating_class=seating)
+
     else:
         raise ValueError(
             f"No emission factor available for the specified mode of transport '{transportation_mode}'."
