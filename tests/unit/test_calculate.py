@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Unit tests for co2calculator.calculate module"""
 
-from typing import Optional, List, Dict
+from typing import Optional
 
 import pytest
 from pytest_mock import MockerFixture
@@ -40,7 +40,7 @@ def test_calc_co2_car(
     """Test: Calculate car-trip emissions based on given distance.
     Expect: Returns emissions and distance.
     """
-    actual_emissions, actual_distance = candidate.calc_co2_car(
+    actual_emissions = candidate.calc_co2_car(
         distance=distance,
         passengers=passengers,
         size=size,
@@ -48,7 +48,6 @@ def test_calc_co2_car(
     )
 
     assert round(actual_emissions, 2) == expected_emissions
-    assert actual_distance == distance
 
 
 @pytest.mark.parametrize(
@@ -67,7 +66,7 @@ def test_calc_co2_motorbike(
     """Test: Calculate motorbike-trip emissions based on given distance.
     Expect: Returns emissions and distance.
     """
-    actual_emissions, _ = candidate.calc_co2_motorbike(distance=distance, size=size)
+    actual_emissions = candidate.calc_co2_motorbike(distance=distance, size=size)
 
     assert round(actual_emissions, 2) == expected_emissions
 
@@ -112,7 +111,7 @@ def test_calc_co2_bus(
     """
 
     # Calculate co2e
-    actual_emissions, actual_distance = candidate.calc_co2_bus(
+    actual_emissions = candidate.calc_co2_bus(
         distance=distance,
         size=size,
         fuel_type=fuel_type,
@@ -121,7 +120,6 @@ def test_calc_co2_bus(
     )
 
     assert round(actual_emissions, 2) == expected_emissions
-    assert actual_distance == actual_distance
 
 
 @pytest.mark.parametrize(
@@ -150,7 +148,7 @@ def test_calc_co2_train(
     Expect: Returns emissions and distance.
     """
 
-    actual_emissions, _ = candidate.calc_co2_train(
+    actual_emissions = candidate.calc_co2_train(
         distance=distance, fuel_type=fuel_type, vehicle_range=vehicle_range
     )
 
@@ -174,7 +172,7 @@ def test_calc_co2_plane(
     Expect: Returns emissions and distance.
     """
 
-    actual_emissions, _ = candidate.calc_co2_plane(
+    actual_emissions = candidate.calc_co2_plane(
         distance=distance, seating_class=seating_class
     )
 
@@ -205,7 +203,7 @@ def test_calc_ferry(seating_class: Optional[str], expected_emissions: float) -> 
     Expect: Returns emissions and distance.
     """
 
-    actual_emissions, _ = candidate.calc_co2_ferry(
+    actual_emissions = candidate.calc_co2_ferry(
         distance=100, seating_class=seating_class
     )
 
