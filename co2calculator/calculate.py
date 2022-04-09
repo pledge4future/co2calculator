@@ -9,7 +9,7 @@ from typing import Tuple
 import pandas as pd
 
 from ._types import Kilogram, Kilometer
-from .constants import KWH_TO_TJ
+from .constants import KWH_TO_TJ, TransportationMode
 from .distances import create_distance_request, get_distance
 
 script_path = str(Path(__file__).parent)
@@ -44,7 +44,7 @@ def calc_co2_car(
     """
     # NOTE: Tests fail for 'cng'  as `fuel_type` (IndexError)
 
-    transport_mode = "car"
+    transport_mode = TransportationMode.CAR
 
     # Set default values
     if passengers is None:
@@ -85,7 +85,7 @@ def calc_co2_motorbike(distance: Kilometer = None, size: str = None) -> Kilogram
     :rtype: Kilogram
     """
 
-    transport_mode = "motorbike"
+    transport_mode = TransportationMode.MOTORBIKE
 
     # Set default values
     if size is None:
@@ -127,7 +127,7 @@ def calc_co2_bus(
     """
     # NOTE: vehicle_rage 'local' fails with IndexError
 
-    transport_mode = "bus"
+    transport_mode = TransportationMode.BUS
 
     # Set default values
     if size is None:
@@ -182,7 +182,7 @@ def calc_co2_train(
     :rtype: Kilogram
     """
 
-    transport_mode = "train"
+    transport_mode = TransportationMode.TRAIN
 
     # Set default values
     if fuel_type is None:
@@ -221,7 +221,7 @@ def calc_co2_plane(distance: Kilometer, seating_class: str = None) -> Kilogram:
     :rtype: Kilogram
     """
 
-    transport_mode = "plane"
+    transport_mode = TransportationMode.PLANE
 
     # Set defaults
     if seating_class is None:
@@ -284,7 +284,8 @@ def calc_co2_ferry(distance: Kilometer, seating_class: str = None) -> Kilogram:
     """
     # NOTE: 'Foot passenger' and 'Car passenger' fails with IndexError
 
-    transport_mode = "ferry"
+    transport_mode = TransportationMode.FERRY
+
     if seating_class is None:
         seating_class = "average"
         warnings.warn(
@@ -447,7 +448,7 @@ def calc_co2_businesstrip(
         request = create_distance_request(start, destination, transportation_mode)
         distance = get_distance(request)
 
-    if transportation_mode == "car":
+    if transportation_mode == TransportationMode.CAR:
         emissions = calc_co2_car(
             distance=distance,
             passengers=passengers,
@@ -455,7 +456,7 @@ def calc_co2_businesstrip(
             fuel_type=fuel_type,
         )
 
-    elif transportation_mode == "bus":
+    elif transportation_mode == TransportationMode.BUS:
         emissions = calc_co2_bus(
             distance=distance,
             size=size,
@@ -464,17 +465,17 @@ def calc_co2_businesstrip(
             vehicle_range="long-distance",
         )
 
-    elif transportation_mode == "train":
+    elif transportation_mode == TransportationMode.TRAIN:
         emissions = calc_co2_train(
             distance=distance,
             fuel_type=fuel_type,
             vehicle_range="long-distance",
         )
 
-    elif transportation_mode == "plane":
+    elif transportation_mode == TransportationMode.PLANE:
         emissions = calc_co2_plane(distance, seating_class=seating)
 
-    elif transportation_mode == "ferry":
+    elif transportation_mode == TransportationMode.FERRY:
         emissions = calc_co2_ferry(distance, seating_class=seating)
 
     else:
@@ -541,10 +542,8 @@ def calc_co2_commuting(
     :rtype: Kilogram
     """
 
-    # TODO: `weekly_distance` is optional but will break the code if None (#80)
-
     # get weekly co2e for respective mode of transport
-    if transportation_mode == "car":
+    if transportation_mode == TransportationMode.CAR:
         weekly_co2e = calc_co2_car(
             passengers=passengers,
             size=size,
@@ -552,9 +551,9 @@ def calc_co2_commuting(
             distance=weekly_distance,
         )
 
-    elif transportation_mode == "motorbike":
+    elif transportation_mode == TransportationMode.MOTORBIKE:
         weekly_co2e = calc_co2_motorbike(size=size, distance=weekly_distance)
-    elif transportation_mode == "bus":
+    elif transportation_mode == TransportationMode.BUS:
         weekly_co2e = calc_co2_bus(
             size=size,
             fuel_type=fuel_type,
@@ -563,12 +562,12 @@ def calc_co2_commuting(
             distance=weekly_distance,
         )
 
-    elif transportation_mode == "train":
+    elif transportation_mode == TransportationMode.TRAIN:
         weekly_co2e = calc_co2_train(
             fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance
         )
 
-    elif transportation_mode == "tram":
+    elif transportation_mode == TransportationMode.TRAM:
         # NOTE: It's recommended to still move such small things to own methods.
         # (Easier to test and maintain)
         co2e = emission_factor_df[
@@ -576,7 +575,10 @@ def calc_co2_commuting(
         ]["co2e"].values[0]
         weekly_co2e = co2e * weekly_distance
 
-    elif transportation_mode in ["pedelec", "bicycle"]:
+    elif transportation_mode in [
+        TransportationMode.PEDELEC,
+        TransportationMode.BICYCLE,
+    ]:
         # NOTE: It's recommended to still move such small things to own methods.
         # (Easier to test and maintain)
         co2e = emission_factor_df[

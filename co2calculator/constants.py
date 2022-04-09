@@ -92,3 +92,16 @@ class BusTrainRange(enum.Enum):
 
     LOCAL = "Local"
     LONG_DISTANCE = "Long-distance"
+
+
+@enum.unique
+class TransportationMode(str, enum.Enum):
+    CAR = "car"
+    MOTORBIKE = "motorbike"
+    BUS = "bus"
+    TRAIN = "train"
+    PLANE = "plane"
+    FERRY = "ferry"
+    TRAM = "tram"
+    BICYCLE = "bicycle"
+    PEDELEC = "pedelec"
