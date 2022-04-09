@@ -2,18 +2,15 @@
 # coding: utf-8
 """Functions to calculate co2 emissions"""
 
-from typing import Tuple
-from pathlib import Path
 import warnings
-
+from pathlib import Path
+from typing import Tuple
 
 import pandas as pd
 
-
 from ._types import Kilogram, Kilometer
-from .distances import create_distance_request, get_distance
 from .constants import KWH_TO_TJ
-
+from .distances import create_distance_request, get_distance
 
 script_path = str(Path(__file__).parent)
 emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
@@ -28,7 +25,7 @@ def calc_co2_car(
     passengers: int = None,
     size: str = None,
     fuel_type: str = None,
-) -> Tuple[Kilogram, Kilometer]:
+) -> Kilogram:
     """
     Function to compute the emissions of a car trip.
     :param distance: Distance travelled by car;
@@ -42,8 +39,8 @@ def calc_co2_car(
     :type passengers: int
     :type size: str
     :type fuel_type: str
-    :return: Total emissions of trip in co2 equivalents, total distance of the trip
-    :rtype: tuple[float, float]
+    :return: Total emissions of trip in co2 equivalents
+    :rtype: Kilogram
     """
     # NOTE: Tests fail for 'cng'  as `fuel_type` (IndexError)
 
@@ -72,12 +69,10 @@ def calc_co2_car(
     ]["co2e"].values[0]
     emissions = distance * co2e / passengers
 
-    return emissions, distance
+    return emissions
 
 
-def calc_co2_motorbike(
-    distance: Kilometer = None, size: str = None
-) -> Tuple[Kilogram, Kilometer]:
+def calc_co2_motorbike(distance: Kilometer = None, size: str = None) -> Kilogram:
     """
     Function to compute the emissions of a motorbike trip.
     :param distance: Distance travelled by motorbike;
@@ -86,8 +81,8 @@ def calc_co2_motorbike(
                         ["small", "medium", "large", "average"]
     :type distance: Kilometer
     :type size: str
-    :return: Total emissions of trip in co2 equivalents, distance of the trip
-    :rtype: tuple[Kilogram, Kilometer]
+    :return: Total emissions of trip in co2 equivalents
+    :rtype: Kilogram
     """
 
     transport_mode = "motorbike"
@@ -105,7 +100,7 @@ def calc_co2_motorbike(
     ]["co2e"].values[0]
     emissions = distance * co2e
 
-    return emissions, distance
+    return emissions
 
 
 def calc_co2_bus(
@@ -114,7 +109,7 @@ def calc_co2_bus(
     fuel_type: str = None,
     occupancy: int = None,
     vehicle_range: str = None,
-) -> Tuple[Kilogram, Kilometer]:
+) -> Kilogram:
     """
     Function to compute the emissions of a bus trip.
     :param distance: Distance travelled by bus;
@@ -127,8 +122,8 @@ def calc_co2_bus(
     :type fuel_type: str
     :type occupancy: int
     :type vehicle_range: str
-    :return: Total emissions of trip in co2 equivalents, distance of the trip
-    :rtype: tuple[float, float]
+    :return: Total emissions of trip in co2 equivalents
+    :rtype: Kilogram
     """
     # NOTE: vehicle_rage 'local' fails with IndexError
 
@@ -167,14 +162,14 @@ def calc_co2_bus(
     ]["co2e"].values[0]
     emissions = distance * co2e
 
-    return emissions, distance
+    return emissions
 
 
 def calc_co2_train(
     distance: Kilometer,
     fuel_type: str = None,
     vehicle_range: str = None,
-) -> Tuple[Kilogram, Kilometer]:
+) -> Kilogram:
     """
     Function to compute the emissions of a train trip.
     :param distance: Distance travelled by train;
@@ -183,8 +178,8 @@ def calc_co2_train(
     :type distance: Kilometer
     :type fuel_type: float
     :type vehicle_range: str
-    :return: Total emissions of trip in co2 equivalents, distance of the trip
-    :rtype: tuple[float, float]
+    :return: Total emissions of trip in co2 equivalents
+    :rtype: Kilogram
     """
 
     transport_mode = "train"
@@ -209,12 +204,10 @@ def calc_co2_train(
     ]["co2e"].values[0]
     emissions = distance * co2e
 
-    return emissions, distance
+    return emissions
 
 
-def calc_co2_plane(
-    distance: Kilometer, seating_class: str = None
-) -> Tuple[Kilogram, Kilometer]:
+def calc_co2_plane(distance: Kilometer, seating_class: str = None) -> Kilogram:
     """
     Function to compute emissions of a plane trip
     :param distance: Distance of plane flight
@@ -224,8 +217,8 @@ def calc_co2_plane(
                           ["average", "economy_class", "business_class", "premium_economy_class", "first_class"]
     :type distance: Kilometer
     :type seating_class: str
-    :return: Total emissions of flight in co2 equivalents, distance of the trip
-    :rtype: tuple[float, float]
+    :return: Total emissions of flight in co2 equivalents
+    :rtype: Kilogram
     """
 
     transport_mode = "plane"
@@ -276,20 +269,18 @@ def calc_co2_plane(
     # multiply emission factor with distance
     emissions = distance * co2e
 
-    return emissions, distance
+    return emissions
 
 
-def calc_co2_ferry(
-    distance: Kilometer, seating_class: str = None
-) -> Tuple[Kilogram, Kilometer]:
+def calc_co2_ferry(distance: Kilometer, seating_class: str = None) -> Kilogram:
     """
     Function to compute emissions of a ferry trip
     :param distance: Distance of ferry trip
     :param seating_class: ["average", "Foot passenger", "Car passenger"]
     :type distance: Kilometer
     :type seating_class: str
-    :return: Total emissions of sea travel in co2 equivalents, distance of the trip
-    :rtype: tuple[float, float]
+    :return: Total emissions of sea travel in co2 equivalents
+    :rtype: Kilogram
     """
     # NOTE: 'Foot passenger' and 'Car passenger' fails with IndexError
 
@@ -299,9 +290,6 @@ def calc_co2_ferry(
         warnings.warn(
             f"Seating class was not provided. Using default value: '{seating_class}'"
         )
-    # todo: Do we have a way of checking if there even exists a ferry connection between the given cities (of if the
-    #  cities even have a port?
-    # get geographic coordinates of ports
 
     # get emission factor
     co2e = emission_factor_df[
@@ -311,7 +299,7 @@ def calc_co2_ferry(
     # multiply emission factor with distance
     emissions = distance * co2e
 
-    return emissions, distance
+    return emissions
 
 
 def calc_co2_electricity(
@@ -326,7 +314,7 @@ def calc_co2_electricity(
     :type fuel_type: str
     :type energy_share: float
     :return: total emissions of electricity energy consumption
-    :rtype: float
+    :rtype: Kilogram
     """
     # Set defaults
     if fuel_type is None:
@@ -359,7 +347,7 @@ def calc_co2_heating(
     :type unit: str
     :type area_share: float
     :return: total emissions of heating energy consumption
-    :rtype: float
+    :rtype: Kilogram
     """
     # Set defaults
     if unit is None:
@@ -433,7 +421,7 @@ def calc_co2_businesstrip(
                                                 - only used for car
     :param roundtrip: whether the trip is a round trip or not [True, False]
     :type transportation_mode: str
-    :type distance: float
+    :type distance: Kilometer
     :type size: str
     :type fuel_type: str
     :type occupancy: int
@@ -444,7 +432,7 @@ def calc_co2_businesstrip(
                 Distance of the business trip,
                 Range category of the business trip [very short haul, short haul, medium haul, long haul]
                 Range description (i.e., what range of distances does to category correspond to)
-    :rtype: tuple[float, float, str, str]
+    :rtype: tuple[Kilogram, Kilometer, str, str]
     """
 
     # Evaluate if distance- or stop-based request.
@@ -460,7 +448,7 @@ def calc_co2_businesstrip(
         distance = get_distance(request)
 
     if transportation_mode == "car":
-        emissions, dist = calc_co2_car(
+        emissions = calc_co2_car(
             distance=distance,
             passengers=passengers,
             size=size,
@@ -468,7 +456,7 @@ def calc_co2_businesstrip(
         )
 
     elif transportation_mode == "bus":
-        emissions, dist = calc_co2_bus(
+        emissions = calc_co2_bus(
             distance=distance,
             size=size,
             fuel_type=fuel_type,
@@ -477,17 +465,17 @@ def calc_co2_businesstrip(
         )
 
     elif transportation_mode == "train":
-        emissions, dist = calc_co2_train(
+        emissions = calc_co2_train(
             distance=distance,
             fuel_type=fuel_type,
             vehicle_range="long-distance",
         )
 
     elif transportation_mode == "plane":
-        emissions, dist = calc_co2_plane(distance, seating_class=seating)
+        emissions = calc_co2_plane(distance, seating_class=seating)
 
     elif transportation_mode == "ferry":
-        emissions, dist = calc_co2_ferry(distance, seating_class=seating)
+        emissions = calc_co2_ferry(distance, seating_class=seating)
 
     else:
         raise ValueError(
@@ -497,16 +485,16 @@ def calc_co2_businesstrip(
         emissions *= 2
 
     # categorize according to distance (range)
-    range_category, range_description = range_categories(dist)
+    range_category, range_description = range_categories(distance)
 
-    return emissions, dist, range_category, range_description
+    return emissions, distance, range_category, range_description
 
 
-def range_categories(distance: Kilogram) -> Tuple[str, str]:
+def range_categories(distance: Kilometer) -> Tuple[str, str]:
     """Function to categorize a trip according to the travelled distance
 
     :param distance: Distance travelled in km
-    :type distance: float
+    :type distance: Kilometer
     :return: Range category of the trip [very short haul, short haul, medium haul, long haul]
              Range description (i.e., what range of distances does to category correspond to)
     :rtype: tuple[str, str]
@@ -544,29 +532,29 @@ def calc_co2_commuting(
     :param occupancy: occupancy [%], if applicable/known (only for bus): [20, 50, 80, 100]
     :param passengers: number of passengers, if applicable (only for car)
     :type transportation_mode: str
-    :type weekly_distance: float
+    :type weekly_distance: Kilometer
     :type size: str
     :type fuel_type: str
     :type occupancy: int
     :type passengers: int
     :return: total weekly emissions for the respective mode of transport
-    :rtype: float
+    :rtype: Kilogram
     """
 
     # TODO: `weekly_distance` is optional but will break the code if None (#80)
 
     # get weekly co2e for respective mode of transport
     if transportation_mode == "car":
-        weekly_co2e, _ = calc_co2_car(
+        weekly_co2e = calc_co2_car(
             passengers=passengers,
             size=size,
             fuel_type=fuel_type,
             distance=weekly_distance,
         )
     elif transportation_mode == "motorbike":
-        weekly_co2e, _ = calc_co2_motorbike(size=size, distance=weekly_distance)
+        weekly_co2e = calc_co2_motorbike(size=size, distance=weekly_distance)
     elif transportation_mode == "bus":
-        weekly_co2e, _ = calc_co2_bus(
+        weekly_co2e = calc_co2_bus(
             size=size,
             fuel_type=fuel_type,
             occupancy=occupancy,
@@ -574,7 +562,7 @@ def calc_co2_commuting(
             distance=weekly_distance,
         )
     elif transportation_mode == "train":
-        weekly_co2e, _ = calc_co2_train(
+        weekly_co2e = calc_co2_train(
             fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance
         )
     elif transportation_mode == "tram":
@@ -606,11 +594,11 @@ def commuting_emissions_group(
                             questionnaire (can also be calculated for only one mode of transport)
     :param n_participants: Number of group members who answered the questionnaire
     :param n_members: Total number of members of the group
-    :type aggr_co2: float
+    :type aggr_co2: Kilogram
     :type n_participants: int
     :type n_members: int
     :return: Calculated or estimated emissions of the entire working group.
-    :rtype: float
+    :rtype: Kilogram
     """
     group_co2e = aggr_co2 / n_participants * n_members
 

@@ -3,27 +3,23 @@
 
 """Functions for obtaining the distance between given addresses."""
 
-
-from typing import Tuple, Union, Optional
 import enum
-from pathlib import Path
-from dotenv import load_dotenv
 import os
 import warnings
-
+from pathlib import Path
+from typing import Tuple, Union, Optional
 
 import numpy as np
-import pandas as pd
 import openrouteservice
+import pandas as pd
+from dotenv import load_dotenv
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
+from pydantic import BaseModel, ValidationError
 from thefuzz import fuzz
 from thefuzz import process
-from pydantic import BaseModel, ValidationError
-
 
 from ._types import Kilometer
-
 
 load_dotenv()  # take environment variables from .env.
 
@@ -33,6 +29,7 @@ ORS_API_KEY = os.environ.get("ORS_API_KEY")
 # Set (module) global vars (TODO: Don't do it - make it a class and move it to attributes!)
 script_path = str(Path(__file__).parent)
 detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
+
 
 # Module's models
 @enum.unique
@@ -84,8 +81,8 @@ def haversine(
     :type long_start: float
     :type lat_dest: float
     :type long_dest: float
-    :return: Distance in km
-    :rtype: float
+    :return: Distance
+    :rtype: Kilometer
     """
     # convert angles from degree to radians
     lat_start, long_start, lat_dest, long_dest = np.deg2rad(
@@ -211,7 +208,7 @@ def geocoding_structured(loc_dict):
     if n_results == 0:
         raise Exception("No places found with these search parameters")
 
-    # TODO: Validate respone with a pydantic.BaseModel (`PeliasStructuredResponse`)
+    # TODO: Validate response with a pydantic.BaseModel (`PeliasStructuredResponse`)
     # TODO: Unpack required data from response with a pydantic.BaseModel which we use internally
     # as Point of Interest (or similar, e.g., `PointOfInterest`)
     for feature in res:
@@ -331,14 +328,15 @@ def is_valid_geocoding_dict(geocoding_dict):
         )
 
 
-def get_route(coords, profile: str = None) -> Kilometer:
+def get_route(coords: list, profile: str = None) -> Kilometer:
     """Obtain the distance of a route between given waypoints using a given profile
+    todo: check if coords may also be a tuple/array etc.
 
-    :param coords: list of [lat,long] coordinates
-    :param profile: driving-car, cycling-regular
+    :param list coords: list of [lat,long] coordinates
+    :param str profile: driving-car, cycling-regular
     :return: distance of the route
+    :rtype: Kilometer
     """
-    # coords: list of [lat,long] lists
     # profile may be: driving-car, cycling-regular
     clnt = openrouteservice.Client(key=ORS_API_KEY)
 
@@ -362,10 +360,10 @@ def _apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
     Function to apply specific detour parameters to a distance as the crow flies
     :param distance: Distance as the crow flies between location of departure and destination of a trip
     :param transportation_mode: Mode of transport used in the trip
-    :type distance: float
+    :type distance: Kilometer
     :type transportation_mode: str
     :return: Distance accounted for detour
-    :rtype: float
+    :rtype: Kilometer
     """
     try:
         detour_coefficient = detour_df[
@@ -445,6 +443,10 @@ def get_distance(request: DistanceRequest) -> Kilometer:
 
     Raises:
     - InvalidSpatialInput if start and stop are malformed or None
+    :param request: Request for distance calculation between two locations for a given transportation mode
+    :type request: DistanceRequest
+    :return: Distance
+    :rtype: Kilometer
     """
 
     detour_map = {
@@ -514,7 +516,8 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         return _apply_detour(distance, request.transportation_mode)
 
     if request.transportation_mode in [TransportationMode.FERRY]:
-
+        # todo: Do we have a way of checking if there even exists a ferry connection between the given cities (or if the
+        #  cities even have a port?
         _, _, geom_start, _ = geocoding_structured(request.start.dict())
         _, _, geom_dest, _ = geocoding_structured(request.destination.dict())
         # compute great circle distance between airports
