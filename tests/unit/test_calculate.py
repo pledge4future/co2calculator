@@ -265,8 +265,8 @@ def test_commuting(
     """Test co2 calculation for commuting by car"""
 
     # NOTE: This is more of a functional test.
-    # If it's supposed to stay a unit test, we should mock the `calc_c2_...` methods and check if
-    # they're called!
+    # If it's supposed to stay a unit test, we should mock the `calc_c2_...` methods
+    # and check if they're called!
 
     co2e = candidate.calc_co2_commuting(
         transportation_mode=transportation_mode,

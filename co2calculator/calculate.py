@@ -553,7 +553,12 @@ def calc_co2_commuting(
         )
 
     elif transportation_mode == "motorbike":
+<<<<<<< HEAD
         weekly_co2e = calc_co2_motorbike(size=size, distance=weekly_distance)
+=======
+        weekly_co2e, _ = calc_co2_motorbike(size=size, distance=weekly_distance)
+
+>>>>>>> Leave NOTEs
     elif transportation_mode == "bus":
         weekly_co2e = calc_co2_bus(
             size=size,
@@ -569,12 +574,16 @@ def calc_co2_commuting(
         )
 
     elif transportation_mode == "tram":
+        # NOTE: It's recommended to still move such small things to own methods.
+        # (Easier to test and maintain)
         co2e = emission_factor_df[
             (emission_factor_df["name"] == "Strassen-Stadt-U-Bahn")
         ]["co2e"].values[0]
         weekly_co2e = co2e * weekly_distance
 
     elif transportation_mode in ["pedelec", "bicycle"]:
+        # NOTE: It's recommended to still move such small things to own methods.
+        # (Easier to test and maintain)
         co2e = emission_factor_df[
             (emission_factor_df["subcategory"] == transportation_mode)
         ]["co2e"].values[0]
