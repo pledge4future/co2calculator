@@ -246,9 +246,14 @@ def test_electricity():
 
 @pytest.mark.parametrize(
     "transportation_mode,weekly_distance,size,fuel_type,occupancy,passengers,expected",
-    [pytest.param("car", 30, "medium", "gasoline", None, None, 6.93, id="Car commute")],
+    [
+        pytest.param(
+            "car", 30, "medium", "gasoline", None, None, 6.93, id="car commute"
+        ),
+        pytest.param("bicycle", 60, None, None, None, None, 0.54, id="bicycle commute"),
+    ],
 )
-def test_commuting_car(
+def test_commuting(
     transportation_mode: str,
     weekly_distance: float,
     size: str,
@@ -259,7 +264,10 @@ def test_commuting_car(
 ):
     """Test co2 calculation for commuting by car"""
 
-    # Calculate co2 emissions
+    # NOTE: This is more of a functional test.
+    # If it's supposed to stay a unit test, we should mock the `calc_c2_...` methods
+    # and check if they're called!
+
     co2e = candidate.calc_co2_commuting(
         transportation_mode=transportation_mode,
         weekly_distance=weekly_distance,
@@ -268,25 +276,8 @@ def test_commuting_car(
         occupancy=occupancy,
         passengers=passengers,
     )
+
     assert round(co2e, 2) == expected
-
-
-def test_commuting_bike():
-    """Test co2 calculation for commuting by bike"""
-    # Given parameters
-    mode = "bicycle"
-    distance = 60
-    co2e_kg_expected = 0.54
-    # emission factor for bike: 0.009
-    # 0.231 * 30 = 6.93
-
-    # Calculate co2e
-    co2e = candidate.calc_co2_commuting(
-        transportation_mode=mode, weekly_distance=distance
-    )
-
-    # Check if expected result matches calculated result
-    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
 
 
 @pytest.mark.parametrize(

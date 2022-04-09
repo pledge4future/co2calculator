@@ -517,7 +517,7 @@ def range_categories(distance: Kilometer) -> Tuple[str, str]:
 
 def calc_co2_commuting(
     transportation_mode: str,
-    weekly_distance: Kilometer = None,
+    weekly_distance: Kilometer,
     size: str = None,
     fuel_type: str = None,
     occupancy: int = None,
@@ -551,6 +551,7 @@ def calc_co2_commuting(
             fuel_type=fuel_type,
             distance=weekly_distance,
         )
+
     elif transportation_mode == "motorbike":
         weekly_co2e = calc_co2_motorbike(size=size, distance=weekly_distance)
     elif transportation_mode == "bus":
@@ -561,20 +562,28 @@ def calc_co2_commuting(
             vehicle_range="local",
             distance=weekly_distance,
         )
+
     elif transportation_mode == "train":
         weekly_co2e = calc_co2_train(
             fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance
         )
+
     elif transportation_mode == "tram":
+        # NOTE: It's recommended to still move such small things to own methods.
+        # (Easier to test and maintain)
         co2e = emission_factor_df[
             (emission_factor_df["name"] == "Strassen-Stadt-U-Bahn")
         ]["co2e"].values[0]
         weekly_co2e = co2e * weekly_distance
-    elif transportation_mode == "pedelec" or transportation_mode == "bicycle":
+
+    elif transportation_mode in ["pedelec", "bicycle"]:
+        # NOTE: It's recommended to still move such small things to own methods.
+        # (Easier to test and maintain)
         co2e = emission_factor_df[
             (emission_factor_df["subcategory"] == transportation_mode)
         ]["co2e"].values[0]
         weekly_co2e = co2e * weekly_distance
+
     else:
         raise ValueError(
             f"Transportation mode {transportation_mode} not found in database."
