@@ -18,6 +18,11 @@ from openrouteservice.geocode import pelias_search, pelias_structured
 from pydantic import BaseModel, ValidationError
 from thefuzz import fuzz
 from thefuzz import process
+<<<<<<< HEAD
+=======
+from pydantic import BaseModel, BaseSettings, ValidationError
+
+>>>>>>> Start building a Service
 
 from ._types import Kilometer
 
@@ -68,6 +73,7 @@ class InvalidSpatialInput(Exception):
     """Raised when consumer inputs invalid spatial information"""
 
 
+<<<<<<< HEAD
 def haversine(
     lat_start: float, long_start: float, lat_dest: float, long_dest: float
 ) -> Kilometer:
@@ -97,41 +103,89 @@ def haversine(
     )
     c = 2 * np.arcsin(np.sqrt(a))
     r = 6371
+=======
+class Config(BaseSettings):
+    """Configuration for distance service."""
+>>>>>>> Start building a Service
 
-    return c * r
+    ors_api_key: str
+    detour_csv: str = "./data/detour.csv"
 
 
-def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
-    """Function to obtain the coordinates of an airport by the IATA code
+class Service:
+    def __init__(self, cfg: Config) -> None:
 
-    :param iata: IATA airport code
-    :type iata: str
-    :return: name, coordinates and country of the found airport
-    :rtype: Tuple[str, Tuple[float, float], str]
-    """
-    clnt = openrouteservice.Client(key=ORS_API_KEY)
+        self._ors = openrouteservice.Client(key=cfg.ors_api_key)
+        self._detour_data = pd.read_csv(cfg.detour_csv)
 
-    call = pelias_search(clnt, f"{iata} Airport")
+    def geocoding_airport(self, iata: str) -> Tuple[str, Tuple[float, float], str]:
+        """Function to obtain the coordinates of an airport by the IATA code
 
-    for feature in call["features"]:
-        try:
-            if feature["properties"]["addendum"]["osm"]["iata"] == iata:
-                name = feature["properties"]["name"]
-                geom = feature["geometry"]["coordinates"]
-                country = feature["properties"]["country_a"]
-                break
-        except KeyError:
-            # unfortunately, not all osm tags are available with geocoding, so osm entries might not be found and filter
-            # for "aerodrome" tag not possible (could be done with ORS maybe?)
-            if (feature["properties"]["confidence"] == 1) & (
-                feature["properties"]["match_type"] == "exact"
-            ):
-                name = feature["properties"]["name"]
-                geom = feature["geometry"]["coordinates"]
-                country = feature["properties"]["country_a"]
-                break
+        :param iata: IATA airport code
+        :type iata: str
+        :return: name, coordinates and country of the found airport
+        :rtype: Tuple[str, Tuple[float, float], str]
+        """
+        clnt = openrouteservice.Client(key=ORS_API_KEY)
 
-    return name, geom, country
+        call = pelias_search(clnt, f"{iata} Airport")
+        print(call)
+
+        for feature in call["features"]:
+            try:
+                if feature["properties"]["addendum"]["osm"]["iata"] == iata:
+                    name = feature["properties"]["name"]
+                    geom = feature["geometry"]["coordinates"]
+                    country = feature["properties"]["country_a"]
+                    break
+            except KeyError:
+                # unfortunately, not all osm tags are available with geocoding, so osm entries might not be found and filter
+                # for "aerodrome" tag not possible (could be done with ORS maybe?)
+                if (feature["properties"]["confidence"] == 1) & (
+                    feature["properties"]["match_type"] == "exact"
+                ):
+                    name = feature["properties"]["name"]
+                    geom = feature["geometry"]["coordinates"]
+                    country = feature["properties"]["country_a"]
+                    break
+
+        return name, geom, country
+
+    @staticmethod
+    def _haversine(
+        lat_start: float, long_start: float, lat_dest: float, long_dest: float
+    ) -> Kilometer:
+        """Function to compute the distance as the crow flies between given locations
+
+        :param lat_start: latitude of start
+        :param long_start: Longitude of start
+        :param lat_dest: Latitude of destination
+        :param long_dest: Longitude of destination
+        :type lat_start: float
+        :type long_start: float
+        :type lat_dest: float
+        :type long_dest: float
+        :return: Distance in km
+        :rtype: float
+        """
+
+        # TODO: Improve input arguments by using a model-based approach (e.g., `Coordinate`)
+
+        # convert angles from degree to radians
+        lat_start, long_start, lat_dest, long_dest = np.deg2rad(
+            [lat_start, long_start, lat_dest, long_dest]
+        )
+        # compute zeta
+        a = (
+            np.sin((lat_dest - lat_start) / 2) ** 2
+            + np.cos(lat_start)
+            * np.cos(lat_dest)
+            * np.sin((long_dest - long_start) / 2) ** 2
+        )
+        c = 2 * np.arcsin(np.sqrt(a))
+        r = 6371
+
+        return c * r
 
 
 def geocoding(address):

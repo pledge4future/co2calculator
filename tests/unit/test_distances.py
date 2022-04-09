@@ -5,8 +5,6 @@
 import os
 from pathlib import Path
 from co2calculator.distances import (
-    haversine,
-    geocoding_airport,
     is_valid_geocoding_dict,
     geocoding_train_stations,
 )
@@ -14,29 +12,68 @@ from co2calculator.calculate import calc_co2_plane, calc_co2_train
 import math
 import numpy as np
 import pytest
+from pytest_mock import MockerFixture
 from dotenv import load_dotenv
 
-load_dotenv()
-ORS_API_KEY = os.environ.get("ORS_API_KEY")
-script_path = str(Path(__file__).parent.parent)
+from co2calculator.distances import Config, Service
 
 
-def test_haversine():
-    """Test haversine function to calculate distance"""
-    # Given parameters
-    # a: Frankfurt airport (FRA)
-    lat_a = 50.0264
-    long_a = 8.5431
-    # b: Barcelona airport (BCN)
-    lat_b = 41.2971
-    long_b = 2.07846
+@pytest.fixture
+def candidate() -> Service:
+    """A constructed distance service with faked toked"""
 
-    # Calculate distance
-    distance_expected = 1092
-    distance = haversine(lat_a, long_a, lat_b, long_b)
+    cfg = Config(ors_api_key="abcd")
+    return Service(cfg)
 
-    # Check if expected result matches calculated result
-    assert distance == pytest.approx(distance_expected, rel=0.01)
+
+class TestDistanceService:
+    def test_geocoding_airport(self, mocker: MockerFixture, candidate: Service) -> None:
+        """SCENARIO: Caller wants airport coordinates for iata-code
+        TEST: Calls `palias_search` and parses response
+        """
+
+        # Mock the palias search
+        patched_palias_search = mocker.patch("co2calculator.distances.pelias_search")
+        patched_palias_search.return_value = {
+            "features": [
+                {
+                    "properties": {
+                        "addendum": {"osm": {"iata": "FRA"}},
+                        "name": "Flughafen Frankfurt am Main",
+                        "country_a": "DEU",
+                    },
+                    "geometry": {"coordinates": [8.579247, 50.051285]},
+                }
+            ]
+        }
+
+        iata = "FRA"  # Frankfurt Airport, Frankfurt a.M. (Germany)
+        coords = [50.033056, 8.570556]
+
+        # Retrieve coordinates
+        _, res_coords, _ = candidate.geocoding_airport(iata)
+
+        # Check if expected coordinates match retrieved coordinates
+        assert np.allclose(coords[::-1], res_coords, atol=0.03)
+
+    def test__havesine(self, candidate: Service) -> None:
+        """SCENARIO: Caller wants haversine distance between two coordinates
+        TEST: Calculates and returns distance
+        """
+        # Given parameters
+        # a: Frankfurt airport (FRA)
+        lat_a = 50.0264
+        long_a = 8.5431
+        # b: Barcelona airport (BCN)
+        lat_b = 41.2971
+        long_b = 2.07846
+
+        # Calculate distance
+        distance_expected = 1092
+        distance = candidate._haversine(lat_a, long_a, lat_b, long_b)
+
+        # Check if expected result matches calculated result
+        assert distance == pytest.approx(distance_expected, rel=0.01)
 
 
 @pytest.mark.xfail(reason="API Key issues")
@@ -45,14 +82,6 @@ def test_geocoding_airport_FRA():
     if ORS_API_KEY is None:
         pytest.skip("Skipping this test because no file '.env' was found.")
     # Given parameters
-    iata = "FRA"  # Frankfurt Airport, Frankfurt a.M. (Germany)
-    coords = [50.033056, 8.570556]
-
-    # Retrieve coordinates
-    name, res_coords, res_country = geocoding_airport(iata)
-
-    # Check if expected coordinates match retrieved coordinates
-    assert np.allclose(coords[::-1], res_coords, atol=0.03)
 
 
 @pytest.mark.xfail(reason="API Key issues")
@@ -183,29 +212,29 @@ def test_geocoding_train_stations_invalid():
     assert e.type is ValueError
 
 
-@pytest.mark.xfail(reason="API Key issues")
-def test_geocoding_train_stations_outside_europe():
-    """Test geocoding of train stations outside of europe"""
-    if ORS_API_KEY is None:
-        pytest.skip("Skipping this test because no file '.env' was found.")
-    # Given parameters
-    stops = [
-        {"country": "CHN", "address": "385 Meiyuan Rd", "locality": "Shanghai"},
-        {"country": "CHN", "region": "Beijing", "address": "Beijing Station"},
-    ]
-    coords = [[121.450446, 31.251552], [116.42792, 39.902896]]
-    fuel_type = "electric"
-    vehicle_range = "long-distance"
-    emission_factor = 0.032
-    # emission factor for electric long distance trains: 0.032
+# @pytest.mark.xfail(reason="API Key issues")
+# def test_geocoding_train_stations_outside_europe():
+#     """Test geocoding of train stations outside of europe"""
+#     if ORS_API_KEY is None:
+#         pytest.skip("Skipping this test because no file '.env' was found.")
+#     # Given parameters
+#     stops = [
+#         {"country": "CHN", "address": "385 Meiyuan Rd", "locality": "Shanghai"},
+#         {"country": "CHN", "region": "Beijing", "address": "Beijing Station"},
+#     ]
+#     coords = [[121.450446, 31.251552], [116.42792, 39.902896]]
+#     fuel_type = "electric"
+#     vehicle_range = "long-distance"
+#     emission_factor = 0.032
+#     # emission factor for electric long distance trains: 0.032
 
-    distance = haversine(coords[0][1], coords[0][0], coords[1][1], coords[1][0]) * 1.2
-    co2e_kg_expected = distance * emission_factor
+#     distance = haversine(coords[0][1], coords[0][0], coords[1][1], coords[1][0]) * 1.2
+#     co2e_kg_expected = distance * emission_factor
 
-    # Calculate co2e
-    co2e, dist = calc_co2_train(
-        fuel_type=fuel_type, vehicle_range=vehicle_range, stops=stops
-    )
+#     # Calculate co2e
+#     co2e, dist = calc_co2_train(
+#         fuel_type=fuel_type, vehicle_range=vehicle_range, stops=stops
+#     )
 
-    # Check if expected result matches calculated result
-    assert co2e == pytest.approx(co2e_kg_expected, abs=0.1)
+#     # Check if expected result matches calculated result
+#     assert co2e == pytest.approx(co2e_kg_expected, abs=0.1)
