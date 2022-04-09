@@ -553,12 +553,7 @@ def calc_co2_commuting(
         )
 
     elif transportation_mode == "motorbike":
-<<<<<<< HEAD
         weekly_co2e = calc_co2_motorbike(size=size, distance=weekly_distance)
-=======
-        weekly_co2e, _ = calc_co2_motorbike(size=size, distance=weekly_distance)
-
->>>>>>> Leave NOTEs
     elif transportation_mode == "bus":
         weekly_co2e = calc_co2_bus(
             size=size,
