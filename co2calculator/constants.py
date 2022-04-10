@@ -92,3 +92,12 @@ class BusTrainRange(enum.Enum):
 
     LOCAL = "Local"
     LONG_DISTANCE = "Long-distance"
+
+
+class RangeCategory(enum.Enum):
+    """Enum for range categories"""
+
+    VERY_SHORT_HAUL = "very_short_haul"
+    SHORT_HAUL = "short_haul"
+    MEDIUM_HAUL = "medium_haul"
+    LONG_HAUL = "long_haul"

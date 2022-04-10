@@ -9,7 +9,7 @@ from typing import Tuple
 import pandas as pd
 
 from ._types import Kilogram, Kilometer
-from .constants import KWH_TO_TJ
+from .constants import KWH_TO_TJ, RangeCategory
 from .distances import create_distance_request, get_distance
 
 script_path = str(Path(__file__).parent)
@@ -490,26 +490,26 @@ def calc_co2_businesstrip(
     return emissions, distance, range_category, range_description
 
 
-def range_categories(distance: Kilometer) -> Tuple[str, str]:
+def range_categories(distance: Kilometer) -> Tuple[RangeCategory, str]:
     """Function to categorize a trip according to the travelled distance
 
     :param distance: Distance travelled in km
     :type distance: Kilometer
     :return: Range category of the trip [very short haul, short haul, medium haul, long haul]
              Range description (i.e., what range of distances does to category correspond to)
-    :rtype: tuple[str, str]
+    :rtype: tuple[RangeCategory, str]
     """
     if distance <= 500:
-        range_cat = "very short haul"
+        range_cat = RangeCategory.VERY_SHORT_HAUL
         range_description = "below 500 km"
     elif distance <= 1500:
-        range_cat = "short haul"
+        range_cat = RangeCategory.SHORT_HAUL
         range_description = "500 to 1500 km"
     elif distance <= 4000:
-        range_cat = "medium haul"
+        range_cat = RangeCategory.MEDIUM_HAUL
         range_description = "1500 to 4000 km"
     else:
-        range_cat = "long haul"
+        range_cat = RangeCategory.LONG_HAUL
         range_description = "above 4000 km"
 
     return range_cat, range_description
