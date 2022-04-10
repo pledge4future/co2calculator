@@ -8,6 +8,7 @@ import pytest
 from pytest_mock import MockerFixture
 
 import co2calculator.calculate as candidate
+from co2calculator.constants import RangeCategory
 
 
 @pytest.mark.parametrize(
@@ -283,21 +284,39 @@ def test_commuting(
 @pytest.mark.parametrize(
     "distance,expected_category, expected_description",
     [
-        pytest.param(0, "very short haul", "below 500 km", id="Distance: 0 km"),
-        pytest.param(500, "very short haul", "below 500 km", id="Distance: 500 km"),
-        pytest.param(501, "short haul", "500 to 1500 km", id="Distance: 501 km"),
-        pytest.param(1500, "short haul", "500 to 1500 km", id="Distance: 1500 km"),
-        pytest.param(1501, "medium haul", "1500 to 4000 km", id="Distance: 1501 km"),
-        pytest.param(4000, "medium haul", "1500 to 4000 km", id="Distance: 4000 km"),
-        pytest.param(4001, "long haul", "above 4000 km", id="Distance: 4001 km"),
-        pytest.param(42.7, "very short haul", "below 500 km", id="float"),
+        pytest.param(
+            0, RangeCategory.VERY_SHORT_HAUL, "below 500 km", id="Distance: 0 km"
+        ),
+        pytest.param(
+            500, RangeCategory.VERY_SHORT_HAUL, "below 500 km", id="Distance: 500 km"
+        ),
+        pytest.param(
+            501, RangeCategory.SHORT_HAUL, "500 to 1500 km", id="Distance: 501 km"
+        ),
+        pytest.param(
+            1500, RangeCategory.SHORT_HAUL, "500 to 1500 km", id="Distance: 1500 km"
+        ),
+        pytest.param(
+            1501, RangeCategory.MEDIUM_HAUL, "1500 to 4000 km", id="Distance: 1501 km"
+        ),
+        pytest.param(
+            4000, RangeCategory.MEDIUM_HAUL, "1500 to 4000 km", id="Distance: 4000 km"
+        ),
+        pytest.param(
+            4001, RangeCategory.LONG_HAUL, "above 4000 km", id="Distance: 4001 km"
+        ),
+        pytest.param(42.7, RangeCategory.VERY_SHORT_HAUL, "below 500 km", id="float"),
         # NOTE: For the time being signed values are possible
-        pytest.param(-42.7, "very short haul", "below 500 km", id="signed float"),
-        pytest.param(-500, "very short haul", "below 500 km", id="signed int"),
+        pytest.param(
+            -42.7, RangeCategory.VERY_SHORT_HAUL, "below 500 km", id="signed float"
+        ),
+        pytest.param(
+            -500, RangeCategory.VERY_SHORT_HAUL, "below 500 km", id="signed int"
+        ),
     ],
 )
 def test_range_categories(
-    distance: float, expected_category: str, expected_description: str
+    distance: float, expected_category: RangeCategory, expected_description: str
 ) -> None:
     """Test: Categorization of ranges
     Expect: See test table
