@@ -94,7 +94,8 @@ class BusTrainRange(enum.Enum):
     LONG_DISTANCE = "Long-distance"
 
 
-class RangeCategory(enum.Enum):
+@enum.unique
+class RangeCategory(str, enum.Enum):
     """Enum for range categories"""
 
     VERY_SHORT_HAUL = "very_short_haul"
