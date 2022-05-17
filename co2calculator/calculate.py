@@ -9,7 +9,16 @@ from typing import Tuple
 import pandas as pd
 
 from ._types import Kilogram, Kilometer
-from .constants import KWH_TO_TJ, TransportationMode
+from .constants import (
+    KWH_TO_TJ,
+    Size,
+    CarBusFuel,
+    BusTrainRange,
+    FlightClass,
+    FlightRange,
+    FerryClass,
+    ElectricityFuel,
+)
 from .distances import create_distance_request, get_distance
 
 script_path = str(Path(__file__).parent)
@@ -53,10 +62,10 @@ def calc_co2_car(
             f"Number of car passengers was not provided. Using default value: '{passengers}'"
         )
     if size is None:
-        size = "average"
+        size = Size.AVERAGE
         warnings.warn(f"Size of car was not provided. Using default value: '{size}'")
     if fuel_type is None:
-        fuel_type = "average"
+        fuel_type = CarBusFuel.AVERAGE
         warnings.warn(
             f"Car fuel type was not provided. Using default value: '{fuel_type}'"
         )
@@ -89,7 +98,7 @@ def calc_co2_motorbike(distance: Kilometer = None, size: str = None) -> Kilogram
 
     # Set default values
     if size is None:
-        size = "average"
+        size = Size.AVERAGE
         warnings.warn(
             f"Size of motorbike was not provided. Using default value: '{size}'"
         )
@@ -131,14 +140,14 @@ def calc_co2_bus(
 
     # Set default values
     if size is None:
-        size = "average"
+        size = Size.AVERAGE
         warnings.warn(f"Size of bus was not provided. Using default value: '{size}'")
     if fuel_type is None:
-        fuel_type = "diesel"
+        fuel_type = CarBusFuel.DIESEL
         warnings.warn(
             f"Bus fuel type was not provided. Using default value: '{fuel_type}'"
         )
-    elif fuel_type not in ["diesel", "cng", "hydrogen"]:
+    elif fuel_type not in [CarBusFuel.DIESEL, CarBusFuel.CNG, CarBusFuel.HYDROGEN]:
         warnings.warn(
             f"Bus fuel type {fuel_type} not available. Using default value: 'diesel'"
         )
@@ -147,7 +156,7 @@ def calc_co2_bus(
         occupancy = 50
         warnings.warn(f"Occupancy was not provided. Using default value: '{occupancy}'")
     if vehicle_range is None:
-        vehicle_range = "long-distance"
+        vehicle_range = BusTrainRange.LONG_DISTANCE
         warnings.warn(
             f"Intended range of trip was not provided. Using default value: '{vehicle_range}'"
         )
@@ -186,12 +195,12 @@ def calc_co2_train(
 
     # Set default values
     if fuel_type is None:
-        fuel_type = "average"
+        fuel_type = CarBusFuel.AVERAGE
         warnings.warn(
             f"Car fuel type was not provided. Using default value: '{fuel_type}'"
         )
     if vehicle_range is None:
-        vehicle_range = "long-distance"
+        vehicle_range = BusTrainRange.LONG_DISTANCE
         warnings.warn(
             f"Intended range of trip was not provided. Using default value: '{vehicle_range}'"
         )
@@ -225,24 +234,19 @@ def calc_co2_plane(distance: Kilometer, seating_class: str = None) -> Kilogram:
 
     # Set defaults
     if seating_class is None:
-        seating_class = "average"
+        seating_class = FlightClass.AVERAGE
         warnings.warn(
             f"Seating class was not provided. Using default value: '{seating_class}'"
         )
 
     # Retrieve whether distance is below or above 1500 km
     if distance <= 1500:
-        flight_range = "short-haul"
+        flight_range = FlightRange.SHORT_HAUL
     elif distance > 1500:
-        flight_range = "long-haul"
+        flight_range = FlightRange.LONG_HAUL
     # NOTE: Should be checked before geocoding and haversine calculation
-    seating_choices = [
-        "average",
-        "economy_class",
-        "business_class",
-        "premium_economy_class",
-        "first_class",
-    ]
+    seating_choices = [item for item in FlightClass]
+
     if seating_class not in seating_choices:
         raise ValueError(
             f"No emission factor available for the specified seating class '{seating_class}'.\n"
@@ -257,7 +261,7 @@ def calc_co2_plane(distance: Kilometer, seating_class: str = None) -> Kilogram:
             & (emission_factor_df["seating"] == seating_class)
         ]["co2e"].values[0]
     except IndexError:
-        default_seating = "economy_class"
+        default_seating = FlightClass.ECONOMY
         warnings.warn(
             f"Seating class '{seating_class}' not available for {flight_range} flights. Switching to "
             f"'{default_seating}'..."
@@ -287,7 +291,7 @@ def calc_co2_ferry(distance: Kilometer, seating_class: str = None) -> Kilogram:
     transport_mode = TransportationMode.FERRY
 
     if seating_class is None:
-        seating_class = "average"
+        seating_class = FerryClass.AVERAGE
         warnings.warn(
             f"Seating class was not provided. Using default value: '{seating_class}'"
         )
@@ -319,7 +323,7 @@ def calc_co2_electricity(
     """
     # Set defaults
     if fuel_type is None:
-        fuel_type = "german_energy_mix"
+        fuel_type = ElectricityFuel.GERMAN_ENERGY_MIX
         warnings.warn(
             f"No fuel type or energy mix specified. Using default value: '{fuel_type}'"
         )

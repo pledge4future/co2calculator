@@ -7,91 +7,100 @@ import enum
 KWH_TO_TJ = 277777.77777778
 
 
-class HeatingFuel(enum.Enum):
+@enum.unique
+class HeatingFuel(str, enum.Enum):
     """Enum for heating fuel types"""
 
-    HEAT_PUMP_AIR = "Heat pump air"
-    HEAT_PUMP_GROUND = "Heat pump ground"
-    HEAT_PUMP_WATER = "Heat pump water"
-    LIQUID_GAS = "Liquid gas"
-    OIL = "Oil"
-    PELLETS = "Pellets"
-    SOLAR = "Solar"
-    WOODCHIPS = "Woodchips"
-    ELECTRICITY = "Electricity"
-    GAS = "Gas"
-    COAL = "Coal"
-    DISTRICT_HEATING = "District heating"
+    HEAT_PUMP_AIR = "heat_pump_air"
+    HEAT_PUMP_GROUND = "heat_pump_ground"
+    HEAT_PUMP_WATER = "heat_pump_water"
+    LIQUID_GAS = "liquid_gas"
+    OIL = "oil"
+    PELLETS = "pellets"
+    SOLAR = "solar"
+    WOODCHIPS = "woodchips"
+    ELECTRICITY = "electricity"
+    GAS = "gas"
+    COAL = "coal"
+    DISTRICT_HEATING = "district_heating"
 
 
-class ElectricityFuel(enum.Enum):
+@enum.unique
+class ElectricityFuel(str, enum.Enum):
     """Enum for electricity fuel types"""
 
-    GERMAN_ENERGY_MIX = "German energy mix"
-    SOLAR = "Solar"
+    GERMAN_ENERGY_MIX = "german_energy_mix"
+    SOLAR = "solar"
 
 
-class CarBusFuel(enum.Enum):
+@enum.unique
+class CarBusFuel(str, enum.Enum):
     """Enum for bus fuel types"""
 
-    ELECTRIC = "Electric"
-    HYBRID = "Hybrid"
-    PLUGIN_HYBRID = "Plug-in hybrid"
-    CNG = "CNG"
-    GASOLINE = "Gasoline"
-    DIESEL = "Diesel"
-    AVERAGE = "Average"
-    HYDROGEN = "Hydrogen"
+    ELECTRIC = "electric"
+    HYBRID = "hybrid"
+    PLUGIN_HYBRID = "plug-in hybrid"
+    CNG = "cng"
+    GASOLINE = "gasoline"
+    DIESEL = "diesel"
+    AVERAGE = "average"
+    HYDROGEN = "hydrogen"
 
 
-class Size(enum.Enum):
+@enum.unique
+class Size(str, enum.Enum):
     """Enum for car sizes"""
 
-    SMALL = "Small"
-    MEDIUM = "Medium"
-    LARGE = "Large"
-    AVERAGE = "Average"
+    SMALL = "small"
+    MEDIUM = "medium"
+    LARGE = "large"
+    AVERAGE = "average"
 
 
-class TrainFuel(enum.Enum):
+@enum.unique
+class TrainFuel(str, enum.Enum):
     """Enum for train fuel types"""
 
-    ELECTRIC = "Electric"
-    DIESEL = "Diesel"
-    AVERAGE = "Average"
+    ELECTRIC = "electric"
+    DIESEL = "diesel"
+    AVERAGE = "average"
 
 
-class FlightClass(enum.Enum):
+@enum.unique
+class FlightClass(str, enum.Enum):
     """Enum for flight classes"""
 
-    ECONOMY = "Economy class"
-    PREMIUM_ECONOMY = "Premium economy class"
-    BUSINESS = "Business class"
-    FIRST = "First class"
-    AVERAGE = "Average"
+    ECONOMY = "economy_class"
+    PREMIUM_ECONOMY = "premium_economy_class"
+    BUSINESS = "business_class"
+    FIRST = "first_class"
+    AVERAGE = "average"
 
 
-class FerryClass(enum.Enum):
+@enum.unique
+class FerryClass(str, enum.Enum):
     """Enum for ferry classes"""
 
-    FOOT = "Foot passenger"
-    CAR = "Car passenger"
-    AVERAGE = "Average"
+    FOOT = "foot_passenger"
+    CAR = "car_passenger"
+    AVERAGE = "average"
 
 
-class FlightRange(enum.Enum):
+@enum.unique
+class FlightRange(str, enum.Enum):
     """Enum for flight ranges"""
 
-    DOMESTIC = "Domestic"
-    SHORT_HAUL = "Short-haul"
-    LONG_HAUL = "Long-haul"
+    DOMESTIC = "domestic"
+    SHORT_HAUL = "short-haul"
+    LONG_HAUL = "long-haul"
 
 
-class BusTrainRange(enum.Enum):
+@enum.unique
+class BusTrainRange(str, enum.Enum):
     """Enum for bus and train ranges"""
-
-    LOCAL = "Local"
-    LONG_DISTANCE = "Long-distance"
+    
+    LOCAL = "local"
+    LONG_DISTANCE = "long-distance"
 
 
 @enum.unique
