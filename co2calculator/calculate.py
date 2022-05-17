@@ -18,6 +18,7 @@ from .constants import (
     FlightRange,
     FerryClass,
     ElectricityFuel,
+    TransportationMode,
 )
 from .distances import create_distance_request, get_distance
 
