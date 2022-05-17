@@ -3,7 +3,6 @@
 
 """Functions for obtaining the distance between given addresses."""
 
-import enum
 import os
 import warnings
 from pathlib import Path
@@ -20,6 +19,7 @@ from thefuzz import fuzz
 from thefuzz import process
 
 from ._types import Kilometer
+from .constants import TransportationMode
 
 load_dotenv()  # take environment variables from .env.
 
@@ -29,17 +29,6 @@ ORS_API_KEY = os.environ.get("ORS_API_KEY")
 # Set (module) global vars (TODO: Don't do it - make it a class and move it to attributes!)
 script_path = str(Path(__file__).parent)
 detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
-
-
-# Module's models
-@enum.unique
-class TransportationMode(str, enum.Enum):
-    CAR = "car"
-    MOTORBIKE = "motorbike"
-    BUS = "bus"
-    TRAIN = "train"
-    PLANE = "plane"
-    FERRY = "ferry"
 
 
 class StructuredLocation(BaseModel):
@@ -379,6 +368,7 @@ def _apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
             f"""
         No detour coefficient or constant available for this transportation mode.
         Detour parameters are available for the following transportation modes:
+        {detour_df["transportation_mode"]}
         Using detour_coefficient = {detour_coefficient} and detour_constant = {detour_constant}.
         """
         )
