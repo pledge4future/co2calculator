@@ -98,9 +98,19 @@ class FlightRange(str, enum.Enum):
 @enum.unique
 class BusTrainRange(str, enum.Enum):
     """Enum for bus and train ranges"""
-    
+
     LOCAL = "local"
     LONG_DISTANCE = "long-distance"
+
+
+@enum.unique
+class RangeCategory(str, enum.Enum):
+    """Enum for range categories"""
+
+    VERY_SHORT_HAUL = "very_short_haul"
+    SHORT_HAUL = "short_haul"
+    MEDIUM_HAUL = "medium_haul"
+    LONG_HAUL = "long_haul"
 
 
 @enum.unique
