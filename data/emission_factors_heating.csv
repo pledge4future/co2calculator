@@ -1,699 +1,699 @@
-﻿,type,country,region,units,co2e,source,source link,note,
-0,Natural gas,France,continental France,kgCO2e/kWh,0.204,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-1,Natural gas,France,continental France,kgCO2e/GJ,56.8,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-2,Natural gas,France,continental France,kgCO2e/m3,2.2,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-3,Butane,France,continental France,kgCO2e/GJ,75.5,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-4,Butane,France,continental France,kgCO2e/kg,3.44,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-5,Butane,France,continental France,kgCO2e/kWh,0.273,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-6,Butane,France,continental France,kgCO2e/liter,2,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-7,Propane,France,continental France,kgCO2e/GJ,75.4,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-8,Propane,France,continental France,kgCO2e/kg,3.46,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-9,Propane,France,continental France,kgCO2e/kWh,0.272,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-10,Propane,France,continental France,kgCO2e/liter,1.8,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-11,Domestic fuel oil,France,continental France,kgCO2e/GJ,91.6,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-12,Domestic fuel oil,France,continental France,kgCO2e/kg,3.85,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-13,Domestic fuel oil,France,continental France,kgCO2e/kWh,0.325,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-14,Domestic fuel oil,France,continental France,kgCO2e/liter,3.25,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-15,Coal,France,continental France,kgCO2e/kg,3.36,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-16,Coal,France,continental France,kgCO2e/kWh,0.378,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-17,Coal,France,continental France,kgCO2e/GJ,105,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-18,Biogas,France,continental France,kgCO2e/GJ,12.3,Bilans GES,https://bilans-ges.ademe.fr/,valid until 2023,
-19,Wood pellets,France,continental France,kgCO2e/kg,0.111,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-20,Wood pellets,France,continental France,kgCO2e/kWh,0.0304,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-21,Woodchips,France,continental France,kgCO2e/kg,0.0889,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-22,Woodchips,France,continental France,kgCO2e/kWh,0.0244,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2017,
-23,District heating,France,"Rhône-Alpes, Belley",kgCO2e/kWh,0.025,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-24,District heating,France,"Rhône-Alpes, Bourg-en-Bresse",kgCO2e/kWh,0.141,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-25,District heating,France,"Rhône-Alpes, Bourg-en-Bresse",kgCO2e/kWh,0.068,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-26,District heating,France,"Rhône-Alpes, Hauteville Lompnes",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-27,District heating,France,"Rhône-Alpes, Oyonnax",kgCO2e/kWh,0.03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-28,District heating,France,"Rhône-Alpes, Saint-Denis-les-Bourg",kgCO2e/kWh,0.1,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-29,District heating,France,"Rhône-Alpes, Treffort-Cuisiat",kgCO2e/kWh,0.273,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-30,District heating,France,"Champagne-Ardenne, Les Noes-Pres-Troyes",kgCO2e/kWh,0.228,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-31,District heating,France,"Champagne-Ardenne, Piney",kgCO2e/kWh,0.071,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-32,District heating,France,"Champagne-Ardenne, Troyes",kgCO2e/kWh,0.084,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-33,District heating,France,"Languedoc-Roussillon, Carcassonne",kgCO2e/kWh,0.184,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-34,District heating,France,"Languedoc-Roussillon, Narbonne",kgCO2e/kWh,0.093,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-35,District heating,France,"Midi-Pyrénées, Decazeville",kgCO2e/kWh,0.02,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-36,District heating,France,"Midi-Pyrénées, Onet-le-Château",kgCO2e/kWh,0.298,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-37,District heating,France,"Midi-Pyrénées, Rodez",kgCO2e/kWh,0.142,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-38,District heating,France,"Provence-Alpes-Côte d'Azur, Aix-en-Provence",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-39,District heating,France,"Provence-Alpes-Côte d'Azur, Coudoux",kgCO2e/kWh,0.101,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-40,District heating,France,"Provence-Alpes-Côte d'Azur, Istres",kgCO2e/kWh,0.116,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-41,District heating,France,"Provence-Alpes-Côte d'Azur, Marseille",kgCO2e/kWh,0.253,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-42,District heating,France,"Provence-Alpes-Côte d'Azur, Martigues",kgCO2e/kWh,0.049,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-43,District heating,France,"Provence-Alpes-Côte d'Azur, Martigues",kgCO2e/kWh,0.245,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-44,District heating,France,"Provence-Alpes-Côte d'Azur, Salon de Provence",kgCO2e/kWh,0.206,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-45,District heating,France,"Provence-Alpes-Côte d'Azur, Vitrolles",kgCO2e/kWh,0.225,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-46,District heating,France,"Basse-Normandie, Argences",kgCO2e/kWh,0.041,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-47,District heating,France,"Basse-Normandie, Aunay-sur-Odon",kgCO2e/kWh,0.017,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-48,District heating,France,"Basse-Normandie, Bayeux",kgCO2e/kWh,0.081,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-49,District heating,France,"Basse-Normandie, Bayeux",kgCO2e/kWh,0.068,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-50,District heating,France,"Basse-Normandie, Caen",kgCO2e/kWh,0.167,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-51,District heating,France,"Basse-Normandie, Caen",kgCO2e/kWh,0.231,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-52,District heating,France,"Basse-Normandie, Falaise",kgCO2e/kWh,0.02,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-53,District heating,France,"Basse-Normandie, Hérouville-Saint-Clair",kgCO2e/kWh,0.015,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-54,District heating,France,"Basse-Normandie, Lisieux",kgCO2e/kWh,0.046,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-55,District heating,France,"Basse-Normandie, Vire",kgCO2e/kWh,0.027,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-56,District heating,France,"Auvergne, Arpajon-sur-Cere",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-57,District heating,France,"Auvergne, Aurillac",kgCO2e/kWh,2.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-58,District heating,France,"Auvergne, Riom-ès-Montagnes",kgCO2e/kWh,0.033,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-59,District heating,France,"Auvergne, Saint-Flour",kgCO2e/kWh,7.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-60,District heating,France,"Auvergne, Saint-Georges",kgCO2e/kWh,5.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-61,District heating,France,"Poitou-Charente, Champagne-Mouton",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-62,District heating,France,"Poitou-Charente, Montemboeuf",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-63,District heating,France,"Poitou-Charente, Soyaux",kgCO2e/kWh,0.325,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-64,District heating,France,"Poitou-Charente, Aytre",kgCO2e/kWh,8.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-65,District heating,France,"Poitou-Charente, Gémozac",kgCO2e/kWh,0.019,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-66,District heating,France,"Poitou-Charente, Jonzac",kgCO2e/kWh,0.029,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-67,District heating,France,"Poitou-Charente, La Rochelle",kgCO2e/kWh,0.019,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-68,District heating,France,"Poitou-Charente, La Rochelle",kgCO2e/kWh,0.044,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-69,District heating,France,"Poitou-Charente, Pons",kgCO2e/kWh,0.072,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-70,District heating,France,"Centre, Asnières-les-Bourges",kgCO2e/kWh,0.023,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-71,District heating,France,"Centre, Vierzon",kgCO2e/kWh,0.19,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-72,District heating,France,"Limousin, Egletons",kgCO2e/kWh,0.02,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-73,District heating,France,"Limousin, Eyrein",kgCO2e/kWh,0.284,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-74,District heating,France,"Limousin, Saint-Pantaléon-de-Larche",kgCO2e/kWh,4.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-75,District heating,France,"Limousin, Servières-le-Château",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-76,District heating,France,"Limousin, Sornac",kgCO2e/kWh,0.042,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-77,District heating,France,"Picardie, Barenton-Bugny",kgCO2e/kWh,0.013,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-78,District heating,France,"Picardie, Château-Thierry",kgCO2e/kWh,0.026,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-79,District heating,France,"Picardie, Saint-Quentin",kgCO2e/kWh,0.079,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-80,District heating,France,"Picardie, Soissons",kgCO2e/kWh,0.085,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-81,District heating,France,"Picardie, Urcel",kgCO2e/kWh,0.038,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-82,District heating,France,"Corse, Corte",kgCO2e/kWh,0.266,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-83,District heating,France,"Bourgogne, Dijon",kgCO2e/kWh,0.068,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-84,District heating,France,"Bourgogne, Dijon",kgCO2e/kWh,0.161,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-85,District heating,France,"Bourgogne, Dijon",kgCO2e/kWh,0.07,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-86,District heating,France,"Bretagne, Collinée",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-87,District heating,France,"Bretagne, Le Gouray",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-88,District heating,France,"Bretagne, Plessala",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-89,District heating,France,"Bretagne, Ploufragan",kgCO2e/kWh,0.181,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-90,District heating,France,"Bretagne, Pluzunet",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-91,District heating,France,"Limousin, Bourganeuf",kgCO2e/kWh,0.026,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-92,District heating,France,"Limousin, Felletin",kgCO2e/kWh,0.024,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-93,District heating,France,"Limousin, Gentioux-Pigerolles",kgCO2e/kWh,0.192,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-94,District heating,France,"Aquitaine, Coulounieix-chamiers",kgCO2e/kWh,0.091,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-95,District heating,France,"Aquitaine, Douville",kgCO2e/kWh,0.049,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-96,District heating,France,"Aquitaine, Périgueux",kgCO2e/kWh,0.037,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-97,District heating,France,"Aquitaine, Saint-Astier",kgCO2e/kWh,0.069,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-98,District heating,France,"Franche-Comté, Audincourt",kgCO2e/kWh,0.184,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-99,District heating,France,"Franche-Comté, Besançon",kgCO2e/kWh,0.063,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-100,District heating,France,"Franche-Comté, Besançon",kgCO2e/kWh,0.051,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-101,District heating,France,"Franche-Comté, Béthoncourt",kgCO2e/kWh,0.216,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-102,District heating,France,"Franche-Comté, Le Russey",kgCO2e/kWh,0.048,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-103,District heating,France,"Franche-Comté, Montbéliard",kgCO2e/kWh,0.053,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-104,District heating,France,"Franche-Comté, Mouthe",kgCO2e/kWh,0.091,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-105,District heating,France,"Franche-Comté, Pontarlier",kgCO2e/kWh,0.011,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-106,District heating,France,"Rhône-Alpes, Montélimar",kgCO2e/kWh,0.268,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-107,District heating,France,"Rhône-Alpes, Pierrelatte",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-108,District heating,France,"Rhône-Alpes, Romans-sur-Isère",kgCO2e/kWh,0.244,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-109,District heating,France,"Rhône-Alpes, Valence",kgCO2e/kWh,0.288,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-110,District heating,France,"Rhône-Alpes, Vassieux-en-Vercors",kgCO2e/kWh,0.014,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-111,District heating,France,"Haute-Normandie, Canappeville",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-112,District heating,France,"Haute-Normandie, Conches-en-Ouches",kgCO2e/kWh,0.053,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-113,District heating,France,"Haute-Normandie, Evreux",kgCO2e/kWh,0.018,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-114,District heating,France,"Haute-Normandie, Les Andelys",kgCO2e/kWh,0.21,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-115,District heating,France,"Haute-Normandie, Louviers",kgCO2e/kWh,0.077,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-116,District heating,France,"Haute-Normandie, Pont-Audemer",kgCO2e/kWh,0.217,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-117,District heating,France,"Haute-Normandie, Vernon",kgCO2e/kWh,0.191,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-118,District heating,France,"Centre, Chartres",kgCO2e/kWh,0.315,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-119,District heating,France,"Centre, Chateaudun",kgCO2e/kWh,0.036,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-120,District heating,France,"Centre, Manvilliers",kgCO2e/kWh,0.326,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-121,District heating,France,"Centre, Nogent Rotrou",kgCO2e/kWh,0.219,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-122,District heating,France,"Centre, Voves",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-123,District heating,France,"Bretagne, Brest",kgCO2e/kWh,0.02,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-124,District heating,France,"Bretagne, Plougastel-Daoulas",kgCO2e/kWh,0.02,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-125,District heating,France,"Auvergne, Commentry",kgCO2e/kWh,0.081,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-126,District heating,France,"Auvergne, Ebreuil",kgCO2e/kWh,0.03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-127,District heating,France,"Auvergne, Le Mayet-de-Montagne",kgCO2e/kWh,0.011,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-128,District heating,France,"Auvergne, Meaulne",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-129,District heating,France,"Auvergne, Montluçon",kgCO2e/kWh,0.142,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-130,District heating,France,"Auvergne, Moulins",kgCO2e/kWh,0.027,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-131,District heating,France,"Languedoc-Roussillon, Ales",kgCO2e/kWh,0.08,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-132,District heating,France,"Languedoc-Roussillon, Lamelouze",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-133,District heating,France,"Languedoc-Roussillon, Nîmes",kgCO2e/kWh,0.1,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-134,District heating,France,"Midi-Pyrénées, Ayguevives",kgCO2e/kWh,0.077,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-135,District heating,France,"Midi-Pyrénées, Balma",kgCO2e/kWh,0.083,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-136,District heating,France,"Midi-Pyrénées, Blagnac",kgCO2e/kWh,0.122,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-137,District heating,France,"Midi-Pyrénées, Toulouse",kgCO2e/kWh,0.017,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-138,District heating,France,"Midi-Pyrénées, Toulouse",kgCO2e/kWh,0.324,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-139,District heating,France,"Midi-Pyrénées, Toulouse",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-140,District heating,France,"Midi-Pyrénées, Toulouse",kgCO2e/kWh,0.2,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-141,District heating,France,"Aquitaine, Bègles",kgCO2e/kWh,0.11,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-142,District heating,France,"Aquitaine, Bordeaux",kgCO2e/kWh,0.029,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-143,District heating,France,"Aquitaine, Bordeaux",kgCO2e/kWh,0.285,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-144,District heating,France,"Aquitaine, Bordeaux",kgCO2e/kWh,0.185,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-145,District heating,France,"Aquitaine, Bordeaux",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-146,District heating,France,"Aquitaine, Cenon",kgCO2e/kWh,0.048,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-147,District heating,France,"Aquitaine, Gironde-sur-Dropt",kgCO2e/kWh,0.06,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-148,District heating,France,"Aquitaine, La Réole",kgCO2e/kWh,5.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-149,District heating,France,"Aquitaine, Le Barp",kgCO2e/kWh,0.228,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-150,District heating,France,"Aquitaine, Lesparre-Médoc",kgCO2e/kWh,0.056,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-151,District heating,France,"Aquitaine, Lormont",kgCO2e/kWh,0.055,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-152,District heating,France,"Aquitaine, Mérignac",kgCO2e/kWh,0.208,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-153,District heating,France,"Aquitaine, Pellegrue",kgCO2e/kWh,0.031,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-154,District heating,France,"Aquitaine, Saint-Pierre-d’Aurillac",kgCO2e/kWh,0.021,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-155,District heating,France,"Languedoc-Roussillon, Juvignac",kgCO2e/kWh,0.079,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-156,District heating,France,"Languedoc-Roussillon, Montpellier",kgCO2e/kWh,0.031,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-157,District heating,France,"Languedoc-Roussillon, Montpellier",kgCO2e/kWh,0.086,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-158,District heating,France,"Bretagne, Combourg",kgCO2e/kWh,0.054,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-159,District heating,France,"Bretagne, Janzé",kgCO2e/kWh,0.02,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-160,District heating,France,"Bretagne, Rennes",kgCO2e/kWh,0.196,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-161,District heating,France,"Bretagne, Rennes",kgCO2e/kWh,0.093,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-162,District heating,France,"Bretagne, Rennes",kgCO2e/kWh,0.021,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-163,District heating,France,"Bretagne, Rennes",kgCO2e/kWh,1.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-164,District heating,France,"Bretagne, Rennes",kgCO2e/kWh,0.215,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-165,District heating,France,"Bretagne, Vezin le Coquet",kgCO2e/kWh,0.035,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-166,District heating,France,"Bretagne, Vitré",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-167,District heating,France,"Centre, Joué-les-Tours",kgCO2e/kWh,0.22,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-168,District heating,France,"Centre, La Riche",kgCO2e/kWh,0.238,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-169,District heating,France,"Centre, Saint-Benoît-la-Forêt",kgCO2e/kWh,5.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-170,District heating,France,"Centre, Saint-Pierre-des-Corps",kgCO2e/kWh,0.232,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-171,District heating,France,"Centre, Tours",kgCO2e/kWh,0.192,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-172,District heating,France,"Centre, Tours",kgCO2e/kWh,0.071,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-173,District heating,France,"Rhône-Alpes, Allevard",kgCO2e/kWh,0.02,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-174,District heating,France,"Rhône-Alpes, Bourgoin Jailleu",kgCO2e/kWh,0.034,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-175,District heating,France,"Rhône-Alpes, Coublevie",kgCO2e/kWh,0.056,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-176,District heating,France,"Rhône-Alpes, Grenoble",kgCO2e/kWh,0.141,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-177,District heating,France,"Rhône-Alpes, Lans-en-Vercors",kgCO2e/kWh,0.013,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-178,District heating,France,"Rhône-Alpes, Mens",kgCO2e/kWh,0.066,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-179,District heating,France,"Rhône-Alpes, Monestier-de-Clermont",kgCO2e/kWh,0.024,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-180,District heating,France,"Rhône-Alpes, Pontcharra",kgCO2e/kWh,0.061,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-181,District heating,France,"Rhône-Alpes, Saint-Marcellin",kgCO2e/kWh,0.027,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-182,District heating,France,"Rhône-Alpes, Villars-de-Lans",kgCO2e/kWh,0.023,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-183,District heating,France,"Rhône-Alpes, Vinay",kgCO2e/kWh,0.048,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-184,District heating,France,"Rhône-Alpes, Voreppe",kgCO2e/kWh,0.042,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-185,District heating,France,"Franche-Comté, Arinthod",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-186,District heating,France,"Franche-Comté, Avignon-Les-Saint-Claude",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-187,District heating,France,"Franche-Comté, Champvans",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-188,District heating,France,"Franche-Comté, Dole",kgCO2e/kWh,0.109,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-189,District heating,France,"Franche-Comté, Hauts de Bienne",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-190,District heating,France,"Franche-Comté, Lons-le-Saunier",kgCO2e/kWh,0.082,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-191,District heating,France,"Franche-Comté, Moirans-en-Montagne",kgCO2e/kWh,0.118,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-192,District heating,France,"Provence-Alpes-Côte d'Azur, Allos",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-193,District heating,France,"Provence-Alpes-Côte d'Azur, Barcelonnette",kgCO2e/kWh,0.048,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-194,District heating,France,"Provence-Alpes-Côte d'Azur, Forcalquier",kgCO2e/kWh,9.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-195,District heating,France,"Provence-Alpes-Côte d'Azur, Manosque",kgCO2e/kWh,0.048,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-196,District heating,France,"Aquitaine, Mont-de-Marsan",kgCO2e/kWh,0.018,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-197,District heating,France,"Aquitaine, Mont-de-Marsan",kgCO2e/kWh,0.095,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-198,District heating,France,"Centre, Blois",kgCO2e/kWh,0.022,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-199,District heating,France,"Centre, Mondoubleau",kgCO2e/kWh,0.116,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-200,District heating,France,"Centre, Vineuil",kgCO2e/kWh,0.056,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-201,District heating,France,"Rhône-Alpes, Andrézieux-Bouthéon",kgCO2e/kWh,0.077,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-202,District heating,France,"Rhône-Alpes, Colombier",kgCO2e/kWh,0.032,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-203,District heating,France,"Rhône-Alpes, Firminy",kgCO2e/kWh,0.116,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-204,District heating,France,"Rhône-Alpes, Jonzieux",kgCO2e/kWh,0.075,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-205,District heating,France,"Rhône-Alpes, La Terrasse-sur-Dorlay",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-206,District heating,France,"Rhône-Alpes, Le Bessat",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-207,District heating,France,"Rhône-Alpes, Marlhes",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-208,District heating,France,"Rhône-Alpes, Montrond-les-Bains",kgCO2e/kWh,0.066,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-209,District heating,France,"Rhône-Alpes, Neulise",kgCO2e/kWh,0.017,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-210,District heating,France,"Rhône-Alpes, Pelussin",kgCO2e/kWh,0.071,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-211,District heating,France,"Rhône-Alpes, Pelussin",kgCO2e/kWh,0.046,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-212,District heating,France,"Rhône-Alpes, Pelussin",kgCO2e/kWh,0.025,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-213,District heating,France,"Rhône-Alpes, Planfoy",kgCO2e/kWh,0.014,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-214,District heating,France,"Rhône-Alpes, Roanne",kgCO2e/kWh,0.072,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-215,District heating,France,"Rhône-Alpes, Roanne",kgCO2e/kWh,0.088,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-216,District heating,France,"Rhône-Alpes, Roanne",kgCO2e/kWh,0.233,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-217,District heating,France,"Rhône-Alpes, Roche",kgCO2e/kWh,1.00E-02,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-218,District heating,France,"Rhône-Alpes, Roisey",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-219,District heating,France,"Rhône-Alpes, Saint Etienne",kgCO2e/kWh,0.081,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-220,District heating,France,"Rhône-Alpes, Saint-Bonnet-le-Château",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Bonnet-le-Courreau",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Chamond",kgCO2e/kWh,0.049,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Christo-en-Jarez",kgCO2e/kWh,0.152,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Cyr-de-Favières",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Didier-sur-Rochefort",kgCO2e/kWh,5.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Étienne",kgCO2e/kWh,0.275,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Étienne",kgCO2e/kWh,0.196,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Étienne",kgCO2e/kWh,0.055,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Étienne",kgCO2e/kWh,0.227,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Haon-le-Châtel",kgCO2e/kWh,0.025,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Joseph",kgCO2e/kWh,0.165,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Martin-la-Sauveté",kgCO2e/kWh,0.091,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Maurice-en-Gourgois",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Régis-du-Coin",kgCO2e/kWh,0.013,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Symphorien-de-Lay",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Usson-en-Forez",kgCO2e/kWh,0.019,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Dunières",kgCO2e/kWh,0.128,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Dunières",kgCO2e/kWh,0.128,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Langeac",kgCO2e/kWh,0.192,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Le Puy-en-Velay",kgCO2e/kWh,0.021,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Mazet-Saint-Voy",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Pradelles",kgCO2e/kWh,0.028,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Saint-Bonnet-Le-Froid",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Tence",kgCO2e/kWh,0.012,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Yssingeaux",kgCO2e/kWh,0.044,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Châteaubriant",kgCO2e/kWh,0.078,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Nantes",kgCO2e/kWh,0.042,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Nantes",kgCO2e/kWh,0.074,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Nantes-Saint-Herblain",kgCO2e/kWh,0.089,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Rezé",kgCO2e/kWh,0.162,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Saint-Jean-de-Boiseau",kgCO2e/kWh,0.077,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Saint-Julien-de-Concelles",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Sainte-Luce-sur-Loire",kgCO2e/kWh,0.173,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Centre, Amilly",kgCO2e/kWh,0.042,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Centre, Fleury-les-Aubrais",kgCO2e/kWh,0.071,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Centre, Montargis",kgCO2e/kWh,0.075,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Centre, Orléans",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Centre, Orléans",kgCO2e/kWh,0.081,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Centre, Pithiviers",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Biars-sur-Cere",kgCO2e/kWh,6.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Cahors",kgCO2e/kWh,0.065,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Caillac",kgCO2e/kWh,7.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Cajarc",kgCO2e/kWh,6.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Catus",kgCO2e/kWh,0.028,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Figeac",kgCO2e/kWh,6.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Lacapelle-Marival",kgCO2e/kWh,0.014,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Les-Quatre-Routes-du-Lot",kgCO2e/kWh,3.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Livernon",kgCO2e/kWh,0.025,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Nuzejouls",kgCO2e/kWh,0.034,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Saint-Germain-du-Bel-Air",kgCO2e/kWh,0.012,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Sousceyrac",kgCO2e/kWh,0.026,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Thégra",kgCO2e/kWh,8.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Aquitaine, Le Passage",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Languedoc-Roussillon, Mende",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Languedoc-Roussillon, Saint-Chely-d’Apcher",kgCO2e/kWh,0.023,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Andrezé",kgCO2e/kWh,0.253,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Angers",kgCO2e/kWh,0.052,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Angers",kgCO2e/kWh,0.084,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Angers",kgCO2e/kWh,0.012,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Angers",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Angers",kgCO2e/kWh,0.202,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Ecouflant",kgCO2e/kWh,0.071,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Saumur",kgCO2e/kWh,0.052,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Provence-Alpes-Côte d'Azur, Embrun",kgCO2e/kWh,0.011,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Provence-Alpes-Côte d'Azur, Embrun",kgCO2e/kWh,5.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Provence-Alpes-Côte d'Azur, Tallard",kgCO2e/kWh,0.242,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Basse-Normandie, Cherbourg-Octeville",kgCO2e/kWh,0.151,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Basse-Normandie, Cherbourg-Octeville",kgCO2e/kWh,0.019,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Basse-Normandie, Le Teilleul",kgCO2e/kWh,0.051,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Epernay",kgCO2e/kWh,0.277,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Reims",kgCO2e/kWh,0.115,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Reims",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Reims",kgCO2e/kWh,0.239,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Vitry-le-François",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Bourmont",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Chaumont",kgCO2e/kWh,0.34,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Chaumont",kgCO2e/kWh,0.03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Longeau-Percey",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Saint-Dizier",kgCO2e/kWh,0.111,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Saint-Dizier",kgCO2e/kWh,0.297,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Wassy",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Laval",kgCO2e/kWh,0.098,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Saint-Hilaire-du-Maine",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Barbonville",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Ecrouves",kgCO2e/kWh,0.074,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Nancy",kgCO2e/kWh,0.091,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Nancy",kgCO2e/kWh,0.084,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Nancy",kgCO2e/kWh,0.08,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Vandoeuvre-les-Nancy",kgCO2e/kWh,0.033,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Vandoeuvre-les-Nancy",kgCO2e/kWh,0.108,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Bar-le-Duc",kgCO2e/kWh,0.274,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Ligny-en-Barrois",kgCO2e/kWh,0.074,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Verdun",kgCO2e/kWh,0.212,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bretagne, Auray",kgCO2e/kWh,0.08,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bretagne, Hennebont",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bretagne, Lanester",kgCO2e/kWh,0.044,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bretagne, Locminé",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, -Behren-lès-Forbach",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Creutzwald",kgCO2e/kWh,0.242,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Farébersviller",kgCO2e/kWh,0.097,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Freyming-Merlebach",kgCO2e/kWh,0.153,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Metz",kgCO2e/kWh,0.085,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Saint-Avold",kgCO2e/kWh,0.228,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Saint-Avold",kgCO2e/kWh,0.211,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Saint-Avold",kgCO2e/kWh,0.195,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Saint-Avold",kgCO2e/kWh,0.239,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Sarreguemines",kgCO2e/kWh,0.248,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Stiring-Wendel",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Yutz",kgCO2e/kWh,0.068,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Arleuf",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Bazolles",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Billy-sur-Oisy",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Brassy",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Château-Chinon (Ville)",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Corancy",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Corbigny",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Decize",kgCO2e/kWh,0.126,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Lormes",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Montigny-en-Morvan",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Nevers",kgCO2e/kWh,0.019,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Ouroux-en-Morvan",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Planchez",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Saint-Brisson",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Saint-Saulge",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Saint-Verain",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Varzy",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Anzin",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Douchy-les-Mines",kgCO2e/kWh,0.028,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Dunkerque",kgCO2e/kWh,0.11,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Hazebrouck",kgCO2e/kWh,0.086,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Lambersart",kgCO2e/kWh,0.102,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Lille",kgCO2e/kWh,0.09,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Lille",kgCO2e/kWh,0.26,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Maubeuge",kgCO2e/kWh,0.215,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Mons-en-Barœul",kgCO2e/kWh,0.151,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Roubaix",kgCO2e/kWh,0.092,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Sains-du-Nord",kgCO2e/kWh,0.046,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Sin-le-Noble",kgCO2e/kWh,0.108,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Valenciennes",kgCO2e/kWh,0.24,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Villeneuve-d’Ascq",kgCO2e/kWh,0.206,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Villeneuve-d’Ascq",kgCO2e/kWh,0.231,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Wattignies",kgCO2e/kWh,0.178,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Wattrelos",kgCO2e/kWh,0.24,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Provence-Alpes-Côte d'Azur, Cannes",kgCO2e/kWh,0.129,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Provence-Alpes-Côte d'Azur, Levens",kgCO2e/kWh,0.07,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Provence-Alpes-Côte d'Azur, Nice",kgCO2e/kWh,0.183,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Provence-Alpes-Côte d'Azur, Nice",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Picardie, Beauvais",kgCO2e/kWh,0.021,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Picardie, Breteuil-sur-Noye",kgCO2e/kWh,7.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Picardie, Compiègne",kgCO2e/kWh,0.229,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Picardie, Creil",kgCO2e/kWh,0.123,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Picardie, Montataire",kgCO2e/kWh,0.168,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Picardie, Nogent-sur-Oise",kgCO2e/kWh,0.082,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Basse-Normandie, Alençon",kgCO2e/kWh,0.057,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Basse-Normandie, Argentan",kgCO2e/kWh,0.03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Basse-Normandie, Flers",kgCO2e/kWh,0.06,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Basse-Normandie, La Ferté-Macé",kgCO2e/kWh,8.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Basse-Normandie, L’Aigle",kgCO2e/kWh,0.036,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Achicourt",kgCO2e/kWh,0.079,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Arques",kgCO2e/kWh,0.063,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Arras",kgCO2e/kWh,0.227,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Avion",kgCO2e/kWh,0.201,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Béthune",kgCO2e/kWh,0.214,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Béthune",kgCO2e/kWh,0.237,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Boulogne-sur-Mer",kgCO2e/kWh,0.17,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Calais",kgCO2e/kWh,0.142,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Lens",kgCO2e/kWh,0.028,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Liévin",kgCO2e/kWh,0.246,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Outreau",kgCO2e/kWh,0.082,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Nord-Pas-De-Calais, Outreau",kgCO2e/kWh,0.189,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Ambert",kgCO2e/kWh,0.256,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Ardes",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Beaumont",kgCO2e/kWh,0.217,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Clermont-Ferrand",kgCO2e/kWh,0.019,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Clermont-Ferrand",kgCO2e/kWh,0.193,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Clermont-Ferrand",kgCO2e/kWh,0.077,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Pontaumur",kgCO2e/kWh,0.08,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Riom",kgCO2e/kWh,0.037,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Rochefort-Montagne",kgCO2e/kWh,0.046,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Royat",kgCO2e/kWh,0.228,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Auvergne, Saint-Germain-l’Herm",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Aquitaine, Pau",kgCO2e/kWh,0.029,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Vic-en-Bigorre",kgCO2e/kWh,0.05,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Languedoc-Roussillon, Osseja",kgCO2e/kWh,0.217,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Allenwiller",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Haguenau",kgCO2e/kWh,0.063,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Haguenau",kgCO2e/kWh,0.112,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Lingolsheim",kgCO2e/kWh,0.107,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Morsbronn-les-Bains",kgCO2e/kWh,0.091,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Niederbronn-les-Bains",kgCO2e/kWh,0.066,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Ostwald",kgCO2e/kWh,0.235,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Rittershoffen",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Saales",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Schiltigheim",kgCO2e/kWh,0.11,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Sélestat",kgCO2e/kWh,0.111,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.076,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.061,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.239,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.239,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.279,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.225,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.07,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.069,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Cernay",kgCO2e/kWh,0.076,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Colmar",kgCO2e/kWh,0.07,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Didenheim",kgCO2e/kWh,0.101,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Feldbach",kgCO2e/kWh,0.056,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Freisen",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Illzach",kgCO2e/kWh,0.062,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Lapoutroie",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Mulhouse",kgCO2e/kWh,0.185,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Rixheim",kgCO2e/kWh,0.063,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Saint-Louis",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Sainte-Marie-aux-Mines",kgCO2e/kWh,0.075,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Alsace, Thann",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Bron",kgCO2e/kWh,0.202,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Champagne-au-Mont-d’Or",kgCO2e/kWh,0.073,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Ecully",kgCO2e/kWh,0.207,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Givors",kgCO2e/kWh,0.253,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Gleize",kgCO2e/kWh,0.087,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, La Tour-de-Salvagny",kgCO2e/kWh,0.044,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Lamure-sur-Azergues",kgCO2e/kWh,0.256,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Lyon",kgCO2e/kWh,0.202,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Lyon",kgCO2e/kWh,0.384,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Lyon",kgCO2e/kWh,0.101,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Lyon",kgCO2e/kWh,0.193,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Oullins",kgCO2e/kWh,0.206,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Rillieux-la-Pape",kgCO2e/kWh,0.028,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Rillieux-la-Pape",kgCO2e/kWh,0.226,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Rillieux-la-Pape",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Sathonay-Camp",kgCO2e/kWh,0.064,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Vaulx-en-Velin",kgCO2e/kWh,0.079,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Vénissieux",kgCO2e/kWh,0.121,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Villefranche-sur-Saone",kgCO2e/kWh,3.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Villeurbanne",kgCO2e/kWh,0.249,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Villeurbanne",kgCO2e/kWh,0.183,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Yzeron",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Yzeron",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Aubenas",kgCO2e/kWh,0.023,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Banne",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Burzet",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Le Cheylard",kgCO2e/kWh,0.025,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Montpezat-Sous-Bauzon",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Valgorge",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Franche-Comté, Breurey-les-Faverney",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Franche-Comté, Champey",kgCO2e/kWh,0.192,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Franche-Comté, Dampierre-sur-Linotte",kgCO2e/kWh,0.148,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Franche-Comté, Gray",kgCO2e/kWh,0.045,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Franche-Comté, Gy",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Franche-Comté, Hericourt",kgCO2e/kWh,0.058,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Franche-Comté, Marnay",kgCO2e/kWh,1.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Franche-Comté, Plancher-Bas",kgCO2e/kWh,0.062,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Franche-Comté, Saulnot",kgCO2e/kWh,1.00E-02,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Franche-Comté, Scey-sur-Saône-et-Saint-Albin",kgCO2e/kWh,0.086,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Anost",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Autun",kgCO2e/kWh,0.071,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Chalon-sur-Saône",kgCO2e/kWh,0.103,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Mâcon",kgCO2e/kWh,0.301,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Montceau-les-Mines",kgCO2e/kWh,0.127,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Tramayes",kgCO2e/kWh,0.016,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Coulaine",kgCO2e/kWh,0.169,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Le Mans",kgCO2e/kWh,0.228,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Le Mans",kgCO2e/kWh,0.312,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Le Mans-Allonnes",kgCO2e/kWh,0.027,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Beaufort",kgCO2e/kWh,0.058,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Bourg-Saint-Maurice",kgCO2e/kWh,0.338,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Chambéry",kgCO2e/kWh,0.103,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Gilly-sur-Isère",kgCO2e/kWh,0.134,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, La Bauche",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Macôt-La-Plagne",kgCO2e/kWh,0.059,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Notre-Dame-des-Millières",kgCO2e/kWh,0.039,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Etienne-de-Cuines",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint-Jean-d’Arvey",kgCO2e/kWh,0.199,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Yenne",kgCO2e/kWh,0.014,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Annecy",kgCO2e/kWh,0.023,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Annemasse",kgCO2e/kWh,0.051,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Arracles les Carroy",kgCO2e/kWh,0.205,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Clarafond-Arcine",kgCO2e/kWh,0.045,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Cluses",kgCO2e/kWh,0.27,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Faverges",kgCO2e/kWh,9.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Morzine",kgCO2e/kWh,0.086,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Scionzier",kgCO2e/kWh,0.226,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Seynod",kgCO2e/kWh,0.048,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Thonon-les-Bains",kgCO2e/kWh,0.222,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Thonon-les-Bains",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Vallorcine",kgCO2e/kWh,1.00E-02,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Paris",kgCO2e/kWh,0.172,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Paris",kgCO2e/kWh,0.202,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Canteleu",kgCO2e/kWh,0.105,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Dieppe",kgCO2e/kWh,0.203,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Gonfreville-l’Orcher",kgCO2e/kWh,0.013,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Le Grand-Quevilly",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Le Havre",kgCO2e/kWh,0.244,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Le Havre",kgCO2e/kWh,0.109,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Le Havre",kgCO2e/kWh,0.255,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Le Petit-Quevilly",kgCO2e/kWh,0.051,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Maromme",kgCO2e/kWh,0.021,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Mont-Saint-Aignan",kgCO2e/kWh,0.178,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Neufchatel-en-Bray",kgCO2e/kWh,0.032,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Notre-Dame-de-Gravenchon",kgCO2e/kWh,0.025,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Rouen",kgCO2e/kWh,0.035,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Rouen",kgCO2e/kWh,0.19,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Rouen",kgCO2e/kWh,0.368,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Saint-Etienne-du-Rouvray",kgCO2e/kWh,0.018,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Haute-Normandie, Sandouville",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Avon",kgCO2e/kWh,0.316,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Bailly Romainvilliers",kgCO2e/kWh,0.035,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Chelles",kgCO2e/kWh,0.105,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Coulommiers",kgCO2e/kWh,5.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Dammarie-les-Lys",kgCO2e/kWh,0.246,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Le Mée-sur-Seine",kgCO2e/kWh,0.063,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Meaux",kgCO2e/kWh,0.108,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Meaux",kgCO2e/kWh,0.103,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Melun",kgCO2e/kWh,0.033,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Montereau-Fault-Yonne",kgCO2e/kWh,0.015,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Nemours",kgCO2e/kWh,0.094,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Torcy",kgCO2e/kWh,0.017,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Vaux-le-Pénil",kgCO2e/kWh,0.043,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Achères",kgCO2e/kWh,0.104,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Carrières-sur-Seine",kgCO2e/kWh,7.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Le Chesnay",kgCO2e/kWh,0.212,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Les Mureaux",kgCO2e/kWh,0.076,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Mantes-la-Jolie",kgCO2e/kWh,0.104,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Plaisir",kgCO2e/kWh,0.031,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Saint-Germain-en-Laye",kgCO2e/kWh,0.144,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Vélizy-Villacoublay",kgCO2e/kWh,0.221,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Versailles",kgCO2e/kWh,0.227,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Poitou-Charente, Bressuire",kgCO2e/kWh,0.15,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Poitou-Charente, Lezay",kgCO2e/kWh,0.029,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Poitou-Charente, L’Absie",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Poitou-Charente, Niort",kgCO2e/kWh,0.017,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Poitou-Charente, Niort",kgCO2e/kWh,0.327,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Poitou-Charente, Romans",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Charleville-Mézières",kgCO2e/kWh,0.225,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Charleville-Mézières",kgCO2e/kWh,0.075,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Machault",kgCO2e/kWh,0.273,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Rocroi",kgCO2e/kWh,0.094,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Champagne-Ardenne, Sedan",kgCO2e/kWh,0.114,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Picardie, Abbeville",kgCO2e/kWh,0.095,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Picardie, Amiens",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Picardie, Amiens",kgCO2e/kWh,0.213,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Picardie, Amiens",kgCO2e/kWh,0.234,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Picardie, Montdidier",kgCO2e/kWh,0.099,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Alban",kgCO2e/kWh,8.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Carmaux",kgCO2e/kWh,0.299,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Castres",kgCO2e/kWh,0.015,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Gaillac",kgCO2e/kWh,0.053,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Graulhet",kgCO2e/kWh,0.022,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Mazamet",kgCO2e/kWh,0.077,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Montauban",kgCO2e/kWh,0.02,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Provence-Alpes-Côte d'Azur, La-Seyne-sur-Mer",kgCO2e/kWh,0.011,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Provence-Alpes-Côte d'Azur, Toulon",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Provence-Alpes-Côte d'Azur, Avignon",kgCO2e/kWh,0.216,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, La-Roche-sur-Yon",kgCO2e/kWh,0.314,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Les Herbiers",kgCO2e/kWh,0.06,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Pays-de-la-Loire, Saint-Pierre-du-Chemin",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Poitou-Charente, Civaux",kgCO2e/kWh,0.078,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Poitou-Charente, Poitiers",kgCO2e/kWh,0.073,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Limousin, Limoges",kgCO2e/kWh,0.19,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Limousin, Limoges",kgCO2e/kWh,5.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Limousin, Limoges",kgCO2e/kWh,0.052,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Epinal",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Frémifontaine",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Fresse-sur-Moselle",kgCO2e/kWh,0.016,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, La Bresse",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, La Bresse",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Monthureux-sur-Saône",kgCO2e/kWh,0.075,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Saint-Dié-des-Vosges",kgCO2e/kWh,0.046,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Senones",kgCO2e/kWh,0.192,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Ventron",kgCO2e/kWh,0.035,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Vittel",kgCO2e/kWh,0.109,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Auxerre",kgCO2e/kWh,0.119,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Quarre-les-Tombes",kgCO2e/kWh,0.211,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Sens",kgCO2e/kWh,0.268,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Bourgogne, Sens",kgCO2e/kWh,0.024,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Franche-Comté, Belfort",kgCO2e/kWh,0.233,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Franche-Comté, Delle",kgCO2e/kWh,0.106,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Brétigny-sur-orge",kgCO2e/kWh,0.088,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Bruyères-le-Chatel",kgCO2e/kWh,0.219,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Dourdan",kgCO2e/kWh,0.246,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Epinay-sous-Sénart",kgCO2e/kWh,0.094,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Evry",kgCO2e/kWh,0.193,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Grigny",kgCO2e/kWh,0.197,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Grigny",kgCO2e/kWh,0.191,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Les Ulis",kgCO2e/kWh,0.073,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Massy",kgCO2e/kWh,0.163,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Ris-Orangis",kgCO2e/kWh,0.101,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Saint-Michel-Sur-Orge",kgCO2e/kWh,0.234,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Sainte-Geneviève-des-Bois",kgCO2e/kWh,0.219,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Vigneux-sur-Seine",kgCO2e/kWh,0.164,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Villejust",kgCO2e/kWh,0,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Viry-Châtillon",kgCO2e/kWh,0.226,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Bagneux",kgCO2e/kWh,0.19,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Boulogne-Billancourt",kgCO2e/kWh,0.13,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Châtillon-Sous-Bagneux",kgCO2e/kWh,0.282,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Chaville",kgCO2e/kWh,0.255,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Clichy",kgCO2e/kWh,0.233,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Colombes",kgCO2e/kWh,0.116,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Courbevoie",kgCO2e/kWh,0.246,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Courbevoie",kgCO2e/kWh,0.192,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Gennevilliers",kgCO2e/kWh,0.221,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Levallois-Perret",kgCO2e/kWh,0.197,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Levallois-Perret",kgCO2e/kWh,0.347,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Meudon la Forêt",kgCO2e/kWh,0.204,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Nanterre",kgCO2e/kWh,0.062,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Nanterre",kgCO2e/kWh,0.096,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Puteaux",kgCO2e/kWh,0.236,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Suresnes",kgCO2e/kWh,0.242,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Villeneuve-la-Garenne",kgCO2e/kWh,0.21,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Aulnay-sous-bois",kgCO2e/kWh,0.267,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Aulnay-sous-Bois",kgCO2e/kWh,0.193,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Bagnolet",kgCO2e/kWh,0.182,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Bobigny",kgCO2e/kWh,0.221,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Bondy",kgCO2e/kWh,0.13,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Clichy-sous-Bois",kgCO2e/kWh,0.193,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, La Courneuve",kgCO2e/kWh,0.211,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, La Courneuve",kgCO2e/kWh,0.163,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Le Blanc-Mesnil",kgCO2e/kWh,0.218,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Le Bourget",kgCO2e/kWh,0.226,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Neuilly-sur-Marne",kgCO2e/kWh,0.065,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Saint-Denis",kgCO2e/kWh,0.233,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Saint-Denis",kgCO2e/kWh,0.183,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Saint-Ouen",kgCO2e/kWh,0.061,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Sevran",kgCO2e/kWh,0.074,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Sevran",kgCO2e/kWh,0.231,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Tremblay-en-France",kgCO2e/kWh,0.08,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Villepinte",kgCO2e/kWh,0.054,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Alfortville",kgCO2e/kWh,0.048,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Arcueil",kgCO2e/kWh,0.107,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Bonneuil-sur-Marne",kgCO2e/kWh,0.052,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Cachan",kgCO2e/kWh,0.151,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Champigny-sur-Marne",kgCO2e/kWh,0.066,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Chevilly-Larue",kgCO2e/kWh,0.093,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Créteil",kgCO2e/kWh,0.072,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Fontenay-sous-Bois",kgCO2e/kWh,0.18,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Fresnes",kgCO2e/kWh,0.095,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Ivry-sur-Seine",kgCO2e/kWh,0.232,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Limeil-Brévannes",kgCO2e/kWh,0.072,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Maison-Alfort",kgCO2e/kWh,0.091,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Orly",kgCO2e/kWh,0.096,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Orly",kgCO2e/kWh,0.065,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Rungis",kgCO2e/kWh,1.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Sucy-en-Brie",kgCO2e/kWh,0.045,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Thiais",kgCO2e/kWh,0.128,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Villeneuve-Saint-Georges",kgCO2e/kWh,0.087,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Vitry-sur-Seine",kgCO2e/kWh,0.157,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Argenteuil",kgCO2e/kWh,0.1,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Cergy Pontoise",kgCO2e/kWh,0.166,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Franconville",kgCO2e/kWh,0.231,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Franconville",kgCO2e/kWh,0.163,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Franconville",kgCO2e/kWh,0.088,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Garges-Les-Gonesse",kgCO2e/kWh,0.18,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Pontoise",kgCO2e/kWh,0.197,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Roissy",kgCO2e/kWh,0.191,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Sarcelles",kgCO2e/kWh,0.053,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Taverny",kgCO2e/kWh,0.242,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Villiers-le-Bel",kgCO2e/kWh,0.105,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Midi-Pyrénées, Toulouse",kgCO2e/kWh,1.00E-02,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Aquitaine, Bordeaux",kgCO2e/kWh,9.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Aquitaine, Le Barp",kgCO2e/kWh,0.012,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Languedoc-Roussillon, Montpellier",kgCO2e/kWh,0.012,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Languedoc-Roussillon, Montpellier",kgCO2e/kWh,0.093,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Languedoc-Roussillon, Montpellier",kgCO2e/kWh,0.012,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Languedoc-Roussillon, Montpellier",kgCO2e/kWh,0.015,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Grenoble",kgCO2e/kWh,0.013,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Saint Etienne",kgCO2e/kWh,0.013,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Lorraine, Metz",kgCO2e/kWh,0.012,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Rhône-Alpes, Lyon-Villeurbanne",kgCO2e/kWh,0.011,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Paris",kgCO2e/kWh,7.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Boulogne-Billancourt",kgCO2e/kWh,0.013,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Courbevoie",kgCO2e/kWh,0.011,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Courbevoie",kgCO2e/kWh,0.011,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Levallois-Perret",kgCO2e/kWh,0.018,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Le Bourget",kgCO2e/kWh,0.033,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Saint-Denis",kgCO2e/kWh,9.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Orly",kgCO2e/kWh,7.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
-,District heating,France,"Ile-de-France, Roissy",kgCO2e/kWh,8.00E-03,Bilans GES,https://bilans-ges.ademe.fr/,valid for 2020,
+﻿,type,country,region,units,co2e,source,source link,note
+0,Natural gas,France,continental France,kgCO2e/kWh,0.204,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+1,Natural gas,France,continental France,kgCO2e/GJ,56.8,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+2,Natural gas,France,continental France,kgCO2e/m3,2.2,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+3,Butane,France,continental France,kgCO2e/GJ,75.5,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+4,Butane,France,continental France,kgCO2e/kg,3.44,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+5,Butane,France,continental France,kgCO2e/kWh,0.273,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+6,Butane,France,continental France,kgCO2e/liter,2,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+7,Propane,France,continental France,kgCO2e/GJ,75.4,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+8,Propane,France,continental France,kgCO2e/kg,3.46,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+9,Propane,France,continental France,kgCO2e/kWh,0.272,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+10,Propane,France,continental France,kgCO2e/liter,1.8,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+11,Domestic fuel oil,France,continental France,kgCO2e/GJ,91.6,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+12,Domestic fuel oil,France,continental France,kgCO2e/kg,3.85,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+13,Domestic fuel oil,France,continental France,kgCO2e/kWh,0.325,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+14,Domestic fuel oil,France,continental France,kgCO2e/liter,3.25,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+15,Coal,France,continental France,kgCO2e/kg,3.36,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+16,Coal,France,continental France,kgCO2e/kWh,0.378,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+17,Coal,France,continental France,kgCO2e/GJ,105,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+18,Biogas,France,continental France,kgCO2e/GJ,12.3,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid until 2023
+19,Wood pellets,France,continental France,kgCO2e/kg,0.111,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+20,Wood pellets,France,continental France,kgCO2e/kWh,0.0304,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+21,Woodchips,France,continental France,kgCO2e/kg,0.0889,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+22,Woodchips,France,continental France,kgCO2e/kWh,0.0244,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2017
+23,District heating,France,"Rhône-Alpes, Belley",kgCO2e/kWh,0.025,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+24,District heating,France,"Rhône-Alpes, Bourg-en-Bresse",kgCO2e/kWh,0.141,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+25,District heating,France,"Rhône-Alpes, Bourg-en-Bresse",kgCO2e/kWh,0.068,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+26,District heating,France,"Rhône-Alpes, Hauteville Lompnes",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+27,District heating,France,"Rhône-Alpes, Oyonnax",kgCO2e/kWh,0.03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+28,District heating,France,"Rhône-Alpes, Saint-Denis-les-Bourg",kgCO2e/kWh,0.1,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+29,District heating,France,"Rhône-Alpes, Treffort-Cuisiat",kgCO2e/kWh,0.273,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+30,District heating,France,"Champagne-Ardenne, Les Noes-Pres-Troyes",kgCO2e/kWh,0.228,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+31,District heating,France,"Champagne-Ardenne, Piney",kgCO2e/kWh,0.071,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+32,District heating,France,"Champagne-Ardenne, Troyes",kgCO2e/kWh,0.084,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+33,District heating,France,"Languedoc-Roussillon, Carcassonne",kgCO2e/kWh,0.184,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+34,District heating,France,"Languedoc-Roussillon, Narbonne",kgCO2e/kWh,0.093,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+35,District heating,France,"Midi-Pyrénées, Decazeville",kgCO2e/kWh,0.02,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+36,District heating,France,"Midi-Pyrénées, Onet-le-Château",kgCO2e/kWh,0.298,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+37,District heating,France,"Midi-Pyrénées, Rodez",kgCO2e/kWh,0.142,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+38,District heating,France,"Provence-Alpes-Côte d'Azur, Aix-en-Provence",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+39,District heating,France,"Provence-Alpes-Côte d'Azur, Coudoux",kgCO2e/kWh,0.101,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+40,District heating,France,"Provence-Alpes-Côte d'Azur, Istres",kgCO2e/kWh,0.116,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+41,District heating,France,"Provence-Alpes-Côte d'Azur, Marseille",kgCO2e/kWh,0.253,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+42,District heating,France,"Provence-Alpes-Côte d'Azur, Martigues",kgCO2e/kWh,0.049,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+43,District heating,France,"Provence-Alpes-Côte d'Azur, Martigues",kgCO2e/kWh,0.245,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+44,District heating,France,"Provence-Alpes-Côte d'Azur, Salon de Provence",kgCO2e/kWh,0.206,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+45,District heating,France,"Provence-Alpes-Côte d'Azur, Vitrolles",kgCO2e/kWh,0.225,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+46,District heating,France,"Basse-Normandie, Argences",kgCO2e/kWh,0.041,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+47,District heating,France,"Basse-Normandie, Aunay-sur-Odon",kgCO2e/kWh,0.017,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+48,District heating,France,"Basse-Normandie, Bayeux",kgCO2e/kWh,0.081,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+49,District heating,France,"Basse-Normandie, Bayeux",kgCO2e/kWh,0.068,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+50,District heating,France,"Basse-Normandie, Caen",kgCO2e/kWh,0.167,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+51,District heating,France,"Basse-Normandie, Caen",kgCO2e/kWh,0.231,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+52,District heating,France,"Basse-Normandie, Falaise",kgCO2e/kWh,0.02,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+53,District heating,France,"Basse-Normandie, Hérouville-Saint-Clair",kgCO2e/kWh,0.015,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+54,District heating,France,"Basse-Normandie, Lisieux",kgCO2e/kWh,0.046,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+55,District heating,France,"Basse-Normandie, Vire",kgCO2e/kWh,0.027,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+56,District heating,France,"Auvergne, Arpajon-sur-Cere",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+57,District heating,France,"Auvergne, Aurillac",kgCO2e/kWh,2.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+58,District heating,France,"Auvergne, Riom-ès-Montagnes",kgCO2e/kWh,0.033,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+59,District heating,France,"Auvergne, Saint-Flour",kgCO2e/kWh,7.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+60,District heating,France,"Auvergne, Saint-Georges",kgCO2e/kWh,5.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+61,District heating,France,"Poitou-Charente, Champagne-Mouton",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+62,District heating,France,"Poitou-Charente, Montemboeuf",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+63,District heating,France,"Poitou-Charente, Soyaux",kgCO2e/kWh,0.325,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+64,District heating,France,"Poitou-Charente, Aytre",kgCO2e/kWh,8.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+65,District heating,France,"Poitou-Charente, Gémozac",kgCO2e/kWh,0.019,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+66,District heating,France,"Poitou-Charente, Jonzac",kgCO2e/kWh,0.029,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+67,District heating,France,"Poitou-Charente, La Rochelle",kgCO2e/kWh,0.019,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+68,District heating,France,"Poitou-Charente, La Rochelle",kgCO2e/kWh,0.044,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+69,District heating,France,"Poitou-Charente, Pons",kgCO2e/kWh,0.072,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+70,District heating,France,"Centre, Asnières-les-Bourges",kgCO2e/kWh,0.023,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+71,District heating,France,"Centre, Vierzon",kgCO2e/kWh,0.19,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+72,District heating,France,"Limousin, Egletons",kgCO2e/kWh,0.02,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+73,District heating,France,"Limousin, Eyrein",kgCO2e/kWh,0.284,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+74,District heating,France,"Limousin, Saint-Pantaléon-de-Larche",kgCO2e/kWh,4.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+75,District heating,France,"Limousin, Servières-le-Château",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+76,District heating,France,"Limousin, Sornac",kgCO2e/kWh,0.042,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+77,District heating,France,"Picardie, Barenton-Bugny",kgCO2e/kWh,0.013,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+78,District heating,France,"Picardie, Château-Thierry",kgCO2e/kWh,0.026,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+79,District heating,France,"Picardie, Saint-Quentin",kgCO2e/kWh,0.079,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+80,District heating,France,"Picardie, Soissons",kgCO2e/kWh,0.085,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+81,District heating,France,"Picardie, Urcel",kgCO2e/kWh,0.038,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+82,District heating,France,"Corse, Corte",kgCO2e/kWh,0.266,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+83,District heating,France,"Bourgogne, Dijon",kgCO2e/kWh,0.068,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+84,District heating,France,"Bourgogne, Dijon",kgCO2e/kWh,0.161,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+85,District heating,France,"Bourgogne, Dijon",kgCO2e/kWh,0.07,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+86,District heating,France,"Bretagne, Collinée",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+87,District heating,France,"Bretagne, Le Gouray",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+88,District heating,France,"Bretagne, Plessala",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+89,District heating,France,"Bretagne, Ploufragan",kgCO2e/kWh,0.181,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+90,District heating,France,"Bretagne, Pluzunet",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+91,District heating,France,"Limousin, Bourganeuf",kgCO2e/kWh,0.026,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+92,District heating,France,"Limousin, Felletin",kgCO2e/kWh,0.024,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+93,District heating,France,"Limousin, Gentioux-Pigerolles",kgCO2e/kWh,0.192,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+94,District heating,France,"Aquitaine, Coulounieix-chamiers",kgCO2e/kWh,0.091,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+95,District heating,France,"Aquitaine, Douville",kgCO2e/kWh,0.049,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+96,District heating,France,"Aquitaine, Périgueux",kgCO2e/kWh,0.037,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+97,District heating,France,"Aquitaine, Saint-Astier",kgCO2e/kWh,0.069,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+98,District heating,France,"Franche-Comté, Audincourt",kgCO2e/kWh,0.184,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+99,District heating,France,"Franche-Comté, Besançon",kgCO2e/kWh,0.063,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+100,District heating,France,"Franche-Comté, Besançon",kgCO2e/kWh,0.051,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+101,District heating,France,"Franche-Comté, Béthoncourt",kgCO2e/kWh,0.216,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+102,District heating,France,"Franche-Comté, Le Russey",kgCO2e/kWh,0.048,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+103,District heating,France,"Franche-Comté, Montbéliard",kgCO2e/kWh,0.053,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+104,District heating,France,"Franche-Comté, Mouthe",kgCO2e/kWh,0.091,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+105,District heating,France,"Franche-Comté, Pontarlier",kgCO2e/kWh,0.011,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+106,District heating,France,"Rhône-Alpes, Montélimar",kgCO2e/kWh,0.268,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+107,District heating,France,"Rhône-Alpes, Pierrelatte",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+108,District heating,France,"Rhône-Alpes, Romans-sur-Isère",kgCO2e/kWh,0.244,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+109,District heating,France,"Rhône-Alpes, Valence",kgCO2e/kWh,0.288,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+110,District heating,France,"Rhône-Alpes, Vassieux-en-Vercors",kgCO2e/kWh,0.014,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+111,District heating,France,"Haute-Normandie, Canappeville",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+112,District heating,France,"Haute-Normandie, Conches-en-Ouches",kgCO2e/kWh,0.053,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+113,District heating,France,"Haute-Normandie, Evreux",kgCO2e/kWh,0.018,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+114,District heating,France,"Haute-Normandie, Les Andelys",kgCO2e/kWh,0.21,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+115,District heating,France,"Haute-Normandie, Louviers",kgCO2e/kWh,0.077,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+116,District heating,France,"Haute-Normandie, Pont-Audemer",kgCO2e/kWh,0.217,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+117,District heating,France,"Haute-Normandie, Vernon",kgCO2e/kWh,0.191,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+118,District heating,France,"Centre, Chartres",kgCO2e/kWh,0.315,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+119,District heating,France,"Centre, Chateaudun",kgCO2e/kWh,0.036,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+120,District heating,France,"Centre, Manvilliers",kgCO2e/kWh,0.326,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+121,District heating,France,"Centre, Nogent Rotrou",kgCO2e/kWh,0.219,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+122,District heating,France,"Centre, Voves",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+123,District heating,France,"Bretagne, Brest",kgCO2e/kWh,0.02,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+124,District heating,France,"Bretagne, Plougastel-Daoulas",kgCO2e/kWh,0.02,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+125,District heating,France,"Auvergne, Commentry",kgCO2e/kWh,0.081,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+126,District heating,France,"Auvergne, Ebreuil",kgCO2e/kWh,0.03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+127,District heating,France,"Auvergne, Le Mayet-de-Montagne",kgCO2e/kWh,0.011,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+128,District heating,France,"Auvergne, Meaulne",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+129,District heating,France,"Auvergne, Montluçon",kgCO2e/kWh,0.142,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+130,District heating,France,"Auvergne, Moulins",kgCO2e/kWh,0.027,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+131,District heating,France,"Languedoc-Roussillon, Ales",kgCO2e/kWh,0.08,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+132,District heating,France,"Languedoc-Roussillon, Lamelouze",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+133,District heating,France,"Languedoc-Roussillon, Nîmes",kgCO2e/kWh,0.1,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+134,District heating,France,"Midi-Pyrénées, Ayguevives",kgCO2e/kWh,0.077,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+135,District heating,France,"Midi-Pyrénées, Balma",kgCO2e/kWh,0.083,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+136,District heating,France,"Midi-Pyrénées, Blagnac",kgCO2e/kWh,0.122,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+137,District heating,France,"Midi-Pyrénées, Toulouse",kgCO2e/kWh,0.017,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+138,District heating,France,"Midi-Pyrénées, Toulouse",kgCO2e/kWh,0.324,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+139,District heating,France,"Midi-Pyrénées, Toulouse",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+140,District heating,France,"Midi-Pyrénées, Toulouse",kgCO2e/kWh,0.2,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+141,District heating,France,"Aquitaine, Bègles",kgCO2e/kWh,0.11,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+142,District heating,France,"Aquitaine, Bordeaux",kgCO2e/kWh,0.029,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+143,District heating,France,"Aquitaine, Bordeaux",kgCO2e/kWh,0.285,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+144,District heating,France,"Aquitaine, Bordeaux",kgCO2e/kWh,0.185,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+145,District heating,France,"Aquitaine, Bordeaux",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+146,District heating,France,"Aquitaine, Cenon",kgCO2e/kWh,0.048,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+147,District heating,France,"Aquitaine, Gironde-sur-Dropt",kgCO2e/kWh,0.06,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+148,District heating,France,"Aquitaine, La Réole",kgCO2e/kWh,5.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+149,District heating,France,"Aquitaine, Le Barp",kgCO2e/kWh,0.228,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+150,District heating,France,"Aquitaine, Lesparre-Médoc",kgCO2e/kWh,0.056,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+151,District heating,France,"Aquitaine, Lormont",kgCO2e/kWh,0.055,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+152,District heating,France,"Aquitaine, Mérignac",kgCO2e/kWh,0.208,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+153,District heating,France,"Aquitaine, Pellegrue",kgCO2e/kWh,0.031,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+154,District heating,France,"Aquitaine, Saint-Pierre-d’Aurillac",kgCO2e/kWh,0.021,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+155,District heating,France,"Languedoc-Roussillon, Juvignac",kgCO2e/kWh,0.079,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+156,District heating,France,"Languedoc-Roussillon, Montpellier",kgCO2e/kWh,0.031,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+157,District heating,France,"Languedoc-Roussillon, Montpellier",kgCO2e/kWh,0.086,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+158,District heating,France,"Bretagne, Combourg",kgCO2e/kWh,0.054,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+159,District heating,France,"Bretagne, Janzé",kgCO2e/kWh,0.02,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+160,District heating,France,"Bretagne, Rennes",kgCO2e/kWh,0.196,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+161,District heating,France,"Bretagne, Rennes",kgCO2e/kWh,0.093,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+162,District heating,France,"Bretagne, Rennes",kgCO2e/kWh,0.021,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+163,District heating,France,"Bretagne, Rennes",kgCO2e/kWh,1.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+164,District heating,France,"Bretagne, Rennes",kgCO2e/kWh,0.215,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+165,District heating,France,"Bretagne, Vezin le Coquet",kgCO2e/kWh,0.035,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+166,District heating,France,"Bretagne, Vitré",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+167,District heating,France,"Centre, Joué-les-Tours",kgCO2e/kWh,0.22,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+168,District heating,France,"Centre, La Riche",kgCO2e/kWh,0.238,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+169,District heating,France,"Centre, Saint-Benoît-la-Forêt",kgCO2e/kWh,5.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+170,District heating,France,"Centre, Saint-Pierre-des-Corps",kgCO2e/kWh,0.232,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+171,District heating,France,"Centre, Tours",kgCO2e/kWh,0.192,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+172,District heating,France,"Centre, Tours",kgCO2e/kWh,0.071,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+173,District heating,France,"Rhône-Alpes, Allevard",kgCO2e/kWh,0.02,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+174,District heating,France,"Rhône-Alpes, Bourgoin Jailleu",kgCO2e/kWh,0.034,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+175,District heating,France,"Rhône-Alpes, Coublevie",kgCO2e/kWh,0.056,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+176,District heating,France,"Rhône-Alpes, Grenoble",kgCO2e/kWh,0.141,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+177,District heating,France,"Rhône-Alpes, Lans-en-Vercors",kgCO2e/kWh,0.013,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+178,District heating,France,"Rhône-Alpes, Mens",kgCO2e/kWh,0.066,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+179,District heating,France,"Rhône-Alpes, Monestier-de-Clermont",kgCO2e/kWh,0.024,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+180,District heating,France,"Rhône-Alpes, Pontcharra",kgCO2e/kWh,0.061,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+181,District heating,France,"Rhône-Alpes, Saint-Marcellin",kgCO2e/kWh,0.027,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+182,District heating,France,"Rhône-Alpes, Villars-de-Lans",kgCO2e/kWh,0.023,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+183,District heating,France,"Rhône-Alpes, Vinay",kgCO2e/kWh,0.048,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+184,District heating,France,"Rhône-Alpes, Voreppe",kgCO2e/kWh,0.042,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+185,District heating,France,"Franche-Comté, Arinthod",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+186,District heating,France,"Franche-Comté, Avignon-Les-Saint-Claude",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+187,District heating,France,"Franche-Comté, Champvans",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+188,District heating,France,"Franche-Comté, Dole",kgCO2e/kWh,0.109,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+189,District heating,France,"Franche-Comté, Hauts de Bienne",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+190,District heating,France,"Franche-Comté, Lons-le-Saunier",kgCO2e/kWh,0.082,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+191,District heating,France,"Franche-Comté, Moirans-en-Montagne",kgCO2e/kWh,0.118,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+192,District heating,France,"Provence-Alpes-Côte d'Azur, Allos",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+193,District heating,France,"Provence-Alpes-Côte d'Azur, Barcelonnette",kgCO2e/kWh,0.048,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+194,District heating,France,"Provence-Alpes-Côte d'Azur, Forcalquier",kgCO2e/kWh,9.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+195,District heating,France,"Provence-Alpes-Côte d'Azur, Manosque",kgCO2e/kWh,0.048,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+196,District heating,France,"Aquitaine, Mont-de-Marsan",kgCO2e/kWh,0.018,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+197,District heating,France,"Aquitaine, Mont-de-Marsan",kgCO2e/kWh,0.095,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+198,District heating,France,"Centre, Blois",kgCO2e/kWh,0.022,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+199,District heating,France,"Centre, Mondoubleau",kgCO2e/kWh,0.116,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+200,District heating,France,"Centre, Vineuil",kgCO2e/kWh,0.056,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+201,District heating,France,"Rhône-Alpes, Andrézieux-Bouthéon",kgCO2e/kWh,0.077,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+202,District heating,France,"Rhône-Alpes, Colombier",kgCO2e/kWh,0.032,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+203,District heating,France,"Rhône-Alpes, Firminy",kgCO2e/kWh,0.116,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+204,District heating,France,"Rhône-Alpes, Jonzieux",kgCO2e/kWh,0.075,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+205,District heating,France,"Rhône-Alpes, La Terrasse-sur-Dorlay",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+206,District heating,France,"Rhône-Alpes, Le Bessat",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+207,District heating,France,"Rhône-Alpes, Marlhes",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+208,District heating,France,"Rhône-Alpes, Montrond-les-Bains",kgCO2e/kWh,0.066,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+209,District heating,France,"Rhône-Alpes, Neulise",kgCO2e/kWh,0.017,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+210,District heating,France,"Rhône-Alpes, Pelussin",kgCO2e/kWh,0.071,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+211,District heating,France,"Rhône-Alpes, Pelussin",kgCO2e/kWh,0.046,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+212,District heating,France,"Rhône-Alpes, Pelussin",kgCO2e/kWh,0.025,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+213,District heating,France,"Rhône-Alpes, Planfoy",kgCO2e/kWh,0.014,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+214,District heating,France,"Rhône-Alpes, Roanne",kgCO2e/kWh,0.072,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+215,District heating,France,"Rhône-Alpes, Roanne",kgCO2e/kWh,0.088,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+216,District heating,France,"Rhône-Alpes, Roanne",kgCO2e/kWh,0.233,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+217,District heating,France,"Rhône-Alpes, Roche",kgCO2e/kWh,1.00E-02,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+218,District heating,France,"Rhône-Alpes, Roisey",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+219,District heating,France,"Rhône-Alpes, Saint Etienne",kgCO2e/kWh,0.081,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+220,District heating,France,"Rhône-Alpes, Saint-Bonnet-le-Château",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Bonnet-le-Courreau",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Chamond",kgCO2e/kWh,0.049,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Christo-en-Jarez",kgCO2e/kWh,0.152,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Cyr-de-Favières",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Didier-sur-Rochefort",kgCO2e/kWh,5.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Étienne",kgCO2e/kWh,0.275,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Étienne",kgCO2e/kWh,0.196,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Étienne",kgCO2e/kWh,0.055,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Étienne",kgCO2e/kWh,0.227,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Haon-le-Châtel",kgCO2e/kWh,0.025,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Joseph",kgCO2e/kWh,0.165,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Martin-la-Sauveté",kgCO2e/kWh,0.091,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Maurice-en-Gourgois",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Régis-du-Coin",kgCO2e/kWh,0.013,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Symphorien-de-Lay",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Usson-en-Forez",kgCO2e/kWh,0.019,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Dunières",kgCO2e/kWh,0.128,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Dunières",kgCO2e/kWh,0.128,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Langeac",kgCO2e/kWh,0.192,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Le Puy-en-Velay",kgCO2e/kWh,0.021,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Mazet-Saint-Voy",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Pradelles",kgCO2e/kWh,0.028,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Saint-Bonnet-Le-Froid",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Tence",kgCO2e/kWh,0.012,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Yssingeaux",kgCO2e/kWh,0.044,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Châteaubriant",kgCO2e/kWh,0.078,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Nantes",kgCO2e/kWh,0.042,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Nantes",kgCO2e/kWh,0.074,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Nantes-Saint-Herblain",kgCO2e/kWh,0.089,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Rezé",kgCO2e/kWh,0.162,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Saint-Jean-de-Boiseau",kgCO2e/kWh,0.077,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Saint-Julien-de-Concelles",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Sainte-Luce-sur-Loire",kgCO2e/kWh,0.173,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Centre, Amilly",kgCO2e/kWh,0.042,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Centre, Fleury-les-Aubrais",kgCO2e/kWh,0.071,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Centre, Montargis",kgCO2e/kWh,0.075,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Centre, Orléans",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Centre, Orléans",kgCO2e/kWh,0.081,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Centre, Pithiviers",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Biars-sur-Cere",kgCO2e/kWh,6.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Cahors",kgCO2e/kWh,0.065,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Caillac",kgCO2e/kWh,7.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Cajarc",kgCO2e/kWh,6.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Catus",kgCO2e/kWh,0.028,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Figeac",kgCO2e/kWh,6.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Lacapelle-Marival",kgCO2e/kWh,0.014,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Les-Quatre-Routes-du-Lot",kgCO2e/kWh,3.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Livernon",kgCO2e/kWh,0.025,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Nuzejouls",kgCO2e/kWh,0.034,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Saint-Germain-du-Bel-Air",kgCO2e/kWh,0.012,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Sousceyrac",kgCO2e/kWh,0.026,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Thégra",kgCO2e/kWh,8.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Aquitaine, Le Passage",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Languedoc-Roussillon, Mende",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Languedoc-Roussillon, Saint-Chely-d’Apcher",kgCO2e/kWh,0.023,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Andrezé",kgCO2e/kWh,0.253,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Angers",kgCO2e/kWh,0.052,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Angers",kgCO2e/kWh,0.084,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Angers",kgCO2e/kWh,0.012,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Angers",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Angers",kgCO2e/kWh,0.202,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Ecouflant",kgCO2e/kWh,0.071,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Saumur",kgCO2e/kWh,0.052,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Provence-Alpes-Côte d'Azur, Embrun",kgCO2e/kWh,0.011,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Provence-Alpes-Côte d'Azur, Embrun",kgCO2e/kWh,5.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Provence-Alpes-Côte d'Azur, Tallard",kgCO2e/kWh,0.242,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Basse-Normandie, Cherbourg-Octeville",kgCO2e/kWh,0.151,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Basse-Normandie, Cherbourg-Octeville",kgCO2e/kWh,0.019,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Basse-Normandie, Le Teilleul",kgCO2e/kWh,0.051,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Epernay",kgCO2e/kWh,0.277,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Reims",kgCO2e/kWh,0.115,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Reims",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Reims",kgCO2e/kWh,0.239,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Vitry-le-François",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Bourmont",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Chaumont",kgCO2e/kWh,0.34,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Chaumont",kgCO2e/kWh,0.03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Longeau-Percey",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Saint-Dizier",kgCO2e/kWh,0.111,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Saint-Dizier",kgCO2e/kWh,0.297,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Wassy",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Laval",kgCO2e/kWh,0.098,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Saint-Hilaire-du-Maine",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Barbonville",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Ecrouves",kgCO2e/kWh,0.074,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Nancy",kgCO2e/kWh,0.091,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Nancy",kgCO2e/kWh,0.084,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Nancy",kgCO2e/kWh,0.08,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Vandoeuvre-les-Nancy",kgCO2e/kWh,0.033,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Vandoeuvre-les-Nancy",kgCO2e/kWh,0.108,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Bar-le-Duc",kgCO2e/kWh,0.274,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Ligny-en-Barrois",kgCO2e/kWh,0.074,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Verdun",kgCO2e/kWh,0.212,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bretagne, Auray",kgCO2e/kWh,0.08,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bretagne, Hennebont",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bretagne, Lanester",kgCO2e/kWh,0.044,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bretagne, Locminé",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, -Behren-lès-Forbach",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Creutzwald",kgCO2e/kWh,0.242,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Farébersviller",kgCO2e/kWh,0.097,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Freyming-Merlebach",kgCO2e/kWh,0.153,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Metz",kgCO2e/kWh,0.085,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Saint-Avold",kgCO2e/kWh,0.228,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Saint-Avold",kgCO2e/kWh,0.211,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Saint-Avold",kgCO2e/kWh,0.195,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Saint-Avold",kgCO2e/kWh,0.239,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Sarreguemines",kgCO2e/kWh,0.248,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Stiring-Wendel",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Yutz",kgCO2e/kWh,0.068,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Arleuf",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Bazolles",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Billy-sur-Oisy",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Brassy",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Château-Chinon (Ville)",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Corancy",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Corbigny",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Decize",kgCO2e/kWh,0.126,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Lormes",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Montigny-en-Morvan",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Nevers",kgCO2e/kWh,0.019,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Ouroux-en-Morvan",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Planchez",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Saint-Brisson",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Saint-Saulge",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Saint-Verain",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Varzy",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Anzin",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Douchy-les-Mines",kgCO2e/kWh,0.028,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Dunkerque",kgCO2e/kWh,0.11,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Hazebrouck",kgCO2e/kWh,0.086,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Lambersart",kgCO2e/kWh,0.102,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Lille",kgCO2e/kWh,0.09,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Lille",kgCO2e/kWh,0.26,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Maubeuge",kgCO2e/kWh,0.215,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Mons-en-Barœul",kgCO2e/kWh,0.151,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Roubaix",kgCO2e/kWh,0.092,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Sains-du-Nord",kgCO2e/kWh,0.046,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Sin-le-Noble",kgCO2e/kWh,0.108,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Valenciennes",kgCO2e/kWh,0.24,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Villeneuve-d’Ascq",kgCO2e/kWh,0.206,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Villeneuve-d’Ascq",kgCO2e/kWh,0.231,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Wattignies",kgCO2e/kWh,0.178,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Wattrelos",kgCO2e/kWh,0.24,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Provence-Alpes-Côte d'Azur, Cannes",kgCO2e/kWh,0.129,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Provence-Alpes-Côte d'Azur, Levens",kgCO2e/kWh,0.07,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Provence-Alpes-Côte d'Azur, Nice",kgCO2e/kWh,0.183,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Provence-Alpes-Côte d'Azur, Nice",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Picardie, Beauvais",kgCO2e/kWh,0.021,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Picardie, Breteuil-sur-Noye",kgCO2e/kWh,7.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Picardie, Compiègne",kgCO2e/kWh,0.229,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Picardie, Creil",kgCO2e/kWh,0.123,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Picardie, Montataire",kgCO2e/kWh,0.168,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Picardie, Nogent-sur-Oise",kgCO2e/kWh,0.082,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Basse-Normandie, Alençon",kgCO2e/kWh,0.057,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Basse-Normandie, Argentan",kgCO2e/kWh,0.03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Basse-Normandie, Flers",kgCO2e/kWh,0.06,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Basse-Normandie, La Ferté-Macé",kgCO2e/kWh,8.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Basse-Normandie, L’Aigle",kgCO2e/kWh,0.036,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Achicourt",kgCO2e/kWh,0.079,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Arques",kgCO2e/kWh,0.063,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Arras",kgCO2e/kWh,0.227,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Avion",kgCO2e/kWh,0.201,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Béthune",kgCO2e/kWh,0.214,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Béthune",kgCO2e/kWh,0.237,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Boulogne-sur-Mer",kgCO2e/kWh,0.17,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Calais",kgCO2e/kWh,0.142,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Lens",kgCO2e/kWh,0.028,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Liévin",kgCO2e/kWh,0.246,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Outreau",kgCO2e/kWh,0.082,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Nord-Pas-De-Calais, Outreau",kgCO2e/kWh,0.189,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Ambert",kgCO2e/kWh,0.256,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Ardes",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Beaumont",kgCO2e/kWh,0.217,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Clermont-Ferrand",kgCO2e/kWh,0.019,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Clermont-Ferrand",kgCO2e/kWh,0.193,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Clermont-Ferrand",kgCO2e/kWh,0.077,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Pontaumur",kgCO2e/kWh,0.08,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Riom",kgCO2e/kWh,0.037,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Rochefort-Montagne",kgCO2e/kWh,0.046,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Royat",kgCO2e/kWh,0.228,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Auvergne, Saint-Germain-l’Herm",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Aquitaine, Pau",kgCO2e/kWh,0.029,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Vic-en-Bigorre",kgCO2e/kWh,0.05,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Languedoc-Roussillon, Osseja",kgCO2e/kWh,0.217,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Allenwiller",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Haguenau",kgCO2e/kWh,0.063,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Haguenau",kgCO2e/kWh,0.112,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Lingolsheim",kgCO2e/kWh,0.107,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Morsbronn-les-Bains",kgCO2e/kWh,0.091,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Niederbronn-les-Bains",kgCO2e/kWh,0.066,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Ostwald",kgCO2e/kWh,0.235,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Rittershoffen",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Saales",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Schiltigheim",kgCO2e/kWh,0.11,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Sélestat",kgCO2e/kWh,0.111,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.076,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.061,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.239,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.239,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.279,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.225,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.07,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Strasbourg",kgCO2e/kWh,0.069,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Cernay",kgCO2e/kWh,0.076,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Colmar",kgCO2e/kWh,0.07,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Didenheim",kgCO2e/kWh,0.101,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Feldbach",kgCO2e/kWh,0.056,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Freisen",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Illzach",kgCO2e/kWh,0.062,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Lapoutroie",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Mulhouse",kgCO2e/kWh,0.185,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Rixheim",kgCO2e/kWh,0.063,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Saint-Louis",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Sainte-Marie-aux-Mines",kgCO2e/kWh,0.075,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Alsace, Thann",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Bron",kgCO2e/kWh,0.202,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Champagne-au-Mont-d’Or",kgCO2e/kWh,0.073,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Ecully",kgCO2e/kWh,0.207,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Givors",kgCO2e/kWh,0.253,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Gleize",kgCO2e/kWh,0.087,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, La Tour-de-Salvagny",kgCO2e/kWh,0.044,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Lamure-sur-Azergues",kgCO2e/kWh,0.256,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Lyon",kgCO2e/kWh,0.202,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Lyon",kgCO2e/kWh,0.384,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Lyon",kgCO2e/kWh,0.101,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Lyon",kgCO2e/kWh,0.193,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Oullins",kgCO2e/kWh,0.206,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Rillieux-la-Pape",kgCO2e/kWh,0.028,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Rillieux-la-Pape",kgCO2e/kWh,0.226,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Rillieux-la-Pape",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Sathonay-Camp",kgCO2e/kWh,0.064,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Vaulx-en-Velin",kgCO2e/kWh,0.079,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Vénissieux",kgCO2e/kWh,0.121,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Villefranche-sur-Saone",kgCO2e/kWh,3.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Villeurbanne",kgCO2e/kWh,0.249,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Villeurbanne",kgCO2e/kWh,0.183,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Yzeron",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Yzeron",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Aubenas",kgCO2e/kWh,0.023,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Banne",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Burzet",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Le Cheylard",kgCO2e/kWh,0.025,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Montpezat-Sous-Bauzon",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Valgorge",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Franche-Comté, Breurey-les-Faverney",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Franche-Comté, Champey",kgCO2e/kWh,0.192,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Franche-Comté, Dampierre-sur-Linotte",kgCO2e/kWh,0.148,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Franche-Comté, Gray",kgCO2e/kWh,0.045,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Franche-Comté, Gy",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Franche-Comté, Hericourt",kgCO2e/kWh,0.058,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Franche-Comté, Marnay",kgCO2e/kWh,1.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Franche-Comté, Plancher-Bas",kgCO2e/kWh,0.062,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Franche-Comté, Saulnot",kgCO2e/kWh,1.00E-02,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Franche-Comté, Scey-sur-Saône-et-Saint-Albin",kgCO2e/kWh,0.086,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Anost",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Autun",kgCO2e/kWh,0.071,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Chalon-sur-Saône",kgCO2e/kWh,0.103,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Mâcon",kgCO2e/kWh,0.301,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Montceau-les-Mines",kgCO2e/kWh,0.127,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Tramayes",kgCO2e/kWh,0.016,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Coulaine",kgCO2e/kWh,0.169,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Le Mans",kgCO2e/kWh,0.228,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Le Mans",kgCO2e/kWh,0.312,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Le Mans-Allonnes",kgCO2e/kWh,0.027,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Beaufort",kgCO2e/kWh,0.058,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Bourg-Saint-Maurice",kgCO2e/kWh,0.338,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Chambéry",kgCO2e/kWh,0.103,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Gilly-sur-Isère",kgCO2e/kWh,0.134,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, La Bauche",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Macôt-La-Plagne",kgCO2e/kWh,0.059,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Notre-Dame-des-Millières",kgCO2e/kWh,0.039,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Etienne-de-Cuines",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint-Jean-d’Arvey",kgCO2e/kWh,0.199,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Yenne",kgCO2e/kWh,0.014,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Annecy",kgCO2e/kWh,0.023,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Annemasse",kgCO2e/kWh,0.051,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Arracles les Carroy",kgCO2e/kWh,0.205,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Clarafond-Arcine",kgCO2e/kWh,0.045,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Cluses",kgCO2e/kWh,0.27,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Faverges",kgCO2e/kWh,9.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Morzine",kgCO2e/kWh,0.086,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Scionzier",kgCO2e/kWh,0.226,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Seynod",kgCO2e/kWh,0.048,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Thonon-les-Bains",kgCO2e/kWh,0.222,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Thonon-les-Bains",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Vallorcine",kgCO2e/kWh,1.00E-02,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Paris",kgCO2e/kWh,0.172,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Paris",kgCO2e/kWh,0.202,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Canteleu",kgCO2e/kWh,0.105,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Dieppe",kgCO2e/kWh,0.203,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Gonfreville-l’Orcher",kgCO2e/kWh,0.013,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Le Grand-Quevilly",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Le Havre",kgCO2e/kWh,0.244,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Le Havre",kgCO2e/kWh,0.109,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Le Havre",kgCO2e/kWh,0.255,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Le Petit-Quevilly",kgCO2e/kWh,0.051,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Maromme",kgCO2e/kWh,0.021,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Mont-Saint-Aignan",kgCO2e/kWh,0.178,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Neufchatel-en-Bray",kgCO2e/kWh,0.032,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Notre-Dame-de-Gravenchon",kgCO2e/kWh,0.025,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Rouen",kgCO2e/kWh,0.035,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Rouen",kgCO2e/kWh,0.19,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Rouen",kgCO2e/kWh,0.368,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Saint-Etienne-du-Rouvray",kgCO2e/kWh,0.018,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Haute-Normandie, Sandouville",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Avon",kgCO2e/kWh,0.316,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Bailly Romainvilliers",kgCO2e/kWh,0.035,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Chelles",kgCO2e/kWh,0.105,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Coulommiers",kgCO2e/kWh,5.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Dammarie-les-Lys",kgCO2e/kWh,0.246,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Le Mée-sur-Seine",kgCO2e/kWh,0.063,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Meaux",kgCO2e/kWh,0.108,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Meaux",kgCO2e/kWh,0.103,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Melun",kgCO2e/kWh,0.033,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Montereau-Fault-Yonne",kgCO2e/kWh,0.015,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Nemours",kgCO2e/kWh,0.094,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Torcy",kgCO2e/kWh,0.017,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Vaux-le-Pénil",kgCO2e/kWh,0.043,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Achères",kgCO2e/kWh,0.104,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Carrières-sur-Seine",kgCO2e/kWh,7.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Le Chesnay",kgCO2e/kWh,0.212,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Les Mureaux",kgCO2e/kWh,0.076,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Mantes-la-Jolie",kgCO2e/kWh,0.104,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Plaisir",kgCO2e/kWh,0.031,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Saint-Germain-en-Laye",kgCO2e/kWh,0.144,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Vélizy-Villacoublay",kgCO2e/kWh,0.221,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Versailles",kgCO2e/kWh,0.227,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Poitou-Charente, Bressuire",kgCO2e/kWh,0.15,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Poitou-Charente, Lezay",kgCO2e/kWh,0.029,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Poitou-Charente, L’Absie",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Poitou-Charente, Niort",kgCO2e/kWh,0.017,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Poitou-Charente, Niort",kgCO2e/kWh,0.327,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Poitou-Charente, Romans",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Charleville-Mézières",kgCO2e/kWh,0.225,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Charleville-Mézières",kgCO2e/kWh,0.075,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Machault",kgCO2e/kWh,0.273,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Rocroi",kgCO2e/kWh,0.094,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Champagne-Ardenne, Sedan",kgCO2e/kWh,0.114,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Picardie, Abbeville",kgCO2e/kWh,0.095,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Picardie, Amiens",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Picardie, Amiens",kgCO2e/kWh,0.213,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Picardie, Amiens",kgCO2e/kWh,0.234,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Picardie, Montdidier",kgCO2e/kWh,0.099,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Alban",kgCO2e/kWh,8.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Carmaux",kgCO2e/kWh,0.299,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Castres",kgCO2e/kWh,0.015,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Gaillac",kgCO2e/kWh,0.053,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Graulhet",kgCO2e/kWh,0.022,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Mazamet",kgCO2e/kWh,0.077,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Montauban",kgCO2e/kWh,0.02,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Provence-Alpes-Côte d'Azur, La-Seyne-sur-Mer",kgCO2e/kWh,0.011,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Provence-Alpes-Côte d'Azur, Toulon",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Provence-Alpes-Côte d'Azur, Avignon",kgCO2e/kWh,0.216,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, La-Roche-sur-Yon",kgCO2e/kWh,0.314,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Les Herbiers",kgCO2e/kWh,0.06,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Pays-de-la-Loire, Saint-Pierre-du-Chemin",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Poitou-Charente, Civaux",kgCO2e/kWh,0.078,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Poitou-Charente, Poitiers",kgCO2e/kWh,0.073,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Limousin, Limoges",kgCO2e/kWh,0.19,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Limousin, Limoges",kgCO2e/kWh,5.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Limousin, Limoges",kgCO2e/kWh,0.052,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Epinal",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Frémifontaine",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Fresse-sur-Moselle",kgCO2e/kWh,0.016,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, La Bresse",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, La Bresse",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Monthureux-sur-Saône",kgCO2e/kWh,0.075,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Saint-Dié-des-Vosges",kgCO2e/kWh,0.046,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Senones",kgCO2e/kWh,0.192,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Ventron",kgCO2e/kWh,0.035,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Vittel",kgCO2e/kWh,0.109,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Auxerre",kgCO2e/kWh,0.119,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Quarre-les-Tombes",kgCO2e/kWh,0.211,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Sens",kgCO2e/kWh,0.268,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Bourgogne, Sens",kgCO2e/kWh,0.024,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Franche-Comté, Belfort",kgCO2e/kWh,0.233,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Franche-Comté, Delle",kgCO2e/kWh,0.106,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Brétigny-sur-orge",kgCO2e/kWh,0.088,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Bruyères-le-Chatel",kgCO2e/kWh,0.219,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Dourdan",kgCO2e/kWh,0.246,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Epinay-sous-Sénart",kgCO2e/kWh,0.094,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Evry",kgCO2e/kWh,0.193,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Grigny",kgCO2e/kWh,0.197,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Grigny",kgCO2e/kWh,0.191,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Les Ulis",kgCO2e/kWh,0.073,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Massy",kgCO2e/kWh,0.163,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Ris-Orangis",kgCO2e/kWh,0.101,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Saint-Michel-Sur-Orge",kgCO2e/kWh,0.234,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Sainte-Geneviève-des-Bois",kgCO2e/kWh,0.219,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Vigneux-sur-Seine",kgCO2e/kWh,0.164,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Villejust",kgCO2e/kWh,0,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Viry-Châtillon",kgCO2e/kWh,0.226,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Bagneux",kgCO2e/kWh,0.19,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Boulogne-Billancourt",kgCO2e/kWh,0.13,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Châtillon-Sous-Bagneux",kgCO2e/kWh,0.282,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Chaville",kgCO2e/kWh,0.255,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Clichy",kgCO2e/kWh,0.233,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Colombes",kgCO2e/kWh,0.116,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Courbevoie",kgCO2e/kWh,0.246,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Courbevoie",kgCO2e/kWh,0.192,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Gennevilliers",kgCO2e/kWh,0.221,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Levallois-Perret",kgCO2e/kWh,0.197,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Levallois-Perret",kgCO2e/kWh,0.347,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Meudon la Forêt",kgCO2e/kWh,0.204,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Nanterre",kgCO2e/kWh,0.062,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Nanterre",kgCO2e/kWh,0.096,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Puteaux",kgCO2e/kWh,0.236,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Suresnes",kgCO2e/kWh,0.242,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Villeneuve-la-Garenne",kgCO2e/kWh,0.21,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Aulnay-sous-bois",kgCO2e/kWh,0.267,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Aulnay-sous-Bois",kgCO2e/kWh,0.193,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Bagnolet",kgCO2e/kWh,0.182,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Bobigny",kgCO2e/kWh,0.221,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Bondy",kgCO2e/kWh,0.13,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Clichy-sous-Bois",kgCO2e/kWh,0.193,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, La Courneuve",kgCO2e/kWh,0.211,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, La Courneuve",kgCO2e/kWh,0.163,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Le Blanc-Mesnil",kgCO2e/kWh,0.218,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Le Bourget",kgCO2e/kWh,0.226,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Neuilly-sur-Marne",kgCO2e/kWh,0.065,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Saint-Denis",kgCO2e/kWh,0.233,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Saint-Denis",kgCO2e/kWh,0.183,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Saint-Ouen",kgCO2e/kWh,0.061,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Sevran",kgCO2e/kWh,0.074,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Sevran",kgCO2e/kWh,0.231,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Tremblay-en-France",kgCO2e/kWh,0.08,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Villepinte",kgCO2e/kWh,0.054,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Alfortville",kgCO2e/kWh,0.048,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Arcueil",kgCO2e/kWh,0.107,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Bonneuil-sur-Marne",kgCO2e/kWh,0.052,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Cachan",kgCO2e/kWh,0.151,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Champigny-sur-Marne",kgCO2e/kWh,0.066,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Chevilly-Larue",kgCO2e/kWh,0.093,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Créteil",kgCO2e/kWh,0.072,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Fontenay-sous-Bois",kgCO2e/kWh,0.18,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Fresnes",kgCO2e/kWh,0.095,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Ivry-sur-Seine",kgCO2e/kWh,0.232,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Limeil-Brévannes",kgCO2e/kWh,0.072,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Maison-Alfort",kgCO2e/kWh,0.091,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Orly",kgCO2e/kWh,0.096,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Orly",kgCO2e/kWh,0.065,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Rungis",kgCO2e/kWh,1.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Sucy-en-Brie",kgCO2e/kWh,0.045,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Thiais",kgCO2e/kWh,0.128,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Villeneuve-Saint-Georges",kgCO2e/kWh,0.087,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Vitry-sur-Seine",kgCO2e/kWh,0.157,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Argenteuil",kgCO2e/kWh,0.1,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Cergy Pontoise",kgCO2e/kWh,0.166,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Franconville",kgCO2e/kWh,0.231,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Franconville",kgCO2e/kWh,0.163,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Franconville",kgCO2e/kWh,0.088,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Garges-Les-Gonesse",kgCO2e/kWh,0.18,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Pontoise",kgCO2e/kWh,0.197,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Roissy",kgCO2e/kWh,0.191,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Sarcelles",kgCO2e/kWh,0.053,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Taverny",kgCO2e/kWh,0.242,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Villiers-le-Bel",kgCO2e/kWh,0.105,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Midi-Pyrénées, Toulouse",kgCO2e/kWh,1.00E-02,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Aquitaine, Bordeaux",kgCO2e/kWh,9.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Aquitaine, Le Barp",kgCO2e/kWh,0.012,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Languedoc-Roussillon, Montpellier",kgCO2e/kWh,0.012,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Languedoc-Roussillon, Montpellier",kgCO2e/kWh,0.093,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Languedoc-Roussillon, Montpellier",kgCO2e/kWh,0.012,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Languedoc-Roussillon, Montpellier",kgCO2e/kWh,0.015,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Grenoble",kgCO2e/kWh,0.013,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Saint Etienne",kgCO2e/kWh,0.013,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Lorraine, Metz",kgCO2e/kWh,0.012,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Rhône-Alpes, Lyon-Villeurbanne",kgCO2e/kWh,0.011,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Paris",kgCO2e/kWh,7.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Boulogne-Billancourt",kgCO2e/kWh,0.013,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Courbevoie",kgCO2e/kWh,0.011,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Courbevoie",kgCO2e/kWh,0.011,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Levallois-Perret",kgCO2e/kWh,0.018,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Le Bourget",kgCO2e/kWh,0.033,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Saint-Denis",kgCO2e/kWh,9.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Orly",kgCO2e/kWh,7.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
+,District heating,France,"Ile-de-France, Roissy",kgCO2e/kWh,8.00E-03,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020
