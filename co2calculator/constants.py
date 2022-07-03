@@ -141,3 +141,16 @@ class CountryCode(str):
             return country_code
         else:
             raise ValueError(f"{country_code} is not a valid country code")
+
+
+class CountryName(str):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate_country_name
+
+    @classmethod
+    def validate_country_name(cls, country_name: str) -> str:
+        if country_name.upper() in list(iso3166.countries_by_name.keys()):
+            return country_name
+        else:
+            raise ValueError(f"{country_name} is not a valid country name")
