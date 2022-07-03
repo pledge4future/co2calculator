@@ -4,6 +4,8 @@
 
 import enum
 
+import iso3166
+
 KWH_TO_TJ = 277777.77777778
 
 
@@ -124,3 +126,8 @@ class TransportationMode(str, enum.Enum):
     TRAM = "tram"
     BICYCLE = "bicycle"
     PEDELEC = "pedelec"
+
+
+class CountryCode(str):
+    ALPHA2 = list(iso3166.countries_by_alpha2.keys())
+    ALPHA3 = list(iso3166.countries_by_alpha3.keys())
