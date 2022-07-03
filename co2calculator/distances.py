@@ -14,7 +14,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
-from pydantic import BaseModel, ValidationError, validator
+from pydantic import BaseModel, ValidationError
 from thefuzz import fuzz
 from thefuzz import process
 
@@ -34,17 +34,12 @@ detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 class StructuredLocation(BaseModel):
     address: Optional[str]
     locality: str
-    country: str
+    country: CountryCode
 
 
 class TrainStation(BaseModel):
     station_name: str
-    country: str
-
-    @validator("country")
-    def valid_country_code(cls, cntry):
-        if cntry not in CountryCode.ALPHA2 and cntry not in CountryCode.ALPHA2:
-            raise ValueError(f"{cntry} is not a valid country code")
+    country: CountryCode
 
 
 class Airport(BaseModel):
@@ -63,7 +58,7 @@ class InvalidSpatialInput(Exception):
 
 
 def haversine(
-        lat_start: float, long_start: float, lat_dest: float, long_dest: float
+    lat_start: float, long_start: float, lat_dest: float, long_dest: float
 ) -> Kilometer:
     """Function to compute the distance as the crow flies between given locations
 
@@ -84,10 +79,10 @@ def haversine(
     )
     # compute zeta
     a = (
-            np.sin((lat_dest - lat_start) / 2) ** 2
-            + np.cos(lat_start)
-            * np.cos(lat_dest)
-            * np.sin((long_dest - long_start) / 2) ** 2
+        np.sin((lat_dest - lat_start) / 2) ** 2
+        + np.cos(lat_start)
+        * np.cos(lat_dest)
+        * np.sin((long_dest - long_start) / 2) ** 2
     )
     c = 2 * np.arcsin(np.sqrt(a))
     r = 6371
@@ -118,7 +113,7 @@ def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
             # unfortunately, not all osm tags are available with geocoding, so osm entries might not be found and filter
             # for "aerodrome" tag not possible (could be done with ORS maybe?)
             if (feature["properties"]["confidence"] == 1) & (
-                    feature["properties"]["match_type"] == "exact"
+                feature["properties"]["match_type"] == "exact"
             ):
                 name = feature["properties"]["name"]
                 geom = feature["geometry"]["coordinates"]
@@ -212,7 +207,7 @@ def geocoding_structured(loc_dict):
         layer = feature["properties"]["layer"]
         if "locality" in loc_dict.keys() and "address" in loc_dict.keys():
             if (
-                    layer != "address" and layer != "locality" and layer != "street"
+                layer != "address" and layer != "locality" and layer != "street"
             ) and n_results > 1:
                 print(
                     f"Data type not matching search ({layer} instead of address or locality. Skipping {name}, {coords}"
@@ -279,7 +274,7 @@ def geocoding_train_stations(loc_dict):
     )
     res_station = stations_in_country_df[
         stations_in_country_df["slug"] == res_station_slug
-        ]
+    ]
     res_country, res_station_name = res_station[["country", "name"]].values[0]
 
     coords = (res_station.iloc[0]["latitude"], res_station.iloc[0]["longitude"])
@@ -306,7 +301,7 @@ def is_valid_geocoding_dict(geocoding_dict):
     assert len(geocoding_dict) != 0, "Error! Empty dictionary provided."
     for key in geocoding_dict:
         assert (
-                key in allowed_keys
+            key in allowed_keys
         ), f"Error! Parameter {key} is not available. Please check the input data."
     # warnings
     if "country" not in geocoding_dict.keys():
@@ -338,7 +333,7 @@ def get_route(coords: list, profile: str = None) -> Kilometer:
         )
     route = directions(clnt, coords, profile=profile)
     dist = (
-            route["routes"][0]["summary"]["distance"] / 1000
+        route["routes"][0]["summary"]["distance"] / 1000
     )  # divide my 1000, as we're working with distances in km
 
     return dist
@@ -357,10 +352,10 @@ def _apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
     try:
         detour_coefficient = detour_df[
             detour_df["transportation_mode"] == transportation_mode
-            ]["coefficient"].values[0]
+        ]["coefficient"].values[0]
         detour_constant = detour_df[
             detour_df["transportation_mode"] == transportation_mode
-            ]["constant [km]"].values[0]
+        ]["constant [km]"].values[0]
     except KeyError:
         detour_coefficient = 1.0
         detour_constant = 0.0
@@ -378,9 +373,9 @@ def _apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
 
 
 def create_distance_request(
-        start: Union[str, dict],
-        destination: Union[str, dict],
-        transportation_mode: TransportationMode,
+    start: Union[str, dict],
+    destination: Union[str, dict],
+    transportation_mode: TransportationMode,
 ) -> DistanceRequest:
     """Transform and validate the user input into a proper model for distance calculations
 

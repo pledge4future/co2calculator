@@ -128,7 +128,7 @@ def test_geocoding_train_stations_invalid_country():
 
 
 def test_geocoding_train_stations():
-    """Test geocoding of train stations if dictionary with invalid parameters is provided"""
+    """Test geocoding of European train station"""
     # Given parameters
 
     station_dict = {
