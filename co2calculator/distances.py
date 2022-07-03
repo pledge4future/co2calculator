@@ -14,7 +14,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
-from pydantic import BaseModel, ValidationError, Extra
+from pydantic import BaseModel, ValidationError, Extra, confloat
 from thefuzz import fuzz
 from thefuzz import process
 
@@ -57,6 +57,21 @@ class DistanceRequest(BaseModel):
     destination: Union[StructuredLocation, TrainStation, Airport]
 
 
+class Location(BaseModel):
+    lat: confloat(ge=-90, le=90)
+    long: confloat(ge=-180, le=180)
+    lat_rad: confloat(ge=-np.pi / 2, le=np.pi / 2) = None
+    long_rad: confloat(ge=-np.pi, le=np.pi) = None
+
+    def deg2rad(self):
+        self.lat_rad = np.deg2rad(self.lat)
+        self.long_rad = np.deg2rad(self.long)
+
+
+class Route(BaseModel):
+    stops = list[Location]
+
+
 # Module's exceptions
 class InvalidSpatialInput(Exception):
     """Raised when consumer inputs invalid spatial information"""
@@ -78,16 +93,19 @@ def haversine(
     :return: Distance
     :rtype: Kilometer
     """
+    start = Location(lat=lat_start, long=long_start)
+    dest = Location(lat=lat_dest, long=long_dest)
+
     # convert angles from degree to radians
-    lat_start, long_start, lat_dest, long_dest = np.deg2rad(
-        [lat_start, long_start, lat_dest, long_dest]
-    )
+    start.deg2rad()
+    dest.deg2rad()
+
     # compute zeta
     a = (
-        np.sin((lat_dest - lat_start) / 2) ** 2
-        + np.cos(lat_start)
-        * np.cos(lat_dest)
-        * np.sin((long_dest - long_start) / 2) ** 2
+        np.sin((dest.lat_rad - start.lat_rad) / 2) ** 2
+        + np.cos(start.lat_rad)
+        * np.cos(dest.lat_rad)
+        * np.sin((dest.long_rad - start.long_rad) / 2) ** 2
     )
     c = 2 * np.arcsin(np.sqrt(a))
     r = 6371
