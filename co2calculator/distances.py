@@ -57,7 +57,7 @@ class DistanceRequest(BaseModel):
     destination: Union[StructuredLocation, TrainStation, Airport]
 
 
-class Location(BaseModel):
+class Coordinate(BaseModel):
     lat: confloat(ge=-90, le=90)
     long: confloat(ge=-180, le=180)
     lat_rad: confloat(ge=-np.pi / 2, le=np.pi / 2) = None
@@ -69,7 +69,7 @@ class Location(BaseModel):
 
 
 class Route(BaseModel):
-    stops = list[Location]
+    stops = list[Coordinate]
 
 
 # Module's exceptions
@@ -78,7 +78,7 @@ class InvalidSpatialInput(Exception):
 
 
 def haversine(
-    lat_start: float, long_start: float, lat_dest: float, long_dest: float
+        lat_start: float, long_start: float, lat_dest: float, long_dest: float
 ) -> Kilometer:
     """Function to compute the distance as the crow flies between given locations
 
@@ -93,8 +93,8 @@ def haversine(
     :return: Distance
     :rtype: Kilometer
     """
-    start = Location(lat=lat_start, long=long_start)
-    dest = Location(lat=lat_dest, long=long_dest)
+    start = Coordinate(lat=lat_start, long=long_start)
+    dest = Coordinate(lat=lat_dest, long=long_dest)
 
     # convert angles from degree to radians
     start.deg2rad()
@@ -102,10 +102,10 @@ def haversine(
 
     # compute zeta
     a = (
-        np.sin((dest.lat_rad - start.lat_rad) / 2) ** 2
-        + np.cos(start.lat_rad)
-        * np.cos(dest.lat_rad)
-        * np.sin((dest.long_rad - start.long_rad) / 2) ** 2
+            np.sin((dest.lat_rad - start.lat_rad) / 2) ** 2
+            + np.cos(start.lat_rad)
+            * np.cos(dest.lat_rad)
+            * np.sin((dest.long_rad - start.long_rad) / 2) ** 2
     )
     c = 2 * np.arcsin(np.sqrt(a))
     r = 6371
@@ -136,7 +136,7 @@ def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
             # unfortunately, not all osm tags are available with geocoding, so osm entries might not be found and filter
             # for "aerodrome" tag not possible (could be done with ORS maybe?)
             if (feature["properties"]["confidence"] == 1) & (
-                feature["properties"]["match_type"] == "exact"
+                    feature["properties"]["match_type"] == "exact"
             ):
                 name = feature["properties"]["name"]
                 geom = feature["geometry"]["coordinates"]
@@ -228,7 +228,7 @@ def geocoding_structured(loc_dict):
         layer = feature["properties"]["layer"]
         if "locality" in loc_dict.keys() and "address" in loc_dict.keys():
             if (
-                layer != "address" and layer != "locality" and layer != "street"
+                    layer != "address" and layer != "locality" and layer != "street"
             ) and n_results > 1:
                 print(
                     f"Data type not matching search ({layer} instead of address or locality. Skipping {name}, {coords}"
@@ -295,7 +295,7 @@ def geocoding_train_stations(loc_dict):
     )
     res_station = stations_in_country_df[
         stations_in_country_df["slug"] == res_station_slug
-    ]
+        ]
     res_country, res_station_name = res_station[["country", "name"]].values[0]
 
     coords = (res_station.iloc[0]["latitude"], res_station.iloc[0]["longitude"])
@@ -324,7 +324,7 @@ def get_route(coords: list, profile: str = None) -> Kilometer:
         )
     route = directions(clnt, coords, profile=profile)
     dist = (
-        route["routes"][0]["summary"]["distance"] / 1000
+            route["routes"][0]["summary"]["distance"] / 1000
     )  # divide my 1000, as we're working with distances in km
 
     return dist
@@ -343,10 +343,10 @@ def _apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
     try:
         detour_coefficient = detour_df[
             detour_df["transportation_mode"] == transportation_mode
-        ]["coefficient"].values[0]
+            ]["coefficient"].values[0]
         detour_constant = detour_df[
             detour_df["transportation_mode"] == transportation_mode
-        ]["constant [km]"].values[0]
+            ]["constant [km]"].values[0]
     except KeyError:
         detour_coefficient = 1.0
         detour_constant = 0.0
@@ -364,9 +364,9 @@ def _apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
 
 
 def create_distance_request(
-    start: Union[str, dict],
-    destination: Union[str, dict],
-    transportation_mode: TransportationMode,
+        start: Union[str, dict],
+        destination: Union[str, dict],
+        transportation_mode: TransportationMode,
 ) -> DistanceRequest:
     """Transform and validate the user input into a proper model for distance calculations
 
@@ -444,7 +444,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             coords.append(loc_coords)
         return get_route(coords, "driving-car")
 
-    if request.transportation_mode == "bus":
+    if request.transportation_mode == TransportationMode.BUS:
         # Same as car (StructuredLocation)
         # TODO: Validate with BaseModel
         # TODO: Question: Why are we not calculating the bus trip like `driving-car` routes?
@@ -460,7 +460,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             )
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode in [TransportationMode.TRAIN]:
+    if request.transportation_mode == TransportationMode.TRAIN:
 
         distance = 0
         coords = []
@@ -481,7 +481,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             )
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode in [TransportationMode.PLANE]:
+    if request.transportation_mode == TransportationMode.PLANE:
         # Stops are IATA code of airports
         # TODO: Validate stops with BaseModel
 
@@ -491,7 +491,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode in [TransportationMode.FERRY]:
+    if request.transportation_mode == TransportationMode.FERRY:
         # todo: Do we have a way of checking if there even exists a ferry connection between the given cities (or if the
         #  cities even have a port?
         _, _, geom_start, _ = geocoding_structured(request.start.dict())
