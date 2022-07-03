@@ -4,3 +4,4 @@ openrouteservice==2.3.3
 python-dotenv
 thefuzz
 pydantic==1.9.0
+iso3166
