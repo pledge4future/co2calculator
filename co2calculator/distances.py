@@ -19,16 +19,20 @@ from thefuzz import fuzz
 from thefuzz import process
 
 from ._types import Kilometer
-from .constants import TransportationMode, CountryCode, CountryName
+from .constants import (
+    TransportationMode,
+    CountryCode,
+    CountryName,
+    DetourCoefficient,
+    DetourConstant,
+)
 
 load_dotenv()  # take environment variables from .env.
 
 # Load environment vars (TODO: Use pydantic.BaseSettings)
 ORS_API_KEY = os.environ.get("ORS_API_KEY")
 
-# Set (module) global vars (TODO: Don't do it - make it a class and move it to attributes!)
 script_path = str(Path(__file__).parent)
-detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 
 
 class StructuredLocation(BaseModel, extra=Extra.forbid):
@@ -337,12 +341,8 @@ def _apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
     :rtype: Kilometer
     """
     try:
-        detour_coefficient = detour_df[
-            detour_df["transportation_mode"] == transportation_mode
-        ]["coefficient"].values[0]
-        detour_constant = detour_df[
-            detour_df["transportation_mode"] == transportation_mode
-        ]["constant [km]"].values[0]
+        detour_coefficient = DetourCoefficient[transportation_mode.upper()]
+        detour_constant = DetourConstant[transportation_mode.upper()]
     except KeyError:
         detour_coefficient = 1.0
         detour_constant = 0.0
@@ -350,7 +350,7 @@ def _apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
             f"""
         No detour coefficient or constant available for this transportation mode.
         Detour parameters are available for the following transportation modes:
-        {detour_df["transportation_mode"]}
+        {[mode for mode in DetourCoefficient]}
         Using detour_coefficient = {detour_coefficient} and detour_constant = {detour_constant}.
         """
         )
@@ -492,7 +492,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         #  cities even have a port?
         _, _, geom_start, _ = geocoding_structured(request.start.dict())
         _, _, geom_dest, _ = geocoding_structured(request.destination.dict())
-        # compute great circle distance between airports
+        # compute great circle distance between ports
         distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
 
         return _apply_detour(distance, request.transportation_mode)
