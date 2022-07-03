@@ -285,36 +285,6 @@ def geocoding_train_stations(loc_dict):
     return res_station_name, res_country, coords
 
 
-def is_valid_geocoding_dict(geocoding_dict):
-    """Function to check if the dictionary is valid as input for pelias structured geocoding. Raises error if it is not
-    the case
-
-    :param geocoding_dict: dictionary describing the location
-    """
-    allowed_keys = [
-        "country",
-        "region",
-        "county",
-        "locality",
-        "borough",
-        "address",
-        "postalcode",
-        "neighbourhood",
-    ]
-    assert len(geocoding_dict) != 0, "Error! Empty dictionary provided."
-    for key in geocoding_dict:
-        assert (
-            key in allowed_keys
-        ), f"Error! Parameter {key} is not available. Please check the input data."
-    # warnings
-    if "country" not in geocoding_dict.keys():
-        warnings.warn("Country was not provided. The results may be wrong.")
-    if "locality" not in geocoding_dict.keys():
-        warnings.warn(
-            "Locality (city) was not provided. The results may be inaccurate."
-        )
-
-
 def get_route(coords: list, profile: str = None) -> Kilometer:
     """Obtain the distance of a route between given waypoints using a given profile
     todo: check if coords may also be a tuple/array etc.
