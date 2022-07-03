@@ -13,8 +13,8 @@ from pydantic import ValidationError
 from co2calculator.distances import (
     haversine,
     geocoding_airport,
-    is_valid_geocoding_dict,
     geocoding_train_stations,
+    geocoding_structured,
 )
 
 load_dotenv()
@@ -78,8 +78,8 @@ def test_valid_geocoding_dict():
         "neighbourhood": None,
     }
 
-    # Call function; test will pass if no error is raised
-    is_valid_geocoding_dict(loc_dict)
+    # Check if raises error
+    geocoding_structured(loc_dict)
 
 
 def test_invalid_geocoding_dict():
@@ -92,9 +92,9 @@ def test_invalid_geocoding_dict():
     }
 
     # Check if raises error
-    with pytest.raises(AssertionError) as e:
-        is_valid_geocoding_dict(loc_dict)
-    assert e.type is AssertionError
+    with pytest.raises(ValidationError) as e:
+        geocoding_structured(loc_dict)
+    assert e.type is ValidationError
 
 
 def test_geocoding_train_stations_invalid_dict():

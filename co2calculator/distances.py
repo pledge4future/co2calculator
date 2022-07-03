@@ -14,7 +14,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel, ValidationError, Extra
 from thefuzz import fuzz
 from thefuzz import process
 
@@ -31,10 +31,15 @@ script_path = str(Path(__file__).parent)
 detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 
 
-class StructuredLocation(BaseModel):
+class StructuredLocation(BaseModel, extra=Extra.forbid):
     address: Optional[str]
     locality: str
     country: CountryCode
+    region: Optional[str]
+    county: Optional[str]
+    borough: Optional[str]
+    postalcode: Optional[str]
+    neighbourhood: Optional[str]
 
 
 class TrainStation(BaseModel):
@@ -186,13 +191,11 @@ def geocoding_structured(loc_dict):
 
     clnt = openrouteservice.Client(key=ORS_API_KEY)
 
-    # TODO: Replace loc_dict with pydantic.BaseModel approach
-    is_valid_geocoding_dict(loc_dict)
+    location = StructuredLocation(**loc_dict)
 
-    call = pelias_structured(clnt, **loc_dict)
+    call = pelias_structured(clnt, **location.dict())
     n_results = len(call["features"])
     res = call["features"]
-    print(res)
     assert n_results != 0, "No places found with these search parameters"
     if n_results == 0:
         raise Exception("No places found with these search parameters")
