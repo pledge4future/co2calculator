@@ -128,16 +128,27 @@ class TransportationMode(str, enum.Enum):
     PEDELEC = "pedelec"
 
 
-class CountryCode(str):
+class CountryCode2(str):
     @classmethod
     def __get_validators__(cls):
         yield cls.validate_country_code
 
     @classmethod
     def validate_country_code(cls, country_code: str) -> str:
-        if country_code in list(
-            iso3166.countries_by_alpha2.keys()
-        ) or country_code in list(iso3166.countries_by_alpha3.keys()):
+        if country_code in list(iso3166.countries_by_alpha2.keys()):
+            return country_code
+        else:
+            raise ValueError(f"{country_code} is not a valid country code")
+
+
+class CountryCode3(str):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate_country_code
+
+    @classmethod
+    def validate_country_code(cls, country_code: str) -> str:
+        if country_code in list(iso3166.countries_by_alpha3.keys()):
             return country_code
         else:
             raise ValueError(f"{country_code} is not a valid country code")

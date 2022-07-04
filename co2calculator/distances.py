@@ -19,7 +19,7 @@ from thefuzz import fuzz
 from thefuzz import process
 
 from ._types import Kilometer
-from .constants import TransportationMode, CountryCode, CountryName
+from .constants import TransportationMode, CountryCode2, CountryCode3, CountryName
 
 load_dotenv()  # take environment variables from .env.
 
@@ -34,7 +34,7 @@ detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 class StructuredLocation(BaseModel, extra=Extra.forbid):
     address: Optional[str]
     locality: str
-    country: Union[CountryCode, CountryName]
+    country: Union[CountryCode2, CountryCode3, CountryName]
     region: Optional[str]
     county: Optional[str]
     borough: Optional[str]
@@ -44,7 +44,7 @@ class StructuredLocation(BaseModel, extra=Extra.forbid):
 
 class TrainStation(BaseModel):
     station_name: str
-    country: CountryCode
+    country: CountryCode2
 
 
 class Airport(BaseModel):
