@@ -117,6 +117,8 @@ class RangeCategory(str, enum.Enum):
 
 @enum.unique
 class TransportationMode(str, enum.Enum):
+    """Enum for transportation modes"""
+
     CAR = "car"
     MOTORBIKE = "motorbike"
     BUS = "bus"
@@ -129,6 +131,8 @@ class TransportationMode(str, enum.Enum):
 
 
 class CountryCode2(str):
+    """Class for 2-letter country codes (ISO 3166-1 alpha-2)"""
+
     @classmethod
     def __get_validators__(cls):
         yield cls.validate_country_code
@@ -142,6 +146,8 @@ class CountryCode2(str):
 
 
 class CountryCode3(str):
+    """Class for 3-letter country codes (ISO 3166-1 alpha-3)"""
+
     @classmethod
     def __get_validators__(cls):
         yield cls.validate_country_code
@@ -155,6 +161,8 @@ class CountryCode3(str):
 
 
 class CountryName(str):
+    """Class for country names (ISO 3166)"""
+
     @classmethod
     def __get_validators__(cls):
         yield cls.validate_country_name
