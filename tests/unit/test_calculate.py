@@ -180,13 +180,25 @@ def test_calc_co2_plane(
     assert round(actual_emissions, 2) == expected_emissions
 
 
-def test_calc_co2_plane__failed():
+def test_calc_co2_plane__failed() -> None:
     """Test: Calculation on plane-trip emissions fails due to false input.
     Expect: Raises ValueError.
     """
 
     with pytest.raises(ValueError):
-        candidate.calc_co2_plane(distance=1, seating_class="NON-EXISTANT")
+        candidate.calc_co2_plane(distance=5000, seating_class="NON-EXISTENT")
+
+
+def test_calc_co2_plane__invalid_distance_seating_combo() -> None:
+    """Test: Calculation on plane-trip emissions fails due to false input.
+    Expect: Raises ValueError.
+    """
+
+    # Check if raises warning (premium economy class is not available for short-haul flights)
+    with pytest.warns(
+        UserWarning, match=r"Seating class '\w+' not available for short-haul flights"
+    ):
+        candidate.calc_co2_plane(distance=400, seating_class="premium_economy_class")
 
 
 @pytest.mark.parametrize(

@@ -14,12 +14,12 @@ import pandas as pd
 from dotenv import load_dotenv
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel, ValidationError, Extra, confloat
 from thefuzz import fuzz
 from thefuzz import process
 
 from ._types import Kilometer
-from .constants import TransportationMode
+from .constants import TransportationMode, CountryCode2, CountryCode3, CountryName
 
 load_dotenv()  # take environment variables from .env.
 
@@ -31,15 +31,20 @@ script_path = str(Path(__file__).parent)
 detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 
 
-class StructuredLocation(BaseModel):
+class StructuredLocation(BaseModel, extra=Extra.forbid):
     address: Optional[str]
     locality: str
-    country: str
+    country: Union[CountryCode2, CountryCode3, CountryName]
+    region: Optional[str]
+    county: Optional[str]
+    borough: Optional[str]
+    postalcode: Optional[str]
+    neighbourhood: Optional[str]
 
 
 class TrainStation(BaseModel):
     station_name: str
-    country: str  # NOTE: Could be improved with validator to country codes
+    country: CountryCode2
 
 
 class Airport(BaseModel):
@@ -50,6 +55,17 @@ class DistanceRequest(BaseModel):
     transportation_mode: TransportationMode
     start: Union[StructuredLocation, TrainStation, Airport]
     destination: Union[StructuredLocation, TrainStation, Airport]
+
+
+class Coordinate(BaseModel):
+    lat: confloat(ge=-90, le=90)
+    long: confloat(ge=-180, le=180)
+    lat_rad: confloat(ge=-np.pi / 2, le=np.pi / 2) = None
+    long_rad: confloat(ge=-np.pi, le=np.pi) = None
+
+    def deg2rad(self):
+        self.lat_rad = np.deg2rad(self.lat)
+        self.long_rad = np.deg2rad(self.long)
 
 
 # Module's exceptions
@@ -73,16 +89,19 @@ def haversine(
     :return: Distance
     :rtype: Kilometer
     """
+    start = Coordinate(lat=lat_start, long=long_start)
+    dest = Coordinate(lat=lat_dest, long=long_dest)
+
     # convert angles from degree to radians
-    lat_start, long_start, lat_dest, long_dest = np.deg2rad(
-        [lat_start, long_start, lat_dest, long_dest]
-    )
+    start.deg2rad()
+    dest.deg2rad()
+
     # compute zeta
     a = (
-        np.sin((lat_dest - lat_start) / 2) ** 2
-        + np.cos(lat_start)
-        * np.cos(lat_dest)
-        * np.sin((long_dest - long_start) / 2) ** 2
+        np.sin((dest.lat_rad - start.lat_rad) / 2) ** 2
+        + np.cos(start.lat_rad)
+        * np.cos(dest.lat_rad)
+        * np.sin((dest.long_rad - start.long_rad) / 2) ** 2
     )
     c = 2 * np.arcsin(np.sqrt(a))
     r = 6371
@@ -186,13 +205,11 @@ def geocoding_structured(loc_dict):
 
     clnt = openrouteservice.Client(key=ORS_API_KEY)
 
-    # TODO: Replace loc_dict with pydantic.BaseModel approach
-    is_valid_geocoding_dict(loc_dict)
+    location = StructuredLocation(**loc_dict)
 
-    call = pelias_structured(clnt, **loc_dict)
+    call = pelias_structured(clnt, **location.dict())
     n_results = len(call["features"])
     res = call["features"]
-    print(res)
     assert n_results != 0, "No places found with these search parameters"
     if n_results == 0:
         raise Exception("No places found with these search parameters")
@@ -246,6 +263,8 @@ def geocoding_train_stations(loc_dict):
 
     :return: Name, country and coordinates of the found location
     """
+    station = TrainStation(**loc_dict)
+
     stations_df = pd.read_csv(
         f"{script_path}/../data/stations/stations.csv",
         sep=";",
@@ -255,19 +274,12 @@ def geocoding_train_stations(loc_dict):
     # remove stations with no coordinates
     stations_df.dropna(subset=["latitude", "longitude"], inplace=True)
     countries_eu = stations_df["country"].unique()
-    if "country" in loc_dict:
-        country_code = loc_dict["country"]
-        if country_code not in countries_eu:
-            warnings.warn(
-                "The provided country is not within Europe. "
-                "Please provide the address of the station instead of the station name for accurate results."
-            )
-    else:
-        raise ValueError("No 'country' provided. Cannot search for train station")
-    if "station_name" in loc_dict:
-        station_name = loc_dict["station_name"]
-    else:
-        raise ValueError("No 'station_name' provided. Cannot search for train station.")
+    country_code = station.country
+    if country_code not in countries_eu:
+        warnings.warn(
+            "The provided country is not within Europe. "
+            "Please provide the address of the station instead of the station name for accurate results."
+        )
 
     # filter stations by country
     stations_in_country_df = stations_df[stations_df["country"] == country_code]
@@ -275,7 +287,7 @@ def geocoding_train_stations(loc_dict):
     # use thefuzz to find best match
     choices = stations_in_country_df["slug"].values
     res_station_slug, score = process.extractOne(
-        station_name, choices, scorer=fuzz.partial_ratio
+        station.station_name, choices, scorer=fuzz.partial_ratio
     )
     res_station = stations_in_country_df[
         stations_in_country_df["slug"] == res_station_slug
@@ -285,36 +297,6 @@ def geocoding_train_stations(loc_dict):
     coords = (res_station.iloc[0]["latitude"], res_station.iloc[0]["longitude"])
 
     return res_station_name, res_country, coords
-
-
-def is_valid_geocoding_dict(geocoding_dict):
-    """Function to check if the dictionary is valid as input for pelias structured geocoding. Raises error if it is not
-    the case
-
-    :param geocoding_dict: dictionary describing the location
-    """
-    allowed_keys = [
-        "country",
-        "region",
-        "county",
-        "locality",
-        "borough",
-        "address",
-        "postalcode",
-        "neighbourhood",
-    ]
-    assert len(geocoding_dict) != 0, "Error! Empty dictionary provided."
-    for key in geocoding_dict:
-        assert (
-            key in allowed_keys
-        ), f"Error! Parameter {key} is not available. Please check the input data."
-    # warnings
-    if "country" not in geocoding_dict.keys():
-        warnings.warn("Country was not provided. The results may be wrong.")
-    if "locality" not in geocoding_dict.keys():
-        warnings.warn(
-            "Locality (city) was not provided. The results may be inaccurate."
-        )
 
 
 def get_route(coords: list, profile: str = None) -> Kilometer:
@@ -458,7 +440,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             coords.append(loc_coords)
         return get_route(coords, "driving-car")
 
-    if request.transportation_mode == "bus":
+    if request.transportation_mode == TransportationMode.BUS:
         # Same as car (StructuredLocation)
         # TODO: Validate with BaseModel
         # TODO: Question: Why are we not calculating the bus trip like `driving-car` routes?
@@ -474,7 +456,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             )
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode in [TransportationMode.TRAIN]:
+    if request.transportation_mode == TransportationMode.TRAIN:
 
         distance = 0
         coords = []
@@ -495,7 +477,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             )
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode in [TransportationMode.PLANE]:
+    if request.transportation_mode == TransportationMode.PLANE:
         # Stops are IATA code of airports
         # TODO: Validate stops with BaseModel
 
@@ -505,7 +487,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode in [TransportationMode.FERRY]:
+    if request.transportation_mode == TransportationMode.FERRY:
         # todo: Do we have a way of checking if there even exists a ferry connection between the given cities (or if the
         #  cities even have a port?
         _, _, geom_start, _ = geocoding_structured(request.start.dict())
