@@ -1,4 +1,4 @@
-# CO<sub>2</sub> Calculator
+# CO<sub>2</sub>Calculator
 
 [![status: experimental](https://github.com/GIScience/badges/raw/master/status/experimental.svg)](https://github.com/GIScience/badges#experimental)
 
@@ -10,11 +10,26 @@ This package is part of [Pledge4Future](https://pledge4future.org/), a project t
 
 ## :computer:  Installation
 
+`co2calculator` is currently only available on GitHub. To use the code, clone the repository as usual, for example with:
+
+``` 
+git clone https://github.com/pledge4future/co2calculator.git
+```
+
+The repository has a submodule (https://github.com/trainline-eu/stations). This has to be pulled with the following command:
+
+```
+git submodule update --init --recursive
+```
+
+
 This package requires Python 3.9 and the packages listed in `requirements.txt`
 
 ```
 $ pip install -r requirements.txt
 ```
+
+
 
 ## ⌨  How to Use
 
