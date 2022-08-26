@@ -13,11 +13,14 @@ from .constants import (
     KWH_TO_TJ,
     Size,
     CarBusFuel,
+    TrainFuel,
     BusTrainRange,
     FlightClass,
     FlightRange,
     FerryClass,
     ElectricityFuel,
+    HeatingFuel,
+    Unit,
     TransportationMode,
     RangeCategory
 )
@@ -197,9 +200,9 @@ def calc_co2_train(
 
     # Set default values
     if fuel_type is None:
-        fuel_type = CarBusFuel.AVERAGE
+        fuel_type = TrainFuel.AVERAGE
         warnings.warn(
-            f"Car fuel type was not provided. Using default value: '{fuel_type}'"
+            f"Train fuel type was not provided. Using default value: '{fuel_type}'"
         )
     if vehicle_range is None:
         vehicle_range = BusTrainRange.LONG_DISTANCE
@@ -358,12 +361,17 @@ def calc_co2_heating(
     """
     # Set defaults
     if unit is None:
-        unit = "kWh"
+        unit = Unit.KWH
         warnings.warn(f"Unit was not provided. Assuming default value: '{unit}'")
     if area_share > 1:
         warnings.warn(
             f"Share of building area must be a float in the interval (0,1], but was set to '{area_share}'\n."
             f"The parameter will be set to '1.0' instead"
+        )
+    if fuel_type is None:
+        fuel_type = HeatingFuel.GAS
+        warnings.warn(
+            f"No fuel type specified. Using default value: '{fuel_type}'"
         )
     valid_unit_choices = ["kWh", "l", "kg", "m^3"]
     assert (

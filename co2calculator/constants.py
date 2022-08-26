@@ -9,23 +9,6 @@ import iso3166
 KWH_TO_TJ = 277777.77777778
 
 
-class BusinessTripTransportationMode(enum.Enum):
-    CAR = 'Car'
-    BUS = 'Bus'
-    TRAIN = 'Train'
-    PLANE = 'Plane'
-
-
-class CommutingTransportationMode(enum.Enum):
-    CAR = 'Car'
-    BUS = 'Bus'
-    TRAIN = 'Train'
-    BICYCLE = 'Bicycle'
-    EBIKE = 'E-bike'
-    MOTORBIKE = 'Motorbike'
-    TRAM = 'Tram'
-
-
 class HeatingFuel(enum.Enum):
     """Enum for heating fuel types"""
 
@@ -146,7 +129,8 @@ class TransportationMode(str, enum.Enum):
     PEDELEC = "pedelec"
 
 
-class Unit(enum.Enum):
+@enum.unique
+class Unit(str, enum.Enum):
     KWH = "kwh"
     KG = "kg"
     L = "l"
