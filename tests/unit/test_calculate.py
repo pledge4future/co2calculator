@@ -52,6 +52,62 @@ def test_calc_co2_car(
 
 
 @pytest.mark.parametrize(
+    "start_address,start_city,start_country,destination_address,destination_city,destination_country,transportation_mode,passengers,size,fuel_type,expected_emissions",
+    [
+        pytest.param(None, "Heidelberg", "Germany", None, "Berlin", "Germany", "car", None, None, None, 137.88, id="car"),
+        pytest.param("Augsburg Hochzoll", "Augsburg", "Germany", "Berlin Gesundbrunnen", "Berlin", "Germany", "train", None, None, None, 19.54, id="train"),
+        #pytest.param(10, 1, "small", None, 1.79, id="size: 'small'"),
+        #pytest.param(10, 1, "medium", None, 2.09, id="size: 'medium'"),
+        #pytest.param(10, 1, "large", None, 2.74, id="size: 'large'"),
+        #pytest.param(10, 1, "average", None, 2.15, id="size: 'average'"),
+        #pytest.param(10, 1, None, "diesel", 2.01, id="fuel_type: 'diesel'"),
+        ##pytest.param(10, 1, None, "gasoline", 2.24, id="fuel_type: 'gasoline'"),
+        # pytest.param(10, 1, None, "cng", 31.82, id="fuel_type: 'cng'"),
+        #pytest.param(10, 1, None, "electric", 0.57, id="fuel_type: 'electric'"),
+        #pytest.param(10, 1, None, "hybrid", 1.16, id="fuel_type: 'hybrid'"),
+        #pytest.param(
+        #    10, 1, None, "plug-in_hybrid", 0.97, id="fuel_type: 'plug-in_hybrid'"
+        #),
+        #pytest.param(10, 1, None, "average", 2.15, id="fuel_type: 'average'"),
+    ],
+)
+def test_calc_co2_busincesstrip(
+    start_address: str,
+    start_city: str,
+    start_country: str,
+    destination_address: str,
+    destination_city: str,
+    destination_country: str,
+    transportation_mode: str,
+    passengers: Optional[int],
+    size: Optional[str],
+    fuel_type: Optional[str],
+    expected_emissions: float,
+):
+    """Test: Calculate car-trip emissions based on given distance.
+    Expect: Returns emissions and distance.
+    """
+    start = {"station_name": start_address,
+                   "address": start_address,
+                   "locality": start_city,
+                   "country": start_country}
+    destination = {"station_name": destination_address,
+                   "address": destination_address,
+                   "locality": destination_city,
+                   "country": destination_country}
+    actual_emissions, _, _, _ = candidate.calc_co2_businesstrip(
+        transportation_mode=transportation_mode,
+        start=start,
+        destination=destination,
+        passengers=passengers,
+        size=size,
+        fuel_type=fuel_type,
+    )
+
+    assert round(actual_emissions, 2) == expected_emissions
+
+
+@pytest.mark.parametrize(
     "distance,size,expected_emissions",
     [
         pytest.param(100, None, 11.34, id="defaults"),
@@ -364,3 +420,4 @@ def test_calc_co2_businesstrip(
     )
 
     patched_method.assert_called_once()
+

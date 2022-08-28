@@ -11,12 +11,14 @@ from typing import Tuple, Union, Optional
 import numpy as np
 import openrouteservice
 import pandas as pd
+import pydantic
 from dotenv import load_dotenv
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
 from pydantic import BaseModel, ValidationError, Extra, confloat
 from thefuzz import fuzz
 from thefuzz import process
+from iso3166 import countries
 
 from ._types import Kilometer
 from .constants import TransportationMode, CountryCode2, CountryCode3, CountryName
@@ -31,7 +33,7 @@ script_path = str(Path(__file__).parent)
 detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 
 
-class StructuredLocation(BaseModel, extra=Extra.forbid):
+class StructuredLocation(BaseModel, extra=Extra.ignore):
     address: Optional[str]
     locality: str
     country: Union[CountryCode2, CountryCode3, CountryName]
@@ -42,10 +44,19 @@ class StructuredLocation(BaseModel, extra=Extra.forbid):
     neighbourhood: Optional[str]
 
 
-class TrainStation(BaseModel):
+class TrainStation(BaseModel, extra=Extra.ignore):
     station_name: str
-    country: CountryCode2
+    country_code: CountryCode2 = None
+    country: CountryName = None
 
+    @pydantic.root_validator(pre=False)
+    def get_country_code(cls, values):
+        if values["country_code"] is None:
+            try:
+                values["country_code"] = countries.get(values["country"]).alpha2
+            except KeyError as e:
+                raise ValueError(f"Invalid country: {values['country']}.")
+        return values
 
 class Airport(BaseModel):
     iata_code: str  # NOTE: Could be improved with validation of IATA codes
@@ -274,7 +285,7 @@ def geocoding_train_stations(loc_dict):
     # remove stations with no coordinates
     stations_df.dropna(subset=["latitude", "longitude"], inplace=True)
     countries_eu = stations_df["country"].unique()
-    country_code = station.country
+    country_code = station.country_code
     if country_code not in countries_eu:
         warnings.warn(
             "The provided country is not within Europe. "
@@ -393,8 +404,8 @@ def create_distance_request(
         if transportation_mode in [TransportationMode.TRAIN]:
             return DistanceRequest(
                 transportation_mode=transportation_mode,
-                start=TrainStation(**start),
-                destination=TrainStation(**destination),
+                start=StructuredLocation(**start),
+                destination=StructuredLocation(**destination),
             )
 
         if transportation_mode in [TransportationMode.PLANE]:
@@ -463,8 +474,8 @@ def get_distance(request: DistanceRequest) -> Kilometer:
 
         for loc in [request.start, request.destination]:
             try:
-                _, _, loc_coords = geocoding_train_stations(loc.dict())
-            except RuntimeWarning:
+            #    _, _, loc_coords = geocoding_train_stations(loc.dict())
+            #except RuntimeWarning:
                 _, _, loc_coords, _ = geocoding_structured(loc.dict())
             except ValueError:
                 _, _, loc_coords, _ = geocoding_structured(loc.dict())
