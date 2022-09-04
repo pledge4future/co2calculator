@@ -29,6 +29,7 @@ ORS_API_KEY = os.environ.get("ORS_API_KEY")
 # Set (module) global vars (TODO: Don't do it - make it a class and move it to attributes!)
 script_path = str(Path(__file__).parent)
 detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
+df_airports = None
 
 
 class StructuredLocation(BaseModel, extra=Extra.forbid):
@@ -109,7 +110,7 @@ def haversine(
     return c * r
 
 
-def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
+def geocoding_airport_pelias(iata: str) -> Tuple[str, Tuple[float, float], str]:
     """Function to obtain the coordinates of an airport by the IATA code
 
     :param iata: IATA airport code
@@ -140,6 +141,32 @@ def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
                 break
 
     return name, geom, country
+
+
+def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
+    """Function to obtain the coordinates of an airport by the IATA code
+
+    :param iata: IATA airport code
+    :type iata: str
+    :return: name, coordinates and country of the found airport
+    :rtype: Tuple[str, Tuple[float, float], str]
+    """
+    global df_airports
+    if df_airports is None:
+        df_airports = pd.read_csv(
+            "https://davidmegginson.github.io/ourairports-data/airports.csv"
+        )
+    name, lat, lon, country = (
+        df_airports[df_airports.iata_code == iata][
+            ["name", "latitude_deg", "longitude_deg", "iso_country"]
+        ]
+        .values.flatten()
+        .tolist()
+    )
+    # coords is a string - convert to list of floats
+    coords = [lon, lat]
+
+    return name, coords, country
 
 
 def geocoding(address):
