@@ -25,7 +25,9 @@ from .distances import create_distance_request, get_distance
 
 script_path = str(Path(__file__).parent)
 emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
-# fill null values with "missing"
+# fill null values with -99 (integers) and "missing" (strings)
+emission_factor_df["occupancy"] = emission_factor_df["occupancy"].fillna(-99)
+emission_factor_df["capacity"] = emission_factor_df["capacity"].fillna(-99)
 emission_factor_df = emission_factor_df.fillna("missing")
 conversion_factor_df = pd.read_csv(
     f"{script_path}/../data/conversion_factors_heating.csv"
@@ -505,11 +507,11 @@ def range_categories(distance: Kilometer) -> Tuple[RangeCategory, str]:
 def get_emission_factor(
     category: str,
     mode: str,
-    size="missing",
-    fuel_type="missing",
-    occupancy="missing",
-    range_cat="missing",
-    seating_class="missing",
+    size: str = "missing",
+    fuel_type: str = "missing",
+    occupancy: int = -99,
+    range_cat: str = "missing",
+    seating_class: str = "missing",
 ):
     """
     Function to retrieve the emission factor for the specified configuration
@@ -519,7 +521,15 @@ def get_emission_factor(
     :param size: Size of the vehicle (for category vehicle and public transport)
     :param fuel_type: Fuel type used for the service
     :param occupancy: occupancy of the vehicle (for mode bus)
-    :param seating_class: Seating class (for mode plane and bus)
+    :param range_cat: Range category of the trip (for mode bus and plane)
+    :param seating_class: Seating class (for mode plane and ferry)
+    :type category: str
+    :type mode: str
+    :type size: str
+    :type fuel_type: str
+    :type occupancy: int
+    :type range_cat: str
+    :type seating_class: str
     """
     try:
         co2e = emission_factor_df[
@@ -555,10 +565,10 @@ def get_emission_factor(
 def calc_co2_commuting(
     transportation_mode: str,
     weekly_distance: Kilometer,
-    size: str = None,
-    fuel_type: str = None,
-    occupancy: int = None,
-    passengers: int = None,
+    size: str = "missing",
+    fuel_type: str = "missing",
+    occupancy: int = -99,
+    passengers: int = "missing",
 ) -> Kilogram:
     """Calculate co2 emissions for commuting per mode of transport
 
