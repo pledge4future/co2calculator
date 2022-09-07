@@ -21,7 +21,8 @@ from thefuzz import process
 from iso3166 import countries
 
 from ._types import Kilometer
-from .constants import TransportationMode, CountryCode2, CountryCode3, CountryName
+from .constants import CountryCode2, CountryCode3, CountryName
+from .enums import TransportationMode
 
 load_dotenv()  # take environment variables from .env.
 
@@ -57,6 +58,7 @@ class TrainStation(BaseModel, extra=Extra.ignore):
             except KeyError as e:
                 raise ValueError(f"Invalid country: {values['country']}.")
         return values
+
 
 class Airport(BaseModel):
     iata_code: str  # NOTE: Could be improved with validation of IATA codes
@@ -390,10 +392,10 @@ def create_distance_request(
 
     try:
         if transportation_mode in [
-            TransportationMode.CAR,
-            TransportationMode.MOTORBIKE,
-            TransportationMode.BUS,
-            TransportationMode.FERRY,
+            TransportationMode.Car,
+            TransportationMode.Motorbike,
+            TransportationMode.Bus,
+            TransportationMode.Ferry,
         ]:
             return DistanceRequest(
                 transportation_mode=transportation_mode,
@@ -401,24 +403,23 @@ def create_distance_request(
                 destination=StructuredLocation(**destination),
             )
 
-        if transportation_mode in [TransportationMode.TRAIN]:
+        if transportation_mode in [TransportationMode.Train]:
             return DistanceRequest(
                 transportation_mode=transportation_mode,
                 start=StructuredLocation(**start),
                 destination=StructuredLocation(**destination),
             )
 
-        if transportation_mode in [TransportationMode.PLANE]:
+        if transportation_mode in [TransportationMode.Plane]:
             return DistanceRequest(
                 transportation_mode=transportation_mode,
-                start=Airport(iata_code=start),
-                destination=Airport(iata_code=destination),
+                start=StructuredLocation(**start),
+                destination=StructuredLocation(**destination),
             )
 
     except ValidationError as e:
-        raise InvalidSpatialInput(e)
-
-    raise InvalidSpatialInput(f"unknown transportation_mode: '{transportation_mode}'")
+        #raise InvalidSpatialInput(e)
+        raise InvalidSpatialInput(f"unknown transportation_mode: '{transportation_mode}'")
 
 
 def get_distance(request: DistanceRequest) -> Kilometer:
@@ -433,17 +434,17 @@ def get_distance(request: DistanceRequest) -> Kilometer:
     """
 
     detour_map = {
-        TransportationMode.CAR: False,
-        TransportationMode.MOTORBIKE: False,
-        TransportationMode.BUS: True,
-        TransportationMode.TRAIN: True,
-        TransportationMode.PLANE: True,
-        TransportationMode.FERRY: True,
+        TransportationMode.Car: False,
+        TransportationMode.Motorbike: False,
+        TransportationMode.Bus: True,
+        TransportationMode.Train: True,
+        TransportationMode.Plane: True,
+        TransportationMode.Ferry: True,
     }
 
     if request.transportation_mode in [
-        TransportationMode.CAR,
-        TransportationMode.MOTORBIKE,
+        TransportationMode.Car,
+        TransportationMode.Motorbike,
     ]:
         coords = []
         for loc in [request.start, request.destination]:
@@ -451,7 +452,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             coords.append(loc_coords)
         return get_route(coords, "driving-car")
 
-    if request.transportation_mode == TransportationMode.BUS:
+    if request.transportation_mode == TransportationMode.Bus:
         # Same as car (StructuredLocation)
         # TODO: Validate with BaseModel
         # TODO: Question: Why are we not calculating the bus trip like `driving-car` routes?
@@ -467,7 +468,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             )
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode == TransportationMode.TRAIN:
+    if request.transportation_mode == TransportationMode.Train:
 
         distance = 0
         coords = []
@@ -488,17 +489,19 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             )
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode == TransportationMode.PLANE:
+    if request.transportation_mode == TransportationMode.Plane:
         # Stops are IATA code of airports
         # TODO: Validate stops with BaseModel
 
-        _, geom_start, _ = geocoding_airport(request.start.iata_code)
-        _, geom_dest, _ = geocoding_airport(request.destination.iata_code)
+        #_, geom_start, _ = geocoding_airport(request.start.iata_code)
+        #_, geom_dest, _ = geocoding_airport(request.destination.iata_code)
+        _, _, geom_start, _ = geocoding_structured(request.start.dict())
+        _, _, geom_dest, _ = geocoding_structured(request.destination.dict())
 
         distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode == TransportationMode.FERRY:
+    if request.transportation_mode == TransportationMode.Ferry:
         # todo: Do we have a way of checking if there even exists a ferry connection between the given cities (or if the
         #  cities even have a port?
         _, _, geom_start, _ = geocoding_structured(request.start.dict())

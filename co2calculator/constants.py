@@ -50,6 +50,18 @@ class CarBusFuel(str, enum.Enum):
 
 
 @enum.unique
+class BusFuel(str, enum.Enum):
+    """Enum for bus fuel types"""
+
+    ELECTRIC = "electric"
+    DIESEL = "diesel"
+    AVERAGE = "average"
+    HYDROGEN = "hydrogen"
+    CNG = "cng"
+
+
+
+@enum.unique
 class Size(str, enum.Enum):
     """Enum for car sizes"""
 
