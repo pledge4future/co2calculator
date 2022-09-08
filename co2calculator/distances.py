@@ -29,7 +29,9 @@ ORS_API_KEY = os.environ.get("ORS_API_KEY")
 # Set (module) global vars (TODO: Don't do it - make it a class and move it to attributes!)
 script_path = str(Path(__file__).parent)
 detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
-df_airports = None
+df_airports = pd.read_csv(
+    "https://davidmegginson.github.io/ourairports-data/airports.csv"
+)
 
 
 class StructuredLocation(BaseModel, extra=Extra.forbid):
@@ -151,11 +153,6 @@ def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
     :return: name, coordinates and country of the found airport
     :rtype: Tuple[str, Tuple[float, float], str]
     """
-    global df_airports
-    if df_airports is None:
-        df_airports = pd.read_csv(
-            "https://davidmegginson.github.io/ourairports-data/airports.csv"
-        )
     name, lat, lon, country = (
         df_airports[df_airports.iata_code == iata][
             ["name", "latitude_deg", "longitude_deg", "iso_country"]
