@@ -39,7 +39,7 @@ class Reader:
         if len(selected_factors) == 0:
             raise ConversionFactorNotFound(f"No suitable conversion factor found in database. Please adapt your query.")
         elif len(selected_factors) > 1:
-            raise ConversionFactorNotFound(f"{len(selected_factors)} co2 conversion factors found. Please provide more specific selection criteria.", 501)
+            raise ConversionFactorNotFound(f"{len(selected_factors)} co2 conversion factors found. Please provide more specific selection criteria.")
         else:
             return selected_factors["co2e"].values[0]
 
