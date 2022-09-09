@@ -10,12 +10,7 @@ import pytest
 from dotenv import load_dotenv
 from pydantic import ValidationError
 
-from co2calculator.distances import (
-    haversine,
-    geocoding_airport,
-    geocoding_train_stations,
-    geocoding_structured,
-)
+import co2calculator
 
 load_dotenv()
 ORS_API_KEY = os.environ.get("ORS_API_KEY")
@@ -34,13 +29,13 @@ def test_haversine():
 
     # Calculate distance
     distance_expected = 1092
-    distance = haversine(lat_a, long_a, lat_b, long_b)
+    distance = co2calculator.distances.haversine(lat_a, long_a, lat_b, long_b)
 
     # Check if expected result matches calculated result
     assert distance == pytest.approx(distance_expected, rel=0.01)
 
 
-def test_geocoding_airport_FRA(mocker):
+def test_geocoding_airport_pelias_FRA(mocker):
     """Test geocoding of airports using IATA code"""
     # Given parameters
     iata = "FRA"  # Frankfurt Airport, Frankfurt a.M. (Germany)
@@ -48,15 +43,30 @@ def test_geocoding_airport_FRA(mocker):
 
     # mock API call
     mocker.patch(
-        "co2calculator.distances.geocoding_airport",
-        return_values=["Flughafen Frankfurt am Main", [8.579247, 50.051285], "DEU"],
+        "co2calculator.distances.geocoding_airport_pelias",
+        return_value=["Flughafen Frankfurt am Main", [8.579247, 50.051285], "DEU"],
     )
 
     # Retrieve coordinates
-    name, res_coords, res_country = geocoding_airport(iata)
+    name, res_coords, res_country = co2calculator.distances.geocoding_airport_pelias(
+        iata
+    )
 
     # Check if expected coordinates match retrieved coordinates
     assert np.allclose(coords[::-1], res_coords, atol=0.03)
+
+
+def test_geocoding_airport_HAM():
+    """Test geocoding of airports using IATA code"""
+    # Given parameters
+    iata = "HAM"  # Hamburg Airport
+    coords = [53.630278, 9.988333]
+
+    # Retrieve coordinates
+    name, res_coords, res_country = co2calculator.distances.geocoding_airport(iata)
+
+    # Check if expected coordinates match retrieved coordinates
+    assert np.allclose(np.array(coords)[::-1], np.array(res_coords), atol=0.03)
 
 
 def test_geocoding_structured():
@@ -79,7 +89,7 @@ def test_valid_geocoding_dict():
     }
 
     # Check if raises error
-    geocoding_structured(loc_dict)
+    co2calculator.distances.geocoding_structured(loc_dict)
 
 
 def test_invalid_geocoding_dict():
@@ -93,7 +103,7 @@ def test_invalid_geocoding_dict():
 
     # Check if raises error
     with pytest.raises(ValidationError) as e:
-        geocoding_structured(loc_dict)
+        co2calculator.distances.geocoding_structured(loc_dict)
     assert e.type is ValidationError
 
 
@@ -108,7 +118,7 @@ def test_geocoding_train_stations_invalid_dict():
 
     # Check if raises error
     with pytest.raises(ValidationError) as e:
-        geocoding_train_stations(station_dict)
+        co2calculator.distances.geocoding_train_stations(station_dict)
     assert e.type is ValidationError
 
 
@@ -123,7 +133,7 @@ def test_geocoding_train_stations_invalid_country():
 
     # Check if raises error
     with pytest.raises(ValidationError) as e:
-        geocoding_train_stations(station_dict)
+        co2calculator.distances.geocoding_train_stations(station_dict)
     assert e.type is ValidationError
 
 
@@ -137,7 +147,11 @@ def test_geocoding_train_stations():
     }
     coords = [49.404381, 8.675858]
 
-    station_name, country, res_coords = geocoding_train_stations(station_dict)
+    (
+        station_name,
+        country,
+        res_coords,
+    ) = co2calculator.distances.geocoding_train_stations(station_dict)
 
     assert station_name == "Heidelberg"
     assert country == station_dict["country"]
