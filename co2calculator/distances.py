@@ -19,7 +19,14 @@ from thefuzz import fuzz
 from thefuzz import process
 
 from ._types import Kilometer
-from .constants import TransportationMode, CountryCode2, CountryCode3, CountryName
+from .constants import (
+    TransportationMode,
+    CountryCode2,
+    CountryCode3,
+    CountryName,
+    IataAirportCode,
+    DF_AIRPORTS,
+)
 
 load_dotenv()  # take environment variables from .env.
 
@@ -29,9 +36,6 @@ ORS_API_KEY = os.environ.get("ORS_API_KEY")
 # Set (module) global vars (TODO: Don't do it - make it a class and move it to attributes!)
 script_path = str(Path(__file__).parent)
 detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
-df_airports = pd.read_csv(
-    "https://davidmegginson.github.io/ourairports-data/airports.csv"
-)
 
 
 class StructuredLocation(BaseModel, extra=Extra.forbid):
@@ -51,7 +55,7 @@ class TrainStation(BaseModel):
 
 
 class Airport(BaseModel):
-    iata_code: str  # NOTE: Could be improved with validation of IATA codes
+    iata_code: IataAirportCode
 
 
 class DistanceRequest(BaseModel):
@@ -145,7 +149,7 @@ def geocoding_airport_pelias(iata: str) -> Tuple[str, Tuple[float, float], str]:
     return name, geom, country
 
 
-def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
+def geocoding_airport(iata) -> Tuple[str, Tuple[float, float], str]:
     """Function to obtain the coordinates of an airport by the IATA code
 
     :param iata: IATA airport code
@@ -153,8 +157,10 @@ def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
     :return: name, coordinates and country of the found airport
     :rtype: Tuple[str, Tuple[float, float], str]
     """
+
+    airport = Airport(iata_code=iata)
     name, lat, lon, country = (
-        df_airports[df_airports.iata_code == iata][
+        DF_AIRPORTS[DF_AIRPORTS.iata_code == airport.iata_code][
             ["name", "latitude_deg", "longitude_deg", "iso_country"]
         ]
         .values.flatten()

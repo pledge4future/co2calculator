@@ -69,6 +69,17 @@ def test_geocoding_airport_HAM():
     assert np.allclose(np.array(coords)[::-1], np.array(res_coords), atol=0.03)
 
 
+def test_geocoding_airport_EAP():
+    """Test geocoding of airports using IATA code"""
+    # Given parameters
+    iata = "EAP"  # Basel-Mulhouse
+
+    # Airport currently does not exist in database, check if call raises an error
+    with pytest.raises(ValidationError) as e:
+        co2calculator.distances.geocoding_airport(iata)
+    assert e.type is ValidationError
+
+
 def test_geocoding_structured():
     """To do"""
     pass
@@ -87,7 +98,6 @@ def test_valid_geocoding_dict():
         "postalcode": "69126",
         "neighbourhood": None,
     }
-
     # Check if raises error
     co2calculator.distances.geocoding_structured(loc_dict)
 
@@ -100,7 +110,6 @@ def test_invalid_geocoding_dict():
         "locality": "Heidelberg",
         "adress": "Im Bosseldorn 25",  # wrong spelling of "address"
     }
-
     # Check if raises error
     with pytest.raises(ValidationError) as e:
         co2calculator.distances.geocoding_structured(loc_dict)
@@ -109,13 +118,11 @@ def test_invalid_geocoding_dict():
 
 def test_geocoding_train_stations_invalid_dict():
     """Test geocoding of train stations if dictionary with invalid parameters is provided"""
-
     # Given parameters
     station_dict = {
         "country": "DE",
         "address": "Heidelberg Hbf",
     }  # invalid parameters; has to be specified as "station_name"
-
     # Check if raises error
     with pytest.raises(ValidationError) as e:
         co2calculator.distances.geocoding_train_stations(station_dict)
@@ -124,13 +131,11 @@ def test_geocoding_train_stations_invalid_dict():
 
 def test_geocoding_train_stations_invalid_country():
     """Test geocoding of train stations if dictionary with invalid country code is provided"""
-
     # Given parameters
     station_dict = {
         "country": "DU",  # invalid
         "station_name": "Heidelberg Hbf",
     }
-
     # Check if raises error
     with pytest.raises(ValidationError) as e:
         co2calculator.distances.geocoding_train_stations(station_dict)
@@ -140,19 +145,16 @@ def test_geocoding_train_stations_invalid_country():
 def test_geocoding_train_stations():
     """Test geocoding of European train station"""
     # Given parameters
-
     station_dict = {
         "country": "DE",
         "station_name": "Heidelberg Hbf",
     }
     coords = [49.404381, 8.675858]
-
     (
         station_name,
         country,
         res_coords,
     ) = co2calculator.distances.geocoding_train_stations(station_dict)
-
     assert station_name == "Heidelberg"
     assert country == station_dict["country"]
     # Check if expected coordinates match retrieved coordinates

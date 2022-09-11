@@ -5,8 +5,13 @@
 import enum
 
 import iso3166
+import pandas as pd
 
 KWH_TO_TJ = 277777.77777778
+
+DF_AIRPORTS = pd.read_csv(
+    "https://davidmegginson.github.io/ourairports-data/airports.csv"
+)
 
 
 @enum.unique
@@ -173,3 +178,18 @@ class CountryName(str):
             return country_name
         else:
             raise ValueError(f"{country_name} is not a valid country name")
+
+
+class IataAirportCode(str):
+    """Class for 3-letter IATA airport codes"""
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate_iata_code
+
+    @classmethod
+    def validate_iata_code(cls, iata_code: str) -> str:
+        if iata_code in DF_AIRPORTS["iata_code"].values:
+            return iata_code
+        else:
+            raise ValueError(f"{iata_code} was not found in airport database")
