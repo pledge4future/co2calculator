@@ -101,4 +101,3 @@
 99,vehicle,motorbike,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Motorbike, average",P.km,average,,,,,kg/P.km,0.11337,,
 100,vehicle,bicycle,UBA,,Fahrrad,P.km,,,,,,kg/P.km,0.009,,
 101,vehicle,pedelec,UBA,,Pedelec,P.km,,,,,,kg/P.km,0.015,,
-102,public_transport,tram,UBA,,Strassen-/Stadt-/U-Bahn,P.km,,,,,,kg/P.km,0.078,,
