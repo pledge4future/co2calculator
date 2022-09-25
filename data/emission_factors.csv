@@ -1,8 +1,8 @@
 Spalte1,category,subcategory,source,model,name,unit,size_class,occupancy,capacity,range,fuel_type,co2e_unit,co2e,seating,comment
-0,transport,bus,Öko-Institut,gemis,Bus-Linie-BZ-DE-2020-Basis,P.km,average,20,,local,hydrogen,kg/P.km,0.0251,,
-1,transport,bus,Öko-Institut-adapted,gemis,Bus-Linie-BZ-DE-2020-Basis,P.km,average,20,,long-distance,hydrogen,kg/P.km,0.0251,,
-2,transport,bus,Öko-Institut,gemis,Bus-Linie-CNG-DE-2020-Basis,P.km,average,20,,local,cng,kg/P.km,0.0617,,
-3,transport,bus,Öko-Institut-adapted,gemis,Bus-Linie-CNG-DE-2020-Basis,P.km,average,20,,long-distance,cng,kg/P.km,0.0617,,
+0,transport,bus,Öko-Institut,gemis,Bus-Linie-BZ-DE-2020-Basis,P.km,average,"",,local,hydrogen,kg/P.km,0.0251,,
+1,transport,bus,Öko-Institut-adapted,gemis,Bus-Linie-BZ-DE-2020-Basis,P.km,average,"",,long-distance,hydrogen,kg/P.km,0.0251,,
+2,transport,bus,Öko-Institut,gemis,Bus-Linie-CNG-DE-2020-Basis,P.km,average,"",,local,cng,kg/P.km,0.0617,,
+3,transport,bus,Öko-Institut-adapted,gemis,Bus-Linie-CNG-DE-2020-Basis,P.km,average,"",,long-distance,cng,kg/P.km,0.0617,,
 4,transport,bus,UBA,tremod,Linienbus,P.km,medium,100,60,local,diesel,kg/P.km,0.0239,,
 5,transport,bus,UBA,tremod,Linienbus,P.km,medium,20,60,local,diesel,kg/P.km,0.0914,,
 6,transport,bus,UBA,tremod,Linienbus,P.km,medium,50,60,local,diesel,kg/P.km,0.0407,,

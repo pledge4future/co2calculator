@@ -148,6 +148,8 @@ def calc_co2_bus(
         warnings.warn(
             f"Bus fuel type was not provided. Using default value: '{fuel_type}'"
         )
+    elif fuel_type in [CarBusFuel.CNG, CarBusFuel.HYDROGEN]:
+        occupancy = -99
     elif fuel_type not in [CarBusFuel.DIESEL, CarBusFuel.CNG, CarBusFuel.HYDROGEN]:
         warnings.warn(
             f"Bus fuel type {fuel_type} not available. Using default value: 'diesel'"
