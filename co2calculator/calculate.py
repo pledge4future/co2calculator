@@ -197,6 +197,7 @@ def calc_co2_train(
     """
 
     transport_mode = TransportationMode.TRAIN
+    size = Size.AVERAGE
 
     # Set default values
     if fuel_type is None:
@@ -212,7 +213,11 @@ def calc_co2_train(
 
     # Get the co2 factor, calculate and return
     co2e = get_emission_factor(
-        "transport", transport_mode, fuel_type=fuel_type, range_cat=vehicle_range
+        "transport",
+        transport_mode,
+        fuel_type=fuel_type,
+        range_cat=vehicle_range,
+        size=size,
     )
     emissions = distance * co2e
 
@@ -234,6 +239,7 @@ def calc_co2_plane(distance: Kilometer, seating_class: str = None) -> Kilogram:
     """
 
     transport_mode = TransportationMode.PLANE
+    fuel_type = "kerosine"
 
     # Set defaults
     if seating_class is None:
@@ -258,10 +264,11 @@ def calc_co2_plane(distance: Kilometer, seating_class: str = None) -> Kilogram:
 
     # Get emission factor
     co2e = get_emission_factor(
-        "public transport",
+        "transport",
         transport_mode,
         range_cat=flight_range,
         seating_class=seating_class,
+        fuel_type=fuel_type,
     )
     # multiply emission factor with distance
     emissions = distance * co2e
@@ -290,9 +297,7 @@ def calc_co2_ferry(distance: Kilometer, seating_class: str = None) -> Kilogram:
         )
 
     # get emission factor
-    co2e = get_emission_factor(
-        "public transport", transport_mode, seating_class=seating_class
-    )
+    co2e = get_emission_factor("transport", transport_mode, seating_class=seating_class)
     # multiply emission factor with distance
     emissions = distance * co2e
 
@@ -588,10 +593,10 @@ def get_emission_factor(
 def calc_co2_commuting(
     transportation_mode: str,
     weekly_distance: Kilometer,
-    size: str = "missing",
-    fuel_type: str = "missing",
-    occupancy: int = -99,
-    passengers: int = "missing",
+    size: str = None,
+    fuel_type: str = None,
+    occupancy: int = None,
+    passengers: int = None,
 ) -> Kilogram:
     """Calculate co2 emissions for commuting per mode of transport
 
@@ -637,15 +642,18 @@ def calc_co2_commuting(
         )
 
     elif transportation_mode in [
-        TransportationMode.TRAM,
         TransportationMode.PEDELEC,
         TransportationMode.BICYCLE,
     ]:
+        co2e = get_emission_factor("transport", transportation_mode)
+        weekly_co2e = co2e * weekly_distance
+    elif transportation_mode == TransportationMode.TRAM:
+        fuel_type = CarBusFuel.ELECTRIC
+        size = Size.AVERAGE
         co2e = get_emission_factor(
-            "transport", transportation_mode, fuel_type=fuel_type
+            "transport", transportation_mode, fuel_type=fuel_type, size=size
         )
         weekly_co2e = co2e * weekly_distance
-
     else:
         raise ValueError(
             f"Transportation mode {transportation_mode} not found in database."
