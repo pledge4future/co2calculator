@@ -94,6 +94,10 @@ $ pytest
 - Detour coefficients for train trips (1.2) and bus trips (1.5):
     - Adapted from [GES 1point5](https://labos1point5.org/ges-1point5), who were advised by Frédéric Héran (economist and urban planner).
 
+### Airports
+
+- [OurAirports](https://ourairports.com/data/)
+
 ## 🤝 Project partners
 
 - [openrouteservice](https://openrouteservice.org/)
