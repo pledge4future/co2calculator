@@ -28,6 +28,7 @@ from .constants import (
     DF_AIRPORTS,
     DetourCoefficient,
     DetourConstant,
+    RangeCategory,
 )
 
 load_dotenv()  # take environment variables from .env.
@@ -383,6 +384,33 @@ def _apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
     distance_with_detour = detour_coefficient * distance + detour_constant
 
     return distance_with_detour
+
+
+def range_categories(distance: Kilometer) -> Tuple[RangeCategory, str]:
+    """Function to categorize a trip according to the travelled distance
+
+    :param distance: Distance travelled in km
+    :type distance: Kilometer
+    :return: Range category of the trip [very short haul, short haul, medium haul, long haul]
+             Range description (i.e., what range of distances does to category correspond to)
+    :rtype: tuple[RangeCategory, str]
+    """
+    if distance < 0:
+        raise ValueError("Distance must not be negative!")
+    elif distance <= 500:
+        range_cat = RangeCategory.VERY_SHORT_HAUL
+        range_description = "below 500 km"
+    elif distance <= 1500:
+        range_cat = RangeCategory.SHORT_HAUL
+        range_description = "500 to 1500 km"
+    elif distance <= 4000:
+        range_cat = RangeCategory.MEDIUM_HAUL
+        range_description = "1500 to 4000 km"
+    else:
+        range_cat = RangeCategory.LONG_HAUL
+        range_description = "above 4000 km"
+
+    return range_cat, range_description
 
 
 def create_distance_request(
