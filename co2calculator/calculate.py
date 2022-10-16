@@ -124,7 +124,7 @@ def calc_co2_bus(
     Function to compute the emissions of a bus trip.
     :param distance: Distance travelled by bus;
     :param size: size class of the bus;                 ["medium", "large", "average"]
-    :param fuel_type: type of fuel the bus is using;    ["diesel"]
+    :param fuel_type: type of fuel the bus is using;    ["diesel", "cng", "hydrogen"]
     :param occupancy: number of people on the bus       [20, 50, 80, 100]
     :param vehicle_range: range/haul of the vehicle     ["local", "long-distance"]
     :type distance: Kilometer
@@ -150,6 +150,7 @@ def calc_co2_bus(
         )
     elif fuel_type in [CarBusFuel.CNG, CarBusFuel.HYDROGEN]:
         occupancy = -99
+        size = Size.AVERAGE
     elif fuel_type not in [CarBusFuel.DIESEL, CarBusFuel.CNG, CarBusFuel.HYDROGEN]:
         warnings.warn(
             f"Bus fuel type {fuel_type} not available. Using default value: 'diesel'"
@@ -546,7 +547,7 @@ def get_emission_factor(
     except IndexError:
         # TODO: different (known) workarounds for different transport modes; here shown for plane
         if mode == TransportationMode.PLANE:
-            default_seating = FlightClass.ECONOMY
+            default_seating = FlightClass.AVERAGE
             warnings.warn(
                 f"Seating class '{seating_class}' not available for {range_cat} flights. Switching to "
                 f"'{default_seating}'..."
@@ -559,6 +560,26 @@ def get_emission_factor(
                 & (emission_factor_df["occupancy"] == occupancy)
                 & (emission_factor_df["range"] == range_cat)
                 & (emission_factor_df["seating"] == default_seating)
+            ]["co2e"].values[0]
+        if (
+            mode == TransportationMode.BUS
+            and size == Size.SMALL
+            and fuel_type == CarBusFuel.DIESEL
+            and range_cat == BusTrainRange.LONG_DISTANCE
+        ):
+            default_size = Size.AVERAGE
+            warnings.warn(
+                f"Size '{size}' not available for {fuel_type} {range_cat} bus. Switching to size "
+                f"'{default_size}'..."
+            )
+            co2e = emission_factor_df[
+                (emission_factor_df["category"] == category)
+                & (emission_factor_df["subcategory"] == mode)
+                & (emission_factor_df["size_class"] == default_size)
+                & (emission_factor_df["fuel_type"] == fuel_type)
+                & (emission_factor_df["occupancy"] == occupancy)
+                & (emission_factor_df["range"] == range_cat)
+                & (emission_factor_df["seating"] == seating_class)
             ]["co2e"].values[0]
 
     return co2e
