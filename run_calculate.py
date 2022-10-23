@@ -18,7 +18,7 @@ script_path = os.path.dirname(os.path.realpath(__file__))
 if __name__ == "__main__":
 
     # test with dummy data
-    business_trip_data = glob.glob(f"{script_path}/data/test_data_users/business_trips_plane_goethe.csv")
+    business_trip_data = glob.glob(f"{script_path}/data/test_data_users/business_trips*.csv")
 
     print("Computing business trip emissions...")
     for f in business_trip_data:
