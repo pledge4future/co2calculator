@@ -56,7 +56,6 @@ def calc_co2_car(
     :return: Total emissions of trip in co2 equivalents
     :rtype: Kilogram
     """
-    # NOTE: Tests fail for 'cng'  as `fuel_type` (IndexError)
 
     transport_mode = TransportationMode.CAR
 
@@ -134,7 +133,6 @@ def calc_co2_bus(
     :return: Total emissions of trip in co2 equivalents
     :rtype: Kilogram
     """
-    # NOTE: vehicle_rage 'local' fails with IndexError
 
     transport_mode = TransportationMode.BUS
 
@@ -285,7 +283,6 @@ def calc_co2_ferry(distance: Kilometer, seating_class: str = None) -> Kilogram:
     :return: Total emissions of sea travel in co2 equivalents
     :rtype: Kilogram
     """
-    # NOTE: 'Foot passenger' and 'Car passenger' fails with IndexError
 
     transport_mode = TransportationMode.FERRY
 
@@ -524,7 +521,6 @@ def get_emission_factor(
             & (emission_factor_df["seating"] == seating_class)
         ]["co2e"].values[0]
     except IndexError:
-        # TODO: different (known) workarounds for different transport modes; here shown for plane
         if mode == TransportationMode.PLANE:
             default_seating = FlightClass.AVERAGE
             warnings.warn(

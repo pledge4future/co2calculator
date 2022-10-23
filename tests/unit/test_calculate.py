@@ -22,7 +22,7 @@ from co2calculator.constants import RangeCategory
         pytest.param(10, 1, "average", None, 2.15, id="size: 'average'"),
         pytest.param(10, 1, None, "diesel", 2.01, id="fuel_type: 'diesel'"),
         pytest.param(10, 1, None, "gasoline", 2.24, id="fuel_type: 'gasoline'"),
-        # pytest.param(10, 1, None, "cng", 31.82, id="fuel_type: 'cng'"),
+        pytest.param(10, 1, None, "cng", 2.37, id="fuel_type: 'cng'"),
         pytest.param(10, 1, None, "electric", 0.57, id="fuel_type: 'electric'"),
         pytest.param(10, 1, None, "hybrid", 1.16, id="fuel_type: 'hybrid'"),
         pytest.param(
