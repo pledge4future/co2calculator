@@ -22,7 +22,7 @@ from .constants import (
     HeatingFuel,
     Unit,
     TransportationMode,
-    RangeCategory
+    RangeCategory,
 )
 from .distances import create_distance_request, get_distance
 
@@ -370,14 +370,10 @@ def calc_co2_heating(
         )
     if fuel_type is None:
         fuel_type = HeatingFuel.GAS
-        warnings.warn(
-            f"No fuel type specified. Using default value: '{fuel_type}'"
-        )
-    valid_unit_choices = ["kWh", "l", "kg", "m^3"]
-    assert (
-            unit in valid_unit_choices
-    ), f"unit={unit} is invalid. Valid choices are {', '.join(valid_unit_choices)}"
-    if unit != "kWh":
+        warnings.warn(f"No fuel type specified. Using default value: '{fuel_type}'")
+    valid_unit_choices = tuple(item.value for item in Unit)
+    assert unit in valid_unit_choices, f"unit={unit} is invalid. Valid choices are {', '.join(valid_unit_choices)}"
+    if unit != Unit.KWH:
         try:
             conversion_factor = conversion_factor_df[
                 (conversion_factor_df["fuel"] == fuel_type)
@@ -386,10 +382,13 @@ def calc_co2_heating(
         except (KeyError, IndexError):
             print(
                 "No conversion data is available for this fuel type. Conversion is only supported for the following"
-                "fuel types and units. Alternatively, provide consumption in the unit kWh.\n")
+                "fuel types and units. Alternatively, provide consumption in the unit kWh.\n"
+            )
             print(conversion_factor_df[["fuel", "unit"]])
-            raise ValueError("No conversion data is available for this fuel type. Provide consumption in a "
-                             "different unit.")
+            raise ValueError(
+                "No conversion data is available for this fuel type. Provide consumption in a "
+                "different unit."
+            )
 
         consumption_kwh = consumption * conversion_factor
     else:
@@ -599,7 +598,9 @@ def calc_co2_commuting(
         weekly_co2e = co2e * weekly_distance
 
     else:
-        raise ValueError('Transportation mode "%s" not found in database' % transportation_mode)
+        raise ValueError(
+            'Transportation mode "%s" not found in database' % transportation_mode
+        )
 
     # multiply with work_weeks to obtain total (e.g. annual/monthly) co2e
     # total_co2e = weekly_co2e #* work_weeks
