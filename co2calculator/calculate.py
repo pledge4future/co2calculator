@@ -13,12 +13,15 @@ from .constants import (
     KWH_TO_TJ,
     Size,
     CarBusFuel,
+    TrainFuel,
     BusTrainRange,
     FlightClass,
     FlightRange,
     FerryClass,
     ElectricityFuel,
-    TransportationMode,
+    HeatingFuel,
+    Unit,
+    TransportationMode
 )
 from .distances import create_distance_request, get_distance, range_categories
 
@@ -198,9 +201,9 @@ def calc_co2_train(
 
     # Set default values
     if fuel_type is None:
-        fuel_type = CarBusFuel.AVERAGE
+        fuel_type = TrainFuel.AVERAGE
         warnings.warn(
-            f"Car fuel type was not provided. Using default value: '{fuel_type}'"
+            f"Train fuel type was not provided. Using default value: '{fuel_type}'"
         )
     if vehicle_range is None:
         vehicle_range = BusTrainRange.LONG_DISTANCE
@@ -346,32 +349,36 @@ def calc_co2_heating(
     """
     # Set defaults
     if unit is None:
-        unit = "kWh"
+        unit = Unit.KWH
         warnings.warn(f"Unit was not provided. Assuming default value: '{unit}'")
     if area_share > 1:
         warnings.warn(
             f"Share of building area must be a float in the interval (0,1], but was set to '{area_share}'\n."
             f"The parameter will be set to '1.0' instead"
         )
-    valid_unit_choices = ["kWh", "l", "kg", "m^3"]
+    if fuel_type is None:
+        fuel_type = HeatingFuel.GAS
+        warnings.warn(f"No fuel type specified. Using default value: '{fuel_type}'")
+    valid_unit_choices = tuple(item.value for item in Unit)
     assert (
         unit in valid_unit_choices
     ), f"unit={unit} is invalid. Valid choices are {', '.join(valid_unit_choices)}"
-    if unit != "kWh":
+    if unit is not Unit.KWH:
         try:
             # TODO: move to function
             conversion_factor = conversion_factor_df[
                 (conversion_factor_df["fuel"] == fuel_type)
                 & (conversion_factor_df["unit"] == unit)
             ]["conversion_value"].values[0]
-        except KeyError:
+        except (KeyError, IndexError):
+            print(
+                "No conversion data is available for this fuel type. Conversion is only supported for the following"
+                "fuel types and units. Alternatively, provide consumption in the unit kWh.\n"
+            )
+            print(conversion_factor_df[["fuel", "unit"]])
             raise ValueError(
-                f"""
-                No conversion data is available for this fuel type.
-                Conversion is only supported for the following fuel types and units:
-                {conversion_factor_df["fuel", "unit"]}.
-                Alternatively, provide consumption in the unit kWh.
-                """
+                "No conversion data is available for this fuel type. Provide consumption in a "
+                "different unit."
             )
 
         consumption_kwh = consumption * conversion_factor
@@ -626,8 +633,11 @@ def calc_co2_commuting(
         weekly_co2e = co2e * weekly_distance
     else:
         raise ValueError(
-            f"Transportation mode {transportation_mode} not found in database."
+            'Transportation mode "%s" not found in database' % transportation_mode
         )
+
+    # multiply with work_weeks to obtain total (e.g. annual/monthly) co2e
+    # total_co2e = weekly_co2e #* work_weeks
 
     return weekly_co2e
 

@@ -14,8 +14,7 @@ DF_AIRPORTS = pd.read_csv(
 )
 
 
-@enum.unique
-class HeatingFuel(str, enum.Enum):
+class HeatingFuel(enum.Enum):
     """Enum for heating fuel types"""
 
     HEAT_PUMP_AIR = "heat_pump_air"
@@ -147,6 +146,14 @@ class TransportationMode(str, enum.Enum):
     TRAM = "tram"
     BICYCLE = "bicycle"
     PEDELEC = "pedelec"
+
+
+@enum.unique
+class Unit(str, enum.Enum):
+    KWH = "kwh"
+    KG = "kg"
+    L = "l"
+    M3 = "m^3"
 
 
 class CountryCode2(str):
