@@ -101,7 +101,7 @@ class TestCalculateBusinessTrip:
                 "plane",
                 "FRA",
                 "BER",
-                81.73,
+                81.71,
                 id="transportation_mode: 'plane'",
             ),
             pytest.param(
