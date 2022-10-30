@@ -21,7 +21,7 @@ from .constants import (
     ElectricityFuel,
     HeatingFuel,
     Unit,
-    TransportationMode
+    TransportationMode,
 )
 from .distances import create_distance_request, get_distance, range_categories
 
@@ -34,7 +34,6 @@ emission_factor_df = emission_factor_df.fillna("missing")
 conversion_factor_df = pd.read_csv(
     f"{script_path}/../data/conversion_factors_heating.csv"
 )
-detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 
 
 def calc_co2_car(
@@ -633,7 +632,7 @@ def calc_co2_commuting(
         weekly_co2e = co2e * weekly_distance
     else:
         raise ValueError(
-            'Transportation mode "%s" not found in database' % transportation_mode
+            f"Transportation mode {transportation_mode} not found in database"
         )
 
     # multiply with work_weeks to obtain total (e.g. annual/monthly) co2e
