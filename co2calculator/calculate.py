@@ -21,7 +21,7 @@ from .constants import (
     ElectricityFuel,
     HeatingFuel,
     Unit,
-    TransportationMode
+    TransportationMode,
 )
 from .distances import create_distance_request, get_distance, range_categories
 
@@ -34,7 +34,6 @@ emission_factor_df = emission_factor_df.fillna("missing")
 conversion_factor_df = pd.read_csv(
     f"{script_path}/../data/conversion_factors_heating.csv"
 )
-detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 
 
 def calc_co2_car(
@@ -51,7 +50,8 @@ def calc_co2_car(
     :param size: size of car
                         ["small", "medium", "large", "average"]                 default: "average"
     :param fuel_type: type of fuel the car is using
-                        ["diesel", "gasoline", "cng", "electric", "hybrid", "plug-in_hybrid", "average"]    default: "average"
+                        ["diesel", "gasoline", "cng", "electric", "hybrid", "plug-in_hybrid", "average"]
+                        default: "average"
     :type distance: Kilometer
     :type passengers: int
     :type size: str
@@ -337,7 +337,9 @@ def calc_co2_heating(
     """Function to compute heating emissions
 
     :param consumption: energy consumption
-    :param fuel_type: fuel type used for heating [coal, district_heating, electricity, gas, heat_pump_air, heat_pump_ground, liquid_gas, oil, pellet, solar, woodchips]
+    :param fuel_type: fuel type used for heating
+        [coal, district_heating, electricity, gas, heat_pump_air,
+        heat_pump_ground, liquid_gas, oil, pellet, solar, woodchips]
     :param unit: unit of energy consumption [kwh, kg, l, m^3]
     :param area_share: share of building area used by research group
     :type consumption: float
@@ -364,23 +366,7 @@ def calc_co2_heating(
         unit in valid_unit_choices
     ), f"unit={unit} is invalid. Valid choices are {', '.join(valid_unit_choices)}"
     if unit is not Unit.KWH:
-        try:
-            # TODO: move to function
-            conversion_factor = conversion_factor_df[
-                (conversion_factor_df["fuel"] == fuel_type)
-                & (conversion_factor_df["unit"] == unit)
-            ]["conversion_value"].values[0]
-        except (KeyError, IndexError):
-            print(
-                "No conversion data is available for this fuel type. Conversion is only supported for the following"
-                "fuel types and units. Alternatively, provide consumption in the unit kWh.\n"
-            )
-            print(conversion_factor_df[["fuel", "unit"]])
-            raise ValueError(
-                "No conversion data is available for this fuel type. Provide consumption in a "
-                "different unit."
-            )
-
+        conversion_factor = get_conversion_factor(fuel_type=fuel_type, unit=unit)
         consumption_kwh = consumption * conversion_factor
     else:
         consumption_kwh = consumption
@@ -412,8 +398,9 @@ def calc_co2_businesstrip(
     :param destination: Destination of the trip (alternatively, distance can be provided)
     :param distance: Distance travelled in km (alternatively, start and destination can be provided)
     :param size: Size class of the vehicle [small, medium, large, average] - only used for car and bus
-    :param fuel_type: Fuel type of the vehicle [average, cng, diesel, electric, gasoline, hybrid, hydrogen, plug-in_hybrid] - only used for
-                                                car, bus and train
+    :param fuel_type: Fuel type of the vehicle
+        [average, cng, diesel, electric, gasoline, hybrid, hydrogen, plug-in_hybrid]
+        - only used for car, bus and train
     :param occupancy: Occupancy of the vehicle in % [20, 50, 80, 100] - only used for bus
     :param seating: seating class ["average", "Economy class", "Premium economy class", "Business class", "First class"]
                     - only used for plane
@@ -567,6 +554,33 @@ def get_emission_factor(
     return co2e
 
 
+def get_conversion_factor(fuel_type: str, unit: str) -> float:
+    """
+    Function to retrieve conversion factor for converting consumption for certain fuel types (and units) to kWh
+    :param fuel_type: :param fuel_type: fuel type used for heating
+        [coal, district_heating, electricity, gas, heat_pump_air,
+        heat_pump_ground, liquid_gas, oil, pellet, solar, woodchips]
+    :param unit: unit of energy consumption [kwh, kg, l, m^3]
+    :return: conversion factor
+    """
+    try:
+        conversion_factor = conversion_factor_df[
+            (conversion_factor_df["fuel"] == fuel_type)
+            & (conversion_factor_df["unit"] == unit)
+        ]["conversion_value"].values[0]
+    except (KeyError, IndexError):
+        print(
+            "No conversion data is available for this fuel type. Conversion is only supported for the following"
+            "fuel types and units. Alternatively, provide consumption in the unit kWh.\n"
+        )
+        print(conversion_factor_df[["fuel", "unit"]])
+        raise ValueError(
+            "No conversion data is available for this fuel type. Provide consumption in a "
+            "different unit."
+        )
+    return conversion_factor
+
+
 def calc_co2_commuting(
     transportation_mode: str,
     weekly_distance: Kilometer,
@@ -633,7 +647,7 @@ def calc_co2_commuting(
         weekly_co2e = co2e * weekly_distance
     else:
         raise ValueError(
-            'Transportation mode "%s" not found in database' % transportation_mode
+            f"Transportation mode {transportation_mode} not found in database"
         )
 
     # multiply with work_weeks to obtain total (e.g. annual/monthly) co2e

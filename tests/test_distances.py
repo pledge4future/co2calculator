@@ -159,3 +159,22 @@ def test_geocoding_train_stations():
     assert country == station_dict["country"]
     # Check if expected coordinates match retrieved coordinates
     assert np.allclose(coords, res_coords, atol=0.03)
+
+
+@pytest.mark.parametrize(
+    "distance, transportation_mode, expected_distance",
+    [
+        pytest.param(100, "train", 120.0, id="Train"),
+        pytest.param(100, "bus", 150.0, id="Bus"),
+        pytest.param(100, "plane", 195.0, id="Plane"),
+        pytest.param(100, "car", 100.0, id="Car"),
+    ],
+)
+def test_apply_detour(
+    distance: float, transportation_mode: str, expected_distance: float
+) -> None:
+    """Test apply detour function"""
+    distance_with_detour = co2calculator.distances._apply_detour(
+        distance, transportation_mode
+    )
+    assert distance_with_detour == expected_distance
