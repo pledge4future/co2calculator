@@ -178,3 +178,14 @@ def test_apply_detour(
         distance, transportation_mode
     )
     assert distance_with_detour == expected_distance
+
+
+def test_get_route_ferry():
+    """Test getting the ferry distance between given locations"""
+    start = [8.471, 44.307]  # Savona (IT)
+    dest = [9.447, 42.702]  # Bastia (FR, Corse)
+    dist_f, dist_t = co2calculator.distances.get_route_ferry([start, dest])
+    distance_expected = 211
+    ferry_distance_expected = 200
+    assert dist_t == pytest.approx(distance_expected, rel=0.01)
+    assert dist_f == pytest.approx(ferry_distance_expected, rel=0.01)
