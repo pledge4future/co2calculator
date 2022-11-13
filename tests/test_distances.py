@@ -171,7 +171,7 @@ def test_geocoding_train_stations():
     ],
 )
 def test_apply_detour(
-    distance: float, transportation_mode: str, expected_distance: float
+        distance: float, transportation_mode: str, expected_distance: float
 ) -> None:
     """Test apply detour function"""
     distance_with_detour = co2calculator.distances._apply_detour(
@@ -180,7 +180,7 @@ def test_apply_detour(
     assert distance_with_detour == expected_distance
 
 
-def test_get_route_ferry():
+def test_get_route_ferry_savona_bastia():
     """Test getting the ferry distance between given locations"""
     start = [8.471, 44.307]  # Savona (IT)
     dest = [9.447, 42.702]  # Bastia (FR, Corse)
@@ -189,3 +189,19 @@ def test_get_route_ferry():
     ferry_distance_expected = 200
     assert dist_t == pytest.approx(distance_expected, rel=0.01)
     assert dist_f == pytest.approx(ferry_distance_expected, rel=0.01)
+
+
+@pytest.mark.parametrize(
+    "start, dest, expected_distance, expected_ferry_distance",
+    [
+        pytest.param([8.471, 44.307], [9.447, 42.702], 211, 200, id="Savona (IT) - Bastia (FR, Corse)"),
+        pytest.param([10.3975, 42.7673], [10.9214, 42.3593], 180, 48.8, id="Elba (IT) - Giglio (IT)")
+    ]
+)
+def test_get_route_ferry(start: list, dest: list, expected_distance: float, expected_ferry_distance: float
+                         ) -> None:
+    # NOTE: Elba - Giglio has a direct ferry connection, which is not in ORS; dist_t should be around 50 and not 180
+    """Test getting the ferry distance between given locations"""
+    dist_f, dist_t = co2calculator.distances.get_route_ferry([start, dest])
+    assert dist_t == pytest.approx(expected_distance, rel=0.01)
+    assert dist_f == pytest.approx(expected_ferry_distance, rel=0.01)
