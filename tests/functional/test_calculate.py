@@ -12,6 +12,7 @@ Overview of used methods form backend:
     - calc_co2_heating,
 """
 from typing import Dict
+
 import pytest
 
 from co2calculator import calculate as candidate
@@ -100,7 +101,7 @@ class TestCalculateBusinessTrip:
                 "plane",
                 "FRA",
                 "BER",
-                51.21,
+                81.71,
                 id="transportation_mode: 'plane'",
             ),
             pytest.param(

@@ -21,17 +21,25 @@ from thefuzz import process
 from iso3166 import countries
 
 from ._types import Kilometer
-from .constants import CountryCode2, CountryCode3, CountryName
 from .enums import TransportationMode
+from .constants import (
+    TransportationMode,
+    CountryCode2,
+    CountryCode3,
+    CountryName,
+    IataAirportCode,
+    DF_AIRPORTS,
+    DetourCoefficient,
+    DetourConstant,
+    RangeCategory,
+)
 
 load_dotenv()  # take environment variables from .env.
 
 # Load environment vars (TODO: Use pydantic.BaseSettings)
 ORS_API_KEY = os.environ.get("ORS_API_KEY")
 
-# Set (module) global vars (TODO: Don't do it - make it a class and move it to attributes!)
 script_path = str(Path(__file__).parent)
-detour_df = pd.read_csv(f"{script_path}/../data/detour.csv")
 
 
 class StructuredLocation(BaseModel, extra=Extra.ignore):
@@ -61,7 +69,7 @@ class TrainStation(BaseModel, extra=Extra.ignore):
 
 
 class Airport(BaseModel):
-    iata_code: str  # NOTE: Could be improved with validation of IATA codes
+    iata_code: IataAirportCode
 
 
 class DistanceRequest(BaseModel):
@@ -122,7 +130,7 @@ def haversine(
     return c * r
 
 
-def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
+def geocoding_airport_pelias(iata: str) -> Tuple[str, Tuple[float, float], str]:
     """Function to obtain the coordinates of an airport by the IATA code
 
     :param iata: IATA airport code
@@ -153,6 +161,29 @@ def geocoding_airport(iata: str) -> Tuple[str, Tuple[float, float], str]:
                 break
 
     return name, geom, country
+
+
+def geocoding_airport(iata) -> Tuple[str, Tuple[float, float], str]:
+    """Function to obtain the coordinates of an airport by the IATA code
+
+    :param iata: IATA airport code
+    :type iata: str
+    :return: name, coordinates and country of the found airport
+    :rtype: Tuple[str, Tuple[float, float], str]
+    """
+
+    airport = Airport(iata_code=iata)
+    name, lat, lon, country = (
+        DF_AIRPORTS[DF_AIRPORTS.iata_code == airport.iata_code][
+            ["name", "latitude_deg", "longitude_deg", "iso_country"]
+        ]
+        .values.flatten()
+        .tolist()
+    )
+    # coords is a string - convert to list of floats
+    coords = [lon, lat]
+
+    return name, coords, country
 
 
 def geocoding(address):
@@ -350,12 +381,8 @@ def _apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
     :rtype: Kilometer
     """
     try:
-        detour_coefficient = detour_df[
-            detour_df["transportation_mode"] == transportation_mode
-        ]["coefficient"].values[0]
-        detour_constant = detour_df[
-            detour_df["transportation_mode"] == transportation_mode
-        ]["constant [km]"].values[0]
+        detour_coefficient = DetourCoefficient[transportation_mode.upper()]
+        detour_constant = DetourConstant[transportation_mode.upper()]
     except KeyError:
         detour_coefficient = 1.0
         detour_constant = 0.0
@@ -363,13 +390,40 @@ def _apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
             f"""
         No detour coefficient or constant available for this transportation mode.
         Detour parameters are available for the following transportation modes:
-        {detour_df["transportation_mode"]}
+        {[mode for mode in DetourCoefficient]}
         Using detour_coefficient = {detour_coefficient} and detour_constant = {detour_constant}.
         """
         )
     distance_with_detour = detour_coefficient * distance + detour_constant
 
     return distance_with_detour
+
+
+def range_categories(distance: Kilometer) -> Tuple[RangeCategory, str]:
+    """Function to categorize a trip according to the travelled distance
+
+    :param distance: Distance travelled in km
+    :type distance: Kilometer
+    :return: Range category of the trip [very short haul, short haul, medium haul, long haul]
+             Range description (i.e., what range of distances does to category correspond to)
+    :rtype: tuple[RangeCategory, str]
+    """
+    if distance < 0:
+        raise ValueError("Distance must not be negative!")
+    elif distance <= 500:
+        range_cat = RangeCategory.VERY_SHORT_HAUL
+        range_description = "below 500 km"
+    elif distance <= 1500:
+        range_cat = RangeCategory.SHORT_HAUL
+        range_description = "500 to 1500 km"
+    elif distance <= 4000:
+        range_cat = RangeCategory.MEDIUM_HAUL
+        range_description = "1500 to 4000 km"
+    else:
+        range_cat = RangeCategory.LONG_HAUL
+        range_description = "above 4000 km"
+
+    return range_cat, range_description
 
 
 def create_distance_request(
@@ -406,20 +460,21 @@ def create_distance_request(
         if transportation_mode in [TransportationMode.Train]:
             return DistanceRequest(
                 transportation_mode=transportation_mode,
-                start=StructuredLocation(**start),
-                destination=StructuredLocation(**destination),
+                start=TrainStation(**start),
+                destination=TrainStation(**destination),
             )
 
         if transportation_mode in [TransportationMode.Plane]:
             return DistanceRequest(
                 transportation_mode=transportation_mode,
-                start=StructuredLocation(**start),
-                destination=StructuredLocation(**destination),
+                start=Airport(iata_code=start),
+                destination=Airport(iata_code=destination),
             )
 
     except ValidationError as e:
         #raise InvalidSpatialInput(e)
         raise InvalidSpatialInput(f"unknown transportation_mode: '{transportation_mode}'")
+    raise InvalidSpatialInput(f"unknown transportation_mode: '{transportation_mode}'")
 
 
 def get_distance(request: DistanceRequest) -> Kilometer:
@@ -475,8 +530,8 @@ def get_distance(request: DistanceRequest) -> Kilometer:
 
         for loc in [request.start, request.destination]:
             try:
-            #    _, _, loc_coords = geocoding_train_stations(loc.dict())
-            #except RuntimeWarning:
+                _, _, loc_coords = geocoding_train_stations(loc.dict())
+            except RuntimeWarning:
                 _, _, loc_coords, _ = geocoding_structured(loc.dict())
             except ValueError:
                 _, _, loc_coords, _ = geocoding_structured(loc.dict())
@@ -493,10 +548,10 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         # Stops are IATA code of airports
         # TODO: Validate stops with BaseModel
 
-        #_, geom_start, _ = geocoding_airport(request.start.iata_code)
-        #_, geom_dest, _ = geocoding_airport(request.destination.iata_code)
-        _, _, geom_start, _ = geocoding_structured(request.start.dict())
-        _, _, geom_dest, _ = geocoding_structured(request.destination.dict())
+        _, geom_start, _ = geocoding_airport(request.start.iata_code)
+        _, geom_dest, _ = geocoding_airport(request.destination.iata_code)
+        #_, _, geom_start, _ = geocoding_structured(request.start.dict())
+        #_, _, geom_dest, _ = geocoding_structured(request.destination.dict())
 
         distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
         return _apply_detour(distance, request.transportation_mode)
@@ -506,7 +561,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         #  cities even have a port?
         _, _, geom_start, _ = geocoding_structured(request.start.dict())
         _, _, geom_dest, _ = geocoding_structured(request.destination.dict())
-        # compute great circle distance between airports
+        # compute great circle distance between ports
         distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
 
         return _apply_detour(distance, request.transportation_mode)
