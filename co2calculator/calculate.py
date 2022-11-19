@@ -62,7 +62,7 @@ def calc_co2_car(
     :rtype: Kilogram
     """
     # NOTE: Tests fail for 'cng'  as `fuel_type` (IndexError)
-    transport_mode = TransportationMode.CAR
+    transport_mode = TransportationMode.Car
 
     # Set default values
     # params = {}
@@ -445,14 +445,14 @@ def get_emission_factor(
         co2e = emission_factor_df[
             (emission_factor_df["category"] == category)
             & (emission_factor_df["subcategory"] == mode)
-            & (emission_factor_df["size_class"] == size)
+            & (emission_factor_df["size"] == size)
             & (emission_factor_df["fuel_type"] == fuel_type)
             & (emission_factor_df["occupancy"] == occupancy)
             & (emission_factor_df["range"] == range_cat)
             & (emission_factor_df["seating"] == seating_class)
         ]["co2e"].values[0]
     except IndexError:
-        if mode == TransportationMode.PLANE:
+        if mode == TransportationMode.Plane:
             default_seating = FlightClass.AVERAGE
             warnings.warn(
                 f"Seating class '{seating_class}' not available for {range_cat} flights. Switching to "
@@ -461,7 +461,7 @@ def get_emission_factor(
             co2e = emission_factor_df[
                 (emission_factor_df["category"] == category)
                 & (emission_factor_df["subcategory"] == mode)
-                & (emission_factor_df["size_class"] == size)
+                & (emission_factor_df["size"] == size)
                 & (emission_factor_df["fuel_type"] == fuel_type)
                 & (emission_factor_df["occupancy"] == occupancy)
                 & (emission_factor_df["range"] == range_cat)
@@ -481,7 +481,7 @@ def get_emission_factor(
             co2e = emission_factor_df[
                 (emission_factor_df["category"] == category)
                 & (emission_factor_df["subcategory"] == mode)
-                & (emission_factor_df["size_class"] == default_size)
+                & (emission_factor_df["size"] == default_size)
                 & (emission_factor_df["fuel_type"] == fuel_type)
                 & (emission_factor_df["occupancy"] == occupancy)
                 & (emission_factor_df["range"] == range_cat)
