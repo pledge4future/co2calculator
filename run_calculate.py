@@ -79,7 +79,7 @@ if __name__ == "__main__":
                 roundtrip = bool(user_data["roundtrip"].values[i])
                 total_co2e = calc_co2_businesstrip("plane", start=iata_start, destination=iata_dest,
                                                    roundtrip=roundtrip, seating=flight_class)
-                user_data.loc[i, "co2e_kg"] = total_co2e
+                user_data.loc[i, "co2e_kg"] = total_co2e[0]
             elif "_ferry" in f:
                 start = user_data["start"].values[i]
                 dest = user_data["destination"].values[i]
@@ -90,7 +90,7 @@ if __name__ == "__main__":
                 user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-            # user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
+            user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
 
     electricity_data = glob.glob(f"{script_path}/data/test_data_users/electricity.csv")
 
