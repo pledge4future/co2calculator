@@ -82,7 +82,7 @@ class InvalidSpatialInput(Exception):
 
 
 def haversine(
-        lat_start: float, long_start: float, lat_dest: float, long_dest: float
+    lat_start: float, long_start: float, lat_dest: float, long_dest: float
 ) -> Kilometer:
     """Function to compute the distance as the crow flies between given locations
 
@@ -106,10 +106,10 @@ def haversine(
 
     # compute zeta
     a = (
-            np.sin((dest.lat_rad - start.lat_rad) / 2) ** 2
-            + np.cos(start.lat_rad)
-            * np.cos(dest.lat_rad)
-            * np.sin((dest.long_rad - start.long_rad) / 2) ** 2
+        np.sin((dest.lat_rad - start.lat_rad) / 2) ** 2
+        + np.cos(start.lat_rad)
+        * np.cos(dest.lat_rad)
+        * np.sin((dest.long_rad - start.long_rad) / 2) ** 2
     )
     c = 2 * np.arcsin(np.sqrt(a))
     r = 6371
@@ -140,7 +140,7 @@ def geocoding_airport_pelias(iata: str) -> Tuple[str, Tuple[float, float], str]:
             # unfortunately, not all osm tags are available with geocoding, so osm entries might not be found and filter
             # for "aerodrome" tag not possible (could be done with ORS maybe?)
             if (feature["properties"]["confidence"] == 1) & (
-                    feature["properties"]["match_type"] == "exact"
+                feature["properties"]["match_type"] == "exact"
             ):
                 name = feature["properties"]["name"]
                 geom = feature["geometry"]["coordinates"]
@@ -164,8 +164,8 @@ def geocoding_airport(iata) -> Tuple[str, Tuple[float, float], str]:
         DF_AIRPORTS[DF_AIRPORTS.iata_code == airport.iata_code][
             ["name", "latitude_deg", "longitude_deg", "iso_country"]
         ]
-            .values.flatten()
-            .tolist()
+        .values.flatten()
+        .tolist()
     )
     # coords is a string - convert to list of floats
     coords = [lon, lat]
@@ -255,7 +255,7 @@ def geocoding_structured(loc_dict):
         layer = feature["properties"]["layer"]
         if "locality" in loc_dict.keys() and "address" in loc_dict.keys():
             if (
-                    layer != "address" and layer != "locality" and layer != "street"
+                layer != "address" and layer != "locality" and layer != "street"
             ) and n_results > 1:
                 print(
                     f"Data type not matching search ({layer} instead of address or locality. Skipping {name}, {coords}"
@@ -322,7 +322,7 @@ def geocoding_train_stations(loc_dict):
     )
     res_station = stations_in_country_df[
         stations_in_country_df["slug"] == res_station_slug
-        ]
+    ]
     res_country, res_station_name = res_station[["country", "name"]].values[0]
 
     coords = (res_station.iloc[0]["latitude"], res_station.iloc[0]["longitude"])
@@ -351,8 +351,8 @@ def get_route(coords: list, profile: str = None) -> Kilometer:
         )
     route = directions(clnt, coords, profile=profile)
     dist = (
-            route["routes"][0]["summary"]["distance"] / 1000
-    )  # divide my 1000, as we're working with distances in km
+        route["routes"][0]["summary"]["distance"] / 1000
+    )  # divide by 1000, as we're working with distances in km
 
     return dist
 
@@ -391,16 +391,28 @@ def get_route_ferry(coords: list, profile: str = None) -> Tuple[Kilometer, Kilom
     dist_per_waytype = res["routes"][0]["extras"]["waytypes"]["summary"]
     try:
         dist_ferry = [d["distance"] for d in dist_per_waytype if d["value"] == 9.0][
-                         0
-                     ] / 1000
+            0
+        ] / 1000
     except IndexError:
-        warnings.warn(
+        # todo: raise Error
+        raise InvalidSpatialInput(
             "The generated route does not contain any ferry crossing. Are you sure about the waypoints?"
         )
         dist_ferry = 0.0
     total_dist = (
-            res["routes"][0]["summary"]["distance"] / 1000
-    )  # divide my 1000, as we're working with distances in km
+        res["routes"][0]["summary"]["distance"] / 1000
+    )  # divide by 1000, as we're working with distances in km
+
+    if (dist_ferry + 100) < total_dist and dist_ferry != 0.0:
+        warnings.warn(
+            """
+            "Total distance is much larger than ferry crossing.
+            Your ferry route might not be contained in the database.
+            If you are sure you entered the correct addresses of the ferry ports, consider entering
+            the approximate ferry trip distance directly instead of the port addresses.
+            """,
+            UserWarning,
+        )
 
     return dist_ferry, total_dist
 
@@ -462,9 +474,9 @@ def range_categories(distance: Kilometer) -> Tuple[RangeCategory, str]:
 
 
 def create_distance_request(
-        start: Union[str, dict],
-        destination: Union[str, dict],
-        transportation_mode: TransportationMode,
+    start: Union[str, dict],
+    destination: Union[str, dict],
+    transportation_mode: TransportationMode,
 ) -> DistanceRequest:
     """Transform and validate the user input into a proper model for distance calculations
 

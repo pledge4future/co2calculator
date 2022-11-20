@@ -171,7 +171,7 @@ def test_geocoding_train_stations():
     ],
 )
 def test_apply_detour(
-        distance: float, transportation_mode: str, expected_distance: float
+    distance: float, transportation_mode: str, expected_distance: float
 ) -> None:
     """Test apply detour function"""
     distance_with_detour = co2calculator.distances._apply_detour(
@@ -192,16 +192,39 @@ def test_get_route_ferry_savona_bastia():
 
 
 @pytest.mark.parametrize(
-    "start, dest, expected_distance, expected_ferry_distance",
+    "start, dest, expected_distance, expected_ferry_distance, expect_warning",
     [
-        pytest.param([8.471, 44.307], [9.447, 42.702], 211, 200, id="Savona (IT) - Bastia (FR, Corse)"),
-        pytest.param([10.3975, 42.7673], [10.9214, 42.3593], 180, 48.8, id="Elba (IT) - Giglio (IT)")
-    ]
+        pytest.param(
+            [8.471, 44.307],
+            [9.447, 42.702],
+            211,
+            200,
+            False,
+            id="Savona (IT) - Bastia (FR, Corse)",
+        ),
+        pytest.param(
+            [10.3975, 42.7673],
+            [10.9214, 42.3593],
+            180,
+            48.8,
+            True,
+            id="Elba (IT) - Giglio (IT)",
+        ),
+    ],
 )
-def test_get_route_ferry(start: list, dest: list, expected_distance: float, expected_ferry_distance: float
-                         ) -> None:
+def test_get_route_ferry(
+    start: list,
+    dest: list,
+    expected_distance: float,
+    expected_ferry_distance: float,
+    expect_warning: bool,
+) -> None:
     # NOTE: Elba - Giglio has a direct ferry connection, which is not in ORS; dist_t should be around 50 and not 180
     """Test getting the ferry distance between given locations"""
-    dist_f, dist_t = co2calculator.distances.get_route_ferry([start, dest])
+    if expect_warning:
+        with pytest.warns(UserWarning):
+            dist_f, dist_t = co2calculator.distances.get_route_ferry([start, dest])
+    else:
+        dist_f, dist_t = co2calculator.distances.get_route_ferry([start, dest])
     assert dist_t == pytest.approx(expected_distance, rel=0.01)
     assert dist_f == pytest.approx(expected_ferry_distance, rel=0.01)
