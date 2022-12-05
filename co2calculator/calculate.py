@@ -249,9 +249,9 @@ def calc_co2_plane(distance: Kilometer, seating_class: str = None) -> Kilogram:
         )
 
     # Retrieve whether distance is below or above 1500 km
-    if distance <= 1500:
+    if distance <= 700:
         flight_range = FlightRange.SHORT_HAUL
-    elif distance > 1500:
+    elif distance > 3700:
         flight_range = FlightRange.LONG_HAUL
     # NOTE: Should be checked before geocoding and haversine calculation
     seating_choices = [item for item in FlightClass]
