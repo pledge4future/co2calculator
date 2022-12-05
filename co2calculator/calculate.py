@@ -248,8 +248,10 @@ def calc_co2_plane(distance: Kilometer, seating_class: str = None) -> Kilogram:
             f"Seating class was not provided. Using default value: '{seating_class}'"
         )
 
-    # Retrieve whether distance is below or above 1500 km
+    # Retrieve whether distance is <= 700, > 700 and <= 3700 or above 3700 km
     if distance <= 700:
+        flight_range = FlightRange.DOMESTIC
+    elif 700 < distance <= 3700:
         flight_range = FlightRange.SHORT_HAUL
     elif distance > 3700:
         flight_range = FlightRange.LONG_HAUL
