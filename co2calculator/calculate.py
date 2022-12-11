@@ -22,6 +22,7 @@ from .constants import (
     RangeCategory
 )
 from .distances import create_distance_request, get_distance
+from .degree_days import calc_degreedays
 
 script_path = str(Path(__file__).parent)
 emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
@@ -398,6 +399,29 @@ def calc_co2_heating(
     emissions = consumption_kwh * area_share / KWH_TO_TJ * co2e
 
     return emissions
+
+def normalize_heating(
+    emissions: float,
+    date_str: str,
+    location: str):
+    """
+    Function to normalize the heating electricity consuption by dividing by the total number of degree days.
+    INPUTS:
+        emissions (flt): the raw emissions for the given month as calculated by calc_co2_heating
+        date_str (str): should be 'year-month', ex. '2020-02'
+        location (str): ex. "Bergheimer Straße 116, 69115 Heidelberg, Germany"
+    OUTPUTS:
+        norm_emissions: emissions divided by the appropriate normalization
+    """
+    #TODO: What if degree_days = 0? This normalization doesn't seem consistent
+    
+    #get degree days
+    dd = calc_degreedays('heating', date_str, location)
+
+    #normalize (NOT CORRECT)
+    norm_emissions = emissions / dd
+
+    return norm_emissions
 
 
 def calc_co2_businesstrip(
