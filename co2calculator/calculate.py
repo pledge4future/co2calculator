@@ -403,7 +403,7 @@ def calc_co2_heating(
 def normalize_heating(
     emissions: float,
     date_str: str,
-    location: str):
+    location: str) -> float:
     """
     Function to normalize the heating electricity consuption by dividing by the total number of degree days.
     INPUTS:
@@ -411,7 +411,7 @@ def normalize_heating(
         date_str (str): should be 'year-month', ex. '2020-02'
         location (str): ex. "Bergheimer Straße 116, 69115 Heidelberg, Germany"
     OUTPUTS:
-        norm_emissions: emissions divided by the appropriate normalization
+        norm_emissions (flt): emissions divided by the appropriate normalization
     """
     #TODO: What if degree_days = 0? This normalization doesn't seem consistent
     

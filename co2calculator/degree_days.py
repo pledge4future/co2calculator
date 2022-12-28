@@ -9,7 +9,7 @@ from datetime import date as ddate
 # Load environment vars (TODO: Use pydantic.BaseSettings)
 ORS_API_KEY = os.environ.get("ORS_API_KEY")
 
-def get_temp_series(location):
+def get_temp_series(location: str):
     """
     Given a location returns an xarray dataset of hourly temperatures in Kelvin
     INPUTS:
@@ -36,7 +36,7 @@ def get_temp_series(location):
     ds = ds.resample(time="1h").interpolate("linear")
     return ds
 
-def get_month_endpoints(date_str, include_midnight = True):
+def get_month_endpoints(date_str: str, include_midnight: bool = True):
     """
     Given a year-month string, return the endpoints required for the timeslice to select temperatures of a given month
     INPUTS:
@@ -74,7 +74,7 @@ def get_month_endpoints(date_str, include_midnight = True):
 
     return start_str, end_str
 
-def calc_degreedays(type, date_str, location = "Bergheimer Straße 116, 69115 Heidelberg, Germany", Tref = None):
+def calc_degreedays(type: str, date_str: str, location: str, Tref = None):
     """
     Calculate the degree days for a given month using the integration approach (higher fidelity). 
     For futher details see for example
@@ -92,7 +92,7 @@ def calc_degreedays(type, date_str, location = "Bergheimer Straße 116, 69115 He
         print("WARNING calc_degreedays_int: degree days type not understood. Defaulting to type='heating'.")
         type = 'heating'
     
-    ds = get_temp_series(location) #TODO specify location here
+    ds = get_temp_series(location)
     # this takes from midnight of first day to midnight of first day of following month
     month_ds = ds.sel(time=slice(*get_month_endpoints(date_str, include_midnight=True)))
 
