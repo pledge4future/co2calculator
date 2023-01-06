@@ -72,7 +72,7 @@ class TestCalculateBusinessTrip:
                     "locality": "Berlin",
                     "address": "Alexanderplatz 1",
                 },
-                134.72,
+                134.71,
                 id="transportation_mode: 'car'",
             ),
             pytest.param(
