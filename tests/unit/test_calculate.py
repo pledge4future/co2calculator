@@ -23,10 +23,10 @@ from co2calculator.constants import RangeCategory
         pytest.param(10, 1, None, "diesel", 2.01, id="fuel_type: 'diesel'"),
         pytest.param(10, 1, None, "gasoline", 2.24, id="fuel_type: 'gasoline'"),
         pytest.param(10, 1, None, "cng", 2.37, id="fuel_type: 'cng'"),
-        pytest.param(10, 1, None, "electric", 0.57, id="fuel_type: 'electric'"),
-        pytest.param(10, 1, None, "hybrid", 1.16, id="fuel_type: 'hybrid'"),
+        pytest.param(10, 1, None, "electric", 0.51, id="fuel_type: 'electric'"),
+        pytest.param(10, 1, None, "hybrid", 1.2, id="fuel_type: 'hybrid'"),
         pytest.param(
-            10, 1, None, "plug-in_hybrid", 0.97, id="fuel_type: 'plug-in_hybrid'"
+            10, 1, None, "plug-in_hybrid", 0.93, id="fuel_type: 'plug-in_hybrid'"
         ),
         pytest.param(10, 1, None, "average", 2.15, id="fuel_type: 'average'"),
     ],
@@ -54,11 +54,11 @@ def test_calc_co2_car(
 @pytest.mark.parametrize(
     "distance,size,expected_emissions",
     [
-        pytest.param(100, None, 11.34, id="defaults"),
-        pytest.param(100, "small", 8.28, id="size: 'small'"),
+        pytest.param(100, None, 11.36, id="defaults"),
+        pytest.param(100, "small", 8.31, id="size: 'small'"),
         pytest.param(100, "medium", 10.09, id="size: 'medium'"),
         pytest.param(100, "large", 13.24, id="size: 'large'"),
-        pytest.param(100, "average", 11.34, id="size: 'average'"),
+        pytest.param(100, "average", 11.36, id="size: 'average'"),
     ],
 )
 def test_calc_co2_motorbike(
@@ -185,9 +185,9 @@ def test_calc_co2_train(
 @pytest.mark.parametrize(
     "distance,seating_class,expected_emissions",
     [
-        pytest.param(1000, None, 155.53, id="defaults, short-haul"),
-        pytest.param(2000, None, 381.7, id="defaults, long-haul"),
-        pytest.param(1000, "economy_class", 152.98, id="seating_class"),
+        pytest.param(1000, None, 153.53, id="defaults, short-haul"),
+        pytest.param(2000, None, 307.06, id="defaults, long-haul"),
+        pytest.param(1000, "economy_class", 151.52, id="seating_class"),
     ],
 )
 def test_calc_co2_plane(
@@ -224,7 +224,7 @@ def test_calc_co2_plane__invalid_distance_seating_combo() -> None:
     with pytest.warns(
         UserWarning, match=r"Seating class '\w+' not available for short-haul flights"
     ):
-        candidate.calc_co2_plane(distance=400, seating_class="premium_economy_class")
+        candidate.calc_co2_plane(distance=800, seating_class="premium_economy_class")
 
 
 @pytest.mark.parametrize(
