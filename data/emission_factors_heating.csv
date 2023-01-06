@@ -1,4 +1,4 @@
-﻿Spalte1,type,sub-type,country,region,units,co2e,source,source link,note,info
+,type,sub-type,country,region,units,co2e,source,source link,note,info
 0,Natural gas,,France,continental France,kgCO2e/kWh,0.204,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020,
 1,Natural gas,,France,continental France,kgCO2e/GJ,56.8,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020,
 2,Natural gas,,France,continental France,kgCO2e/m3,2.2,Bilans GES,https://data.ademe.fr/datasets/base-carbone%28r%29,valid for 2020,
