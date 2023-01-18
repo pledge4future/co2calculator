@@ -53,6 +53,7 @@ def download_ERA5_single_levels(year, month, variable, shortname, output_path):
                 '21:00', '22:00', '23:00',
             ],
         },
+        # Set file name here
         '{3}/era5_{2}_{0}_{1}.nc'.format(year, month, shortname, output_path))
 
 def scheduled_download(funct, dates, variable, short, output_path):
@@ -63,8 +64,8 @@ def scheduled_download(funct, dates, variable, short, output_path):
 if __name__ == '__main__':
 
     variable = '2m_temperature'
-    short = 'T2m'
-    output_path = '/Users/marialozano/Python/ERA5_data/SLP_MM'
+    short = 'T2m' #temporary short name for file naming purposes
+    output_path = '/Users/marialozano/Python/ERA5_data/SLP_MM' # temporary output path
 
     start_year = 2010
     end_year = datetime.now().year
@@ -76,5 +77,6 @@ if __name__ == '__main__':
         for j in range(start_month, end_month+1):
             dates.append(('{:02d}'.format(j), str(i)))
 
+    # schedule download for every 30 days at 11:30pm (currently)
     schedule.every(30).day.at('23:30').do(scheduled_download(download_ERA5_single_levels, dates, variable, short, output_path))
     schedule.clear('daily-tasks')
