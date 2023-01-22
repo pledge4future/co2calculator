@@ -34,7 +34,7 @@
 32,transport,car,"Öko-Institut","GEMIS",Pkw-Otto-CNG-gross-DE-2020-Basis,P.km,large,,,,cng,kg/P.km,0.291,,
 33,transport,car,"Öko-Institut","GEMIS",Pkw-Otto-CNG-klein-DE-2020-Basis,P.km,small,,,,cng,kg/P.km,0.198,,
 34,transport,car,"Öko-Institut","GEMIS",Pkw-Otto-CNG-mittel-DE-2020-Basis,P.km,medium,,,,cng,kg/P.km,0.237,,
-35,transport,car,"Öko-Institut"-adapted,"GEMIS",Pkw-Otto-CNG-mittel-DE-2020-Basis,P.km,average,,,,cng,kg/P.km,0.237,,
+35,transport,car,"Öko-Institut-adapted","GEMIS",Pkw-Otto-CNG-mittel-DE-2020-Basis,P.km,average,,,,cng,kg/P.km,0.237,,
 36,transport,car,"UBA","TREMOD",PKW,P.km,average,,,,average,kg/P.km,0.215,,
 37,transport,car,"UBA","TREMOD",PKW,P.km,small,,,,average,kg/P.km,0.179,,
 38,transport,car,"UBA","TREMOD",PKW,P.km,medium,,,,average,kg/P.km,0.209,,
