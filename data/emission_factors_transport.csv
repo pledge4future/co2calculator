@@ -105,3 +105,4 @@
 103,Car,,Car,average,,,,liquefied petroleum gas,Spain,,valid for 2021,kg/l,1.747,Ministerio para la transición ecológica y el retro demográfico,https://www.miteco.gob.es/es/cambio-climatico/temas/mitigacion-politicas-y-medidas/factoresemision_tcm30-479095.pdf,
 104,Car,,Car,average,,,,average,Belgium,,valid for 2020,kg/km,0.213,Bilan Carbone Versie V8.4,https://www.facteursdemissionco2.be/facteurs#productiondenergieapartirdecombustibles,
 105,Telecabine,,,,,,,,France,continental France,published 2014 (may be outdated),kg/passenger.km,0.0295,Historique Bilan Carbone ,https://data.ademe.fr/datasets/base-carbone%28r%29,
+106,Train,,High Speed Train,,,,,,Spain,,published 2021,kg/passenger.km,0.00642,Kortazar et al. (2021),https://doi.org/10.1016/j.retrec.2021.101035,
