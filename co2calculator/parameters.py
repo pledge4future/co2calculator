@@ -63,7 +63,7 @@ class BusEmissionParameters(BaseModel):
     subcategory: TransportationMode = TransportationMode.Bus
     fuel_type: Union[BusFuelType, str] = BusFuelType.Diesel
     size: Union[BusSize, str] = BusSize.Average
-    occupancy: Union[BusOccupancy, str] = BusOccupancy.c_50
+    occupancy: Union[BusOccupancy, str] = None
     range: Union[BusRange, str] = BusRange.Long_distance
 
     @validator("fuel_type", allow_reuse=True)
@@ -82,10 +82,26 @@ class BusEmissionParameters(BaseModel):
         return BusRange(v)
 
     @validator("occupancy", allow_reuse=True)
-    def check_occupancy(cls, v):
+    def check_occupancy(cls, v, values):
         v = v.lower() if isinstance(v, str) else v
+        if v is None:
+            if values['fuel_type'] not in [BusFuelType.Hyrdogen, BusFuelType.CNG]:
+                return None
+            else:
+                return BusOccupancy.c_50
         return BusOccupancy(v)
 
+
+
+class MotorbikeEmissionParameters(BaseModel):
+
+    subcategory: TransportationMode = TransportationMode.Motorbike
+    size: Union[MotorbikeSize, str] = MotorbikeSize.Average
+
+    @validator("size", allow_reuse=True)
+    def check_size(cls, v):
+        v = v.lower() if isinstance(v, str) else v
+        return MotorbikeSize(v)
 
 
 
