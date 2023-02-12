@@ -155,7 +155,7 @@ def test_calc_co2_motorbike(
         ),
         pytest.param(
             10,
-            "small",
+            None,
             "diesel",
             None,
             "long-distance",
@@ -164,7 +164,7 @@ def test_calc_co2_motorbike(
         ),
         pytest.param(
             10,
-            "medium",
+            None,
             "cng",
             None,
             "long-distance",
@@ -173,7 +173,7 @@ def test_calc_co2_motorbike(
         ),
         pytest.param(
             10,
-            "small",
+            None,
             "hydrogen",
             None,
             "local",
