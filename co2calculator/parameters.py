@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """__description__"""
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, root_validator
 from .enums import *
 from typing import Union
 
@@ -68,8 +68,10 @@ class BusEmissionParameters(BaseModel):
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
-        v = v.lower() if isinstance(v, str) else v
-        return BusFuelType(v)
+        if isinstance(v, str):
+            return BusFuelType(v.lower())
+        else:
+            return v
 
     @validator("size", allow_reuse=True)
     def check_size(cls, v):
@@ -82,15 +84,20 @@ class BusEmissionParameters(BaseModel):
         return BusRange(v)
 
     @validator("occupancy", allow_reuse=True)
-    def check_occupancy(cls, v, values):
+    def check_occupancy(cls, v):
         v = v.lower() if isinstance(v, str) else v
-        if v is None:
-            if values['fuel_type'] not in [BusFuelType.Hyrdogen, BusFuelType.CNG]:
-                return None
-            else:
-                return BusOccupancy.c_50
         return BusOccupancy(v)
 
+    @root_validator(pre=False)
+    def check_occupancy(cls, values):
+        if values['occupancy'] is None:
+            if values['fuel_type'] in [BusFuelType.Cng, BusFuelType.Hydrogen]:
+                values['occupancy'] = None
+            else:
+                values['occupancy'] = BusOccupancy.c_50
+        else:
+            values['occupancy'] = BusOccupancy(values['occupancy'])
+        return values
 
 
 class MotorbikeEmissionParameters(BaseModel):
