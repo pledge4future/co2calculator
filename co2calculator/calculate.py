@@ -131,7 +131,7 @@ def calc_co2_bus(
     distance: Kilometer,
     size: str = None,
     fuel_type: str = None,
-    occupancy: int = None,
+    occupancy: float = None,
     vehicle_range: str = None,
 ) -> Kilogram:
     """
@@ -322,7 +322,7 @@ def calc_co2_businesstrip(
     distance: Kilometer = None,
     size: str = None,
     fuel_type: str = None,
-    occupancy: int = None,
+    occupancy: float = None,
     seating: str = None,
     passengers: int = None,
     roundtrip: bool = False,

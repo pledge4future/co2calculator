@@ -133,15 +133,15 @@ def test_calc_co2_motorbike(
     [
         pytest.param(549, None, None, None, None, 21.63, id="defaults"),
         pytest.param(
-            549, "large", "diesel", 80, "long-distance", 12.3, id="optional arguments"
+            549, "large", "diesel", 80.0, "long-distance", 12.3, id="optional arguments"
         ),
         pytest.param(10, "medium", None, None, None, 0.42, id="size: 'medium'"),
         pytest.param(10, "large", None, None, None, 0.33, id="size: 'large'"),
         pytest.param(10, "average", None, None, None, 0.39, id="size: 'average'"),
-        pytest.param(10, None, None, 20, None, 0.92, id="occupancy: 20"),
-        pytest.param(10, None, None, 50, None, 0.39, id="occupancy: 50"),
-        pytest.param(10, None, None, 80, None, 0.26, id="occupancy: 80"),
-        pytest.param(10, None, None, 100, None, 0.22, id="occupancy: 100"),
+        pytest.param(10, None, None, 20.0, None, 0.92, id="occupancy: 20"),
+        pytest.param(10, None, None, 50.0, None, 0.39, id="occupancy: 50"),
+        pytest.param(10, None, None, 80.0, None, 0.26, id="occupancy: 80"),
+        pytest.param(10, None, None, 100.0, None, 0.22, id="occupancy: 100"),
         pytest.param(10, None, None, None, "local", 0.39, id="vehicle_range: 'local'"),
         pytest.param(
             10,
