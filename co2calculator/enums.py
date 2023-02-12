@@ -54,9 +54,6 @@ PlaneFuelType = enum_creator.create_enum(TransportationMode.Plane,
 FerryFuelType = enum_creator.create_enum(TransportationMode.Ferry,
                             "fuel_type",
                             "FerryFuelType")
-MotorbikeFuelType = enum_creator.create_enum(TransportationMode.Motorbike,
-                            "fuel_type",
-                               "MotorbikeFuelType" )
 BicycleFuelType = enum_creator.create_enum(TransportationMode.Bicycle,
                             "fuel_type",
                               "BicycleFuelType")
@@ -74,6 +71,9 @@ CarSize = enum_creator.create_enum(TransportationMode.Car,
 BusSize = enum_creator.create_enum(TransportationMode.Bus,
                             "size",
                           "BusSize")
+MotorbikeSize = enum_creator.create_enum(TransportationMode.Motorbike,
+                            "size",
+                          "MotorbikeSize")
 
 # Vehicle range
 TrainRange = enum_creator.create_enum(TransportationMode.Train,
