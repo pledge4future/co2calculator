@@ -130,7 +130,7 @@ def test_calc_co2_motorbike(
 
 
 @pytest.mark.parametrize(
-    "distance,size,fuel_type,occupancy,vehicle_range,expected_emissions",
+    "distance,size,fuel_type,occupancy,range,expected_emissions",
     [
         pytest.param(549, None, None, None, None, 21.63, id="defaults"),
         pytest.param(
@@ -143,7 +143,7 @@ def test_calc_co2_motorbike(
         pytest.param(10, None, None, 50.0, None, 0.39, id="occupancy: 50"),
         pytest.param(10, None, None, 80.0, None, 0.26, id="occupancy: 80"),
         pytest.param(10, None, None, 100.0, None, 0.22, id="occupancy: 100"),
-        pytest.param(10, None, None, None, "local", 0.39, id="vehicle_range: 'local'"),
+        pytest.param(10, None, None, None, "local", 0.39, id="range: 'local'"),
         pytest.param(
             10,
             None,
@@ -151,7 +151,7 @@ def test_calc_co2_motorbike(
             None,
             "long-distance",
             0.39,
-            id="vehicle_range: 'long-distance'",
+            id="range: 'long-distance'",
         ),
         pytest.param(
             10,
@@ -160,7 +160,7 @@ def test_calc_co2_motorbike(
             None,
             "long-distance",
             0.39,
-            id="size: 'small', fuel_type: `diesel`, vehicle_range: 'long-distance'",
+            id="size: 'small', fuel_type: `diesel`, range: 'long-distance'",
         ),
         pytest.param(
             10,
@@ -187,7 +187,7 @@ def test_calc_co2_bus(
     size: Optional[str],
     fuel_type: Optional[str],
     occupancy: Optional[int],
-    vehicle_range: Optional[str],
+    range: Optional[str],
     expected_emissions: float,
 ):
     """Test: Calculate bus-trip emissions based on given distance.
@@ -200,14 +200,14 @@ def test_calc_co2_bus(
         size=size,
         fuel_type=fuel_type,
         occupancy=occupancy,
-        vehicle_range=vehicle_range,
+        range=range,
     )
 
     assert round(actual_emissions, 2) == expected_emissions
 
 
 @pytest.mark.parametrize(
-    "distance,fuel_type,vehicle_range,expected_emissions",
+    "distance,fuel_type,range,expected_emissions",
     [
         pytest.param(1162, None, None, 38.23, id="defaults"),
         pytest.param(
@@ -216,16 +216,16 @@ def test_calc_co2_bus(
         pytest.param(10, "electric", None, 0.32, id="fuel_type: 'electric'"),
         pytest.param(10, "diesel", None, 0.7, id="fuel_type: 'diesel'"),
         pytest.param(10, "average", None, 0.33, id="fuel_type: 'average'"),
-        pytest.param(10, None, "local", 0.6, id="vehicle_range: 'local'"),
+        pytest.param(10, None, "local", 0.6, id="range: 'local'"),
         pytest.param(
-            10, None, "long-distance", 0.33, id="vehicle_range: 'long-distance'"
+            10, None, "long-distance", 0.33, id="range: 'long-distance'"
         ),
     ],
 )
 def test_calc_co2_train(
     distance: float,
     fuel_type: Optional[str],
-    vehicle_range: Optional[str],
+    range: Optional[str],
     expected_emissions: float,
 ):
     """Test: Calculate train-trip emissions based on given distance.
@@ -233,7 +233,7 @@ def test_calc_co2_train(
     """
 
     actual_emissions = candidate.calc_co2_train(
-        distance=distance, fuel_type=fuel_type, vehicle_range=vehicle_range
+        distance=distance, fuel_type=fuel_type, range=range
     )
 
     assert round(actual_emissions, 2) == expected_emissions

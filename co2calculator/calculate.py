@@ -132,7 +132,7 @@ def calc_co2_bus(
     size: str = None,
     fuel_type: str = None,
     occupancy: float = None,
-    vehicle_range: str = None,
+    range: str = None,
 ) -> Kilogram:
     """
     Function to compute the emissions of a bus trip.
@@ -140,12 +140,12 @@ def calc_co2_bus(
     :param size: size class of the bus;                 ["medium", "large", "average"]
     :param fuel_type: type of fuel the bus is using;    ["diesel", "cng", "hydrogen"]
     :param occupancy: number of people on the bus       [20, 50, 80, 100]
-    :param vehicle_range: range/haul of the vehicle     ["local", "long-distance"]
+    :param range: range/haul of the vehicle     ["local", "long-distance"]
     :type distance: Kilometer
     :type size: str
     :type fuel_type: str
     :type occupancy: int
-    :type vehicle_range: str
+    :type range: str
     :return: Total emissions of trip in co2 equivalents
     :rtype: Kilogram
     """
@@ -161,16 +161,16 @@ def calc_co2_bus(
 def calc_co2_train(
     distance: Kilometer,
     fuel_type: str = None,
-    vehicle_range: str = None,
+    range: str = None,
 ) -> Kilogram:
     """
     Function to compute the emissions of a train trip.
     :param distance: Distance travelled by train;
     :param fuel_type: type of fuel the train is using;    ["diesel", "electric", "average"]
-    :param vehicle_range: range/haul of the vehicle       ["local", "long-distance"]
+    :param range: range/haul of the vehicle       ["local", "long-distance"]
     :type distance: Kilometer
     :type fuel_type: float
-    :type vehicle_range: str
+    :type range: str
     :return: Total emissions of trip in co2 equivalents
     :rtype: Kilogram
     """
@@ -389,14 +389,14 @@ def calc_co2_businesstrip(
             size=size,
             fuel_type=fuel_type,
             occupancy=occupancy,
-            vehicle_range=TrainRange.Long_distance,
+            range=TrainRange.Long_distance,
         )
 
     elif transportation_mode == TransportationMode.Train:
         emissions = calc_co2_train(
             distance=distance,
             fuel_type=fuel_type,
-            vehicle_range=TrainRange.Long_distance,
+            range=TrainRange.Long_distance,
         )
 
     elif transportation_mode == TransportationMode.Plane:
@@ -564,13 +564,13 @@ def calc_co2_commuting(
             size=size,
             fuel_type=fuel_type,
             occupancy=occupancy,
-            vehicle_range="local",
+            range="local",
             distance=weekly_distance,
         )
 
     elif transportation_mode == TransportationMode.Train:
         weekly_co2e = calc_co2_train(
-            fuel_type=fuel_type, vehicle_range="local", distance=weekly_distance
+            fuel_type=fuel_type, range="local", distance=weekly_distance
         )
     elif transportation_mode in [
         TransportationMode.Pedelec,
