@@ -12,6 +12,7 @@ class TrainEmissionParameters(BaseModel):
     subcategory: TransportationMode = TransportationMode.Train
     fuel_type: Union[TrainFuelType, str] = TrainFuelType.Average
     range: Union[TrainRange, str] = TrainRange.Long_distance
+    size: Union[TrainSize, str] = TrainSize.Average
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
@@ -22,6 +23,11 @@ class TrainEmissionParameters(BaseModel):
     def check_range(cls, v):
         v = v.lower() if isinstance(v, str) else v
         return TrainRange(v)
+
+    @validator("size", allow_reuse=True)
+    def check_size(cls, v):
+        v = v.lower() if isinstance(v, str) else v
+        return TrainSize(v)
 
 
 class CarEmissionParameters(BaseModel):
