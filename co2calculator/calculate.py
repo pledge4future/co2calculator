@@ -20,7 +20,8 @@ from .constants import (
     RangeCategory
 )
 from .distances import create_distance_request, get_distance, DistanceRequest, StructuredLocation, range_categories
-from .parameters import CarEmissionParameters, BusEmissionParameters, TrainEmissionParameters, PlaneEmissionParameters
+from .parameters import CarEmissionParameters, BusEmissionParameters, TrainEmissionParameters, PlaneEmissionParameters, \
+    MotorbikeEmissionParameters
 from .reader import Reader
 from .enums import *
 
@@ -116,8 +117,11 @@ def calc_co2_motorbike(distance: Kilometer = None, size: str = None) -> Kilogram
         #warnings.warn(
         #    f"Size of motorbike was not provided. Using default value: '{size}'"
         #)
-
-    co2e = get_emission_factor("transport", transport_mode, size=size)
+    params = locals()
+    params = {k: v for k, v in params.items() if v is not None}
+    params = MotorbikeEmissionParameters(**params)
+    co2e = reader.get_emission_factor(params.dict())
+    #co2e = get_emission_factor("transport", transport_mode, size=size)
     emissions = distance * co2e
 
     return emissions
