@@ -9,6 +9,7 @@ from pytest_mock import MockerFixture
 
 import co2calculator.calculate as candidate
 from co2calculator.constants import RangeCategory
+from co2calculator.exceptions import ConversionFactorNotFound
 
 
 @pytest.mark.parametrize(
@@ -256,7 +257,7 @@ def test_calc_co2_plane(
     """
 
     actual_emissions = candidate.calc_co2_plane(
-        distance=distance, seating_class=seating_class
+        distance=distance, seating=seating_class
     )
 
     assert round(actual_emissions, 2) == expected_emissions
@@ -268,7 +269,7 @@ def test_calc_co2_plane__failed() -> None:
     """
 
     with pytest.raises(ValueError):
-        candidate.calc_co2_plane(distance=5000, seating_class="NON-EXISTENT")
+        candidate.calc_co2_plane(distance=5000, seating="NON-EXISTENT")
 
 
 def test_calc_co2_plane__invalid_distance_seating_combo() -> None:
@@ -277,10 +278,8 @@ def test_calc_co2_plane__invalid_distance_seating_combo() -> None:
     """
 
     # Check if raises warning (premium economy class is not available for short-haul flights)
-    with pytest.warns(
-        UserWarning, match=r"Seating class '\w+' not available for short-haul flights"
-    ):
-        candidate.calc_co2_plane(distance=400, seating_class="premium_economy_class")
+    with pytest.raises(ConversionFactorNotFound):
+        candidate.calc_co2_plane(distance=400, seating="premium_economy_class")
 
 
 @pytest.mark.parametrize(
@@ -298,7 +297,7 @@ def test_calc_ferry(seating_class: Optional[str], expected_emissions: float) -> 
     """
 
     actual_emissions = candidate.calc_co2_ferry(
-        distance=100, seating_class=seating_class
+        distance=100, seating=seating_class
     )
 
     assert round(actual_emissions, 2) == expected_emissions
