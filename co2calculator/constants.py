@@ -135,14 +135,12 @@ class DetourCoefficient(float, enum.Enum):
     BUS = 1.5
     TRAIN = 1.2
     PLANE = 1.0
-    FERRY = 1.0
 
 
 class DetourConstant(float, enum.Enum):
     BUS = 0.0
     TRAIN = 0.0
     PLANE = 95
-    FERRY = 0.0
 
 
 @enum.unique

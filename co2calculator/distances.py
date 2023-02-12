@@ -364,9 +364,69 @@ def get_route(coords: list, profile: str = None) -> Kilometer:
     route = directions(clnt, coords, profile=profile)
     dist = (
         route["routes"][0]["summary"]["distance"] / 1000
-    )  # divide my 1000, as we're working with distances in km
+    )  # divide by 1000, as we're working with distances in km
 
     return dist
+
+
+def get_route_ferry(coords: list, profile: str = None) -> Tuple[Kilometer, Kilometer]:
+    """Obtain the distance of a ferry route (and the total trip distance) between given waypoints
+    todo: check if coords may also be a tuple/array etc.
+
+    :param list coords: list of [lat,long] coordinates
+    :param str profile: driving-car, foot-walking
+    :return: distance of the ferry crossing, total distance
+    :rtype: Kilometer, Kilometer
+    """
+    # profile may be: driving-car, walking
+    clnt = openrouteservice.Client(key=ORS_API_KEY)
+
+    allowed_profiles = ["driving-car", "foot-walking"]
+    if profile not in allowed_profiles or profile is None:
+        profile = "foot-walking"
+        warnings.warn(
+            f"Warning! Specified profile not available or no profile passed.\n"
+            f"Profile set to '{profile}' by default."
+        )
+    res = directions(clnt, coords, profile=profile, extra_info=["waytype"])
+    """waytypes = {0: "Unknown",
+                1: "State Road",
+                2: "Road",
+                3: "Street",
+                4: "Path",
+                5: "Track",
+                6: "Cycleway",
+                7: "Footway",
+                8: "Steps",
+                9: "Ferry",
+                10: "Construction"}"""
+    dist_per_waytype = res["routes"][0]["extras"]["waytypes"]["summary"]
+    try:
+        dist_ferry = [d["distance"] for d in dist_per_waytype if d["value"] == 9.0][
+            0
+        ] / 1000
+    except IndexError:
+        # todo: raise Error
+        raise InvalidSpatialInput(
+            "The generated route does not contain any ferry crossing. Are you sure about the waypoints?"
+        )
+        dist_ferry = 0.0
+    total_dist = (
+        res["routes"][0]["summary"]["distance"] / 1000
+    )  # divide by 1000, as we're working with distances in km
+
+    if (dist_ferry + 100) < total_dist and dist_ferry != 0.0:
+        warnings.warn(
+            """
+            "Total distance is much larger than ferry crossing.
+            Your ferry route might not be contained in the database.
+            If you are sure you entered the correct addresses of the ferry ports, consider entering
+            the approximate ferry trip distance directly instead of the port addresses.
+            """,
+            UserWarning,
+        )
+
+    return dist_ferry, total_dist
 
 
 def _apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
@@ -558,9 +618,16 @@ def get_distance(request: DistanceRequest) -> Kilometer:
     if request.transportation_mode == TransportationMode.Ferry:
         # todo: Do we have a way of checking if there even exists a ferry connection between the given cities (or if the
         #  cities even have a port?
+
         _, _, geom_start, _ = geocoding_structured(request.start.dict())
         _, _, geom_dest, _ = geocoding_structured(request.destination.dict())
-        # compute great circle distance between ports
-        distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
 
-        return _apply_detour(distance, request.transportation_mode)
+        # hardcoding not ideal, profile should be determined based on specified "seating type"
+        distance, distance_total = get_route_ferry(
+            [geom_start, geom_dest], profile="foot-walking"
+        )
+
+        # if "seating" is "Car passenger", the remaining distance should be calculated as car trip ...
+        # TODO: implement this
+        remaining_distance = distance - distance_total
+        return distance
