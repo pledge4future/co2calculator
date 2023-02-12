@@ -74,6 +74,9 @@ BusSize = enum_creator.create_enum(TransportationMode.Bus,
 MotorbikeSize = enum_creator.create_enum(TransportationMode.Motorbike,
                             "size",
                           "MotorbikeSize")
+TramSize = enum_creator.create_enum(TransportationMode.Tram,
+                            "size",
+                            "TramSize")
 
 # Vehicle range
 TrainRange = enum_creator.create_enum(TransportationMode.Train,

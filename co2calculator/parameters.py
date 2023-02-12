@@ -30,6 +30,24 @@ class TrainEmissionParameters(BaseModel):
         return TrainSize(v)
 
 
+
+class TramEmissionParameters(BaseModel):
+
+    subcategory: TransportationMode = TransportationMode.Tram
+    fuel_type: Union[TramFuelType, str] = TramFuelType.Electric
+    size: Union[TramSize, str] = TramSize.Average
+
+    @validator("fuel_type", allow_reuse=True)
+    def check_fueltype(cls, v):
+        v = v.lower() if isinstance(v, str) else v
+        return TramFuelType(v)
+
+    @validator("size", allow_reuse=True)
+    def check_size(cls, v):
+        v = v.lower() if isinstance(v, str) else v
+        return TramSize(v)
+
+
 class CarEmissionParameters(BaseModel):
 
     subcategory: TransportationMode = TransportationMode.Car

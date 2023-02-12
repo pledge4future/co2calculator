@@ -21,7 +21,7 @@ from .constants import (
 )
 from .distances import create_distance_request, get_distance, DistanceRequest, StructuredLocation, range_categories
 from .parameters import CarEmissionParameters, BusEmissionParameters, TrainEmissionParameters, PlaneEmissionParameters, \
-    MotorbikeEmissionParameters
+    MotorbikeEmissionParameters, TramEmissionParameters
 from .reader import Reader
 from .enums import *
 
@@ -179,6 +179,30 @@ def calc_co2_train(
     params = locals()
     params = {k: v for k, v in params.items() if v is not None}
     params = TrainEmissionParameters(**params)
+    co2e = reader.get_emission_factor(params.dict())
+    emissions = distance * co2e
+    return emissions
+
+def calc_co2_tram(
+    distance: Kilometer,
+    fuel_type: str = None,
+    size: str = None
+) -> Kilogram:
+    """
+    Function to compute the emissions of a train trip.
+    :param distance: Distance travelled by train;
+    :param fuel_type: type of fuel the train is using;    ["diesel", "electric", "average"]
+    :param range: range/haul of the vehicle       ["local", "long-distance"]
+    :type distance: Kilometer
+    :type fuel_type: float
+    :type range: str
+    :return: Total emissions of trip in co2 equivalents
+    :rtype: Kilogram
+    """
+    # Set default values
+    params = locals()
+    params = {k: v for k, v in params.items() if v is not None}
+    params = TramEmissionParameters(**params)
     co2e = reader.get_emission_factor(params.dict())
     emissions = distance * co2e
     return emissions
@@ -578,13 +602,10 @@ def calc_co2_commuting(
     ]:
         co2e = get_emission_factor("transport", transportation_mode)
         weekly_co2e = co2e * weekly_distance
-    elif transportation_mode == TransportationMode.TRAM:
-        fuel_type = CarBusFuel.ELECTRIC
-        size = Size.AVERAGE
-        co2e = get_emission_factor(
-            "transport", transportation_mode, fuel_type=fuel_type, size=size
+    elif transportation_mode == TransportationMode.Tram:
+        weekly_co2e = calc_co2_tram(
+            fuel_type=fuel_type, size= size, distance=weekly_distance
         )
-        weekly_co2e = co2e * weekly_distance
     else:
         raise ValueError(
             f"Transportation mode {transportation_mode} not found in database"
