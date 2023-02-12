@@ -23,7 +23,6 @@ from iso3166 import countries
 from ._types import Kilometer
 from .enums import TransportationMode
 from .constants import (
-    TransportationMode,
     CountryCode2,
     CountryCode3,
     CountryName,
