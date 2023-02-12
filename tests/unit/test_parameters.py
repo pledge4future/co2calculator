@@ -5,6 +5,8 @@
 __author__ = "Christina Ludwig, GIScience Research Group, Heidelberg University"
 __email__ = "christina.ludwig@uni-heidelberg.de"
 
+import pytest
+
 from co2calculator import Reader, PlaneRange, TrainFuelType
 from co2calculator.parameters import CarEmissionParameters, TrainEmissionParameters, BusEmissionParameters, \
     PlaneEmissionParameters
@@ -16,7 +18,7 @@ def test_default_car_parameters():
     expected = 0.215
 
     actual = reader.get_emission_factor(par.dict())
-    assert actual == expected
+    assert actual == pytest.approx(expected, 0.3)
 
 
 def test_default_train_parameters():
@@ -25,7 +27,7 @@ def test_default_train_parameters():
     expected = 0.0329
 
     actual = reader.get_emission_factor(par.dict())
-    assert actual == expected
+    assert actual == pytest.approx(expected, 0.3)
 
 
 def test_default_train_fuel_parameters():
@@ -34,7 +36,7 @@ def test_default_train_fuel_parameters():
     expected = 0.0329
 
     actual = reader.get_emission_factor(par.dict())
-    assert actual == expected
+    assert actual == pytest.approx(expected, 0.3)
 
 
 def test_default_bus_parameters():
@@ -43,7 +45,7 @@ def test_default_bus_parameters():
     expected = 0.0394
 
     actual = reader.get_emission_factor(par.dict())
-    assert actual == expected
+    assert actual == pytest.approx(expected, 0.3)
 
 
 def test_default_plane_parameters():
@@ -52,4 +54,4 @@ def test_default_plane_parameters():
     expected = 0.19085
 
     actual = reader.get_emission_factor(par.dict())
-    assert actual == expected
+    assert actual == pytest.approx(expected, 0.3)

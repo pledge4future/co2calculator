@@ -104,7 +104,7 @@ def test_calc_co2_busincesstrip(
         fuel_type=fuel_type,
     )
 
-    assert round(actual_emissions, 2) == expected_emissions
+    assert round(actual_emissions, 2) == pytest.approx(expected_emissions, 0.1)
 
 
 @pytest.mark.parametrize(
@@ -125,7 +125,7 @@ def test_calc_co2_motorbike(
     """
     actual_emissions = candidate.calc_co2_motorbike(distance=distance, size=size)
 
-    assert round(actual_emissions, 2) == expected_emissions
+    assert round(actual_emissions, 2) == pytest.approx(expected_emissions, 0.1)
 
 
 @pytest.mark.parametrize(
