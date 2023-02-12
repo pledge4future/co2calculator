@@ -11,16 +11,18 @@ from typing import Tuple, Union, Optional
 import numpy as np
 import openrouteservice
 import pandas as pd
+import pydantic
 from dotenv import load_dotenv
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
 from pydantic import BaseModel, ValidationError, Extra, confloat
 from thefuzz import fuzz
 from thefuzz import process
+from iso3166 import countries
 
 from ._types import Kilometer
+from .enums import TransportationMode
 from .constants import (
-    TransportationMode,
     CountryCode2,
     CountryCode3,
     CountryName,
@@ -39,7 +41,7 @@ ORS_API_KEY = os.environ.get("ORS_API_KEY")
 script_path = str(Path(__file__).parent)
 
 
-class StructuredLocation(BaseModel, extra=Extra.forbid):
+class StructuredLocation(BaseModel, extra=Extra.ignore):
     address: Optional[str]
     locality: str
     country: Union[CountryCode2, CountryCode3, CountryName]
@@ -50,9 +52,19 @@ class StructuredLocation(BaseModel, extra=Extra.forbid):
     neighbourhood: Optional[str]
 
 
-class TrainStation(BaseModel):
+class TrainStation(BaseModel, extra=Extra.ignore):
     station_name: str
-    country: CountryCode2
+    country_code: CountryCode2 = None
+    country: CountryName = None
+
+    @pydantic.root_validator(pre=False)
+    def get_country_code(cls, values):
+        if values["country_code"] is None:
+            try:
+                values["country_code"] = countries.get(values["country"]).alpha2
+            except KeyError as e:
+                raise ValueError(f"Invalid country: {values['country']}.")
+        return values
 
 
 class Airport(BaseModel):
@@ -305,7 +317,7 @@ def geocoding_train_stations(loc_dict):
     # remove stations with no coordinates
     stations_df.dropna(subset=["latitude", "longitude"], inplace=True)
     countries_eu = stations_df["country"].unique()
-    country_code = station.country
+    country_code = station.country_code
     if country_code not in countries_eu:
         warnings.warn(
             "The provided country is not within Europe. "
@@ -493,10 +505,10 @@ def create_distance_request(
 
     try:
         if transportation_mode in [
-            TransportationMode.CAR,
-            TransportationMode.MOTORBIKE,
-            TransportationMode.BUS,
-            TransportationMode.FERRY,
+            TransportationMode.Car,
+            TransportationMode.Motorbike,
+            TransportationMode.Bus,
+            TransportationMode.Ferry,
         ]:
             return DistanceRequest(
                 transportation_mode=transportation_mode,
@@ -504,14 +516,14 @@ def create_distance_request(
                 destination=StructuredLocation(**destination),
             )
 
-        if transportation_mode in [TransportationMode.TRAIN]:
+        if transportation_mode in [TransportationMode.Train]:
             return DistanceRequest(
                 transportation_mode=transportation_mode,
                 start=TrainStation(**start),
                 destination=TrainStation(**destination),
             )
 
-        if transportation_mode in [TransportationMode.PLANE]:
+        if transportation_mode in [TransportationMode.Plane]:
             return DistanceRequest(
                 transportation_mode=transportation_mode,
                 start=Airport(iata_code=start),
@@ -519,8 +531,8 @@ def create_distance_request(
             )
 
     except ValidationError as e:
-        raise InvalidSpatialInput(e)
-
+        #raise InvalidSpatialInput(e)
+        raise InvalidSpatialInput(f"unknown transportation_mode: '{transportation_mode}'")
     raise InvalidSpatialInput(f"unknown transportation_mode: '{transportation_mode}'")
 
 
@@ -536,17 +548,17 @@ def get_distance(request: DistanceRequest) -> Kilometer:
     """
 
     detour_map = {
-        TransportationMode.CAR: False,
-        TransportationMode.MOTORBIKE: False,
-        TransportationMode.BUS: True,
-        TransportationMode.TRAIN: True,
-        TransportationMode.PLANE: True,
-        TransportationMode.FERRY: False,
+        TransportationMode.Car: False,
+        TransportationMode.Motorbike: False,
+        TransportationMode.Bus: True,
+        TransportationMode.Train: True,
+        TransportationMode.Plane: True,
+        TransportationMode.Ferry: True,
     }
 
     if request.transportation_mode in [
-        TransportationMode.CAR,
-        TransportationMode.MOTORBIKE,
+        TransportationMode.Car,
+        TransportationMode.Motorbike,
     ]:
         coords = []
         for loc in [request.start, request.destination]:
@@ -554,7 +566,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             coords.append(loc_coords)
         return get_route(coords, "driving-car")
 
-    if request.transportation_mode == TransportationMode.BUS:
+    if request.transportation_mode == TransportationMode.Bus:
         # Same as car (StructuredLocation)
         # TODO: Validate with BaseModel
         # TODO: Question: Why are we not calculating the bus trip like `driving-car` routes?
@@ -570,7 +582,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             )
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode == TransportationMode.TRAIN:
+    if request.transportation_mode == TransportationMode.Train:
 
         distance = 0
         coords = []
@@ -591,17 +603,22 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             )
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode == TransportationMode.PLANE:
+    if request.transportation_mode == TransportationMode.Plane:
         # Stops are IATA code of airports
         # TODO: Validate stops with BaseModel
 
         _, geom_start, _ = geocoding_airport(request.start.iata_code)
         _, geom_dest, _ = geocoding_airport(request.destination.iata_code)
+        #_, _, geom_start, _ = geocoding_structured(request.start.dict())
+        #_, _, geom_dest, _ = geocoding_structured(request.destination.dict())
 
         distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode == TransportationMode.FERRY:
+    if request.transportation_mode == TransportationMode.Ferry:
+        # todo: Do we have a way of checking if there even exists a ferry connection between the given cities (or if the
+        #  cities even have a port?
+
         _, _, geom_start, _ = geocoding_structured(request.start.dict())
         _, _, geom_dest, _ = geocoding_structured(request.destination.dict())
 
