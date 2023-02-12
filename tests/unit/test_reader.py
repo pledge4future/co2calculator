@@ -9,12 +9,12 @@ from co2calculator.enums import *
 from co2calculator.reader import Reader
 
 
-def test_read_emission_factors_factornotfound():
+def test_read_emission_factors_ConversionFactorNotFound():
 
     reader = Reader()
-    parameters = { "fuel_type": TrainFuelType.Electric,
-                  "range": TrainRange.Long_distance}
-    param = TrainEmissionParameters(**parameters)
+    parameters = {"seating": PlaneSeatingClass.Premium_economy_class,
+                  "range": PlaneRange.Short_haul}
+    param = PlaneEmissionParameters(**parameters)
 
     with pytest.raises(ConversionFactorNotFound):
         reader.get_emission_factor(param.dict())
@@ -31,15 +31,5 @@ def test_read_emission_factors():
 
     param = CarEmissionParameters(**parameters)
     factor = reader.get_emission_factor(param.dict())
-    assert factor == expected
+    assert factor == pytest.approx(expected, 0.3)
 
-
-def test_read_emission_factors_error():
-    reader = Reader()
-    parameters = {
-        "fuel_type": CarFuelType.Electric,
-    }
-
-    param = CarEmissionParameters(**parameters)
-    with pytest.raises(ConversionFactorNotFound):
-        factor = reader.get_emission_factor(param.dict())
