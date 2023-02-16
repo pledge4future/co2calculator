@@ -4,11 +4,17 @@
 
 import enum
 
+import iso3166
+import pandas as pd
+
 KWH_TO_TJ = 277777.77777778
 
+DF_AIRPORTS = pd.read_csv(
+    "https://davidmegginson.github.io/ourairports-data/airports.csv"
+)
 
-@enum.unique
-class HeatingFuel(str, enum.Enum):
+
+class HeatingFuel(enum.Enum):
     """Enum for heating fuel types"""
 
     HEAT_PUMP_AIR = "heat_pump_air"
@@ -113,8 +119,22 @@ class RangeCategory(str, enum.Enum):
     LONG_HAUL = "long_haul"
 
 
+class DetourCoefficient(float, enum.Enum):
+    BUS = 1.5
+    TRAIN = 1.2
+    PLANE = 1.0
+
+
+class DetourConstant(float, enum.Enum):
+    BUS = 0.0
+    TRAIN = 0.0
+    PLANE = 95
+
+
 @enum.unique
 class TransportationMode(str, enum.Enum):
+    """Enum for transportation modes"""
+
     CAR = "car"
     MOTORBIKE = "motorbike"
     BUS = "bus"
@@ -124,3 +144,71 @@ class TransportationMode(str, enum.Enum):
     TRAM = "tram"
     BICYCLE = "bicycle"
     PEDELEC = "pedelec"
+
+
+@enum.unique
+class Unit(str, enum.Enum):
+    KWH = "kwh"
+    KG = "kg"
+    L = "l"
+    M3 = "m^3"
+
+
+class CountryCode2(str):
+    """Class for 2-letter country codes (ISO 3166-1 alpha-2)"""
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate_country_code
+
+    @classmethod
+    def validate_country_code(cls, country_code: str) -> str:
+        if country_code in list(iso3166.countries_by_alpha2.keys()):
+            return country_code
+        else:
+            raise ValueError(f"{country_code} is not a valid country code")
+
+
+class CountryCode3(str):
+    """Class for 3-letter country codes (ISO 3166-1 alpha-3)"""
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate_country_code
+
+    @classmethod
+    def validate_country_code(cls, country_code: str) -> str:
+        if country_code in list(iso3166.countries_by_alpha3.keys()):
+            return country_code
+        else:
+            raise ValueError(f"{country_code} is not a valid country code")
+
+
+class CountryName(str):
+    """Class for country names (ISO 3166)"""
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate_country_name
+
+    @classmethod
+    def validate_country_name(cls, country_name: str) -> str:
+        if country_name.upper() in list(iso3166.countries_by_name.keys()):
+            return country_name
+        else:
+            raise ValueError(f"{country_name} is not a valid country name")
+
+
+class IataAirportCode(str):
+    """Class for 3-letter IATA airport codes"""
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate_iata_code
+
+    @classmethod
+    def validate_iata_code(cls, iata_code: str) -> str:
+        if iata_code in DF_AIRPORTS["iata_code"].values:
+            return iata_code
+        else:
+            raise ValueError(f"{iata_code} was not found in airport database")
