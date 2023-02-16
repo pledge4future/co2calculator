@@ -4,9 +4,10 @@ import openrouteservice
 import xarray as xr
 from datetime import timedelta
 from datetime import date as ddate
+from dotenv import load_dotenv
 
-#TODO: Is this the correct way to load this API Key for openrouteservice??
 # Load environment vars (TODO: Use pydantic.BaseSettings)
+load_dotenv()  # take environment variables from .env.
 ORS_API_KEY = os.environ.get("ORS_API_KEY")
 
 def get_temp_series(location: str, date_str: str):
