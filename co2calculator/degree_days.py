@@ -1,20 +1,18 @@
 import numpy as np
-import os
-import openrouteservice
 import xarray as xr
 from datetime import date as ddate
 from datetime import datetime as dtime
-from dotenv import load_dotenv
+from distances import geocoding
 
-# Load environment vars (TODO: Use pydantic.BaseSettings)
-load_dotenv()  # take environment variables from .env.
-ORS_API_KEY = os.environ.get("ORS_API_KEY")
 
-def get_temp_series(location: str, start_time: ddate | dtime, end_time: ddate | dtime):
+def get_temp_series(location: str | tuple | list | np.ndarray, 
+                    start_time: ddate | dtime, 
+                    end_time: ddate | dtime):
     """
     Given a location returns an xarray dataset of hourly temperatures in Kelvin
     INPUTS:
-        location (str): ex. "Bergheimer Straße 116, 69115 Heidelberg, Germany"
+        location: a location string, ex. "Bergheimer Straße 116, 69115 Heidelberg, Germany", 
+                  or explicit longitude and latitude coordinates, ex. (10.0, 15.0)
         start_time (datetime.date or datetime.datetime): initial time from which to get temperature series
         end_time (datetime.date or datetime.datetime): initial time from which to get temperature series
     OUTPUTS:
@@ -26,22 +24,28 @@ def get_temp_series(location: str, start_time: ddate | dtime, end_time: ddate | 
     assert isinstance(start_time, (dtime, ddate)), 'start_time should be a datetime.date or datetime.datetime'
     assert isinstance(end_time, (dtime, ddate)), 'start_time should be a datetime.date or datetime.datetime'
 
-    # get latitude and longitude coordinates for location
-    clnt = openrouteservice.Client(key=ORS_API_KEY)
-    call = openrouteservice.geocode.pelias_search(clnt, location)
-    for feature in call["features"]:
-        geom = feature["geometry"]["coordinates"]
+    if isinstance(location, str):
+        # get latitude and longitude coordinates for location
+        _, _, coords = geocoding(location)
+    elif isinstance(location, (tuple, list, np.ndarray)):
+        assert (np.shape(location) == (2,)), 'the given location coordinates are not the correct shape'
+        coords = location
+    else:
+        raise Exception('the inputted location is not of an acceptable type')
 
     fn = "temp_data.nc"
     ds = xr.open_dataset(fn) # maybe in the future could optimize by not opening the entire file?
     # this takes from midnight of first day to midnight of first day of following month
-    ds = ds.sel(latitude=round(geom[1])).sel(longitude=round(geom[0])).sel(time=slice(start_time, end_time))
+    ds = ds.sel(latitude=round(coords[1])).sel(longitude=round(coords[0])).sel(time=slice(start_time, end_time))
 
     # interpolate missing hours of the day (sometimes data only from 06h to 22h)
     ds = ds.resample(time="1h").interpolate("linear")
     return ds
 
-def calc_degreedays(dd_type: str, location: str, date: ddate | dtime | str, Tref = None):
+def calc_degreedays(dd_type: str, 
+                    location: str | tuple | list | np.ndarray, 
+                    date: ddate | dtime | str, 
+                    Tref: float = None):
     """
     Calculate the degree days for a given month using the integration approach (higher fidelity). 
     For futher details see for example
