@@ -61,7 +61,7 @@ def calc_degreedays(dd_type: str,
         dd['t2m'].values (float): Cumulative degree days for the given month
     """
     if dd_type not in ('heating','cooling'):
-        print("WARNING calc_degreedays_int: degree days type not understood. Defaulting to type='heating'.")
+        print("WARNING calc_degreedays: degree days type not understood. Defaulting to type='heating'.")
         dd_type = 'heating'
 
     # extract month info based on imputted date type
