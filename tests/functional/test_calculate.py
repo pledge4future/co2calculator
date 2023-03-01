@@ -101,7 +101,7 @@ class TestCalculateBusinessTrip:
                 "plane",
                 "FRA",
                 "BER",
-                81.71,
+                129.16,
                 id="transportation_mode: 'plane'",
             ),
             pytest.param(
@@ -153,7 +153,7 @@ class TestCalculateCommuting:
             pytest.param("train", 2.54, id="transportation_mode: 'train'"),
             pytest.param("bicycle", 0.38, id="transportation_mode: 'bicycle'"),
             pytest.param("pedelec", 0.63, id="transportation_mode: 'pedelec'"),
-            pytest.param("motorbike", 4.76, id="transportation_mode: 'motorbike'"),
+            pytest.param("motorbike", 4.77, id="transportation_mode: 'motorbike'"),
             pytest.param("tram", 2.3, id="transportation_mode: 'tram'"),
         ],
     )
