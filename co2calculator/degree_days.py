@@ -91,4 +91,8 @@ def calc_degreedays(dd_type: str,
 
     # note: integrate sets each hour as unit 1, must divide by total number of hours (24 in a day) to obtain cumulative degree days
     dd = ds.integrate('time',datetime_unit='h') /24 
-    return dd['t2m'].values
+    # manuall set a minimum value of 0.1 to avoid issues with dividing by 0
+    if (dd['t2m'].values < 0.1):
+        print("WARNING calc_degreedays: degree days calculated to be <0.1, setting cutoff at 0.1.")
+    result = min(dd['t2m'].values, 0.1)
+    return result
