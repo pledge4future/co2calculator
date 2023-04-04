@@ -381,6 +381,7 @@ def calc_co2_heating(
     return emissions
 
 
+
 def calc_co2_businesstrip(
     transportation_mode: str,
     start=None,
