@@ -13,7 +13,7 @@ jobs:
           pip install sphinx sphinx_rtd_theme
       - name: Install dependencies
         run: |
-          pip install pandas
+          pip install requirements.txt
       - name: Sphinx build
         run: |
           sphinx-build docs _build
