@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Distance calculations &#8212; co2calculator 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Transportation modes" href="transport_modes.html" />
+    <link rel="prev" title="Business trips" href="../businesstrips.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="transport_modes.html" title="Transportation modes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../businesstrips.html" title="Business trips"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">co2calculator 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../businesstrips.html" accesskey="U">Business trips</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Distance calculations</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="distance-calculations">
+<h1>Distance calculations<a class="headerlink" href="#distance-calculations" title="Permalink to this heading">¶</a></h1>
+<section id="geocoding">
+<h2>Geocoding<a class="headerlink" href="#geocoding" title="Permalink to this heading">¶</a></h2>
+<p>The first step in calculating the distance between two locations is to obtain the geographic coordinates of
+these locations, which is called <em>geocoding</em>. For this, we use the open-source geocoder <a class="reference external" href="https://pelias.io/">Pelias</a>,
+as well as a database of train stations.</p>
+<section id="a-geocoding-for-air-travel">
+<h3>a) Geocoding for air travel<a class="headerlink" href="#a-geocoding-for-air-travel" title="Permalink to this heading">¶</a></h3>
+<p>Most airports around the world can be identified by a unique code, assigned by the International Air Transport Association (<a class="reference external" href="https://www.iata.org/">IATA</a>).
+To retrieve the location of airports, we use <a class="reference external" href="https://pelias.io/">Pelias</a> and search for the IATA code in combination with the keyword “Airport”.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="co2calculator.distances.geocoding_airport">
+<span class="sig-prename descclassname"><span class="pre">co2calculator.distances.</span></span><span class="sig-name descname"><span class="pre">geocoding_airport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iata</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/co2calculator/distances.html#geocoding_airport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#co2calculator.distances.geocoding_airport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to obtain the coordinates of an airport by the IATA code</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>iata</strong> (<em>str</em>) – IATA airport code</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>name, coordinates and country of the found airport</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[str, Tuple[float, float], str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>In the <code class="docutils literal notranslate"><span class="pre">calc_co2_businesstrip()</span></code> function, the user only needs to provide the IATA codes for start and destination, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">emissions</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">range_category</span><span class="p">,</span> <span class="n">range_description</span> <span class="o">=</span> <span class="n">calc_co2_businesstrip</span><span class="p">(</span>
+    <span class="n">transportation_mode</span><span class="p">:</span> <span class="s2">&quot;plane&quot;</span><span class="p">,</span>
+    <span class="n">start</span><span class="o">=</span><span class="s2">&quot;FRA&quot;</span><span class="p">,</span>
+    <span class="n">destination</span><span class="o">=</span><span class="s2">&quot;SCQ&quot;</span><span class="p">,</span>
+    <span class="n">seating</span> <span class="o">=</span> <span class="s2">&quot;economy_class&quot;</span><span class="p">,</span>
+    <span class="n">roundtrip</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="b-geocoding-for-train-trips">
+<h3>b) Geocoding for train trips<a class="headerlink" href="#b-geocoding-for-train-trips" title="Permalink to this heading">¶</a></h3>
+<p>To obtain the coordinates of train stations within Europe, we use the <a class="reference external" href="https://github.com/trainline-eu/stations">train station database</a>
+by <a class="reference external" href="https://www.thetrainline.com/de?redirected=true">Trainline</a>.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="co2calculator.distances.geocoding_train_stations">
+<span class="sig-prename descclassname"><span class="pre">co2calculator.distances.</span></span><span class="sig-name descname"><span class="pre">geocoding_train_stations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loc_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/co2calculator/distances.html#geocoding_train_stations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#co2calculator.distances.geocoding_train_stations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to obtain coordinates for a given train station</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>loc_dict</strong> – dictionary describing the location.</p>
+</dd>
+</dl>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The dictionary can have the keys:
+
+   country:        highest-level administrative divisions supported in a search.
+                   Only two-letter abbreviations supported
+                   e.g., &#39;DE&#39;
+
+   station_name:   Name of the train station
+                   e.g., &#39;Heidelberg Hbf&#39;
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Name, country and coordinates of the found location</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>As you can see above, a dictionary with the keys <cite>country</cite> and <cite>station_name</cite> has to be provided for both start and destination.
+Calculating a train trip may thus look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">start_dict</span> <span class="o">=</span> <span class="p">{</span>
+              <span class="s2">&quot;country&quot;</span><span class="p">:</span> <span class="s2">&quot;DE&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;station_name: &quot;</span><span class="n">Heidelberg</span> <span class="n">Hauptbahnhof</span><span class="s2">&quot;</span>
+              <span class="p">}</span>
+<span class="n">dest_dict</span> <span class="o">=</span> <span class="p">{</span>
+              <span class="s2">&quot;country&quot;</span><span class="p">:</span> <span class="s2">&quot;DE&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;station_name: &quot;</span><span class="n">Hamburg</span> <span class="n">Hauptbahnhof</span><span class="s2">&quot;</span>
+              <span class="p">}</span>
+<span class="n">emissions</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">range_category</span><span class="p">,</span> <span class="n">range_description</span> <span class="o">=</span> <span class="n">calc_co2_businesstrip</span><span class="p">(</span>
+    <span class="n">transportation_mode</span><span class="p">:</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span>
+    <span class="n">start</span><span class="o">=</span><span class="n">start_dict</span><span class="p">,</span>
+    <span class="n">destination</span><span class="o">=</span><span class="n">dest_dict</span>
+    <span class="n">roundtrip</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We use the fuzzy string matching package <a class="reference external" href="https://github.com/seatgeek/thefuzz">thefuzz</a> to find the train station in the database which best matches the
+user input.</p>
+</section>
+<section id="c-geocoding-for-other-trips">
+<h3>c) Geocoding for other trips<a class="headerlink" href="#c-geocoding-for-other-trips" title="Permalink to this heading">¶</a></h3>
+<p>For other trips (e.g., car or bus), we use <a class="reference external" href="https://github.com/pelias/documentation/blob/master/structured-geocoding.md">Pelias structured geocoding</a>
+as included in <a class="reference external" href="https://openrouteservice.org/">openrouteservice</a>.
+This means that the user has different predefined fields to specify an address.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="co2calculator.distances.geocoding_structured">
+<span class="sig-prename descclassname"><span class="pre">co2calculator.distances.</span></span><span class="sig-name descname"><span class="pre">geocoding_structured</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loc_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/co2calculator/distances.html#geocoding_structured"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#co2calculator.distances.geocoding_structured" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to obtain coordinates for a given address</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>loc_dict</strong> – dictionary describing the location.</p>
+</dd>
+</dl>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The dictionary can have the keys:
+   country:        highest-level administrative divisions supported in a search.
+
+                   Full country name or two-/three-letter abbreviations supported
+                   e.g., Germany / &quot;DE&quot; / &quot;DEU&quot;
+
+   region:         first-level administrative divisions within countries, analogous to states and provinces
+                   in the US and Canada
+                   e.g., Delaware, Ontario, Ardennes, Baden-Württemberg
+
+   county:         administrative divisions between localities and regions
+                   e.g., Alb-Donau-Kreis
+
+   locality:       equivalent to what are commonly referred to as cities
+                   e.g., Bangkok, Caracas
+
+   borough:        mostly known in the context of NY, may exist in other cities like Mexico City
+                   e.g. Manhattan in NY, Iztapalapa in Mexico City
+
+   postalcode:     postal code; !! Not working in many countries !!
+
+   address:        street name, optionally also house number
+
+   neighbourhood:  vernacular geographic entities that may not necessarily be official administrative
+                   divisions but are important nonetheless
+                   e.g. Notting Hill in London, Le Marais in Paris
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Name, country and coordinates of the found location</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Good results can be achieved by specifying <cite>country</cite>, <cite>locality</cite> and <cite>address</cite>. Further specifications
+are usually not needed and can sometimes even negatively affect the geocoding results.</p>
+</section>
+</section>
+<section id="distance-computation">
+<h2>Distance computation<a class="headerlink" href="#distance-computation" title="Permalink to this heading">¶</a></h2>
+<p>For the computation of distances between places of departure and destination, we use two different approaches,
+depending on the specified mode of transport:</p>
+<section id="a-distance-as-the-crow-flies-detour">
+<h3>a) Distance as the crow flies + detour<a class="headerlink" href="#a-distance-as-the-crow-flies-detour" title="Permalink to this heading">¶</a></h3>
+<p>Calculating the distance as the crow flies (great circle distance) and multiplying by a detour coefficient or adding
+a detour constant.</p>
+<p>The distance as the crow flies is calculated using the haversine formula:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="co2calculator.distances.haversine">
+<span class="sig-prename descclassname"><span class="pre">co2calculator.distances.</span></span><span class="sig-name descname"><span class="pre">haversine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_dest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_dest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/co2calculator/distances.html#haversine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#co2calculator.distances.haversine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to compute the distance as the crow flies between given locations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lat_start</strong> (<em>float</em>) – latitude of start</p></li>
+<li><p><strong>long_start</strong> (<em>float</em>) – Longitude of start</p></li>
+<li><p><strong>lat_dest</strong> (<em>float</em>) – Latitude of destination</p></li>
+<li><p><strong>long_dest</strong> (<em>float</em>) – Longitude of destination</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Distance</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Kilometer</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>The transport modes for which this approach is used are listed in the table below, together with their detour parameters.</p>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Detour parameters</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head stub"></th>
+<th class="head stub"><p>transportation_mode</p></th>
+<th class="head"><p>coefficient</p></th>
+<th class="head"><p>constant [km]</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><th class="stub"><p>0</p></th>
+<th class="stub"><p>bus</p></th>
+<td><p>1.5</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>1</p></th>
+<th class="stub"><p>train</p></th>
+<td><p>1.2</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>2</p></th>
+<th class="stub"><p>plane</p></th>
+<td><p>1.0</p></td>
+<td><p>95</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>3</p></th>
+<th class="stub"><p>ferry</p></th>
+<td><p>1.0</p></td>
+<td><p>0.0</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="b-road-distance">
+<h3>b) Road distance<a class="headerlink" href="#b-road-distance" title="Permalink to this heading">¶</a></h3>
+<p>Calculating the road distance using <a class="reference external" href="https://openrouteservice.org/">openrouteservice</a>.</p>
+<p>This approach is only used for the transport mode <code class="docutils literal notranslate"><span class="pre">car</span></code>.</p>
+<p>Here is an example of how this works using the <code class="docutils literal notranslate"><span class="pre">openrouteservice</span></code> <a class="reference external" href="https://pypi.org/project/openrouteservice/">Python library</a>).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">openrouteservice</span>
+<span class="kn">from</span> <span class="nn">openrouteservice.directions</span> <span class="kn">import</span> <span class="n">directions</span>
+
+<span class="n">clnt</span> <span class="o">=</span> <span class="n">openrouteservice</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">ors_api_key</span><span class="p">)</span>
+
+<span class="c1"># coords: list/tuple of locations [lat,long]</span>
+<span class="n">route</span> <span class="o">=</span> <span class="n">directions</span><span class="p">(</span><span class="n">clnt</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">profile</span><span class="o">=</span><span class="s2">&quot;driving-car&quot;</span><span class="p">)</span>
+<span class="n">distance</span> <span class="o">=</span> <span class="n">route</span><span class="p">[</span><span class="s2">&quot;routes&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;summary&quot;</span><span class="p">][</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/Final logo.svg" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Distance calculations</a><ul>
+<li><a class="reference internal" href="#geocoding">Geocoding</a><ul>
+<li><a class="reference internal" href="#a-geocoding-for-air-travel">a) Geocoding for air travel</a><ul>
+<li><a class="reference internal" href="#co2calculator.distances.geocoding_airport"><code class="docutils literal notranslate"><span class="pre">geocoding_airport()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#b-geocoding-for-train-trips">b) Geocoding for train trips</a><ul>
+<li><a class="reference internal" href="#co2calculator.distances.geocoding_train_stations"><code class="docutils literal notranslate"><span class="pre">geocoding_train_stations()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#c-geocoding-for-other-trips">c) Geocoding for other trips</a><ul>
+<li><a class="reference internal" href="#co2calculator.distances.geocoding_structured"><code class="docutils literal notranslate"><span class="pre">geocoding_structured()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#distance-computation">Distance computation</a><ul>
+<li><a class="reference internal" href="#a-distance-as-the-crow-flies-detour">a) Distance as the crow flies + detour</a><ul>
+<li><a class="reference internal" href="#co2calculator.distances.haversine"><code class="docutils literal notranslate"><span class="pre">haversine()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#b-road-distance">b) Road distance</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../businesstrips.html"
+                          title="previous chapter">Business trips</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="transport_modes.html"
+                          title="next chapter">Transportation modes</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/calculate/distances.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="transport_modes.html" title="Transportation modes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../businesstrips.html" title="Business trips"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">co2calculator 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../businesstrips.html" >Business trips</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Distance calculations</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Christina Ludwig, Veit Ulrich, Hannah Weiser.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Heating and electricity &#8212; co2calculator 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Business trips" href="../businesstrips.html" />
+    <link rel="prev" title="Welcome to co2calculator’s documentation!" href="../index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../businesstrips.html" title="Business trips"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to co2calculator’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">co2calculator 0.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Heating and electricity</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="heating-and-electricity">
+<h1><a class="toc-backref" href="#id2" role="doc-backlink">Heating and electricity</a><a class="headerlink" href="#heating-and-electricity" title="Permalink to this heading">¶</a></h1>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#heating-and-electricity" id="id2">Heating and electricity</a></p>
+<ul>
+<li><p><a class="reference internal" href="#heating" id="id3">Heating</a></p></li>
+<li><p><a class="reference internal" href="#electricity" id="id4">Electricity</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="heating">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Heating</a><a class="headerlink" href="#heating" title="Permalink to this heading">¶</a></h2>
+<p>Heating emissions are computed based on the consumption (typically in kWh) and the emission factors for a specified fuel type.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="co2calculator.calculate.calc_co2_heating">
+<span class="sig-prename descclassname"><span class="pre">co2calculator.calculate.</span></span><span class="sig-name descname"><span class="pre">calc_co2_heating</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">consumption</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fuel_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_share</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/co2calculator/calculate.html#calc_co2_heating"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#co2calculator.calculate.calc_co2_heating" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to compute heating emissions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>consumption</strong> (<em>float</em>) – energy consumption</p></li>
+<li><p><strong>fuel_type</strong> (<em>str</em>) – fuel type used for heating
+[coal, district_heating, electricity, gas, heat_pump_air,
+heat_pump_ground, liquid_gas, oil, pellet, solar, woodchips]</p></li>
+<li><p><strong>unit</strong> (<em>str</em>) – unit of energy consumption [kwh, kg, l, m^3]</p></li>
+<li><p><strong>area_share</strong> (<em>float</em>) – share of building area used by research group</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>total emissions of heating energy consumption</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Kilogram</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Per default, the expected unit is kWh. For some fuel types, the consumption may also be specified using different units, e.g., litres of oil or kg of wood chips.
+In these cases, it is possible to specify the <cite>unit</cite>. The consumption will then be converted from the specified unit to kWh, based on common conversion factors:</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Conversion factors heating</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head stub"></th>
+<th class="head stub"><p>fuel</p></th>
+<th class="head"><p>unit</p></th>
+<th class="head"><p>conversion_value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><th class="stub"><p>0</p></th>
+<th class="stub"><p>oil</p></th>
+<td><p>l</p></td>
+<td><p>10.6</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>1</p></th>
+<th class="stub"><p>liquid_gas</p></th>
+<td><p>kg</p></td>
+<td><p>14.1</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>2</p></th>
+<th class="stub"><p>coal</p></th>
+<td><p>kg</p></td>
+<td><p>6.0</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>3</p></th>
+<th class="stub"><p>pellet</p></th>
+<td><p>kg</p></td>
+<td><p>5.4</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>4</p></th>
+<th class="stub"><p>woodchips</p></th>
+<td><p>kg</p></td>
+<td><p>5.2</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>5</p></th>
+<th class="stub"><p>gas</p></th>
+<td><p>m^3</p></td>
+<td><p>10.8</p></td>
+</tr>
+</tbody>
+</table>
+<p>The parameter <cite>area_share</cite> accounts for the fact, that the heating energy consumption may often only be known for an entire building, while a working group just occupies parts of the buildin.
+In this case, the (approximate) share of the building floor space, that is occupied by the working group can be provided.
+The <cite>area_share</cite> must be between 0.0 and 1.0 and is 1.0 by default.</p>
+</section>
+<section id="electricity">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Electricity</a><a class="headerlink" href="#electricity" title="Permalink to this heading">¶</a></h2>
+<p>Electricity emissions are computed based on the consumption (in kWh) and the emission factors for a specified energy mix or energy source.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="co2calculator.calculate.calc_co2_electricity">
+<span class="sig-prename descclassname"><span class="pre">co2calculator.calculate.</span></span><span class="sig-name descname"><span class="pre">calc_co2_electricity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">consumption</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fuel_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_share</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/co2calculator/calculate.html#calc_co2_electricity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#co2calculator.calculate.calc_co2_electricity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to compute electricity emissions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>consumption</strong> (<em>float</em>) – energy consumption</p></li>
+<li><p><strong>fuel_type</strong> (<em>str</em>) – energy (mix) used for electricity [german_energy_mix, solar]</p></li>
+<li><p><strong>energy_share</strong> (<em>float</em>) – the research group’s approximate share of the total electricity energy consumption</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>total emissions of electricity energy consumption</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Kilogram</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/Final logo.svg" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Heating and electricity</a><ul>
+<li><a class="reference internal" href="#heating">Heating</a><ul>
+<li><a class="reference internal" href="#co2calculator.calculate.calc_co2_heating"><code class="docutils literal notranslate"><span class="pre">calc_co2_heating()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#electricity">Electricity</a><ul>
+<li><a class="reference internal" href="#co2calculator.calculate.calc_co2_electricity"><code class="docutils literal notranslate"><span class="pre">calc_co2_electricity()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../index.html"
+                          title="previous chapter">Welcome to co2calculator’s documentation!</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../businesstrips.html"
+                          title="next chapter">Business trips</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/calculate/heating_electricity.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../businesstrips.html" title="Business trips"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to co2calculator’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">co2calculator 0.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Heating and electricity</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Christina Ludwig, Veit Ulrich, Hannah Weiser.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

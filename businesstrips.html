@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Business trips &#8212; co2calculator 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Distance calculations" href="calculate/distances.html" />
+    <link rel="prev" title="Heating and electricity" href="calculate/heating_electricity.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="calculate/distances.html" title="Distance calculations"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="calculate/heating_electricity.html" title="Heating and electricity"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">co2calculator 0.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Business trips</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="business-trips">
+<h1>Business trips<a class="headerlink" href="#business-trips" title="Permalink to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">toc</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="calculate/distances.html">Distance calculations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculate/transport_modes.html">Transportation modes</a></li>
+</ul>
+</div>
+<p>The calculation of emissions from business trips is currently supported for the following modes of transport:</p>
+<ul class="simple">
+<li><p>car</p></li>
+<li><p>bus</p></li>
+<li><p>train</p></li>
+<li><p>plane</p></li>
+<li><p>ferry</p></li>
+</ul>
+<p>The user must specify either the distance of a trip or the location of departure and destination.
+The distance (in km) may be used, when the user has the direct information of the distance travelled, e.g., from the speedometer of a car.
+In other cases, the distance can be calculated from the given locations, see <a class="reference internal" href="calculate/distances.html#distance-calculations"><span class="std std-ref">Distance calculations</span></a>.
+With the boolean paramter <code class="docutils literal notranslate"><span class="pre">roundtrip</span></code>, users can indicate whether a trip was a roundtrip, in which case the distance wil be doubled.</p>
+<p>Aside of the mode of transport, the user should provide the specifica of the trip, depending on the mode of transport
+(see :doc’Transportation modes &lt;calculate/transport_modes&gt;’ <a class="reference internal" href="calculate/emission_factors.html"><span class="doc">Emission factors</span></a>).</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="co2calculator.calculate.calc_co2_businesstrip">
+<span class="sig-prename descclassname"><span class="pre">co2calculator.calculate.</span></span><span class="sig-name descname"><span class="pre">calc_co2_businesstrip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transportation_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fuel_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupancy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seating</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passengers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roundtrip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/co2calculator/calculate.html#calc_co2_businesstrip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#co2calculator.calculate.calc_co2_businesstrip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to compute emissions for business trips based on transportation mode and trip specifics</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transportation_mode</strong> (<em>str</em>) – mode of transport [car, bus, train, plane, ferry]</p></li>
+<li><p><strong>start</strong> – Start of the trip (alternatively, distance can be provided)</p></li>
+<li><p><strong>destination</strong> – Destination of the trip (alternatively, distance can be provided)</p></li>
+<li><p><strong>distance</strong> (<em>Kilometer</em>) – Distance travelled in km (alternatively, start and destination can be provided)</p></li>
+<li><p><strong>size</strong> (<em>str</em>) – Size class of the vehicle [small, medium, large, average] - only used for car and bus</p></li>
+<li><p><strong>fuel_type</strong> (<em>str</em>) – Fuel type of the vehicle
+[average, cng, diesel, electric, gasoline, hybrid, hydrogen, plug-in_hybrid]
+- only used for car, bus and train</p></li>
+<li><p><strong>occupancy</strong> (<em>int</em>) – Occupancy of the vehicle in % [20, 50, 80, 100] - only used for bus</p></li>
+<li><p><strong>seating</strong> (<em>str</em>) – seating class [“average”, “Economy class”, “Premium economy class”, “Business class”, “First class”]
+- only used for plane</p></li>
+<li><p><strong>passengers</strong> (<em>int</em>) – Number of passengers in the vehicle (including the participant), number from 1 to 9
+- only used for car</p></li>
+<li><p><strong>roundtrip</strong> (<em>bool</em>) – whether the trip is a round trip or not [True, False]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Emissions of the business trip in co2 equivalents,
+Distance of the business trip,
+Range category of the business trip [very short haul, short haul, medium haul, long haul]
+Range description (i.e., what range of distances does to category correspond to)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[Kilogram, Kilometer, str, str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Final logo.svg" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Business trips</a><ul>
+<li><a class="reference internal" href="#co2calculator.calculate.calc_co2_businesstrip"><code class="docutils literal notranslate"><span class="pre">calc_co2_businesstrip()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="calculate/heating_electricity.html"
+                          title="previous chapter">Heating and electricity</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="calculate/distances.html"
+                          title="next chapter">Distance calculations</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/businesstrips.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="calculate/distances.html" title="Distance calculations"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="calculate/heating_electricity.html" title="Heating and electricity"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">co2calculator 0.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Business trips</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Christina Ludwig, Veit Ulrich, Hannah Weiser.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Commuting &#8212; co2calculator 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Emission factors" href="calculate/emission_factors.html" />
+    <link rel="prev" title="Transportation modes" href="calculate/transport_modes.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="calculate/emission_factors.html" title="Emission factors"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="calculate/transport_modes.html" title="Transportation modes"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">co2calculator 0.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Commuting</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="commuting">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">Commuting</a><a class="headerlink" href="#commuting" title="Permalink to this heading">¶</a></h1>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#commuting" id="id1">Commuting</a></p>
+<ul>
+<li><p><a class="reference internal" href="#car-commute" id="id2">Car commute</a></p></li>
+<li><p><a class="reference internal" href="#bus-commute" id="id3">Bus commute</a></p></li>
+<li><p><a class="reference internal" href="#train-commute" id="id4">Train commute</a></p></li>
+<li><p><a class="reference internal" href="#motorbike-commute" id="id5">Motorbike commute</a></p></li>
+<li><p><a class="reference internal" href="#tram-bicycle-or-pedelec-commute" id="id6">Tram, bicycle or pedelec commute</a></p></li>
+<li><p><a class="reference internal" href="#aggregating-emissions-to-the-group-level" id="id7">Aggregating emissions to the group level</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<p>The calculation of emissions from commuting is currently supported for the following modes of transport:</p>
+<ul class="simple">
+<li><p>car</p></li>
+<li><p>bus</p></li>
+<li><p>train</p></li>
+<li><p>motorbike</p></li>
+<li><p>tram</p></li>
+<li><p>bicycle</p></li>
+<li><p>pedelec</p></li>
+</ul>
+<p>Their specific emission factors for different configurations (e.g., vehicle size, fuel type, etc.) are documented under
+<a class="reference internal" href="calculate/emission_factors.html"><span class="doc">Emission factors</span></a>.</p>
+<p>For each mode of transport used for the commute, the user must provide the average <code class="docutils literal notranslate"><span class="pre">weekly_distance</span></code> (in km) travelled during
+a given time period. The users are asked to enter their usual commuting behaviour and should estimate the distance as
+accurately as possible. If they often use a different mode of transport if there is bad weather or in the cold season,
+they should account for this by estimating the mean distance for each transportation mode over the entire year. The
+commuting data may also be entered separately for each month or once for the summer months and for the winter months
+(e.g., April-October and November-March).</p>
+<p>Aside of the mode of transport and the weekly distance, the user should provide the specifica of the commute, depending on
+the mode of transport (see <a class="reference internal" href="calculate/emission_factors.html"><span class="doc">Emission factors</span></a>).</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="co2calculator.calculate.calc_co2_commuting">
+<span class="sig-prename descclassname"><span class="pre">co2calculator.calculate.</span></span><span class="sig-name descname"><span class="pre">calc_co2_commuting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transportation_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weekly_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fuel_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupancy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passengers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/co2calculator/calculate.html#calc_co2_commuting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#co2calculator.calculate.calc_co2_commuting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate co2 emissions for commuting per mode of transport</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transportation_mode</strong> (<em>str</em>) – [car, bus, train, bicycle, pedelec, motorbike, tram]</p></li>
+<li><p><strong>weekly_distance</strong> (<em>Kilometer</em>) – distance in km per week</p></li>
+<li><p><strong>size</strong> (<em>str</em>) – size of car or bus if applicable: [small, medium, large, average]</p></li>
+<li><p><strong>fuel_type</strong> (<em>str</em>) – fuel type of car, bus or train if applicable</p></li>
+<li><p><strong>occupancy</strong> (<em>int</em>) – occupancy [%], if applicable/known (only for bus): [20, 50, 80, 100]</p></li>
+<li><p><strong>passengers</strong> (<em>int</em>) – number of passengers, if applicable (only for car)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>total weekly emissions for the respective mode of transport</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Kilogram</p>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="car-commute">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Car commute</a><a class="headerlink" href="#car-commute" title="Permalink to this heading">¶</a></h2>
+<p>The quantity of CO2e emitted by a car commute depends on the <code class="docutils literal notranslate"><span class="pre">fuel_type</span></code> (average, cng, diesel, electric, gasoline,
+hybrid, hydrogen, plug-in_hybrid), car <code class="docutils literal notranslate"><span class="pre">size</span></code> (average, small, medium, large) and the number of <code class="docutils literal notranslate"><span class="pre">passengers</span></code>.</p>
+</section>
+<section id="bus-commute">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Bus commute</a><a class="headerlink" href="#bus-commute" title="Permalink to this heading">¶</a></h2>
+<p>The quantity of CO2e emitted by a bus commute depends on the bus <code class="docutils literal notranslate"><span class="pre">size</span></code> (average, medium, large) and the
+<code class="docutils literal notranslate"><span class="pre">occupancy</span></code> in % (20, 50, 80, 100). The <code class="docutils literal notranslate"><span class="pre">vehicle_range</span></code> is set to local automatically.</p>
+</section>
+<section id="train-commute">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Train commute</a><a class="headerlink" href="#train-commute" title="Permalink to this heading">¶</a></h2>
+<p>The quantity of CO2e emitted by a train commute depends on the <code class="docutils literal notranslate"><span class="pre">fuel_type</span></code> (average, electric, diesel).
+The <code class="docutils literal notranslate"><span class="pre">vehicle_range</span></code> is set to local automatically.</p>
+</section>
+<section id="motorbike-commute">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Motorbike commute</a><a class="headerlink" href="#motorbike-commute" title="Permalink to this heading">¶</a></h2>
+<p>The quantity of CO2e emitted by a motorbike commute depends on the <code class="docutils literal notranslate"><span class="pre">size</span></code> (average, small, medium, large) of the
+motorbike.</p>
+</section>
+<section id="tram-bicycle-or-pedelec-commute">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Tram, bicycle or pedelec commute</a><a class="headerlink" href="#tram-bicycle-or-pedelec-commute" title="Permalink to this heading">¶</a></h2>
+<p>For tram, bicylce or pedelec, no specifica have to be provided.</p>
+</section>
+<section id="aggregating-emissions-to-the-group-level">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Aggregating emissions to the group level</a><a class="headerlink" href="#aggregating-emissions-to-the-group-level" title="Permalink to this heading">¶</a></h2>
+<p>If it can be assumed that a representative sample (<code class="docutils literal notranslate"><span class="pre">n_participants</span></code>) of the entire group (<code class="docutils literal notranslate"><span class="pre">n_members</span></code>) have entered
+their commuting data, an estimate of the commuting emissions for the entire group can be obtained using the following
+function:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="co2calculator.calculate.commuting_emissions_group">
+<span class="sig-prename descclassname"><span class="pre">co2calculator.calculate.</span></span><span class="sig-name descname"><span class="pre">commuting_emissions_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aggr_co2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_participants</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_members</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/co2calculator/calculate.html#commuting_emissions_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#co2calculator.calculate.commuting_emissions_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the group’s co2e emissions from commuting.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Assumption: a representative sample of group members answered the questionnaire.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>aggr_co2</strong> (<em>Kilogram</em>) – (Annual/monthly) co2e emissions from commuting, aggregated for all group members who answered the
+questionnaire (can also be calculated for only one mode of transport)</p></li>
+<li><p><strong>n_participants</strong> (<em>int</em>) – Number of group members who answered the questionnaire</p></li>
+<li><p><strong>n_members</strong> (<em>int</em>) – Total number of members of the group</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Calculated or estimated emissions of the entire working group.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Kilogram</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Final logo.svg" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Commuting</a><ul>
+<li><a class="reference internal" href="#co2calculator.calculate.calc_co2_commuting"><code class="docutils literal notranslate"><span class="pre">calc_co2_commuting()</span></code></a></li>
+<li><a class="reference internal" href="#car-commute">Car commute</a></li>
+<li><a class="reference internal" href="#bus-commute">Bus commute</a></li>
+<li><a class="reference internal" href="#train-commute">Train commute</a></li>
+<li><a class="reference internal" href="#motorbike-commute">Motorbike commute</a></li>
+<li><a class="reference internal" href="#tram-bicycle-or-pedelec-commute">Tram, bicycle or pedelec commute</a></li>
+<li><a class="reference internal" href="#aggregating-emissions-to-the-group-level">Aggregating emissions to the group level</a><ul>
+<li><a class="reference internal" href="#co2calculator.calculate.commuting_emissions_group"><code class="docutils literal notranslate"><span class="pre">commuting_emissions_group()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="calculate/transport_modes.html"
+                          title="previous chapter">Transportation modes</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="calculate/emission_factors.html"
+                          title="next chapter">Emission factors</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/commuting.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="calculate/emission_factors.html" title="Emission factors"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="calculate/transport_modes.html" title="Transportation modes"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">co2calculator 0.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Commuting</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Christina Ludwig, Veit Ulrich, Hannah Weiser.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

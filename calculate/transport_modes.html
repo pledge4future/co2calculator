@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Transportation modes &#8212; co2calculator 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Commuting" href="../commuting.html" />
+    <link rel="prev" title="Distance calculations" href="distances.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../commuting.html" title="Commuting"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="distances.html" title="Distance calculations"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">co2calculator 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../businesstrips.html" accesskey="U">Business trips</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Transportation modes</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="transportation-modes">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">Transportation modes</a><a class="headerlink" href="#transportation-modes" title="Permalink to this heading">¶</a></h1>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#transportation-modes" id="id1">Transportation modes</a></p>
+<ul>
+<li><p><a class="reference internal" href="#car-trip" id="id2">Car trip</a></p></li>
+<li><p><a class="reference internal" href="#bus-trip" id="id3">Bus trip</a></p></li>
+<li><p><a class="reference internal" href="#train-trip" id="id4">Train trip</a></p></li>
+<li><p><a class="reference internal" href="#plane-trip" id="id5">Plane trip</a></p></li>
+<li><p><a class="reference internal" href="#ferry-trip" id="id6">Ferry trip</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<p>Business trips can be calculated for different modes of transport.
+The overview here summarizes, which parameters influence the carbon emission intensity of a trip for the different transportation modes.
+The specific emission factors for different configurations (e.g., vehicle size, fuel type, etc.) are documented under
+<a class="reference internal" href="emission_factors.html"><span class="doc">Emission factors</span></a>.</p>
+<section id="car-trip">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Car trip</a><a class="headerlink" href="#car-trip" title="Permalink to this heading">¶</a></h2>
+<p>The quantity of CO2e emitted by a car trip depends on the <code class="docutils literal notranslate"><span class="pre">fuel_type</span></code> (average, cng, diesel, electric, gasoline,
+hybrid, hydrogen, plug-in_hybrid), car <code class="docutils literal notranslate"><span class="pre">size</span></code> (average, small, medium, large) and the number of <code class="docutils literal notranslate"><span class="pre">passengers</span></code>.</p>
+</section>
+<section id="bus-trip">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Bus trip</a><a class="headerlink" href="#bus-trip" title="Permalink to this heading">¶</a></h2>
+<p>The quantity of CO2e emitted by a bus trip depends on the bus <code class="docutils literal notranslate"><span class="pre">size</span></code> (average, medium, large) and the
+<code class="docutils literal notranslate"><span class="pre">occupancy</span></code> in % (20, 50, 80, 100). The <code class="docutils literal notranslate"><span class="pre">vehicle_range</span></code> is set to long-distance automatically.</p>
+</section>
+<section id="train-trip">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Train trip</a><a class="headerlink" href="#train-trip" title="Permalink to this heading">¶</a></h2>
+<p>The quantity of CO2e emitted by a train trip depends on the <code class="docutils literal notranslate"><span class="pre">fuel_type</span></code> (average, electric, diesel).
+The <code class="docutils literal notranslate"><span class="pre">vehicle_range</span></code> is set to long-distance automatically.</p>
+</section>
+<section id="plane-trip">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Plane trip</a><a class="headerlink" href="#plane-trip" title="Permalink to this heading">¶</a></h2>
+<p>The quantity of CO2e emitted by a plane trip depends on the
+<code class="docutils literal notranslate"><span class="pre">seating_class</span></code> (average, economy_class, business_class, premium_economy_class, first_class).</p>
+</section>
+<section id="ferry-trip">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Ferry trip</a><a class="headerlink" href="#ferry-trip" title="Permalink to this heading">¶</a></h2>
+<p>The quantity of CO2e emitted by a ferry trip depends on the
+<code class="docutils literal notranslate"><span class="pre">seating_class</span></code> (average, Foot passenger, Car passenger).</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/Final logo.svg" alt="Logo"/>
+            </a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Transportation modes</a><ul>
+<li><a class="reference internal" href="#car-trip">Car trip</a></li>
+<li><a class="reference internal" href="#bus-trip">Bus trip</a></li>
+<li><a class="reference internal" href="#train-trip">Train trip</a></li>
+<li><a class="reference internal" href="#plane-trip">Plane trip</a></li>
+<li><a class="reference internal" href="#ferry-trip">Ferry trip</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="distances.html"
+                          title="previous chapter">Distance calculations</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../commuting.html"
+                          title="next chapter">Commuting</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/calculate/transport_modes.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../commuting.html" title="Commuting"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="distances.html" title="Distance calculations"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">co2calculator 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../businesstrips.html" >Business trips</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Transportation modes</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Christina Ludwig, Veit Ulrich, Hannah Weiser.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

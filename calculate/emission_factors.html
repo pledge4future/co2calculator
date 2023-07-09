@@ -1,0 +1,1809 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Emission factors &#8212; co2calculator 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Commuting" href="../commuting.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../commuting.html" title="Commuting"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">co2calculator 0.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Emission factors</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="emission-factors">
+<h1>Emission factors<a class="headerlink" href="#emission-factors" title="Permalink to this heading">¶</a></h1>
+<p>For computing emissions, a central piece of information is the emission intensity of the different activities.
+These are expressed by emission factors.
+Below, you can find a list of all activities and their emission factors (in co2e per unit).
+Within one category, the emission intensity may differ drastically depending on the specification
+Let’s take a trip by car. A medium battery electric car emits around 0.056 kg co2e/km (including emissions from
+manufacturing), while an average car driving on gasoline emits 0.224 kg co2e/km.</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Conversion factors heating</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head stub"></th>
+<th class="head stub"><p>category</p></th>
+<th class="head"><p>subcategory</p></th>
+<th class="head"><p>source</p></th>
+<th class="head"><p>model</p></th>
+<th class="head"><p>name</p></th>
+<th class="head"><p>unit</p></th>
+<th class="head"><p>size_class</p></th>
+<th class="head"><p>occupancy</p></th>
+<th class="head"><p>capacity</p></th>
+<th class="head"><p>range</p></th>
+<th class="head"><p>fuel_type</p></th>
+<th class="head"><p>co2e_unit</p></th>
+<th class="head"><p>co2e</p></th>
+<th class="head"><p>seating</p></th>
+<th class="head"><p>comment</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><th class="stub"><p>0</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>Öko-Institut</p></td>
+<td><p>gemis</p></td>
+<td><p>Bus-Linie-BZ-DE-2020-Basis</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td><p>local</p></td>
+<td><p>hydrogen</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0251</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>1</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>Öko-Institut-adapted</p></td>
+<td><p>gemis</p></td>
+<td><p>Bus-Linie-BZ-DE-2020-Basis</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td><p>long-distance</p></td>
+<td><p>hydrogen</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0251</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>2</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>Öko-Institut</p></td>
+<td><p>gemis</p></td>
+<td><p>Bus-Linie-CNG-DE-2020-Basis</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td><p>local</p></td>
+<td><p>cng</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0617</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>3</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>Öko-Institut-adapted</p></td>
+<td><p>gemis</p></td>
+<td><p>Bus-Linie-CNG-DE-2020-Basis</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td><p>long-distance</p></td>
+<td><p>cng</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0617</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>4</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td><p>100</p></td>
+<td><p>60</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0239</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>5</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td><p>20</p></td>
+<td><p>60</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0914</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>6</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td><p>50</p></td>
+<td><p>60</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0407</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>7</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td><p>80</p></td>
+<td><p>60</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0281</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>8</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td><p>100</p></td>
+<td><p>90</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0221</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>9</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td><p>20</p></td>
+<td><p>90</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0781</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>10</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td><p>50</p></td>
+<td><p>90</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0361</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>11</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td><p>80</p></td>
+<td><p>90</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0256</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>12</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>small</p></td>
+<td><p>100</p></td>
+<td><p>30</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0349</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>13</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>small</p></td>
+<td><p>20</p></td>
+<td><p>30</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.138</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>14</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>small</p></td>
+<td><p>50</p></td>
+<td><p>30</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0603</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>15</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>small</p></td>
+<td><p>80</p></td>
+<td><p>30</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0412</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>16</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td><p>20</p></td>
+<td><p>70.5</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0857</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>17</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td><p>50</p></td>
+<td><p>70.5</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0389</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>18</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td><p>80</p></td>
+<td><p>70.5</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0272</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>19</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Linienbus</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td><p>100</p></td>
+<td><p>70.5</p></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0234</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>20</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Reisebus</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td><p>100</p></td>
+<td><p>60</p></td>
+<td><p>long-distance</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0188</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>21</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Reisebus</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td><p>20</p></td>
+<td><p>60</p></td>
+<td><p>long-distance</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0764</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>22</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Reisebus</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td><p>50</p></td>
+<td><p>60</p></td>
+<td><p>long-distance</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0332</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>23</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Reisebus</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td><p>80</p></td>
+<td><p>60</p></td>
+<td><p>long-distance</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0224</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>24</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Reisebus</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td><p>100</p></td>
+<td><p>39.9</p></td>
+<td><p>long-distance</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0233</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>25</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Reisebus</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td><p>20</p></td>
+<td><p>39.9</p></td>
+<td><p>long-distance</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0987</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>26</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Reisebus</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td><p>50</p></td>
+<td><p>39.9</p></td>
+<td><p>long-distance</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0423</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>27</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Reisebus</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td><p>80</p></td>
+<td><p>39.9</p></td>
+<td><p>long-distance</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0281</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>28</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Reisebus</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td><p>20</p></td>
+<td><p>44.6</p></td>
+<td><p>long-distance</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0917</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>29</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Reisebus</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td><p>50</p></td>
+<td><p>44.6</p></td>
+<td><p>long-distance</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0394</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>30</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Reisebus</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td><p>80</p></td>
+<td><p>44.6</p></td>
+<td><p>long-distance</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0263</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>31</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bus</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Reisebus</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td><p>100</p></td>
+<td><p>44.6</p></td>
+<td><p>long-distance</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0219</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>32</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>Öko-Institut</p></td>
+<td><p>gemis</p></td>
+<td><p>Pkw-Otto-CNG-gross-DE-2020-Basis</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>cng</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.291</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>33</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>Öko-Institut</p></td>
+<td><p>gemis</p></td>
+<td><p>Pkw-Otto-CNG-klein-DE-2020-Basis</p></td>
+<td><p>P.km</p></td>
+<td><p>small</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>cng</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.198</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>34</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>Öko-Institut</p></td>
+<td><p>gemis</p></td>
+<td><p>Pkw-Otto-CNG-mittel-DE-2020-Basis</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>cng</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.237</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>35</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>Öko-Institut-adapted</p></td>
+<td><p>gemis</p></td>
+<td><p>Pkw-Otto-CNG-mittel-DE-2020-Basis</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>cng</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.237</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>36</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>PKW</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>average</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.215</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>37</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>PKW</p></td>
+<td><p>P.km</p></td>
+<td><p>small</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>average</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.179</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>38</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>PKW</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>average</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.209</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>39</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>PKW</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>average</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.274</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>40</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>PKW</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>gasoline</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.224</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>41</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>PKW</p></td>
+<td><p>P.km</p></td>
+<td><p>small</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>gasoline</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.18</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>42</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>PKW</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>gasoline</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.231</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>43</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>PKW</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>gasoline</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.311</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>44</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>PKW</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.201</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>45</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>PKW</p></td>
+<td><p>P.km</p></td>
+<td><p>small</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.131</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>46</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>PKW</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.18</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>47</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>PKW</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.249</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>48</p></th>
+<th class="stub"><p>electricity</p></th>
+<td></td>
+<td><p>Öko-Institut</p></td>
+<td><p>gemis</p></td>
+<td><p>Solar-PV-amorph-DE-2010</p></td>
+<td><p>TJ</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>solar</p></td>
+<td><p>kg/TJ</p></td>
+<td><p>11874</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>49</p></th>
+<th class="stub"><p>electricity</p></th>
+<td></td>
+<td><p>IINAS</p></td>
+<td><p>gemis</p></td>
+<td><p>El-KW-Park-DE-2020</p></td>
+<td><p>TJ</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>german_energy_mix</p></td>
+<td><p>kg/TJ</p></td>
+<td><p>109518</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>50</p></th>
+<th class="stub"><p>heating</p></th>
+<td></td>
+<td><p>Öko-Institut</p></td>
+<td><p>gemis</p></td>
+<td><p>Braunkohle-Brikett-Heizung-DE-rheinisch-2010 (Endenergie)</p></td>
+<td><p>TJ</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>coal</p></td>
+<td><p>kg/TJ</p></td>
+<td><p>126383</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>51</p></th>
+<th class="stub"><p>heating</p></th>
+<td></td>
+<td><p>Öko-Institut</p></td>
+<td><p>gemis</p></td>
+<td><p>Fernwärme-Heizung-DE-2020/en</p></td>
+<td><p>TJ</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>district_heating</p></td>
+<td><p>kg/TJ</p></td>
+<td><p>77367</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>52</p></th>
+<th class="stub"><p>heating</p></th>
+<td></td>
+<td><p>Öko-Institut</p></td>
+<td><p>gemis</p></td>
+<td><p>El-Heizung-DE-2020-mix</p></td>
+<td><p>TJ</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>electricity</p></td>
+<td><p>kg/TJ</p></td>
+<td><p>116667</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>53</p></th>
+<th class="stub"><p>heating</p></th>
+<td></td>
+<td><p>IINAS</p></td>
+<td><p>gemis</p></td>
+<td><p>Gas-Heizung-DE-2020 (Endenergie)</p></td>
+<td><p>TJ</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>gas</p></td>
+<td><p>kg/TJ</p></td>
+<td><p>65578</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>54</p></th>
+<th class="stub"><p>heating</p></th>
+<td></td>
+<td><p>Öko-Institut</p></td>
+<td><p>gemis</p></td>
+<td><p>El-Wärmepumpe-mono-Luft-DE-2020-mix</p></td>
+<td><p>TJ</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>heat_pump_air</p></td>
+<td><p>kg/TJ</p></td>
+<td><p>33581</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>55</p></th>
+<th class="stub"><p>heating</p></th>
+<td></td>
+<td><p>Öko-Institut</p></td>
+<td><p>gemis</p></td>
+<td><p>El-Wärmepumpe-mono-Erdreich-DE-2010-mix</p></td>
+<td><p>TJ</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>heat_pump_ground</p></td>
+<td><p>kg/TJ</p></td>
+<td><p>48541</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>56</p></th>
+<th class="stub"><p>heating</p></th>
+<td></td>
+<td><p>Öko-Institut</p></td>
+<td><p>gemis</p></td>
+<td><p>El-Wärmepumpe-mono-Wasser-DE-2010-mix</p></td>
+<td><p>TJ</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>heat_pump_water</p></td>
+<td><p>kg/TJ</p></td>
+<td><p>44266</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>57</p></th>
+<th class="stub"><p>heating</p></th>
+<td></td>
+<td><p>Öko-Institut</p></td>
+<td><p>gemis</p></td>
+<td><p>FlüssiggasHeizung-DE-2020</p></td>
+<td><p>TJ</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>liquid_gas</p></td>
+<td><p>kg/TJ</p></td>
+<td><p>82455</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>58</p></th>
+<th class="stub"><p>heating</p></th>
+<td></td>
+<td><p>IINAS</p></td>
+<td><p>gemis</p></td>
+<td><p>Öl-Heizung-DE-2020 (Endenergie)</p></td>
+<td><p>TJ</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>oil</p></td>
+<td><p>kg/TJ</p></td>
+<td><p>87444</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>59</p></th>
+<th class="stub"><p>heating</p></th>
+<td></td>
+<td><p>IINAS</p></td>
+<td><p>gemis</p></td>
+<td><p>Holz-EU-KUP-Pellet-Heizung-10 kW-2020</p></td>
+<td><p>TJ</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>pellet</p></td>
+<td><p>kg/TJ</p></td>
+<td><p>14866</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>60</p></th>
+<th class="stub"><p>heating</p></th>
+<td></td>
+<td><p>Öko-Institut</p></td>
+<td><p>gemis</p></td>
+<td><p>SolarKollektor-Flach-DE-2020</p></td>
+<td><p>TJ</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>solar</p></td>
+<td><p>kg/TJ</p></td>
+<td><p>10881</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>61</p></th>
+<th class="stub"><p>heating</p></th>
+<td></td>
+<td><p>IINAS</p></td>
+<td><p>gemis</p></td>
+<td><p>Holz-EU-KUP-Hackschnitzel-Heizwerk 1 MW-2020</p></td>
+<td><p>TJ</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>woodchips</p></td>
+<td><p>kg/TJ</p></td>
+<td><p>9322</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>62</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>train</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Personenfernverkehrszug</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td><p>long-distance</p></td>
+<td><p>average</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0329</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>63</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>train</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Personenfernverkehrszug</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td><p>long-distance</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0698</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>64</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>train</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Personenfernverkehrszug</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td><p>long-distance</p></td>
+<td><p>electric</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.032</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>65</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>train</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Personennahverkehrszug</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td><p>local</p></td>
+<td><p>average</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0604</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>66</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>train</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Personennahverkehrszug</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td><p>local</p></td>
+<td><p>diesel</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0884</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>67</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>train</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Personennahverkehrszug</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td><p>local</p></td>
+<td><p>electric</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0524</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>68</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>tram</p></td>
+<td><p>UBA</p></td>
+<td><p>tremod</p></td>
+<td><p>Strassen-Stadt-U-Bahn</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>electric</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0548</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>69</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Hybrid, small car</p></td>
+<td><p>P.km</p></td>
+<td><p>small</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>hybrid</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.10275</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>70</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Hybrid, medium car</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>hybrid</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.10698</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>71</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Hybrid, large car</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>hybrid</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.1448</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>72</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Hybrid, average car</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>hybrid</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.11558</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>73</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Plug-in Hybrid Electric Vehicle, small car</p></td>
+<td><p>P.km</p></td>
+<td><p>small</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>plug-in_hybrid</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.0586</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>74</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Plug-in Hybrid Electric Vehicle, medium car</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>plug-in_hybrid</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.09251</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>75</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Plug-in Hybrid Electric Vehicle, large car</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>plug-in_hybrid</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.10515</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>76</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Plug-in Hybrid Electric Vehicle, average car</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>plug-in_hybrid</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.09712</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>77</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Battery Electric Vehicle, small car</p></td>
+<td><p>P.km</p></td>
+<td><p>small</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>electric</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.04637</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>78</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Battery Electric Vehicle, medium car</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>electric</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.05563</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>79</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Battery Electric Vehicle, large car</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>electric</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.06646</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>80</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>car</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Battery Electric Vehicle, average car</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>electric</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.05728</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>81</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>plane</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Flight, domestic, average passenger</p></td>
+<td><p>P.km</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>domestic</p></td>
+<td><p>kerosine</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.2443</p></td>
+<td><p>average</p></td>
+<td><p>with RF (radiative forcing)</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>82</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>plane</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Flight, short-haul, average passenger</p></td>
+<td><p>P.km</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>short-haul</p></td>
+<td><p>kerosine</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.15553</p></td>
+<td><p>average</p></td>
+<td><p>with RF</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>83</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>plane</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Flight, short-haul, Economy class passenger</p></td>
+<td><p>P.km</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>short-haul</p></td>
+<td><p>kerosine</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.15298</p></td>
+<td><p>economy_class</p></td>
+<td><p>with RF &lt;= 3700 km</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>84</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>plane</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Flight, short-haul, Business class passenger</p></td>
+<td><p>P.km</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>short-haul</p></td>
+<td><p>kerosine</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.22947</p></td>
+<td><p>business_class</p></td>
+<td><p>with RF &lt;= 3700 km</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>85</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>plane</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Flight, long-haul, average passenger</p></td>
+<td><p>P.km</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>long-haul</p></td>
+<td><p>kerosine</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.19085</p></td>
+<td><p>average</p></td>
+<td><p>with RF &gt; 3700 km</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>86</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>plane</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Flight, long-haul, Economy class passenger</p></td>
+<td><p>P.km</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>long-haul</p></td>
+<td><p>kerosine</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.14615</p></td>
+<td><p>economy_class</p></td>
+<td><p>with RF &gt; 3700 km</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>87</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>plane</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Flight, long-haul, Premium economy class passenger</p></td>
+<td><p>P.km</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>long-haul</p></td>
+<td><p>kerosine</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.23385</p></td>
+<td><p>premium_economy_class</p></td>
+<td><p>with RF &gt; 3700 km</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>88</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>plane</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Flight, long-haul, Business class passenger</p></td>
+<td><p>P.km</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>long-haul</p></td>
+<td><p>kerosine</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.42385</p></td>
+<td><p>business_class</p></td>
+<td><p>with RF &gt; 3700 km</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>89</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>plane</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Flight, long-haul, First class passenger</p></td>
+<td><p>P.km</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>long-haul</p></td>
+<td><p>kerosine</p></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.58462</p></td>
+<td><p>first_class</p></td>
+<td><p>with RF &gt; 3700 km</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>90</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>ferry</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Ferry, Foot passenger</p></td>
+<td><p>P.km</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.018738</p></td>
+<td><p>foot_passenger</p></td>
+<td><p>with RF &gt; 3700 km</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>91</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>ferry</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Ferry, Car passenger</p></td>
+<td><p>P.km</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.129519</p></td>
+<td><p>car_passenger</p></td>
+<td><p>with RF &gt; 3700 km</p></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>92</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>ferry</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Ferry, Average</p></td>
+<td><p>P.km</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.112864</p></td>
+<td><p>average</p></td>
+<td><p>with RF &gt; 3700 km</p></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>93</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>motorbike</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Motorbike, small</p></td>
+<td><p>P.km</p></td>
+<td><p>small</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.08277</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>94</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>motorbike</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Motorbike, medium</p></td>
+<td><p>P.km</p></td>
+<td><p>medium</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.10086</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>95</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>motorbike</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Motorbike, large</p></td>
+<td><p>P.km</p></td>
+<td><p>large</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.13237</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>96</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>motorbike</p></td>
+<td><p>UK, Department for Business, Energy &amp; Industrial Strategy</p></td>
+<td><p>2020 UK GHG Conversion factors</p></td>
+<td><p>Motorbike, average</p></td>
+<td><p>P.km</p></td>
+<td><p>average</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.11337</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><th class="stub"><p>97</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>bicycle</p></td>
+<td><p>UBA</p></td>
+<td></td>
+<td><p>Fahrrad</p></td>
+<td><p>P.km</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.009</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><th class="stub"><p>98</p></th>
+<th class="stub"><p>transport</p></th>
+<td><p>pedelec</p></td>
+<td><p>UBA</p></td>
+<td></td>
+<td><p>Pedelec</p></td>
+<td><p>P.km</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>kg/P.km</p></td>
+<td><p>0.015</p></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/Final logo.svg" alt="Logo"/>
+            </a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../commuting.html"
+                          title="previous chapter">Commuting</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/calculate/emission_factors.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../commuting.html" title="Commuting"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">co2calculator 0.1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Emission factors</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Christina Ludwig, Veit Ulrich, Hannah Weiser.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>
