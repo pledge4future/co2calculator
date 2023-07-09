@@ -27,6 +27,6 @@ The `area_share` must be between 0.0 and 1.0 and is 1.0 by default.
 Electricity
 -----------
 
-Heating emissions are computed based on the consumption (in kWh) and the emission factors for a specified energy mix or energy source.
+Electricity emissions are computed based on the consumption (in kWh) and the emission factors for a specified energy mix or energy source.
 
 .. autofunction:: co2calculator.calculate.calc_co2_electricity
