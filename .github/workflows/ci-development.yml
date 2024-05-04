@@ -46,6 +46,6 @@ jobs:
       - name: Install coverage-badge
         run: pip install coverage-badge
       - name: Pytest
-        run: poetry run pytest -x
+        run: poetry run coverage run -m pytest -x
       - name: coverage badge
         run: coverage-badge -o coverage.svg
