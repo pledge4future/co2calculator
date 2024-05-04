@@ -21,6 +21,8 @@ jobs:
         with:
           path: ./.venv
           key: venv-${{ hashFiles('poetry.lock') }}
+      - name: Install sphinx
+        run: pip install sphinx sphinx_rtd_theme
       - name: Sphinx build
         run: |
           sphinx-build docs _build
