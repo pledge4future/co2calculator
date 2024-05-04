@@ -177,8 +177,6 @@ class ElectricityEmissionParameters(BaseModel):
 class HeatingEmissionParameters(BaseModel):
 
     fuel_type: Union[Size, str] = HeatingFuel.GAS
-    unit: Union[Unit, str] = Unit.KWH
-    area_share: float = 1.0
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
@@ -186,16 +184,3 @@ class HeatingEmissionParameters(BaseModel):
             assert v.lower() in (item.value for item in HeatingFuel)
             v = v.lower()
         return HeatingFuel(v)
-
-    @validator("unit", allow_reuse=True)
-    def check_unit(cls, v):
-        if isinstance(v, str):
-            assert v.lower() in (item.value for item in Unit)
-            v = v.lower()
-        return Unit(v)
-
-    @validator("area_share", allow_reuse=True)
-    def check_area_share(cls, v):
-        if v < 0 or v > 1:
-            raise ValueError("Area share must be between 0 and 1")
-        return v

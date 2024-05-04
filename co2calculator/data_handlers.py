@@ -4,7 +4,7 @@
 
 from pathlib import Path
 import pandas as pd
-from .exceptions import ConversionFactorNotFound
+from .exceptions import EmissionFactorNotFound, ConversionFactorNotFound
 
 script_path = str(Path(__file__).parent)
 
@@ -37,13 +37,13 @@ class EmissionFactors:
             selected_factors_new = selected_factors[selected_factors[k] == v]
             selected_factors = selected_factors_new
             if selected_factors_new.empty:
-                raise ConversionFactorNotFound(
-                    "No suitable conversion factor found in database. Please adapt your query."
+                raise EmissionFactorNotFound(
+                    "No suitable emission factor found in database. Please adapt your query."
                 )
 
         if len(selected_factors) > 1:
-            raise ConversionFactorNotFound(
-                f"{len(selected_factors)} co2 conversion factors found. Please provide more specific selection criteria."
+            raise EmissionFactorNotFound(
+                f"{len(selected_factors)} emission factors found. Please provide more specific selection criteria."
             )
         else:
             return selected_factors["co2e"].values[0]
@@ -69,3 +69,21 @@ class ConversionFactors:
         self.conversion_factors = pd.read_csv(
             f"{script_path}/../data/conversion_factors_heating.csv"
         )
+
+    def get(self, fuel_type, unit):
+        """
+        Returns factors from the database
+        :param parameters:
+        :type parameters:
+        :return:
+        :rtype:
+        """
+        selected_factors = self.conversion_factors.query(
+            f'fuel_type=="{fuel_type}" & unit=="{unit}"'
+        )
+        if selected_factors.empty:
+            raise ConversionFactorNotFound(
+                "No suitable conversion factor found in database. Please adapt your query."
+            )
+        else:
+            return selected_factors["conversion_value"].values[0]

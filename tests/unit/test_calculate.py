@@ -11,7 +11,7 @@ import co2calculator.calculate as candidate
 from co2calculator.constants import RangeCategory
 from pydantic import ValidationError
 
-from co2calculator.exceptions import ConversionFactorNotFound
+from co2calculator.exceptions import ConversionFactorNotFound, EmissionFactorNotFound
 
 
 @pytest.mark.parametrize(
@@ -222,7 +222,7 @@ def test_calc_co2_plane__invalid_distance_seating_combo() -> None:
     Expect: Raises ValueError.
     """
     # Check if raises warning (premium economy class is not available for short-haul flights)
-    with pytest.raises(ConversionFactorNotFound):
+    with pytest.raises(EmissionFactorNotFound):
         candidate.calc_co2_plane(distance=800, seating="premium_economy_class")
 
 
@@ -243,9 +243,9 @@ def test_calc_ferry(seating_class: Optional[str], expected_emissions: float) -> 
     assert round(actual_emissions, 2) == expected_emissions
 
 
-@pytest.mark.skip(
-    reason="Failing right now, but units will change anyways. let's check after the co2factors are updated"
-)
+# @pytest.mark.skip(
+#    reason="Failing right now, but units will change anyways. let's check after the co2factors are updated"
+# )
 def test_heating_woodchips():
     """Test co2e calculation for heating: woodchips"""
     # Given parameters
