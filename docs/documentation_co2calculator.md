@@ -95,3 +95,22 @@ Bus | x 1.5 | Adapted from [GES 1point5](https://labos1point5.org/ges-1point5), 
 Train | x 1.2 | Adapted from [GES 1point5](https://labos1point5.org/ges-1point5), who were advised by Frédéric Héran (economist and urban planner).
 Plane | + 95 km | CSN EN 16258 - Methodology for calculation and declaration of energy consumption and GHG emissions of transport services (freight and passengers), European Committee for Standardization, Brussels, November 2012, [Méthode pour la réalisation des bilans d’émissions de gaz à effet de , Version 4](https://www.ecologie.gouv.fr/sites/default/files/Guide%20m%C3%A9thodologique%20sp%C3%A9cifique%20pour%20les%20collectivit%C3%A9s%20pour%20la%20r%C3%A9alisation%20du%20bilan%20d%E2%80%99%C3%A9missions%20de%20GES.pdf), p. 53
 Ferry | ??? | ???
+
+
+## 4 Calculation of the carbon budget
+
+### The carbon budget
+
+According to the IPCC (2021), "[the] term ‘carbon budget’ refers to the maximum amount of cumulative net global anthropogenic $CO_2$ emissions that would result in limiting global warming to a given level with a given probability, taking into account the effect of other anthropogenic climate forcers. This is referred to as the total carbon budget when expressed starting from the pre-industrial period, and as the remaining carbon budget when expressed from a recent specified date [...]. The remaining carbon budget indicates how much CO2 could still be emitted while keeping warming below a specific temperature level" ([IPCC 2021, p. 28](https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_SPM.pdf)).
+
+### Calculation of the remaining carbon budget
+
+To calculate the remaining carbon budget, we followed an equal-per-capita approach. This means that the remaining global carbon budget is distributed equally among the world's population. First, we divide the amount of CO<sub>2</sub> that could still be emitted worldwide by the world population. For example, to reach the 1.5° goal, 300 billion tons of CO<sub>2</sub> could still be emitted. Taking into account that the population of the world is growing, we do not divide the amount of CO<sub>2</sub> by the current population of the world, but instead by the mean between the current population and the population projected for 2050. 2050 is when most of the countries plan to be carbon neutral. Finally, we divide the remaining carbon budget per person by the number of years left until carbon neutrality should be reached. 
+
+The calculation of the carbon budget is summed up in the following table. Since Germany has pledged to be carbon neutral already by 2045, the remaining time is shorter and therefore the remaining carbon budget per person and year is a bit higher. You can view this remaining carbon budget as the average amount of carbon that could still be emitted per year and person until 2050 (or, respectively for Germany, 2045). 
+
+Goal (°C) | Total carbon budget [t] | Carbon budget per person (2020-2050) [t] | Carbon budget per person and year in Germany (2020-2045) [t] | Carbon budget per person and year (2020-2050) [t]
+------------ | ------------- | ------------- | ------------ | -------------
+1.5 | 3 billion | 34.0 | 1.4 | 1.1
+2 | 9 billion | 101.9 | 4.1 | 3.4
+
