@@ -15,10 +15,6 @@ class EmissionFactors:
         self.emission_factors = pd.read_csv(
             f"{script_path}/../data/emission_factors.csv"
         )
-        # self.conversion_factors = pd.read_csv(
-        #    f"{script_path}/../data/conversion_factors_heating.csv"
-        # )
-        # self.detour_factors = pd.read_csv(f"{script_path}/../data/detour.csv")
 
     def get(self, parameters: dict):
         """
@@ -51,3 +47,17 @@ class EmissionFactors:
 
 class Airports:
     pass
+
+
+class DetourFactors:
+    def __init__(self):
+        """Init"""
+        self.detour_factors = pd.read_csv(f"{script_path}/../data/detour.csv")
+
+
+class ConversionFactors:
+    def __init__(self):
+        """Init"""
+        self.conversion_factors = pd.read_csv(
+            f"{script_path}/../data/conversion_factors_heating.csv"
+        )
