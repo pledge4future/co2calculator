@@ -232,6 +232,20 @@ def calc_co2_pedelec(weekly_distance):
     return co2e * weekly_distance
 
 
+def calc_co2_tram(weekly_distance):
+    """Calculate co2 emissions for commuting by pedelec
+
+    :param weekly_distance: distance in km per week
+    """
+    co2e = emission_factors.get(
+        {
+            "category": EmissionCategory.TRANSPORT,
+            "subcategory": TransportationMode.TRAM,
+        }
+    )
+    return co2e * weekly_distance
+
+
 def calc_co2_electricity(
     consumption: float, fuel_type: ElectricityFuel = None, energy_share: float = 1
 ) -> Kilogram:
@@ -484,15 +498,7 @@ def calc_co2_commuting(
     elif transportation_mode == TransportationMode.BICYCLE:
         weekly_co2e = calc_co2_bicycle(weekly_distance)
     elif transportation_mode == TransportationMode.TRAM:
-        fuel_type = BusFuel.ELECTRIC  # ok like that?
-        size = Size.AVERAGE
-        co2e = emission_factors.get(
-            EmissionCategory.TRANSPORT,
-            transportation_mode,
-            fuel_type=fuel_type,
-            size=size,
-        )
-        weekly_co2e = co2e * weekly_distance
+        weekly_co2e = calc_co2_tram(weekly_distance)
     else:
         raise ValueError(
             f"Transportation mode {transportation_mode} not found in database"
