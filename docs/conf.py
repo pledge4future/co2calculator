@@ -60,8 +60,20 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-# html_theme = "alabaster"
-html_theme = "nature"
+html_theme = "alabaster"
+
+html_theme_options = {
+    "body_max_width": "none",
+    "page_width": "80%",
+    "sidebar_width": "350px",
+    "fixed_sidebar": "true",
+    "github_button": "true",
+    "github_user": "pledge4future",
+    "github_repo": "co2calculator",
+    "show_powered_by": "true",
+    "sidebar_header": "#FFA500",
+    "narrow_sidebar_bg": "#FFA500",
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
