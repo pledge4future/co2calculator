@@ -8,12 +8,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
-      - name: Install sphinx
+      - name: Install poetry
+        uses: abatilo/actions-poetry@v2.3.0
+      - name: Setup a local virtual environment for caching
         run: |
-          pip install sphinx sphinx_rtd_theme
+          poetry config virtualenvs.create true --local
+          poetry config virtualenvs.in-project true --local
+      - name: Define a cache for the virtual environment based on the dependencies lock file to speed up later runs
+        uses: actions/cache@v3
+        with:
+          path: ./.venv
+          key: venv-${{ hashFiles('poetry.lock') }}
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: poetry install --no-root
       - name: Sphinx build
         run: |
           sphinx-build docs _build
