@@ -4,7 +4,7 @@ Business trips
 
 .. toctree::
    :maxdepth: 2
-   :caption: toc
+   :caption: See also:
    :titlesonly:
    :includehidden:
 
