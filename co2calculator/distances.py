@@ -29,6 +29,7 @@ from .constants import (
     DetourCoefficient,
     DetourConstant,
     RangeCategory,
+    RoutingProfile,
 )
 
 load_dotenv()  # take environment variables from .env.
@@ -117,7 +118,9 @@ def haversine(
     return c * r
 
 
-def geocoding_airport_pelias(iata: str) -> Tuple[str, Tuple[float, float], str]:
+def geocoding_airport_pelias(
+    iata: IataAirportCode,
+) -> Tuple[str, Tuple[float, float], str]:
     """Function to obtain the coordinates of an airport by the IATA code
 
     :param iata: IATA airport code
@@ -150,7 +153,7 @@ def geocoding_airport_pelias(iata: str) -> Tuple[str, Tuple[float, float], str]:
     return name, geom, country
 
 
-def geocoding_airport(iata) -> Tuple[str, Tuple[float, float], str]:
+def geocoding_airport(iata: IataAirportCode) -> Tuple[str, Tuple[float, float], str]:
     """Function to obtain the coordinates of an airport by the IATA code
 
     :param iata: IATA airport code
@@ -330,7 +333,7 @@ def geocoding_train_stations(loc_dict):
     return res_station_name, res_country, coords
 
 
-def get_route(coords: list, profile: str = None) -> Kilometer:
+def get_route(coords: list, profile: RoutingProfile = None) -> Kilometer:
     """Obtain the distance of a route between given waypoints using a given profile
     todo: check if coords may also be a tuple/array etc.
 
@@ -339,12 +342,11 @@ def get_route(coords: list, profile: str = None) -> Kilometer:
     :return: distance of the route
     :rtype: Kilometer
     """
-    # profile may be: driving-car, cycling-regular
     clnt = openrouteservice.Client(key=ORS_API_KEY)
 
-    allowed_profiles = ["driving-car", "cycling-regular"]
-    if profile not in allowed_profiles or profile is None:
-        profile = "driving-car"
+    # profile may be: driving-car, cycling-regular
+    if profile not in [RoutingProfile.CAR, RoutingProfile.CYCLING] or profile is None:
+        profile = RoutingProfile.CAR
         warnings.warn(
             f"Warning! Specified profile not available or no profile passed.\n"
             f"Profile set to '{profile}' by default."
@@ -357,7 +359,9 @@ def get_route(coords: list, profile: str = None) -> Kilometer:
     return dist
 
 
-def get_route_ferry(coords: list, profile: str = None) -> Tuple[Kilometer, Kilometer]:
+def get_route_ferry(
+    coords: list, profile: RoutingProfile = None
+) -> Tuple[Kilometer, Kilometer]:
     """Obtain the distance of a ferry route (and the total trip distance) between given waypoints
     todo: check if coords may also be a tuple/array etc.
 
@@ -369,9 +373,8 @@ def get_route_ferry(coords: list, profile: str = None) -> Tuple[Kilometer, Kilom
     # profile may be: driving-car, walking
     clnt = openrouteservice.Client(key=ORS_API_KEY)
 
-    allowed_profiles = ["driving-car", "foot-walking"]
-    if profile not in allowed_profiles or profile is None:
-        profile = "foot-walking"
+    if profile not in [RoutingProfile.WALK, RoutingProfile.CAR] or profile is None:
+        profile = RoutingProfile.WALK
         warnings.warn(
             f"Warning! Specified profile not available or no profile passed.\n"
             f"Profile set to '{profile}' by default."
@@ -417,7 +420,9 @@ def get_route_ferry(coords: list, profile: str = None) -> Tuple[Kilometer, Kilom
     return dist_ferry, total_dist
 
 
-def _apply_detour(distance: Kilometer, transportation_mode: str) -> Kilometer:
+def _apply_detour(
+    distance: Kilometer, transportation_mode: TransportationMode
+) -> Kilometer:
     """
     Function to apply specific detour parameters to a distance as the crow flies
     :param distance: Distance as the crow flies between location of departure and destination of a trip
@@ -552,7 +557,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         for loc in [request.start, request.destination]:
             _, _, loc_coords, _ = geocoding_structured(loc.dict())
             coords.append(loc_coords)
-        return get_route(coords, "driving-car")
+        return get_route(coords, RoutingProfile.CAR)
 
     if request.transportation_mode == TransportationMode.BUS:
         # Same as car (StructuredLocation)
@@ -607,7 +612,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
 
         # hardcoding not ideal, profile should be determined based on specified "seating type"
         distance, distance_total = get_route_ferry(
-            [geom_start, geom_dest], profile="foot-walking"
+            [geom_start, geom_dest], profile=RoutingProfile.WALK
         )
 
         # if "seating" is "Car passenger", the remaining distance should be calculated as car trip ...
