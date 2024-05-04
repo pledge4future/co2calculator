@@ -317,6 +317,20 @@ tomli = {version = "*", optional = true, markers = "python_full_version <= \"3.1
 toml = ["tomli"]
 
 [[package]]
+name = "coverage-badge"
+version = "1.1.1"
+description = "Generate coverage badges for Coverage.py."
+optional = false
+python-versions = "*"
+files = [
+    {file = "coverage-badge-1.1.1.tar.gz", hash = "sha256:42252df917404af6147380861228a4ace3d9a29804df8fc2d34a22b2bc4f45b6"},
+    {file = "coverage_badge-1.1.1-py2.py3-none-any.whl", hash = "sha256:1d8e566ad47c37910fa2bbc74ea19972b171b5b4e40624b31b3e2f2d93680266"},
+]
+
+[package.dependencies]
+coverage = "*"
+
+[[package]]
 name = "cssutils"
 version = "2.10.2"
 description = "A CSS Cascading Style Sheets library for Python"
@@ -1796,4 +1810,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "7502764934e48ef73cb4f090e027dbee7c5a91c3f980d764bb295f6935b7721b"
+content-hash = "be3fb5f2edc4b95f73a688f790df7b39f4e3534fd83d5ccfd6c42ece0a370da3"
