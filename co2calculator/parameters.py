@@ -3,7 +3,7 @@
 """__description__"""
 
 from pydantic import BaseModel, validator, root_validator
-from constants import (
+from .constants import (
     TransportationMode,
     Size,
     CarFuel,
@@ -12,6 +12,10 @@ from constants import (
     BusTrainRange,
     FlightRange,
     FlightClass,
+    FerryClass,
+    ElectricityFuel,
+    HeatingFuel,
+    Unit,
 )
 from typing import Union
 
@@ -25,17 +29,23 @@ class TrainEmissionParameters(BaseModel):
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
-        v = v.lower() if isinstance(v, str) else v
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in TrainFuel)
+            v = v.lower()
         return TrainFuel(v)
 
     @validator("range", allow_reuse=True)
     def check_range(cls, v):
-        v = v.lower() if isinstance(v, str) else v
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in BusTrainRange)
+            v = v.lower()
         return BusTrainRange(v)
 
     @validator("size", allow_reuse=True)
     def check_size(cls, v):
-        v = v.lower() if isinstance(v, str) else v
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in Size)
+            v = v.lower()
         return Size(v)
 
 
@@ -46,7 +56,9 @@ class TramEmissionParameters(BaseModel):
 
     @validator("size", allow_reuse=True)
     def check_size(cls, v):
-        v = v.lower() if isinstance(v, str) else v
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in Size)
+            v = v.lower()
         return Size(v)
 
 
@@ -55,15 +67,20 @@ class CarEmissionParameters(BaseModel):
     subcategory: TransportationMode = TransportationMode.CAR
     fuel_type: Union[CarFuel, str] = CarFuel.AVERAGE
     size: Union[Size, str] = Size.AVERAGE
+    passengers: int = 1
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
-        v = v.lower() if isinstance(v, str) else v
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in CarFuel)
+            v = v.lower()
         return CarFuel(v)
 
     @validator("size", allow_reuse=True)
     def check_size(cls, v, values):
-        v = v.lower() if isinstance(v, str) else v
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in Size)
+            v = v.lower()
         return Size(v)
 
 
@@ -75,13 +92,31 @@ class PlaneEmissionParameters(BaseModel):
 
     @validator("range")
     def check_range(cls, v):
-        v = v.lower() if isinstance(v, str) else v
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in FlightRange)
+            v = v.lower()
         return FlightRange(v)
 
     @validator("seating")
     def check_seating(cls, v):
-        v = v.lower() if isinstance(v, str) else v
+        if isinstance(v, str):
+            # Check if v is a valid value of enum FlightClass
+            assert v.lower() in (item.value for item in FlightClass)
+            v = v.lower()
         return FlightClass(v)
+
+
+class FerryEmissionParameters(BaseModel):
+
+    subcategory: TransportationMode = TransportationMode.FERRY
+    seating: Union[FerryClass, str] = FerryClass.AVERAGE
+
+    @validator("seating")
+    def check_seating(cls, v):
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in FerryClass)
+            v = v.lower()
+        return FerryClass(v)
 
 
 class BusEmissionParameters(BaseModel):
@@ -95,18 +130,22 @@ class BusEmissionParameters(BaseModel):
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
         if isinstance(v, str):
-            return BusFuel(v.lower())
-        else:
-            return v
+            assert v.lower() in (item.value for item in BusFuel)
+            v = v.lower()
+        return BusFuel(v)
 
     @validator("size", allow_reuse=True)
     def check_size(cls, v):
-        v = v.lower() if isinstance(v, str) else v
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in Size)
+            v = v.lower()
         return Size(v)
 
     @validator("range", allow_reuse=True)
     def check_range(cls, v):
-        v = v.lower() if isinstance(v, str) else v
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in BusTrainRange)
+            v = v.lower()
         return BusTrainRange(v)
 
 
@@ -117,52 +156,46 @@ class MotorbikeEmissionParameters(BaseModel):
 
     @validator("size", allow_reuse=True)
     def check_size(cls, v):
-        v = v.lower() if isinstance(v, str) else v
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in Size)
+            v = v.lower()
         return Size(v)
 
 
-# class EmissionParameters(BaseModel):
-#
-#     subcategory: Union[TransportationMode, str]
-#     fuel_type: Union[CarFuelType, BusFuelType, PlaneFuelType, TrainFuelType, str] = None
-#     size: Union[CarSize, BusSize, TrainSize, str] = None
-#     occupancy: Union[BusOccupancy, TrainOccupancy, str] = None
-#     range: Union[BusRange, TrainRange, str] = None
-#     seating_class: Union[PlaneSeatingClass, FerrySeatingClass, str] = None
-#
-#     @validator("fuel_type", allow_reuse=True)
-#     def check_fueltype(cls, v, values):
-#         v = v.lower() if isinstance(v, str) else v
-#         if v is "average":
-#             if "Average" not in TrainFuelType.__members__.keys():
-#                 return eval(f"{t}FuelType('nan')")
-#             else:
-#                 raise FactorNotFound("Fuel type needs to be provided. No average value found.")
-#         else:
-#             return eval(f"{t}FuelType('{v}')")
-#
-#     @validator("size", allow_reuse=True, pre=True)
-#     def check_size(cls, v, values):
-#         t = values["subcategory"].lower().capitalize()
-#         v = v.lower() if isinstance(v, str) else v
-#         return eval(f"{t}Size('{v}')")
-#
-#     @validator("range", allow_reuse=True)
-#     def check_range(cls, v, values):
-#         t = values["subcategory"].lower().capitalize()
-#         v = v.lower() if isinstance(v, str) else v
-#         return eval(f"{t}Range('{v}')")
-#
-#     @validator("seating_class", allow_reuse=True)
-#     def check_seating_class(cls, v, values):
-#         t = values["subcategory"].lower().capitalize()
-#         v = v.lower() if isinstance(v, str) else v
-#         return eval(f"{t}SeatingClass('{v}')")
-#
-#     @validator("occupancy", allow_reuse=True)
-#     def check_occupancy(cls, v, values):
-#         t = values["subcategory"].lower().capitalize()
-#         v = v.lower() if isinstance(v, str) else v
-#         return eval(f"{t}Occupancy('{v}')")
-#
-#
+class ElectricityEmissionParameters(BaseModel):
+
+    fuel_type: Union[Size, str] = ElectricityFuel.GERMAN_ENERGY_MIX
+
+    @validator("fuel_type", allow_reuse=True)
+    def check_fueltype(cls, v):
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in ElectricityFuel)
+            v = v.lower()
+        return ElectricityFuel(v)
+
+
+class HeatingEmissionParameters(BaseModel):
+
+    fuel_type: Union[Size, str] = HeatingFuel.GAS
+    unit: Union[Unit, str] = Unit.KWH
+    area_share: float = 1.0
+
+    @validator("fuel_type", allow_reuse=True)
+    def check_fueltype(cls, v):
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in HeatingFuel)
+            v = v.lower()
+        return HeatingFuel(v)
+
+    @validator("unit", allow_reuse=True)
+    def check_unit(cls, v):
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in Unit)
+            v = v.lower()
+        return Unit(v)
+
+    @validator("area_share", allow_reuse=True)
+    def check_area_share(cls, v):
+        if v < 0 or v > 1:
+            raise ValueError("Area share must be between 0 and 1")
+        return v
