@@ -44,6 +44,6 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-root
       - name: Pytest
-        run: poetry run coverage run pytest -x
+        run: poetry run pytest -x
       - name: coverage badge
         run: coverage-badge -o coverage.svg
