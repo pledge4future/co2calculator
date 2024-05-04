@@ -1,4 +1,4 @@
-# Documentation of CO<sub>2</sub> calculations
+# Methodology
 
 The *co2calculator* can compute emissions caused by four big areas of the work life: Electricity, Heating, Business trips and Commuting. Emissions are given as CO<sub>2</sub> equivalents (CO<sub>2</sub>e). 
 
