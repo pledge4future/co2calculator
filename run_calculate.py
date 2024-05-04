@@ -18,7 +18,9 @@ script_path = os.path.dirname(os.path.realpath(__file__))
 if __name__ == "__main__":
 
     # test with dummy data
-    business_trip_data = glob.glob(f"{script_path}/data/test_data_users/business_trips*.csv")
+    business_trip_data = glob.glob(
+        f"{script_path}/data/test_data_users/business_trips*.csv"
+    )
 
     print("Computing business trip emissions...")
     for f in business_trip_data:
@@ -37,9 +39,16 @@ if __name__ == "__main__":
                     start = None
                     dest = None
                 roundtrip = bool(user_data["roundtrip"].values[i])
-                total_co2e = calc_co2_businesstrip("car", passengers=passengers, size=size_class,
-                                                   fuel_type=fuel_type, distance=distance, start=start,
-                                                   destination=dest, roundtrip=roundtrip)
+                total_co2e = calc_co2_businesstrip(
+                    "car",
+                    passengers=passengers,
+                    size=size_class,
+                    fuel_type=fuel_type,
+                    distance=distance,
+                    start=start,
+                    destination=dest,
+                    roundtrip=roundtrip,
+                )
                 user_data.loc[i, "co2e_kg"] = total_co2e
             elif "_bus" in f:
                 distance = user_data["distance_km"].values[i]
@@ -54,9 +63,16 @@ if __name__ == "__main__":
                 else:
                     start = None
                     dest = None
-                total_co2e = calc_co2_businesstrip("bus", size=size_class, fuel_type=fuel_type, occupancy=occupancy,
-                                                   distance=distance, start=start,
-                                                   destination=dest, roundtrip=roundtrip)
+                total_co2e = calc_co2_businesstrip(
+                    "bus",
+                    size=size_class,
+                    fuel_type=fuel_type,
+                    occupancy=occupancy,
+                    distance=distance,
+                    start=start,
+                    destination=dest,
+                    roundtrip=roundtrip,
+                )
                 user_data.loc[i, "co2e_kg"] = total_co2e
             elif "_train" in f:
                 distance = user_data["distance_km"].values[i]
@@ -69,28 +85,44 @@ if __name__ == "__main__":
                 else:
                     start = None
                     dest = None
-                total_co2e = calc_co2_businesstrip("train", fuel_type=fuel_type, distance=distance, start=start,
-                                                   destination=dest, roundtrip=roundtrip)
+                total_co2e = calc_co2_businesstrip(
+                    "train",
+                    fuel_type=fuel_type,
+                    distance=distance,
+                    start=start,
+                    destination=dest,
+                    roundtrip=roundtrip,
+                )
                 user_data.loc[i, "co2e_kg"] = total_co2e
             elif "_plane" in f:
                 iata_start = user_data["IATA_start"].values[i]
                 iata_dest = user_data["IATA_destination"].values[i]
                 flight_class = user_data["flight_class"].values[i]
                 roundtrip = bool(user_data["roundtrip"].values[i])
-                total_co2e = calc_co2_businesstrip("plane", start=iata_start, destination=iata_dest,
-                                                   roundtrip=roundtrip, seating=flight_class)
-                user_data.loc[i, "co2e_kg"] = total_co2e
+                total_co2e = calc_co2_businesstrip(
+                    "plane",
+                    start=iata_start,
+                    destination=iata_dest,
+                    roundtrip=roundtrip,
+                    seating=flight_class,
+                )
+                user_data.loc[i, "co2e_kg"] = total_co2e[0]
             elif "_ferry" in f:
                 start = user_data["start"].values[i]
                 dest = user_data["destination"].values[i]
                 seating = user_data["seating_class"].values[i]
                 roundtrip = bool(user_data["roundtrip"].values[i])
-                total_co2e = calc_co2_businesstrip("ferry", start=start, destination=dest,
-                                                   roundtrip=roundtrip, seating=seating)
+                total_co2e = calc_co2_businesstrip(
+                    "ferry",
+                    start=start,
+                    destination=dest,
+                    roundtrip=roundtrip,
+                    seating=seating,
+                )
                 user_data.loc[i, "co2e_kg"] = total_co2e
 
             print("Writing file: %s" % f.replace(".csv", "_calc.csv"))
-            # user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
+            user_data.to_csv(f.replace(".csv", "_calc.csv"), sep=";", index=False)
 
     electricity_data = glob.glob(f"{script_path}/data/test_data_users/electricity.csv")
 

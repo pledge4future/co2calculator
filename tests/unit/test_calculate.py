@@ -22,11 +22,11 @@ from co2calculator.constants import RangeCategory
         pytest.param(10, 1, "average", None, 2.15, id="size: 'average'"),
         pytest.param(10, 1, None, "diesel", 2.01, id="fuel_type: 'diesel'"),
         pytest.param(10, 1, None, "gasoline", 2.24, id="fuel_type: 'gasoline'"),
-        # pytest.param(10, 1, None, "cng", 31.82, id="fuel_type: 'cng'"),
-        pytest.param(10, 1, None, "electric", 0.57, id="fuel_type: 'electric'"),
-        pytest.param(10, 1, None, "hybrid", 1.16, id="fuel_type: 'hybrid'"),
+        pytest.param(10, 1, None, "cng", 2.37, id="fuel_type: 'cng'"),
+        pytest.param(10, 1, None, "electric", 0.51, id="fuel_type: 'electric'"),
+        pytest.param(10, 1, None, "hybrid", 1.2, id="fuel_type: 'hybrid'"),
         pytest.param(
-            10, 1, None, "plug-in_hybrid", 0.97, id="fuel_type: 'plug-in_hybrid'"
+            10, 1, None, "plug-in_hybrid", 0.93, id="fuel_type: 'plug-in_hybrid'"
         ),
         pytest.param(10, 1, None, "average", 2.15, id="fuel_type: 'average'"),
     ],
@@ -54,11 +54,11 @@ def test_calc_co2_car(
 @pytest.mark.parametrize(
     "distance,size,expected_emissions",
     [
-        pytest.param(100, None, 11.34, id="defaults"),
-        pytest.param(100, "small", 8.28, id="size: 'small'"),
+        pytest.param(100, None, 11.36, id="defaults"),
+        pytest.param(100, "small", 8.31, id="size: 'small'"),
         pytest.param(100, "medium", 10.09, id="size: 'medium'"),
         pytest.param(100, "large", 13.24, id="size: 'large'"),
-        pytest.param(100, "average", 11.34, id="size: 'average'"),
+        pytest.param(100, "average", 11.36, id="size: 'average'"),
     ],
 )
 def test_calc_co2_motorbike(
@@ -86,8 +86,7 @@ def test_calc_co2_motorbike(
         pytest.param(10, None, None, 50, None, 0.39, id="occupancy: 50"),
         pytest.param(10, None, None, 80, None, 0.26, id="occupancy: 80"),
         pytest.param(10, None, None, 100, None, 0.22, id="occupancy: 100"),
-        # NOTE: 'local' as `vehicle_range` fails with IndexError
-        # pytest.param(10, None, None, None, "local", 21.63, id="vehicle_range: 'local'"),
+        pytest.param(10, None, None, None, "local", 0.39, id="vehicle_range: 'local'"),
         pytest.param(
             10,
             None,
@@ -96,6 +95,33 @@ def test_calc_co2_motorbike(
             "long-distance",
             0.39,
             id="vehicle_range: 'long-distance'",
+        ),
+        pytest.param(
+            10,
+            "small",
+            "diesel",
+            None,
+            "long-distance",
+            0.39,
+            id="size: 'small', fuel_type: `diesel`, vehicle_range: 'long-distance'",
+        ),
+        pytest.param(
+            10,
+            "medium",
+            "cng",
+            None,
+            "long-distance",
+            0.62,
+            id="fuel_type: `cng` and size",
+        ),
+        pytest.param(
+            10,
+            "small",
+            "hydrogen",
+            None,
+            "local",
+            0.25,
+            id="fuel_type: `hydrogen` and size",
         ),
     ],
 )
@@ -159,9 +185,9 @@ def test_calc_co2_train(
 @pytest.mark.parametrize(
     "distance,seating_class,expected_emissions",
     [
-        pytest.param(1000, None, 155.53, id="defaults, short-haul"),
-        pytest.param(2000, None, 381.7, id="defaults, long-haul"),
-        pytest.param(1000, "economy_class", 152.98, id="seating_class"),
+        pytest.param(1000, None, 153.53, id="defaults, short-haul"),
+        pytest.param(2000, None, 307.06, id="defaults, long-haul"),
+        pytest.param(1000, "economy_class", 151.52, id="seating_class"),
     ],
 )
 def test_calc_co2_plane(
@@ -180,13 +206,25 @@ def test_calc_co2_plane(
     assert round(actual_emissions, 2) == expected_emissions
 
 
-def test_calc_co2_plane__failed():
+def test_calc_co2_plane__failed() -> None:
     """Test: Calculation on plane-trip emissions fails due to false input.
     Expect: Raises ValueError.
     """
 
     with pytest.raises(ValueError):
-        candidate.calc_co2_plane(distance=1, seating_class="NON-EXISTANT")
+        candidate.calc_co2_plane(distance=5000, seating_class="NON-EXISTENT")
+
+
+def test_calc_co2_plane__invalid_distance_seating_combo() -> None:
+    """Test: Calculation on plane-trip emissions fails due to false input.
+    Expect: Raises ValueError.
+    """
+
+    # Check if raises warning (premium economy class is not available for short-haul flights)
+    with pytest.warns(
+        UserWarning, match=r"Seating class '\w+' not available for short-haul flights"
+    ):
+        candidate.calc_co2_plane(distance=800, seating_class="premium_economy_class")
 
 
 @pytest.mark.parametrize(
@@ -194,9 +232,8 @@ def test_calc_co2_plane__failed():
     [
         pytest.param(None, 11.29, id="defaults"),
         pytest.param("average", 11.29, id="seating_class: 'average'"),
-        # TODO: IndexError for commented test arguments
-        # pytest.param("Foot passenger", 1, id="seating_class: 'Foot passenger'"),
-        # pytest.param("Car passenger", 1, id="seating_class: 'Car passenger"),
+        pytest.param("foot_passenger", 1.87, id="seating_class: 'Foot passenger'"),
+        pytest.param("car_passenger", 12.95, id="seating_class: 'Car passenger"),
     ],
 )
 def test_calc_ferry(seating_class: Optional[str], expected_emissions: float) -> None:
@@ -292,9 +329,6 @@ def test_commuting(
         pytest.param(4000, "medium_haul", "1500 to 4000 km", id="Distance: 4000 km"),
         pytest.param(4001, "long_haul", "above 4000 km", id="Distance: 4001 km"),
         pytest.param(42.7, "very_short_haul", "below 500 km", id="float"),
-        # NOTE: For the time being signed values are possible
-        pytest.param(-42.7, "very_short_haul", "below 500 km", id="signed float"),
-        pytest.param(-500, "very_short_haul", "below 500 km", id="signed int"),
     ],
 )
 def test_range_categories(
@@ -307,6 +341,14 @@ def test_range_categories(
 
     assert actual_category == expected_category
     assert actual_description == expected_description
+
+
+def test_range_categories_negative_distance():
+    """Test: Categorization of ranges when using negative distance
+    Expect: Test fails
+    """
+    with pytest.raises(ValueError):
+        candidate.range_categories(-20)
 
 
 @pytest.mark.parametrize(

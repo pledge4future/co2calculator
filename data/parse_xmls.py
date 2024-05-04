@@ -73,8 +73,10 @@ def read_xmls_mobility(idx, filepath, co2e_df):
                     co2e_df.loc[idx, "capacity"] = child[1].text.replace(",", ".")
                 # elif child[0].text == "Schadstoffklasse":
                 #     co2e_df.loc[id, "Schadstoffklasse"] = child[1].text
-                elif child[0].text == "Straßenkategorie" and child[1].text == "innerorts":
-                      co2e_df.loc[idx, "range"] = "local"
+                elif (
+                    child[0].text == "Straßenkategorie" and child[1].text == "innerorts"
+                ):
+                    co2e_df.loc[idx, "range"] = "local"
         elif node.tag == "outputs":
             for child in node:
                 if child[3].tag == "unit":
@@ -224,7 +226,7 @@ def read_xmls_heating(idx, filepath, co2e_df):
     return co2e_df
 
 
-#def read_xmls_planes(idx, filepath, co2e_df):
+# def read_xmls_planes(idx, filepath, co2e_df):
 #    """
 #    Function to write emission factors from Probas xml files for planes to an emission factor dataframe
 #
@@ -303,15 +305,31 @@ def rename_reformat_df(df, dictionary):
 
 infiles = glob.glob("probas_xmls/*/*.xml")
 
-df = pd.DataFrame([], columns=["category", "subcategory", "source", "model", "name", "unit", "size_class",
-                               "occupancy", "capacity", "range", "fuel_type", "co2e_unit", "co2e"])
+df = pd.DataFrame(
+    [],
+    columns=[
+        "category",
+        "subcategory",
+        "source",
+        "model",
+        "name",
+        "unit",
+        "size_class",
+        "occupancy",
+        "capacity",
+        "range",
+        "fuel_type",
+        "co2e_unit",
+        "co2e",
+    ],
+)
 # read xmls
 for i, f in enumerate(infiles):
     f = os.path.normpath(f)
     folder = f.split(os.sep)[-2]
     if folder == "car" or folder == "train" or folder == "bus":
         df = read_xmls_mobility(i, f, df)
-    #elif folder == "plane":
+    # elif folder == "plane":
     #    df = read_xmls_planes(i, f, df)
     elif folder == "electricity":
         df = read_xmls_electricity(i, f, df)
@@ -340,7 +358,7 @@ rename_dict = {
     "km": "P.km",
     "kg/km": "kg/P.km",
     "H2 (energetisch)": "hydrogen",
-    "electricity-CZ-transport": "electric"
+    "electricity-CZ-transport": "electric",
 }
 df = rename_reformat_df(df, rename_dict)
 

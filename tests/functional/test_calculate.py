@@ -12,6 +12,7 @@ Overview of used methods form backend:
     - calc_co2_heating,
 """
 from typing import Dict
+
 import pytest
 
 from co2calculator import calculate as candidate
@@ -71,7 +72,7 @@ class TestCalculateBusinessTrip:
                     "locality": "Berlin",
                     "address": "Alexanderplatz 1",
                 },
-                134.72,
+                134.71,
                 id="transportation_mode: 'car'",
             ),
             pytest.param(
@@ -100,7 +101,7 @@ class TestCalculateBusinessTrip:
                 "plane",
                 "FRA",
                 "BER",
-                51.21,
+                129.16,
                 id="transportation_mode: 'plane'",
             ),
             pytest.param(
@@ -112,6 +113,7 @@ class TestCalculateBusinessTrip:
             ),
         ],
     )
+    @pytest.mark.skip(reason="API Key missing for test setup. TODO: Mock Response")
     def test_calc_co2_business_trip__stops_based(
         self,
         transportation_mode: str,
@@ -152,7 +154,7 @@ class TestCalculateCommuting:
             pytest.param("train", 2.54, id="transportation_mode: 'train'"),
             pytest.param("bicycle", 0.38, id="transportation_mode: 'bicycle'"),
             pytest.param("pedelec", 0.63, id="transportation_mode: 'pedelec'"),
-            pytest.param("motorbike", 4.76, id="transportation_mode: 'motorbike'"),
+            pytest.param("motorbike", 4.77, id="transportation_mode: 'motorbike'"),
             pytest.param("tram", 2.3, id="transportation_mode: 'tram'"),
         ],
     )
