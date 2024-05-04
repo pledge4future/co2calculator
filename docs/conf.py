@@ -23,8 +23,10 @@ sys.path.insert(0, os.path.abspath(".."))
 # -- Project information -----------------------------------------------------
 
 project = "co2calculator"
-copyright = "2022, Christina Ludwig, Veit Ulrich, Hannah Weiser"
-author = "Christina Ludwig, Veit Ulrich, Hannah Weiser"
+copyright = (
+    "2024, Christina Ludwig, Veit Ulrich, Hannah Weiser, Sarah Lohr, Fabian Kneissl"
+)
+author = "Christina Ludwig, Veit Ulrich, Hannah Weiser, Sarah Lohr, Fabian Kneissl"
 
 # The full version, including alpha/beta/rc tags
 release = "0.1.0"
@@ -41,6 +43,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.viewcode",
+    "myst_parser",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
