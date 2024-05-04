@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Reader class to retrieve co2 factors from database"""
-import warnings
+"""Data handler class to handle and validate emission factors from csv file"""
+
 from pathlib import Path
 import pandas as pd
 from .exceptions import ConversionFactorNotFound
@@ -28,7 +28,7 @@ class EmissionFactors:
         selected_factors = self.emission_factors
 
         for k, v in parameters.items():
-            # shortterm hack to make it work until co2 factors are updated
+            # TODO: shortterm hack to make it work until occupancy is removed from emission factors
             if not isinstance(v, int):
                 v = str(v.value)
             if v is None or k not in self.column_names:

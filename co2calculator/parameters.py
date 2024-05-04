@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""__description__"""
+"""Base classes to handle and validate parameters for emission calculations"""
 
-from pydantic import BaseModel, validator, root_validator
+from pydantic import BaseModel, validator
 from .constants import (
     TransportationMode,
     Size,
