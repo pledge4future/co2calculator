@@ -203,7 +203,7 @@ def test_calc_co2_plane(
     """
 
     actual_emissions = candidate.calc_co2_plane(
-        distance=distance, seating_class=seating_class
+        distance=distance, seating=seating_class
     )
 
     assert round(actual_emissions, 2) == expected_emissions

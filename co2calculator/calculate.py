@@ -75,9 +75,7 @@ def calc_co2_car(
     # Get the co2 factor
     co2e = emission_factors.get(params.dict())
     # Calculate emissions
-    emissions = distance * co2e / params.passengers
-
-    return emissions
+    return distance * co2e / params.passengers
 
 
 def calc_co2_motorbike(distance: Kilometer = None, size: Size = None) -> Kilogram:
@@ -98,9 +96,7 @@ def calc_co2_motorbike(distance: Kilometer = None, size: Size = None) -> Kilogra
     # Get the co2 factor
     co2e = emission_factors.get(params.dict())
     # Calculate emissions
-    emissions = distance * co2e
-
-    return emissions
+    return distance * co2e
 
 
 def calc_co2_bus(
@@ -130,9 +126,7 @@ def calc_co2_bus(
     params = BusEmissionParameters(**params_extracted)
     # Get the co2 factor
     co2e = emission_factors.get(params.dict())
-    emissions = distance * co2e
-
-    return emissions
+    return distance * co2e
 
 
 def calc_co2_train(
@@ -157,9 +151,7 @@ def calc_co2_train(
     params = TrainEmissionParameters(**params_extracted)
     # Get the co2 factor
     co2e = emission_factors.get(params.dict())
-    emissions = distance * co2e
-
-    return emissions
+    return distance * co2e
 
 
 def calc_co2_plane(distance: Kilometer, seating: FlightClass = None) -> Kilogram:
@@ -190,9 +182,7 @@ def calc_co2_plane(distance: Kilometer, seating: FlightClass = None) -> Kilogram
     params = PlaneEmissionParameters(**params_extracted)
     # Get the co2 factor
     co2e = emission_factors.get(params.dict())
-    emissions = distance * co2e
-
-    return emissions
+    return distance * co2e
 
 
 def calc_co2_ferry(distance: Kilometer, seating: FerryClass = None) -> Kilogram:
@@ -211,8 +201,35 @@ def calc_co2_ferry(distance: Kilometer, seating: FerryClass = None) -> Kilogram:
     params = FerryEmissionParameters(**params_extracted)
     # Get the co2 factor
     co2e = emission_factors.get(params.dict())
-    emissions = distance * co2e
-    return emissions
+    return distance * co2e
+
+
+def calc_co2_bicycle(weekly_distance):
+    """Calculate co2 emissions for commuting by bicycle
+
+    :param weekly_distance: distance in km per week
+    """
+    co2e = emission_factors.get(
+        {
+            "category": EmissionCategory.TRANSPORT,
+            "subcategory": TransportationMode.BICYCLE,
+        }
+    )
+    return co2e * weekly_distance
+
+
+def calc_co2_pedelec(weekly_distance):
+    """Calculate co2 emissions for commuting by pedelec
+
+    :param weekly_distance: distance in km per week
+    """
+    co2e = emission_factors.get(
+        {
+            "category": EmissionCategory.TRANSPORT,
+            "subcategory": TransportationMode.PEDELEC,
+        }
+    )
+    return co2e * weekly_distance
 
 
 def calc_co2_electricity(
@@ -239,9 +256,7 @@ def calc_co2_electricity(
 
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
-    emissions = consumption * energy_share / KWH_TO_TJ * co2e
-
-    return emissions
+    return consumption * energy_share / KWH_TO_TJ * co2e
 
 
 def calc_co2_heating(
@@ -283,9 +298,7 @@ def calc_co2_heating(
 
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
-    emissions = consumption_kwh * area_share / KWH_TO_TJ * co2e
-
-    return emissions
+    return consumption_kwh * area_share / KWH_TO_TJ * co2e
 
 
 def calc_co2_businesstrip(
@@ -466,12 +479,10 @@ def calc_co2_commuting(
             distance=weekly_distance,
         )
 
-    elif transportation_mode in [
-        TransportationMode.PEDELEC,
-        TransportationMode.BICYCLE,
-    ]:
-        co2e = emission_factors.get(EmissionCategory.TRANSPORT, transportation_mode)
-        weekly_co2e = co2e * weekly_distance
+    elif transportation_mode == TransportationMode.PEDELEC:
+        weekly_co2e = calc_co2_pedelec(weekly_distance)
+    elif transportation_mode == TransportationMode.BICYCLE:
+        weekly_co2e = calc_co2_bicycle(weekly_distance)
     elif transportation_mode == TransportationMode.TRAM:
         fuel_type = BusFuel.ELECTRIC  # ok like that?
         size = Size.AVERAGE
@@ -491,25 +502,3 @@ def calc_co2_commuting(
     # total_co2e = weekly_co2e #* work_weeks
 
     return weekly_co2e
-
-
-def commuting_emissions_group(
-    aggr_co2: Kilogram, n_participants: int, n_members: int
-) -> Kilogram:
-    """Calculate the group's co2e emissions from commuting.
-
-    .. note:: Assumption: a representative sample of group members answered the questionnaire.
-
-    :param aggr_co2: (Annual/monthly) co2e emissions from commuting, aggregated for all group members who answered the
-                            questionnaire (can also be calculated for only one mode of transport)
-    :param n_participants: Number of group members who answered the questionnaire
-    :param n_members: Total number of members of the group
-    :type aggr_co2: Kilogram
-    :type n_participants: int
-    :type n_members: int
-    :return: Calculated or estimated emissions of the entire working group.
-    :rtype: Kilogram
-    """
-    group_co2e = aggr_co2 / n_participants * n_members
-
-    return group_co2e
