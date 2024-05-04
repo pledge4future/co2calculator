@@ -68,33 +68,33 @@
 66,transport,train,UBA,tremod,Personennahverkehrszug,P.km,average,,,local,diesel,kg/P.km,0.0884,,
 67,transport,train,UBA,tremod,Personennahverkehrszug,P.km,average,,,local,electric,kg/P.km,0.0524,,
 68,transport,tram,UBA,tremod,Strassen-Stadt-U-Bahn,P.km,average,,,,electric,kg/P.km,0.0548,,
-69,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Hybrid, small car",P.km,small,,,,hybrid,kg/P.km,0.10275,,
-70,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Hybrid, medium car",P.km,medium,,,,hybrid,kg/P.km,0.10698,,
-71,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Hybrid, large car",P.km,large,,,,hybrid,kg/P.km,0.1448,,
-72,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Hybrid, average car",P.km,average,,,,hybrid,kg/P.km,0.11558,,
-73,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Plug-in Hybrid Electric Vehicle, small car",P.km,small,,,,plug-in_hybrid,kg/P.km,0.0586,,
-74,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Plug-in Hybrid Electric Vehicle, medium car",P.km,medium,,,,plug-in_hybrid,kg/P.km,0.09251,,
-75,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Plug-in Hybrid Electric Vehicle, large car",P.km,large,,,,plug-in_hybrid,kg/P.km,0.10515,,
-76,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Plug-in Hybrid Electric Vehicle, average car",P.km,average,,,,plug-in_hybrid,kg/P.km,0.09712,,
-77,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Battery Electric Vehicle, small car",P.km,small,,,,electric,kg/P.km,0.04637,,
-78,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Battery Electric Vehicle, medium car",P.km,medium,,,,electric,kg/P.km,0.05563,,
-79,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Battery Electric Vehicle, large car",P.km,large,,,,electric,kg/P.km,0.06646,,
-80,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Battery Electric Vehicle, average car",P.km,average,,,,electric,kg/P.km,0.05728,,
-81,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, domestic, average passenger",P.km,,,,domestic,kerosine,kg/P.km,0.2443,average,with RF (radiative forcing)
-82,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, short-haul, average passenger",P.km,,,,short-haul,kerosine,kg/P.km,0.15553,average,with RF
-83,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, short-haul, Economy class passenger",P.km,,,,short-haul,kerosine,kg/P.km,0.15298,economy_class,with RF <= 3700 km
-84,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, short-haul, Business class passenger",P.km,,,,short-haul,kerosine,kg/P.km,0.22947,business_class,with RF <= 3700 km
-85,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, long-haul, average passenger",P.km,,,,long-haul,kerosine,kg/P.km,0.19085,average,with RF > 3700 km
-86,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, long-haul, Economy class passenger",P.km,,,,long-haul,kerosine,kg/P.km,0.14615,economy_class,with RF > 3700 km
-87,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, long-haul, Premium economy class passenger",P.km,,,,long-haul,kerosine,kg/P.km,0.23385,premium_economy_class,with RF > 3700 km
-88,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, long-haul, Business class passenger",P.km,,,,long-haul,kerosine,kg/P.km,0.42385,business_class,with RF > 3700 km
-89,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, long-haul, First class passenger",P.km,,,,long-haul,kerosine,kg/P.km,0.58462,first_class,with RF > 3700 km
-90,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Ferry, Foot passenger",P.km,,,,,,kg/P.km,0.018738,foot_passenger,with RF > 3700 km
-91,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Ferry, Car passenger",P.km,,,,,,kg/P.km,0.129519,car_passenger,with RF > 3700 km
-92,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Ferry, Average",P.km,,,,,,kg/P.km,0.112864,average,with RF > 3700 km
-93,transport,motorbike,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Motorbike, small",P.km,small,,,,,kg/P.km,0.08277,,
-94,transport,motorbike,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Motorbike, medium",P.km,medium,,,,,kg/P.km,0.10086,,
-95,transport,motorbike,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Motorbike, large",P.km,large,,,,,kg/P.km,0.13237,,
-96,transport,motorbike,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Motorbike, average",P.km,average,,,,,kg/P.km,0.11337,,
+69,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Hybrid, small car",P.km,small,,,,hybrid,kg/P.km,0.10332,,
+70,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Hybrid, medium car",P.km,medium,,,,hybrid,kg/P.km,0.10999,,
+71,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Hybrid, large car",P.km,large,,,,hybrid,kg/P.km,0.15491,,
+72,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Hybrid, average car",P.km,average,,,,hybrid,kg/P.km,0.12004,,
+73,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Plug-in Hybrid Electric Vehicle, small car",P.km,small,,,,plug-in_hybrid,kg/P.km,0.05255,,
+74,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Plug-in Hybrid Electric Vehicle, medium car",P.km,medium,,,,plug-in_hybrid,kg/P.km,0.08597,,
+75,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Plug-in Hybrid Electric Vehicle, large car",P.km,large,,,,plug-in_hybrid,kg/P.km,0.10148,,
+76,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Plug-in Hybrid Electric Vehicle, average car",P.km,average,,,,plug-in_hybrid,kg/P.km,0.09349,,
+77,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Battery Electric Vehicle, small car",P.km,small,,,,electric,kg/P.km,0.04416,,
+78,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Battery Electric Vehicle, medium car",P.km,medium,,,,electric,kg/P.km,0.04878,,
+79,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Battery Electric Vehicle, large car",P.km,large,,,,electric,kg/P.km,0.0555,,
+80,transport,car,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Battery Electric Vehicle, average car",P.km,average,,,,electric,kg/P.km,0.0514,,
+81,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, domestic, average passenger",P.km,,,,domestic,kerosine,kg/P.km,0.24587,average,with RF (radiative forcing)
+82,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, short-haul, average passenger",P.km,,,,short-haul,kerosine,kg/P.km,0.15353,average,with RF
+83,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, short-haul, Economy class passenger",P.km,,,,short-haul,kerosine,kg/P.km,0.15152,economy_class,with RF <= 3700 km
+84,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, short-haul, Business class passenger",P.km,,,,short-haul,kerosine,kg/P.km,0.22652,business_class,with RF <= 3700 km
+85,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, long-haul, average passenger",P.km,,,,long-haul,kerosine,kg/P.km,0.19309,average,with RF > 3700 km
+86,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, long-haul, Economy class passenger",P.km,,,,long-haul,kerosine,kg/P.km,0.14787,economy_class,with RF > 3700 km
+87,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, long-haul, Premium economy class passenger",P.km,,,,long-haul,kerosine,kg/P.km,0.23659,premium_economy_class,with RF > 3700 km
+88,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, long-haul, Business class passenger",P.km,,,,long-haul,kerosine,kg/P.km,0.42882,business_class,with RF > 3700 km
+89,transport,plane,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Flight, long-haul, First class passenger",P.km,,,,long-haul,kerosine,kg/P.km,0.59147,first_class,with RF > 3700 km
+90,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Ferry, Foot passenger",P.km,,,,,,kg/P.km,0.01874,foot_passenger,with RF > 3700 km
+91,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Ferry, Car passenger",P.km,,,,,,kg/P.km,0.12952,car_passenger,with RF > 3700 km
+92,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Ferry, Average",P.km,,,,,,kg/P.km,0.11286,average,with RF > 3700 km
+93,transport,motorbike,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Motorbike, small",P.km,small,,,,,kg/P.km,0.08306,,
+94,transport,motorbike,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Motorbike, medium",P.km,medium,,,,,kg/P.km,0.1009,,
+95,transport,motorbike,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Motorbike, large",P.km,large,,,,,kg/P.km,0.13245,,
+96,transport,motorbike,"UK, Department for Business, Energy & Industrial Strategy",2020 UK GHG Conversion factors,"Motorbike, average",P.km,average,,,,,kg/P.km,0.11355,,
 97,transport,bicycle,UBA,,Fahrrad,P.km,,,,,,kg/P.km,0.009,,
 98,transport,pedelec,UBA,,Pedelec,P.km,,,,,,kg/P.km,0.015,,
