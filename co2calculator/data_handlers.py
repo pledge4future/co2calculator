@@ -46,7 +46,11 @@ class EmissionFactors:
 
 
 class Airports:
-    pass
+    def __init__(self):
+        """Init"""
+        self.airports = pd.read_csv(
+            "https://davidmegginson.github.io/ourairports-data/airports.csv"
+        )
 
 
 class DetourFactors:
