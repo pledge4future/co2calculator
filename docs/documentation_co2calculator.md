@@ -11,8 +11,6 @@ Anthropogenic climate change is caused by greenhouse gases, such as carbon dioxi
 y_{CO^2} = \epsilon \cdot c
 ```
 
-
-
 ### Emission factor sources
 
 The CO<sub>2</sub>e emissions are calculated using emission factors from different sources:
@@ -22,10 +20,21 @@ The CO<sub>2</sub>e emissions are calculated using emission factors from differe
 
 The specific emission factors for different activities are collected in [this emission factor table](https://github.com/pledge4future/co2calculator/blob/dev/data/emission_factors.csv).
 
+(heading-target)=
+### Compliance with the GHG Protocols
+
+The Greenhouse Gas (GHG) Protocol Corporate Standards provide a globally used framework to measure greenhouse gas emissions [(Greenhouse Gas Protocol 2024)](https://ghgprotocol.org/). They account for three scopes:
+* Scope 1 emissions are direct emissions from sources that are owned or controlled by the reporting entity, such as emissions from combustion in owned vehicles or boilers. 
+* Scope 2 emissions are indirect emissions caused by the generation of purchased or consumed electricity, heating, cooling or steam.
+* Scope 3 emissions are indirect emissions other than those captured in scope 3. These include all other emissions generated in the life cycle of the product, including production and disposal.
+
+For electricity and mobility, the *co2calculator* computes emissions based on the whole life cycle of a product, i.e. including scope 3 emissions. For heating, scope 1 emissions are caculated.
+
 
 ## 1 Electricity
 
-Electricity CO<sub>2</sub>e emissions are calculated from country-specific production mixes [(carbon footprint 2023)](https://www.carbonfootprint.com/international_electricity_factors.html). These are the mix of fuels used by local power stations and, therefore, the basis for location-based reporting. 
+Electricity CO<sub>2</sub>e emissions are calculated from country-specific production mixes [(carbon footprint 2023)](https://www.carbonfootprint.com/international_electricity_factors.html). These are the mix of fuels used by local power stations and, therefore, the basis for location-based reporting. Emission factors rely on total production fuel mixes, which include scope 2 and scope 3 emissions of the GHG protocol (for details, see [Compliance with the GHG Protocols](#heading-target)). 
+
 
 ### Calculation of a share of electricity use
 
@@ -34,7 +43,7 @@ If the electricity consumption is only known for a building or building complex 
 
 ## 2 Heating
 
-Heating CO<sub>2</sub>e emissions depend on the type of burned fuel. Fuel types may be, for example, oil, gas, coal or biogas. The emissions are calculated using emission factors from [(carbon footprint 2023)](https://www.carbonfootprint.com/international_electricity_factors.html). 
+Heating CO<sub>2</sub>e emissions depend on the type of burned fuel. Fuel types may be, for example, oil, gas, coal or biogas. The emissions are calculated using emission factors from [(GOV.UK 2023)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023). The provided emission factors reflect scope 1 emissions of the GHG protocol (for details, see [Compliance with the GHG Protocols](#heading-target)).
 
 ### Calculation of a share of heating consumption
 
@@ -43,7 +52,9 @@ If the heating consumption is only known for a building or building complex and 
 
 ## 3 Mobility
 
-CO<sub>2</sub>e emissions from the mobility sector are calculated using emission factors from [(mobitoool 2023)](https://www.mobitool.ch/de/tools/mobitool-faktoren-v2-1-25.html). They depend on the mode of transport, such as car or bicycle, and the distance travelled. This distance may either be directly provided, or it may be computed from given start and stop locations using [distances.py](https://github.com/pledge4future/co2calculator/blob/dev/co2calculator/distances.py). In the latter case, the coordinates of the locations are retrieved using geocoding before the travel distance between the locations is computed (for details, see [Geocoding](#heading-target)).
+CO<sub>2</sub>e emissions from the mobility sector are calculated using emission factors from [(mobitoool 2023)](https://www.mobitool.ch/de/tools/mobitool-faktoren-v2-1-25.html). The emissions include scope 3 emissions of the GHG protocol (for details, see [Compliance with the GHG Protocols](#heading-target)). 
+
+Mobility emissions depend on the mode of transport, such as car or bicycle, and the distance travelled. This distance may either be directly provided, or it may be computed from given start and stop locations using [distances.py](https://github.com/pledge4future/co2calculator/blob/dev/co2calculator/distances.py). In the latter case, the coordinates of the locations are retrieved using geocoding before the travel distance between the locations is computed (for details, see [Geocoding](#heading-target)).
 
 (heading-target)=
 ### Geocoding
