@@ -15,6 +15,7 @@ class EmissionFactors:
         self.emission_factors = pd.read_csv(
             f"{script_path}/../data/emission_factors.csv"
         )
+        self.column_names = self.emission_factors.columns
 
     def get(self, parameters: dict):
         """
@@ -25,12 +26,15 @@ class EmissionFactors:
         :rtype:
         """
         selected_factors = self.emission_factors
+
         for k, v in parameters.items():
-            if v is None:
+            # shortterm hack to make it work until co2 factors are updated
+            if not isinstance(v, int):
+                v = str(v.value)
+            if v is None or k not in self.column_names:
                 continue
-            selected_factors_new = selected_factors[
-                selected_factors[k].astype("str") == str(v.value)
-            ]
+
+            selected_factors_new = selected_factors[selected_factors[k] == v]
             selected_factors = selected_factors_new
             if selected_factors_new.empty:
                 raise ConversionFactorNotFound(
