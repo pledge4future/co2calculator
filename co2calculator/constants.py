@@ -7,11 +7,36 @@ import enum
 import iso3166
 import pandas as pd
 
+from dataclasses import dataclass
+
 KWH_TO_TJ = 277777.77777778
 
 DF_AIRPORTS = pd.read_csv(
     "https://davidmegginson.github.io/ourairports-data/airports.csv"
 )
+
+
+@dataclass
+class BudgetOnePointFiveDegrees:
+    """
+    Dataclass for budget for 1.5 degrees scenario
+
+    """
+
+    budget_per_person: float = 34.0
+    budget_per_person_and_year: float = 1.4
+    budget_per_person_and_year_long: float = 0.0038
+
+
+@dataclass
+class BudgetTwoDegrees:
+    """
+    Dataclass for budget for 2 degrees scenario
+    """
+
+    budget_per_person: float = 101.9
+    budget_per_person_and_year: float = 4.1
+    budget_per_person_and_year_long: float = 3.4
 
 
 class HeatingFuel(enum.Enum):
