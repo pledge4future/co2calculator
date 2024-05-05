@@ -23,6 +23,7 @@ Contents
    calculate/heating
    calculate/electricity
    calculate/emission_factors
+   api
 
 Indices and tables
 ==================
