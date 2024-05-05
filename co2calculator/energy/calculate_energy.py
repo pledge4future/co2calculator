@@ -1,6 +1,6 @@
 """Function colleciton to calculate energy type co2 emissions"""
 
-from ctypes import Union
+from typing import Union
 from co2calculator.constants import KWH_TO_TJ, Unit
 from co2calculator.data_handlers import ConversionFactors, EmissionFactors
 from co2calculator.parameters import (
