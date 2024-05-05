@@ -223,7 +223,7 @@
 221,global,transport,bus,mobitool,Stadtbus (13m),P.km,medium,local,diesel,kg/P.km,0.1338,
 222,global,transport,bus,mobitool,Stadtbus (18m),P.km,large,local,diesel,kg/P.km,0.0905,
 223,global,transport,bus,mobitool,Stadtbus (9m),P.km,small,local,diesel,kg/P.km,0.1716,
-224,global,transport,bus,mobitool,Reisebus,P.km,average,long-distance,diesel,kg/P.km,0.0465,
+224,global,transport,bus,mobitool,Reisebus,P.km,small,long-distance,diesel,kg/P.km,0.0465,
 225,global,transport,bus,mobitool,Trolleybus,P.km,average,local,electric,kg/P.km,0.0296,
 226,global,transport,car,mobitool,Personenkraftwagen,P.km,large,,cng,kg/P.km,0.1528,
 227,global,transport,car,mobitool,Personenkraftwagen,P.km,small,,cng,kg/P.km,0.1033,
@@ -307,3 +307,4 @@
 305,SK,electricity,,Carbon Footprint Ltd,Residual fuel mix factor,kWh,,,residual fuel mix,kg/kWh,0.1865,
 306,global,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy","Ferry, Foot passenger",P.km,,,,kg/P.km,0.01874,foot_passenger
 307,global,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy","Ferry, Car passenger",P.km,,,,kg/P.km,0.12952,car_passenger
+308,global,transport,bus,mobitool,Reisebus,P.km,large,long-distance,diesel,kg/P.km,0.0474,
