@@ -70,7 +70,9 @@ def calc_co2_electricity(
     if options is None:
         options = {}
     params = ElectricityParameters(**options)
-    emission_params = ElectricityEmissionParameters(**params)
+    emission_params = ElectricityEmissionParameters(
+        **params.electricity_emission_parameters
+    )
 
     # Get the co2 factor
     co2e = emission_factors.get(params.dict())
