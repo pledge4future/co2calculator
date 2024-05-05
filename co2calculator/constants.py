@@ -21,7 +21,7 @@ class HeatingFuel(enum.Enum):
     GAS = "gas"
     WOOD_PELLETS = "wood pellets"
     WOOD_CHIPS = "wood chips"
-    LPG = "liquid_gas"
+    LPG = "liquid gas"
 
 
 @enum.unique
