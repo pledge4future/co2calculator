@@ -6,7 +6,7 @@
 Welcome to co2calculator's documentation!
 =========================================
 
-**co2calculator** is a Python package to calculate work related CO2 emissions from heating and electricity consumption as well as business trips and commuting.
+The *co2calculator* can compute emissions caused by mobility, heating and electricity consumption. Emissions are given as CO<sub>2</sub> equivalents (CO<sub>2</sub>e).
 
 Contents
 ==================
