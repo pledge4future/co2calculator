@@ -24,7 +24,7 @@ from co2calculator.exceptions import ConversionFactorNotFound, EmissionFactorNot
             id="all optional arguments",
         ),
         pytest.param(
-            10, {"passengers": 1, "size": "small"}, 1.79, id="only 2 arguments'"
+            10, {"passengers": 1, "size": "average"}, 1.79, id="only 2 arguments'"
         ),
         pytest.param(10, {"passengers": 1}, 2.15, id="only passengers'"),
         pytest.param(10, {}, 2.15, id="empty options'"),
@@ -71,7 +71,7 @@ def test_calc_co2_motorbike(distance: float, options: dict, expected_emissions: 
             12.3,
             id="all options",
         ),
-        pytest.param(10, {"size": "medium"}, 0.42, id="size: 'medium'"),
+        pytest.param(10, {"size": "small"}, 0.42, id="size: 'small'"),
         pytest.param(10, {"occupancy": 20}, 0.92, id="occupancy: 20"),
         pytest.param(10, {"vehicle_range": "local"}, 0.39, id="local range"),
         pytest.param(
