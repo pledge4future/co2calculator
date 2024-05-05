@@ -24,7 +24,7 @@ Contents
    calculate/heating_electricity
    calculate/emission_factors
    calculate/transport_modes
-
+   api
 
 Indices and tables
 ==================
