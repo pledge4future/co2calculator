@@ -132,8 +132,14 @@ def calc_co2_trip(
     :return:    Emissions of the business trip in co2 equivalents.
     """
     if custom_emission_factor is not None:
+        print("Ignoring transportation mode as custom emission factor is set")
         return distance * custom_emission_factor
     else:
+        # check for invalid transportation mode
+        assert transportation_mode.lower() in (
+            item.value for item in TransportationMode
+        )
+        # pass the distance and options to the respective function
         calc_function = get_calc_function_from_transport_mode(transportation_mode)
         return calc_function(distance, options)
 
