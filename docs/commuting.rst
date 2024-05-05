@@ -53,12 +53,3 @@ motorbike.
 Tram, bicycle or pedelec commute
 --------------------------------
 For tram, bicylce or pedelec, no specifica have to be provided.
-
-
-Aggregating emissions to the group level
-----------------------------------------
-If it can be assumed that a representative sample (``n_participants``) of the entire group (``n_members``) have entered
-their commuting data, an estimate of the commuting emissions for the entire group can be obtained using the following
-function:
-
-.. autofunction:: co2calculator.calculate.commuting_emissions_group
