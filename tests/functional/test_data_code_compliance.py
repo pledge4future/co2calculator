@@ -4,28 +4,59 @@
 
 import pytest
 
-from co2calculator import HeatingFuel, emission_factors, ElectricityFuel
+from co2calculator import (
+    HeatingFuel,
+    emission_factors,
+    ElectricityFuel,
+    Size,
+    RangeCategory,
+    FlightClass,
+    FerryClass,
+    FlightRange,
+    BusTrainRange,
+)
 
 
 @pytest.mark.parametrize(
-    "column_name,enum,emission_category",
+    "column_name,enum,emission_category,subcategory",
     [
         pytest.param(
-            "fuel_type", HeatingFuel, "heating", id="fuel_type: 'HeatingFuel'"
+            "fuel_type", HeatingFuel, "heating", None, id="fuel_type: 'HeatingFuel'"
         ),
         pytest.param(
             "fuel_type",
             ElectricityFuel,
             "electricity",
+            None,
             id="fuel_type: 'ElectricityFuel'",
+        ),
+        pytest.param("size", Size, "transport", None, id="Size: 'Size'"),
+        pytest.param(
+            "range", BusTrainRange, "transport", "bus", id="range: 'BusTrainRange'"
+        ),
+        pytest.param(
+            "range", FlightRange, "transport", "plane", id="range: 'FlightRange'"
+        ),
+        pytest.param(
+            "seating", FlightClass, "transport", "plane", id="seating: 'FlightClass'"
+        ),
+        pytest.param(
+            "seating", FerryClass, "transport", "ferry", id="fuel_type: 'FerryClass'"
         ),
     ],
 )
-def test_enums_heating(column_name, enum, emission_category):
+def test_enums_heating(column_name, enum, emission_category, subcategory):
     """Test whether all values in the csv files are present in the enums"""
 
     # Get unique values of the size column
-    column_values = emission_factors.databases[emission_category][column_name].unique()
+    emission_factors_category = emission_factors.databases[emission_category]
+    if subcategory:
+        emission_factors_subcategory = emission_factors_category.loc[
+            emission_factors_category["subcategory"] == subcategory
+        ]
+        column_values = emission_factors_subcategory[column_name].unique()
+    else:
+        column_values = emission_factors_category[column_name].unique()
 
     # Check if all column values are present in the enum
     for v in column_values:
@@ -40,4 +71,4 @@ def test_enums_heating(column_name, enum, emission_category):
     for item in enum:
         assert (
             item.value in column_values
-        ), f"Column '{enum}' in emission_factors.csv does not contain value '{item.value}' of enum 'Size'"
+        ), f"Column '{column_name}' in emission_factors.csv does not contain value '{item.value}' of enum '{enum}'"

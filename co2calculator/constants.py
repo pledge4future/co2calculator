@@ -80,7 +80,6 @@ class FlightClass(str, enum.Enum):
     """Enum for flight classes"""
 
     ECONOMY = "economy_class"
-    PREMIUM_ECONOMY = "premium_economy_class"
     BUSINESS = "business_class"
     FIRST = "first_class"
     AVERAGE = "average"
@@ -99,9 +98,9 @@ class FerryClass(str, enum.Enum):
 class FlightRange(str, enum.Enum):
     """Enum for flight ranges"""
 
-    DOMESTIC = "domestic"
     SHORT_HAUL = "short-haul"
     LONG_HAUL = "long-haul"
+    AVERAGE = "average"
 
 
 @enum.unique
