@@ -14,6 +14,15 @@ from co2calculator import (
     FlightRange,
     BusTrainRange,
 )
+from co2calculator.parameters import (
+    CarEmissionParameters,
+    BusEmissionParameters,
+    TrainEmissionParameters,
+    FerryEmissionParameters,
+    MotorbikeEmissionParameters,
+    ElectricityEmissionParameters,
+    HeatingEmissionParameters,
+)
 
 
 @pytest.mark.parametrize(
@@ -44,7 +53,7 @@ from co2calculator import (
         ),
     ],
 )
-def test_enums_heating(column_name, enum, emission_category, subcategory):
+def test_compare_enums_with_data(column_name, enum, emission_category, subcategory):
     """Test whether all values in the csv files are present in the enums"""
 
     # Get unique values of the size column
@@ -71,3 +80,35 @@ def test_enums_heating(column_name, enum, emission_category, subcategory):
         assert (
             item.value in column_values
         ), f"Column '{column_name}' in emission_factors.csv does not contain value '{item.value}' of enum '{enum}'"
+
+
+@pytest.mark.parametrize(
+    "default_parameters",
+    [
+        pytest.param(CarEmissionParameters, id="car"),
+        pytest.param(BusEmissionParameters, id="bus"),
+        pytest.param(TrainEmissionParameters, id="train"),
+        pytest.param(FerryEmissionParameters, id="ferry"),
+        pytest.param(MotorbikeEmissionParameters, id="motorbike"),
+        pytest.param(HeatingEmissionParameters, id="heating"),
+    ],
+)
+def test_defaults(default_parameters):
+    """Test if default parameters are available in the csv files"""
+
+    # Get the emission factor for the default parameter combination
+    co2e = emission_factors.get(default_parameters().dict())
+    assert isinstance(
+        co2e, float
+    ), f"No emission factor found for default parameters of {default_parameters.__name__}"
+
+
+def test_defaults_electricity():
+    """Test if default parameters are available in the csv files"""
+
+    # Get the emission factor for the default parameter combination
+    default_parameters = ElectricityEmissionParameters(country_code="DE")
+    co2e = emission_factors.get(default_parameters.dict())
+    assert isinstance(
+        co2e, float
+    ), f"No emission factor found for default parameters of {default_parameters.__name__}"

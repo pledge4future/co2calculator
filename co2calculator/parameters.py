@@ -21,10 +21,10 @@ from typing import Union
 
 class TrainEmissionParameters(BaseModel):
 
-    category: TransportationMode = EmissionCategory.TRANSPORT
+    category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.TRAIN
     range: Union[BusTrainRange, str] = BusTrainRange.LONG_DISTANCE
-    size: Union[Size, str] = Size.AVERAGE
+    country_code: str = "global"
 
     @validator("range", allow_reuse=True)
     def check_range(cls, v):
@@ -33,17 +33,10 @@ class TrainEmissionParameters(BaseModel):
             v = v.lower()
         return BusTrainRange(v)
 
-    @validator("size", allow_reuse=True)
-    def check_size(cls, v):
-        if isinstance(v, str):
-            assert v.lower() in (item.value for item in Size)
-            v = v.lower()
-        return Size(v)
-
 
 class TramEmissionParameters(BaseModel):
 
-    category: TransportationMode = EmissionCategory.TRANSPORT
+    category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.TRAM
     size: Union[Size, str] = Size.AVERAGE
 
@@ -57,7 +50,7 @@ class TramEmissionParameters(BaseModel):
 
 class CarEmissionParameters(BaseModel):
 
-    category: TransportationMode = EmissionCategory.TRANSPORT
+    category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.CAR
     fuel_type: Union[CarFuel, str] = CarFuel.AVERAGE
     size: Union[Size, str] = Size.AVERAGE
@@ -80,7 +73,7 @@ class CarEmissionParameters(BaseModel):
 
 class PlaneEmissionParameters(BaseModel):
 
-    category: TransportationMode = EmissionCategory.TRANSPORT
+    category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.PLANE
     seating: Union[FlightClass, str] = FlightClass.AVERAGE
     range: Union[FlightRange, str]
@@ -103,7 +96,7 @@ class PlaneEmissionParameters(BaseModel):
 
 class FerryEmissionParameters(BaseModel):
 
-    category: TransportationMode = EmissionCategory.TRANSPORT
+    category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.FERRY
     seating: Union[FerryClass, str] = FerryClass.AVERAGE
 
@@ -117,11 +110,10 @@ class FerryEmissionParameters(BaseModel):
 
 class BusEmissionParameters(BaseModel):
 
-    category: TransportationMode = EmissionCategory.TRANSPORT
+    category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.BUS
     fuel_type: Union[BusFuel, str] = BusFuel.DIESEL
-    size: Union[Size, str] = Size.AVERAGE
-    occupancy: int = 50
+    size: Union[Size, str] = Size.SMALL
     range: Union[BusTrainRange, str] = BusTrainRange.LONG_DISTANCE
 
     @validator("fuel_type", allow_reuse=True)
@@ -148,7 +140,7 @@ class BusEmissionParameters(BaseModel):
 
 class MotorbikeEmissionParameters(BaseModel):
 
-    category: TransportationMode = EmissionCategory.TRANSPORT
+    category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.MOTORBIKE
     size: Union[Size, str] = Size.AVERAGE
 
@@ -164,6 +156,7 @@ class ElectricityEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.ELECTRICITY
     fuel_type: Union[ElectricityFuel, str] = ElectricityFuel.PRODUCTION_FUEL_MIX
+    country_code: str
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
@@ -177,6 +170,7 @@ class HeatingEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.HEATING
     fuel_type: Union[HeatingFuel, str] = HeatingFuel.GAS
+    country_code: str = "global"
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
