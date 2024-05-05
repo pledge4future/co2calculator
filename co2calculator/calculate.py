@@ -10,10 +10,8 @@ from co2calculator.mobility.calculate_mobility import (
     calc_co2_bicycle,
     calc_co2_bus,
     calc_co2_car,
-    calc_co2_ferry,
     calc_co2_motorbike,
     calc_co2_pedelec,
-    calc_co2_plane,
     calc_co2_train,
     calc_co2_tram,
 )
@@ -26,16 +24,10 @@ from .constants import (
     CarFuel,
     BusFuel,
     TrainFuel,
-    BusTrainRange,
-    FlightClass,
-    FerryClass,
-    ElectricityFuel,
-    HeatingFuel,
-    Unit,
     TransportationMode,
 )
 from .data_handlers import EmissionFactors, ConversionFactors
-
+from .distances import create_distance_request, get_distance, range_categories
 
 script_path = str(Path(__file__).parent)
 
