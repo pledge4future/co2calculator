@@ -14,9 +14,75 @@ from pydantic import ValidationError
 from co2calculator.exceptions import EmissionFactorNotFound
 
 
-@pytest.mark.skip(
-    reason="Failing right now, but units will change anyways. let's check after the co2factors are updated"
+@pytest.mark.parametrize(
+    "distance, transportation_mode,options,custom_emission_factor,expected_emissions",
+    [
+        pytest.param(100, "car", None, None, 21.5, id="basic car trip"),
+        pytest.param(
+            100, "car", None, 0.1, 10.0, id="car trip with custom emission factor"
+        ),
+    ],
 )
+def test_calc_co2_trip(
+    distance: float,
+    transportation_mode: str,
+    options: dict,
+    custom_emission_factor: float,
+    expected_emissions: float,
+):
+    """Test: Calculate car-trip emissions based on given distance.
+    Expect: Returns emissions and distance.
+    """
+    actual_emissions = candidate.calc_co2_trip(
+        distance=distance,
+        transportation_mode=transportation_mode,
+        options=options,
+        custom_emission_factor=custom_emission_factor,
+    )
+
+    assert actual_emissions == expected_emissions
+
+
+def test_calc_co2_trip_invalid_transportation_mode():
+    """Test: Calculate car-trip emissions with invalid transportation mode.
+    Expect: Test fails.
+    """
+    with pytest.raises(AssertionError):
+        candidate.calc_co2_trip(
+            distance=100,
+            transportation_mode="invalid",
+            options=None,
+            custom_emission_factor=None,
+        )
+
+
+def test_calc_co2_trip_invalid_options_for_transportation_mode():
+    """Test: Should raise exception if options are not valid for transportation mode.
+    Expect: Test fails.
+    """
+    with pytest.raises(ValueError):
+        candidate.calc_co2_trip(
+            distance=100,
+            transportation_mode="car",
+            options={"size": "big"},
+            custom_emission_factor=None,
+        )
+
+
+def test_calc_co2_trip_ignore_error_on_custom_emission_factor():
+    """Test: Should ignore invalid transportation mode if custom emission factor is set"""
+    result = candidate.calc_co2_trip(
+        distance=100,
+        transportation_mode="invalid",
+        options=None,
+        custom_emission_factor=0.1,
+    )
+    assert result == 10
+
+
+# @pytest.mark.skip(
+#    reason="Failing right now, but units will change anyways. let's check after the co2factors are updated"
+# )
 def test_heating_woodchips():
     """Test co2e calculation for heating: woodchips"""
     # Given parameters
@@ -121,51 +187,3 @@ def test_range_categories_negative_distance():
     """
     with pytest.raises(ValueError):
         candidate.range_categories(-20)
-
-
-@pytest.mark.skip(
-    reason="Failing right now, but units will change anyways. let's check after the co2factors are updated"
-)
-@pytest.mark.parametrize(
-    "transportation_mode, expected_method",
-    [
-        pytest.param("car", "calc_co2_car", id="Car"),
-        pytest.param("bus", "calc_co2_bus", id="Bus"),
-        pytest.param("train", "calc_co2_train", id="Train"),
-        pytest.param("plane", "calc_co2_plane", id="Plane"),
-        pytest.param("ferry", "calc_co2_ferry", id="Ferry"),
-    ],
-)
-def test_calc_co2_businesstrip(
-    mocker: MockerFixture, transportation_mode: str, expected_method: str
-) -> None:
-    """Scenario: calc_co2_businesstrip is the interface to calculate co2emissions
-    for different types of transportation modes.
-    Test: Business trip calculation interface
-    Expect: co2calculations for specific transportation mode is called
-    """
-    # Patch the expected method to assert if it was called
-    patched_method = mocker.patch.object(
-        candidate, expected_method, return_value=(0.42, 42)
-    )
-
-    # Patch other methods called by the test candidate
-    mocker.patch.object(
-        candidate, "range_categories", return_value=("very short haul", "below 500 km")
-    )
-
-    # Call and assert
-    candidate.calc_co2_businesstrip(
-        transportation_mode=transportation_mode,
-        start=None,
-        destination=None,
-        distance=42,
-        size=None,
-        fuel_type=None,
-        occupancy=None,
-        seating=None,
-        passengers=None,
-        roundtrip=False,
-    )
-
-    patched_method.assert_called_once()
