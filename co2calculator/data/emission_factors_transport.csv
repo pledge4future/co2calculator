@@ -1,4 +1,4 @@
-,country_code,category,subcategory,source,name,unit,size_class,range,fuel_type,co2e_unit,co2e,seating
+,country_code,category,subcategory,source,name,unit,size,range,fuel_type,co2e_unit,co2e,seating
 1,global,transport,bus,mobitool,Stadtbus (9m),P.km,small,local,cng,kg/P.km,0.1464,
 2,global,transport,bus,mobitool,Stadtbus (13m),P.km,medium,local,cng,kg/P.km,0.1034,
 3,global,transport,bus,mobitool,Stadtbus (18m),P.km,large,local,cng,kg/P.km,0.0709,
