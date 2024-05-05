@@ -12,9 +12,7 @@ script_path = str(Path(__file__).parent)
 class EmissionFactors:
     def __init__(self):
         """Init"""
-        self.emission_factors = pd.read_csv(
-            f"{script_path}/../data/emission_factors.csv"
-        )
+        self.emission_factors = pd.read_csv(f"{script_path}/data/emission_factors.csv")
         self.column_names = self.emission_factors.columns
 
     def get(self, parameters: dict):
@@ -60,14 +58,14 @@ class Airports:
 class DetourFactors:
     def __init__(self):
         """Init"""
-        self.detour_factors = pd.read_csv(f"{script_path}/../data/detour.csv")
+        self.detour_factors = pd.read_csv(f"{script_path}/data/detour.csv")
 
 
 class ConversionFactors:
     def __init__(self):
         """Init"""
         self.conversion_factors = pd.read_csv(
-            f"{script_path}/../data/conversion_factors_heating.csv"
+            f"{script_path}/data/conversion_factors_heating.csv"
         )
 
     def get(self, fuel_type, unit):
