@@ -66,11 +66,13 @@ class EmissionFactors:
         # Select table for emission category
         candidates = self.databases[emission_category]
         for k, v in parameters.items():
+            if isinstance(v, int):
+                continue
             if not isinstance(v, str):
                 v = str(v.value)
             if v is None or k not in candidates.columns:
                 continue
-            new_candidates = candidates[candidates[k] == v.value]
+            new_candidates = candidates[candidates[k] == v]
             if new_candidates.empty:
                 return new_candidates
             candidates = new_candidates

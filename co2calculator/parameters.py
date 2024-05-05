@@ -15,6 +15,7 @@ from .constants import (
     ElectricityFuel,
     HeatingFuel,
     EmissionCategory,
+    CountryCode2,
 )
 from typing import Union
 
@@ -156,7 +157,7 @@ class ElectricityEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.ELECTRICITY
     fuel_type: Union[ElectricityFuel, str] = ElectricityFuel.PRODUCTION_FUEL_MIX
-    country_code: str
+    country_code: CountryCode2
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
