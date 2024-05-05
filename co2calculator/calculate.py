@@ -20,7 +20,6 @@ from co2calculator.mobility.calculate_mobility import (
 
 from ._types import Kilogram, Kilometer
 from .constants import (
-    KWH_TO_TJ,
     Size,
     CarFuel,
     BusFuel,
@@ -68,9 +67,7 @@ def calc_co2_electricity(
     # Get the co2 factor
     co2e = emission_factors.get(params.dict())
 
-    # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
-    # so consumption needs to be converted to TJ
-    return consumption * energy_share / KWH_TO_TJ * co2e
+    return consumption * energy_share * co2e
 
 
 def calc_co2_heating(
@@ -110,9 +107,7 @@ def calc_co2_heating(
     else:
         consumption_kwh = consumption
 
-    # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
-    # so consumption needs to be converted to TJ
-    return consumption_kwh * area_share / KWH_TO_TJ * co2e
+    return consumption_kwh * area_share / co2e
 
 
 def calc_co2_businesstrip(

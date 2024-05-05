@@ -7,7 +7,6 @@ import enum
 import iso3166
 import pandas as pd
 
-KWH_TO_TJ = 277777.77777778
 
 DF_AIRPORTS = pd.read_csv(
     "https://davidmegginson.github.io/ourairports-data/airports.csv"
