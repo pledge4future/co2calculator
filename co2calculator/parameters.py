@@ -162,8 +162,8 @@ class MotorbikeEmissionParameters(BaseModel):
 
 class ElectricityEmissionParameters(BaseModel):
 
-    category: TransportationMode = EmissionCategory.ELECTRICITY
-    fuel_type: Union[Size, str] = ElectricityFuel.PRODUCTION_FUEL_MIX
+    category: EmissionCategory = EmissionCategory.ELECTRICITY
+    fuel_type: Union[ElectricityFuel, str] = ElectricityFuel.PRODUCTION_FUEL_MIX
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
@@ -175,8 +175,8 @@ class ElectricityEmissionParameters(BaseModel):
 
 class HeatingEmissionParameters(BaseModel):
 
-    category: TransportationMode = EmissionCategory.HEATING
-    fuel_type: Union[Size, str] = HeatingFuel.GAS
+    category: EmissionCategory = EmissionCategory.HEATING
+    fuel_type: Union[HeatingFuel, str] = HeatingFuel.GAS
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):

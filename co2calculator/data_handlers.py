@@ -10,15 +10,13 @@ script_path = str(Path(__file__).parent)
 
 
 class EmissionFactors:
-    def __init__(self):
+    def __init__(self, data_dir=script_path):
         """Init"""
         self.electricity = pd.read_csv(
-            f"{script_path}/data/emission_factors_electricity.csv"
+            f"{data_dir}/data/emission_factors_electricity.csv"
         )
-        self.heating = pd.read_csv(f"{script_path}/data/emission_factors_heating.csv")
-        self.transport = pd.read_csv(
-            f"{script_path}/data/emission_factors_transport.csv"
-        )
+        self.heating = pd.read_csv(f"{data_dir}/data/emission_factors_heating.csv")
+        self.transport = pd.read_csv(f"{data_dir}/data/emission_factors_transport.csv")
 
         self.databases = {
             "electricity": self.electricity,
@@ -70,7 +68,7 @@ class EmissionFactors:
         for k, v in parameters.items():
             if v is None or k not in candidates.columns:
                 continue
-            new_candidates = candidates[candidates[k] == v]
+            new_candidates = candidates[candidates[k] == v.value]
             if new_candidates.empty:
                 return new_candidates
             candidates = new_candidates
@@ -87,16 +85,16 @@ class Airports:
 
 
 class DetourFactors:
-    def __init__(self):
+    def __init__(self, data_dir=script_path):
         """Init"""
-        self.detour_factors = pd.read_csv(f"{script_path}/data/detour.csv")
+        self.detour_factors = pd.read_csv(f"{data_dir}/data/detour.csv")
 
 
 class ConversionFactors:
-    def __init__(self):
+    def __init__(self, data_dir=script_path):
         """Init"""
         self.conversion_factors = pd.read_csv(
-            f"{script_path}/data/conversion_factors_heating.csv"
+            f"{data_dir}/data/conversion_factors_heating.csv"
         )
 
     def get(self, fuel_type, unit):
