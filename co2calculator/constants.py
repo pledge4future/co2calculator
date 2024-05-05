@@ -40,17 +40,27 @@ class ElectricityFuel(str, enum.Enum):
 
 
 @enum.unique
-class CarBusFuel(str, enum.Enum):
-    """Enum for bus fuel types"""
+class CarFuel(str, enum.Enum):
+    """Enum for car fuel types"""
 
     ELECTRIC = "electric"
     HYBRID = "hybrid"
-    PLUGIN_HYBRID = "plug-in hybrid"
+    PLUGIN_HYBRID = "plug-in_hybrid"
     CNG = "cng"
     GASOLINE = "gasoline"
     DIESEL = "diesel"
     AVERAGE = "average"
+
+
+@enum.unique
+class BusFuel(str, enum.Enum):
+    """Enum for bus fuel types"""
+
+    ELECTRIC = "electric"
+    DIESEL = "diesel"
+    AVERAGE = "average"
     HYDROGEN = "hydrogen"
+    CNG = "cng"
 
 
 @enum.unique
@@ -152,6 +162,20 @@ class Unit(str, enum.Enum):
     KG = "kg"
     L = "l"
     M3 = "m^3"
+
+
+@enum.unique
+class EmissionCategory(str, enum.Enum):
+    HEATING = "heating"
+    ELECTRICITY = "electricity"
+    TRANSPORT = "transport"
+
+
+@enum.unique
+class RoutingProfile(str, enum.Enum):
+    CAR = "driving-car"
+    CYCLING = "cycling-regular"
+    WALK = "foot-walking"
 
 
 class CountryCode2(str):

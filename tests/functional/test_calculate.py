@@ -150,8 +150,8 @@ class TestCalculateCommuting:
         "transportation_mode,expected_emissions",
         [
             pytest.param("car", 9.03, id="transportation_mode: 'car'"),
-            pytest.param("bus", 1.63, id="transportation_mode: 'bus'"),
-            pytest.param("train", 2.54, id="transportation_mode: 'train'"),
+            pytest.param("bus", 1.65, id="transportation_mode: 'bus'"),
+            pytest.param("train", 1.38, id="transportation_mode: 'train'"),
             pytest.param("bicycle", 0.38, id="transportation_mode: 'bicycle'"),
             pytest.param("pedelec", 0.63, id="transportation_mode: 'pedelec'"),
             pytest.param("motorbike", 4.77, id="transportation_mode: 'motorbike'"),

@@ -23,8 +23,10 @@ sys.path.insert(0, os.path.abspath(".."))
 # -- Project information -----------------------------------------------------
 
 project = "co2calculator"
-copyright = "2022, Christina Ludwig, Veit Ulrich, Hannah Weiser"
-author = "Christina Ludwig, Veit Ulrich, Hannah Weiser"
+copyright = (
+    "2024, Christina Ludwig, Veit Ulrich, Hannah Weiser, Sarah Lohr, Fabian Kneissl"
+)
+author = "Christina Ludwig, Veit Ulrich, Hannah Weiser, Sarah Lohr, Fabian Kneissl"
 
 # The full version, including alpha/beta/rc tags
 release = "0.1.0"
@@ -41,27 +43,47 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.viewcode",
+    "sphinx.ext.autosummary",
+    "myst_parser",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
+
+# generate autosummary
+autosummary_generate = True
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-# html_theme = "alabaster"
-html_theme = "nature"
+html_theme = "alabaster"
+
+html_theme_options = {
+    "body_max_width": "none",
+    "page_width": "80%",
+    "sidebar_width": "250px",
+    "fixed_sidebar": "true",
+    "github_button": "true",
+    "github_user": "pledge4future",
+    "github_repo": "co2calculator",
+    "show_powered_by": "true",
+    "sidebar_header": "#f15e44",
+    "narrow_sidebar_bg": "#f15e44",
+    "font_family": "montserrat",
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+html_css_files = [
+    "css-style.css",
+]
 html_logo = "Final logo.svg"

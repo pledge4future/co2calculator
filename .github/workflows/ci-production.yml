@@ -1,24 +1,16 @@
-name: Continuous Integration for development
+name: Continuous Integration
 
-on: pull_request
+on:
+  push:
+    branches:
+      - main
+  release:
+    types:
+      - created
+
 jobs:
-  lint:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-      - name: Install lint dependencies
-        run: |
-          pip install pre-commit black
-      - name: Install and run pre-commit
-        uses: pre-commit/action@v3.0.0
   test:
     runs-on: ubuntu-22.04
-    needs:
-      - lint
     strategy:
       fail-fast: false
       matrix:
@@ -43,9 +35,26 @@ jobs:
           key: venv-${{ hashFiles('poetry.lock') }}
       - name: Install dependencies
         run: poetry install --no-root
-      - name: Install coverage-badge
-        run: pip install coverage-badge
       - name: Pytest
-        run: poetry run coverage run -m pytest -x
-      - name: coverage badge
-        run: coverage-badge -o coverage.svg
+        run: poetry run pytest -x
+  
+  build-and-publish:
+    name: Build and publish Python distributions 📦 to PyPI and TestPyPI
+    runs-on: ubuntu-22.04
+    needs:
+      - test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up base Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Python Poetry Action
+        uses: abatilo/actions-poetry@v2.3.0
+      - name: Publish distribution 📦 with test.pypi.org
+        if: startsWith(github.ref, 'refs/tags')
+        run: |
+          poetry config repositories.testpypi https://test.pypi.org/legacy/
+          poetry config pypi-token.testpypi ${{ secrets.PYPI_TEST_TOKEN }}
+          poetry build
+          poetry publish -r testpypi

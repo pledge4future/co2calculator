@@ -8,22 +8,22 @@ Welcome to co2calculator's documentation!
 
 The *co2calculator* can compute emissions caused by mobility, heating and electricity consumption. Emissions are given as CO2 equivalents (CO2e).
 
+Contents
+==================
 
-.. note::
-
-   This project is under active development.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
    :titlesonly:
    :includehidden:
 
-   calculate/heating_electricity
-   businesstrips
-   commuting
+   documentation
+   tutorial
+   mobility
+   calculate/heating
+   calculate/electricity
    calculate/emission_factors
-
+   api
 
 Indices and tables
 ==================
