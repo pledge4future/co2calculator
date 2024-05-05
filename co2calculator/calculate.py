@@ -17,6 +17,7 @@ from co2calculator.mobility.calculate_mobility import (
     calc_co2_train,
     calc_co2_tram,
 )
+from co2calculator.util import get_calc_function_from_transport_mode
 
 from ._types import Kilogram, Kilometer
 from .constants import (
@@ -113,6 +114,28 @@ def calc_co2_heating(
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
     return consumption_kwh * area_share / KWH_TO_TJ * co2e
+
+
+def calc_co2_trip(
+    distance: Kilometer | None,
+    transportation_mode: TransportationMode,
+    custom_emission_factor: Kilogram | None = None,
+    options: dict = None,
+) -> Kilogram:
+    """Function to compute emissions for a trip based on distance
+
+    :param distance: Distance travelled in km
+    :param transportation_mode: mode of transport. For options, see TransportationMode enum.
+    :param custom_emission_factor: custom emission factor in kg/km. If provided, this will be used instead of the included emission factors.
+    :param options: options for the trip. Type must match transportation mode.
+
+    :return:    Emissions of the business trip in co2 equivalents.
+    """
+    if custom_emission_factor is not None:
+        return distance * custom_emission_factor
+    else:
+        calc_function = get_calc_function_from_transport_mode(transportation_mode)
+        return calc_function(distance, options)
 
 
 def calc_co2_businesstrip(
