@@ -1,75 +1,118 @@
 # Methodology
 
-The *co2calculator* can compute emissions caused by four big areas of the work life: Electricity, Heating, Business trips and Commuting. Emissions are given as CO<sub>2</sub> equivalents (CO<sub>2</sub>e). 
+The *co2calculator* can compute emissions caused by mobility, heating and electricity consumption. Emissions are given as CO<sub>2</sub> equivalents (CO<sub>2</sub>e). 
 
-Business trips and field trips are assessed on an individual level whereas heating and electricity are assessed once for the entire research group.
+```{image} img/Workflow_figure_co2_calculator.drawio.png
+:alt: workflow figure co2calculator
+:class: bg-primary
+:width: 600px
+:align: center
+```
+
+## 1 General information
+### What are CO<sub>2</sub>e emissions?
+
+Anthropogenic climate change is caused by greenhouse gases, such as carbon dioxide (CO<sub>2</sub>), methane (CH<sub>4</sub>), nitrous oxides (N<sub>2O</sub>) and others. The molecules of these gases contribute differently to global warming. For example, the impact of one methane molecule is 21 times higher than the impact caused by one carbon dioxide molecule ([Moss et al. 2000](https://animres.edpsciences.org/articles/animres/abs/2000/03/z0305/z0305.html)). This is why the impact of different greenhouse gases is usually converted to the equivalent impact that carbon dioxide molecules would have, resulting in CO<sub>2</sub>e equivalents as a standard unit ([Gohar & Shine 2007](https://rmets.onlinelibrary.wiley.com/doi/10.1002/wea.103)). The basic formula for a consumption value {math}`c` and an emission factor {math}`\epsilon` is:
+
+
+### Sources
+
+```{math}
+y_{co_2} = \epsilon \cdot c
+```
+
+CO<sub>2</sub>e emissions are quantified in kilograms. The unit of consumption values depend on the specific activity. For heating and electricity, the input value is the consumption in kilowatt-hours (kWh), and for mobility, it is the distance travelled in kilometers (km).
+
+### Emission factor sources and uncertainties
 
 The CO<sub>2</sub>e emissions are calculated using emission factors from different sources:
-- [Probas](https://www.probas.umweltbundesamt.de/php/index.php): electricity, heating, most cars, buses, trains
-- [UBA (2021). "Umweltfreundlich mobil"](https://www.umweltbundesamt.de/en/publikationen/umweltfreundlich-mobil): bicycles, pedelecs, trams
-- [GOV.UK (2020). Greenhouse gas reporting: conversion factors 2020](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2020): planes, ferries, electric cars, motorbikes
+- Electricity: [carbon footprint (2023). International electricity factors.](https://www.carbonfootprint.com/international_electricity_factors.html)
+- Mobility: [mobitoool (2023). mobitool-Faktoren v3.0](https://www.mobitool.ch/de/tools/mobitool-faktoren-v2-1-25.html)
+- Heating: [GOV.UK (2023). Greenhouse gas reporting: conversion factors 2023](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023)
 
-The specific emission factors for different activities are collected in [this emission factor table](https://github.com/pledge4future/co2calculator/blob/dev/data/emission_factors.csv). 
+The specific emission factors for different activities are collected in [this emission factor table](https://github.com/pledge4future/co2calculator/blob/main/data/emission_factors.csv).
 
-The basic formula is:
-`co2 emissions = consumption * emission factor` 
+Several data sources for emission factors are available with differences in their level of detail (e.g. occupancy rates of vehicles, car sizes...), geographic resolution (e.g. national, sub-national...) and up-to-dateness with resulting implications for their within- and across-country comparability.
+With the selected sources, we aim at providing reliable and user-friendly emission calculations that are comparable across countries, most recent and that come along with acceptable user efforts. When comparisons within countries or more detailed heating emission calculations are required, we suggest to rely on national sources and to provide custom emission factors as district heating can vary significantly across district heating networks within a country. Similarly, while emission factors for most public and private transport are globally comparable, those for electrically powered trams or trains vary significantly across countries. For possible more detailed emission factors, see [Geographical coverage](#geographical-coverage).
+
+(compliance-with-the-ghg-protocols)=
+### Compliance with the GHG Protocols
+
+The Greenhouse Gas (GHG) Protocol Corporate Standards provide a globally used framework to measure greenhouse gas emissions ([Greenhouse Gas Protocol 2024](https://ghgprotocol.org/)). They account for three scopes:
+* Scope 1 emissions are direct emissions from sources that are owned or controlled by the reporting entity, such as emissions from combustion in owned vehicles or boilers. 
+* Scope 2 emissions are indirect emissions caused by the generation of purchased or consumed electricity, heating, cooling or steam.
+* Scope 3 emissions are indirect emissions other than those captured in scope 3. These include all other emissions generated in the life cycle of the product, including production and disposal.
+
+For electricity and mobility, the *co2calculator* computes emissions based on the whole life cycle of a product, i.e. including scope 3 emissions. For heating, scope 1 emissions are caculated.
+
+(geographical-coverage)=
+### Geographical coverage
+The *co2calculator* can compute heating and mobility CO<sub>2</sub>e emissions for the whole globe. For electricity, emissions of production mixes can be calculated for the whole globe and residual mixes for most European countries.
+
+Sub-national electricity emission factors for the USA, Canada and Australia are available on [carbon footprint (2023). International electricity factors.](https://www.carbonfootprint.com/docs/2023_07_international_factors_release_11.xlsx). Further sub-national emission factors for the USA are also available on [EPA (2023)](https://www.epa.gov/system/files/documents/2023-03/ghg_emission_factors_hub.pdf). Detailed emission factors specifically for Germany can be derived from [ProBas](https://www.probas.umweltbundesamt.de/). Detailed emission factors specifically for France are available on [Base Carbone (2023)](https://data.ademe.fr/datasets/base-carboner). 
+
+Country-specific emission factors for Switzerland, Austria, Germany, France and Italy for eletric trams and trains are provided by [mobitoool (2023). mobitool-Faktoren v3.0](https://www.mobitool.ch/de/tools/mobitool-faktoren-v2-1-25.html).
 
 
 ## 1 Electricity
 
-For electricity the user can select between the German electricity mix or solar power. The German electricity mix applies, if the research institute has a regular electricity contract. Solar power is applicable, if the institute uses self-generated solar power. The user is asked for the annual electricity consumption c [kWh] which is then used to calculate the CO<sub>2</sub> equivalents [kg/TJ]. Since the emission factors for heating and electricity in the ProBas database apply for a consumption of 1 TJ, the consumption needs to be converted from kWh to TJ with a conversion factor of 277777.7778.
+Electricity CO<sub>2</sub>e emissions can either be calculated from country-specific production mixes or, when available, residual mixes ([Carbon Footprint 2023](https://www.carbonfootprint.com/international_electricity_factors.html)). Production mixes are the mix of fuels used by local power stations and, therefore, the basis for location-based reporting. Residual mixes are electricity mixes after removing energy from specific (e.g. green or renewable) tariffs. These values can thus be used for emission accounting when the user has not bought energy from a specific mix of fuels. Emission factors rely on total or, respectively, residual production fuel mixes, which include scope 2 and scope 3 emissions of the GHG protocol (for details, see [Compliance with the GHG Protocols](#compliance-with-the-ghg-protocols)). 
+Alternatively, users can provide specific emission factors, for example, when they use green or renewable tariffs. 
 
-### Defining a share of electricity use
+Consumption must be provided in kilowatt-hours (kWh). The returned CO<sub>2</sub>e emissions are quantified in kilograms. 
 
-If the electricity consumption is only known for a building or building complex and the group occupies only parts of the building and uses only parts of the appliances, the total consumption and an estimate of the share of energy use can be provided.
+
+### Calculation of a share of electricity use
+
+If the electricity consumption is only known for a building or building complex and emissions should only be computed for parts of the building, the total consumption and an estimate of the share of energy use (approximated from the share of the building area) can be provided.
+
 
 ## 2 Heating
 
-The user is asked about the annual consumption and the primary energy source for heating, based on which the CO2e emissions are determined. Heating consumption can be provided in kWh, or in other units, depending on the fuel type (see this [conversion table](https://github.com/pledge4future/co2calculator/blob/dev/data/conversion_factors_heating.csv)):
-- Oil: l
-- Liquid gas, Coal, Pellet, Woodchips: kg
-- Gas: m<sup>3</sup>
+Heating CO<sub>2</sub>e emissions depend on the type of burned fuel. Fuel types may be, for example, oil, gas, coal or biogas. The emissions are calculated using emission factors from ([GOV.UK 2023](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023)). 
+The provided emission factors reflect scope 1 emissions of the GHG protocol (for details, see [Compliance with the GHG Protocols](#compliance-with-the-ghg-protocols)).
+As we only have values at country level, we note that district heating varies considerably between district heating networks within countries.
 
-The conversion factors are retrieved from:
-- [BAFA (2020): Merkblatt zur Ermittlung des Gesamtenergieverbrauchs](https://www.bafa.de/SharedDocs/Downloads/DE/Energie/ea_ermittlung_gesamtenergieverbrauch.html)
-- [Krajnc, N. (2015): Wood fuels handbook, FAO](https://agris.fao.org/agris-search/search.do?recordID=XF2017001919)
+Consumption must be provided in kilowatt-hours (kWh). The returned CO<sub>2</sub>e emissions are quantified in kilograms. 
 
-The emission factors depend on the fuel type. Fuel types may be oil, gas, liquid gas, electricity, coal, district heating, different types of heat pumps (ground, air, water), pellet, woodchips and solar.
+### Calculation of a share of heating consumption
 
-### Defining a share of heating consumption
+If the heating consumption is only known for a building or building complex and emissions should only be computed for parts of the building, the total consumption and an estimate of the share of energy use (approximated from the share of the building area) can be provided.
 
-If the heating consumption is only known for a building or building complex and the group occupies only parts of the building, the total consumption and an estimate of the share of the heating consumption can be provided.
 
-## 3 Business trips
+## 3 Mobility
 
-The `co2calculator` allows to quantify the emissions for individual business trips for different modes of transport. The CO<sub>2</sub> equivalent is a function of the distance travelled in km. This distance may either be directly provided, or it may be computed from given start and stop locations using [distances.py](https://github.com/pledge4future/co2calculator/blob/dev/co2calculator/distances.py). In the latter case, the coordinates of the locations have to be retrieved by geocoding and then the travel distance between the locations is computed. Next to the distance or the locations, the user defines the mode of transport and its specifica.
+CO<sub>2</sub>e emissions from the mobility sector are calculated using emission factors from ([mobitoool 2023](https://www.mobitool.ch/de/tools/mobitool-faktoren-v2-1-25.html)). The emissions include scope 3 emissions of the GHG protocol (for details, see [Compliance with the GHG Protocols](#compliance-with-the-ghg-protocols)). For public transport, the emission factors assume certain occupancies. For private transport, an occupancy of one person is assumed. Further details can be found in ([Sacchi & Bauer 2023)](https://doi.org/10.5281/zenodo.5156043)).
 
+Mobility emissions depend on the mode of transport, such as car or bicycle, and the distance travelled in kilometers (km). This distance may either be directly provided, or it may be computed from given start and stop locations using [distances.py](https://github.com/pledge4future/co2calculator/blob/main/co2calculator/distances.py). In the latter case, the coordinates of the locations are retrieved using geocoding before the travel distance between the locations is computed (for details, see [Geocoding](#geocoding)).
+
+(geocoding)=
 ### Geocoding
 
-Geocoding is done using the [openrouteservice](https://openrouteservice.org/dev/#/api-docs) geocoding service, which is built on top of the [Pelias](https://github.com/pelias/pelias), a modular, open-source search engine for the world.
+Geocoding is done using the [openrouteservice](https://openrouteservice.org/dev/#/api-docs) geocoding service, which is built on top of [Pelias](https://github.com/pelias/pelias), a modular open-source search engine for the world.
 
-To find airports [geocoding_airport](https://github.com/pledge4future/co2calculator/blob/5ac4e624f742f404299276e013f0f0194e5ba6da/co2calculator/distances.py#L45), we use [Pelias search](https://github.com/pelias/documentation/blob/master/search.md) with the search text "Airplane" + **IATA-code**. To find train stations inside the EU [geocoding_train_stations](https://github.com/pledge4future/co2calculator/blob/5ac4e624f742f404299276e013f0f0194e5ba6da/co2calculator/distances.py#L156), we use the train station database of [Trainline EU](https://github.com/trainline-eu/stations). For train trips outside of the EU and other modes of transport, we use [structured geocoding](https://github.com/pelias/documentation/blob/master/structured-geocoding.md) ([geocoding_structured](https://github.com/pledge4future/co2calculator/blob/5ac4e624f742f404299276e013f0f0194e5ba6da/co2calculator/distances.py#L98)). The structured geocoding parameters are:
-- country: highest-level administrative division supported in a search. Full country name or two-/three-letter abbreviations supported
+To find airports, we use [ourairports-data](https://davidmegginson.github.io/ourairports-data/) to search by **IATA-code**. To find train stations inside the EU, we use the train station database of [Trainline EU](https://github.com/trainline-eu/stations). For train trips outside of the EU and other modes of transport, we use [structured geocoding](https://github.com/pelias/documentation/blob/master/structured-geocoding.md). The structured geocoding parameters are:
+- **country**: highest-level administrative division supported in a search. Full country name or two-/three-letter abbreviations supported
     - e.g., Germany / "DE" / "DEU"
-- region: first-level administrative divisions within countries, analogous to states and provinces in the US and Canada
+- **region**: first-level administrative divisions within countries, analogous to states and provinces in the US and Canada
     - e.g., Delaware, Ontario, Ardennes, Baden-Württemberg
-- county: administrative divisions between localities and regions
+- **county**: administrative divisions between localities and regions
     - e.g., Alb-Donau-Kreis
-- locality: equivalent to what are commonly referred to as cities (also municipalities)
+- **locality**: equivalent to what are commonly referred to as cities (also municipalities)
     - e.g., Bangkok, Caracas
-- borough: mostly known in the context of NY, may exist in other cities like Mexico City
+- **borough**: mostly known in the context of NY, may exist in other cities like Mexico City
     - e.g. Manhatten in NY, Iztapalapa in Mexico City
-- postalcode: postal code; note: This may not work for all countries!
+- **postalcode**: postal code; note: This may not work for all countries!
     - e.g., it works for the US and the UK, but not for Germany (and other countries)
-- address: street name, optionally also house number
-- neighbourhood: vernacular geographic entities that may not necessarily be official administrative divisions but are important nonetheless
+- **address**: street name, optionally also house number
+- **neighbourhood**: vernacular geographic entities that may not necessarily be official administrative divisions but are important nonetheless
     - e.g. Notting Hill in London, Le Marais in Paris
 
 ### Distance computation
 
 For cars and motorbikes, distances are computed with [openrouteservice](https://openrouteservice.org/dev/#/api-docs/directions) with the `profile='driving-car'`.
 
-For other modes of transport (airplane, ferry, train, bus), the distances between the locations as the crow flies are computed with the [haversine formula](https://github.com/pledge4future/co2calculator/blob/ffc12ec577cb18bf7c67b628ff7d9d79ffeef25b/co2calculator/distances.py#L20). Then, different detour coefficients or constants are applied.
+For other modes of transport (airplane, ferry, train, bus), the distances between the locations as the crow flies are computed with the haversine formula. Then, different [detour coefficients or constants](#detour) are applied.
 With the `roundtrip`-parameter (type: boolean), users can define if their trip is a roundtrip and if so, the distance will be doubled. 
 
 #### Detour
@@ -81,68 +124,26 @@ Mode of transport | Detour formula | Source
 Bus | x 1.5 | Adapted from [GES 1point5](https://labos1point5.org/ges-1point5), who were advised by Frédéric Héran (economist and urban planner).
 Train | x 1.2 | Adapted from [GES 1point5](https://labos1point5.org/ges-1point5), who were advised by Frédéric Héran (economist and urban planner).
 Plane | + 95 km | CSN EN 16258 - Methodology for calculation and declaration of energy consumption and GHG emissions of transport services (freight and passengers), European Committee for Standardization, Brussels, November 2012, [Méthode pour la réalisation des bilans d’émissions de gaz à effet de , Version 4](https://www.ecologie.gouv.fr/sites/default/files/Guide%20m%C3%A9thodologique%20sp%C3%A9cifique%20pour%20les%20collectivit%C3%A9s%20pour%20la%20r%C3%A9alisation%20du%20bilan%20d%E2%80%99%C3%A9missions%20de%20GES.pdf), p. 53
-Ferry | ??? | ???
+Ferry | x 1.0 | Currently no source
 
-### Specifica of the modes of transport
 
-Mode of transport | Fuel type | Size | Occupancy | Seating | Passengers | Range 
------------- | ------------- | ------------- | ------------ | ------------- | ------------- | -------------
-Car | [diesel, gasoline, cng, electric, hybrid, plug-in_hybrid, average] | [small, medium, large, average] | - | - | [1..9] | -
-Train | [diesel, electric, average] | - | - | - | - | - (assumes "long-distance")
-Bus | [diesel] | [medium, large, average] | in % [20, 50, 80, 100] | - | - | - (assumes "long-distance")
-Plane | - | - | - | [average, Economy class, Business class, Premium economy class, First class] | - | - (determined from distance)
-Ferry | - | - | - | [average, Foot passenger, Car passenger] | - | -
+## 4 Calculation of the carbon budget
 
-These specifica determine how high the emission factors (in kg CO<sub>2</sub>e/km) are. If these parameters are not specified, the default values in the following table are used:
+### The carbon budget
 
-### Default values of the specifica of the modes of transport
+According to the IPCC (2021), 
 
-Mode of transport | Fuel type | Size | Occupancy | Seating | Passengers | Range 
------------- | ------------- | ------------- | ------------ | ------------- | ------------- | -------------
-Car | [average] | [average] | - | - | [1] | -
-Motorbike | - | [average] | - | - | - | -
-Train | [average] | - | - | - | - | [long distance]
-Bus | [diesel] | [average] | [50 %] | - | - | [long distance]
-Plane | - | - | - | [average] | - | - (determined from distance)
-Ferry | - | - | - | [average] | - | -
+>"[the] term ‘carbon budget’ refers to the maximum amount of cumulative net global anthropogenic $CO_2$ emissions that would result in limiting global warming to a given level with a given probability, taking into account the effect of other anthropogenic climate forcers. This is referred to as the total carbon budget when expressed starting from the pre-industrial period, and as the remaining carbon budget when expressed from a recent specified date [...]. The remaining carbon budget indicates how much CO2 could still be emitted while keeping warming below a specific temperature level".
 
-### Range categories
+([IPCC 2021, p. 28](https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_SPM.pdf))
 
-Trips are categorized based on their ranges, which can be used later for analysis and visualization purposes. 
+### Calculation of the remaining carbon budget
 
-- Very short haul: < 500 km
-- Short distance: 500 - 1500 km
-- Medium distance: 1500 - 4000 km
-- Long distance: > 4000 km
+To calculate the remaining carbon budget, we followed an equal-per-capita approach. This means that the remaining global carbon budget is distributed equally among the world's population. First, we divide the amount of CO<sub>2</sub> that could still be emitted worldwide by the world population. For example, to reach the 1.5° goal, 300 billion tons of CO<sub>2</sub> could still be emitted. Taking into account that the population of the world is growing, we do not divide the amount of CO<sub>2</sub> by the current population of the world, but instead by the mean between the current population and the population projected for 2050. 2050 is when most of the countries plan to be carbon neutral. Finally, we divide the remaining carbon budget per person by the number of years left until carbon neutrality should be reached. 
 
-## 4 Commuting 
+The calculation of the carbon budget is summed up in the following table. Since Germany has pledged to be carbon neutral already by 2045, the remaining time is shorter and therefore the remaining carbon budget per person and year is a bit higher. You can view this remaining carbon budget as the average amount of carbon that could still be emitted per year and person until 2050 (or, respectively for Germany, 2045). 
 
-Emissions from commuting are also quantified individually for each mode of transport [calc_co2_commuting](https://github.com/pledge4future/co2calculator/blob/2e102a0971dda57423fe7aef9958d0e61358248c/co2calculator/calculate.py#L445). For a given mode of transport, the user provides the average weekly distance travelled in a given time period (`work_weeks`). Available transportation modes are:
-- Car
-- (Local) bus
-- (Local) train
-- Tram
-- Motorbike
-- Bicycle
-- Pedelec
-
-### Specifica of the modes of transport
-
-Again, the characteristics of the modes of transport influence the specific emission factors.
-
-Mode of transport | Fuel type | Size | Occupancy | Seating | Passengers | Range 
------------- | ------------- | ------------- | ------------ | ------------- | ------------- | -------------
-Car | [diesel, gasoline, cng, electric, average] | [small, medium, large, average] | - | - | [1..9] | -
-Motorbike | - | [small, medium, large, average] | - | - | - | -
-Train | [diesel, electric, average] | - | - | - | - | - (assumes "local")
-Bus | - | [medium, large, average] | in % [20, 50, 80, 100] | - | - | - (assumes "local")
-Tram | - | [medium, large, average] | in % [20, 50, 80, 100] | - | - | - (assumes "local")
-Bicycle | - | - | - | - | - | -
-Pedelec | - | - | - | - | - | -
-
-### Aggregating to the group's level
-
-If we assume that a representative sample (`n_participants`) of the entire group (`n_member`) entered their commuting data, we can obtain an estimate of the commuting emissions for the entire group:
-
-`group_co2e = aggr_co2 / n_participants * n_members` 
-with `aggr_co2` the sum of the CO<sub>2</sub>e emissions of all participants.
+Goal (°C) | Total carbon budget [t] | Carbon budget per person (2020-2050) [t] | Carbon budget per person and year in Germany (2020-2045) [t] | Carbon budget per person and year (2020-2050) [t]
+------------ | ------------- | ------------- | ------------ | -------------
+1.5 | 3 billion | 34.0 | 1.4 | 1.1
+2 | 9 billion | 101.9 | 4.1 | 3.4

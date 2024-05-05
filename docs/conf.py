@@ -68,7 +68,7 @@ html_theme = "alabaster"
 html_theme_options = {
     "body_max_width": "none",
     "page_width": "80%",
-    "sidebar_width": "350px",
+    "sidebar_width": "250px",
     "fixed_sidebar": "true",
     "github_button": "true",
     "github_user": "pledge4future",

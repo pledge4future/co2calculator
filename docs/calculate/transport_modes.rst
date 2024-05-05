@@ -4,7 +4,7 @@ Transportation modes
 
 .. contents::
 
-Business trips can be calculated for different modes of transport.
+Trips can be calculated for different modes of transport.
 The overview here summarizes, which parameters influence the carbon emission intensity of a trip for the different transportation modes.
 The specific emission factors for different configurations (e.g., vehicle size, fuel type, etc.) are documented under
 :doc:`Emission factors <emission_factors>`.
@@ -12,24 +12,32 @@ The specific emission factors for different configurations (e.g., vehicle size, 
 Car trip
 --------
 The quantity of CO2e emitted by a car trip depends on the ``fuel_type`` (average, cng, diesel, electric, gasoline,
-hybrid, hydrogen, plug-in_hybrid), car ``size`` (average, small, medium, large) and the number of ``passengers``.
+hybrid, plug-in_hybrid), car ``size`` (average, small, medium, large) and the number of ``passengers``.
 
 Bus trip
 --------
-The quantity of CO2e emitted by a bus trip depends on the bus ``size`` (average, medium, large) and the
-``occupancy`` in % (20, 50, 80, 100). The ``vehicle_range`` is set to long-distance automatically.
+The quantity of CO2e emitted by a bus trip depends on the bus ``size`` (average, small, medium, large)and the ``vehicle_range`` (local, long-distance).
 
 Train trip
 ----------
-The quantity of CO2e emitted by a train trip depends on the ``fuel_type`` (average, electric, diesel).
-The ``vehicle_range`` is set to long-distance automatically.
+The quantity of CO2e emitted by a train trip depends on the ``vehicle_range`` (local, long-distance).
 
 Plane trip
 ----------
 The quantity of CO2e emitted by a plane trip depends on the
-``seating_class`` (average, economy_class, business_class, premium_economy_class, first_class).
+``seating_class`` (average, economy_class, business_class, first_class).
 
 Ferry trip
 ----------
 The quantity of CO2e emitted by a ferry trip depends on the
 ``seating_class`` (average, Foot passenger, Car passenger).
+
+
+Motorbike trip
+--------------
+The quantity of CO2e emitted by a motorbike trip depends on the ``size`` (average, small, medium, large) of the
+motorbike.
+
+Tram, trolleybus, bicycle or pedelec trip
+-----------------------------------------
+For tram, trolleybus, bicylce or pedelec, no specifica have to be provided.
