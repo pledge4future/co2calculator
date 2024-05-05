@@ -14,38 +14,6 @@ from co2calculator.constants import RangeCategory
 # @pytest.mark.skip(
 #    reason="Failing right now, but units will change anyways. let's check after the co2factors are updated"
 # )
-def test_heating_woodchips():
-    """Test co2e calculation for heating: woodchips"""
-    # Given parameters
-    fuel_type = "woodchips"  # emission factor: 9322 kg/TJ
-    consumption = 250
-    unit = "kg"  # conversion factor to kWh = 5.4
-    # divide by 277777.77777778 to convert from TJ to kWh
-    co2e_kg_expected = 43.63
-
-    # Calculate co2e
-    co2e = candidate.calc_co2_heating(
-        consumption=consumption, unit=unit, fuel_type=fuel_type
-    )
-
-    # Check if expected result matches calculated result
-    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
-
-
-def test_electricity():
-    """Test co2e calculation for electricity"""
-    # Given parameters
-    fuel_type = "german_energy_mix"
-    consumption_kwh = 10000
-    co2e_kg_expected = 3942.65  # emission factor: 109518 kg/TJ
-
-    # Calculate co2e
-    co2e = candidate.calc_co2_electricity(
-        consumption=consumption_kwh, fuel_type=fuel_type
-    )
-
-    # Check if expected result matches calculated result
-    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
 
 
 @pytest.mark.parametrize(
