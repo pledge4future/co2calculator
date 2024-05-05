@@ -1,0 +1,68 @@
+name: "🐛 Bug Report"
+description: Create a new ticket for a bug.
+title: "BUG: <title>"
+labels: [
+  "bug"
+]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: Please enter an explicit description of your issue
+      placeholder: Short and explicit description of your incident...
+    validations:
+      required: true
+  - type: textarea
+    id: reprod
+    attributes:
+      label: "Reproduction steps"
+      description: Please enter an explicit description of your issue
+      value: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+      render: bash
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Logs"
+      description: Please copy and paste any relevant log output or error messages. This will be automatically formatted into code, so no need for backticks.
+      render: bash
+    validations:
+      required: false
+  - type: textarea
+    id: package-version
+    attributes:
+      label: "Package Version"
+      description: What version of the package are you using?
+      placeholder: 1.0.0
+    validations:
+      required: false
+  - type: dropdown
+    id: python-version
+    attributes:
+      label: "Python Version"
+      description: Which python version are you using?
+      multiple: true
+      options:
+        - 3.10
+        - 3.11
+        - 3.12
+    validations:
+      required: false
+  - type: dropdown
+    id: os
+    attributes:
+      label: "OS"
+      description: What is the impacted environment ?
+      multiple: true
+      options:
+        - Windows
+        - Linux
+        - Mac
+    validations:
+      required: false
