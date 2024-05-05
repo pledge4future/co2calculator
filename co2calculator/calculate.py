@@ -25,17 +25,23 @@ from .constants import (
     TransportationMode,
     EmissionCategory,
 )
+from .data_handlers import EmissionFactors, ConversionFactors
 from .distances import create_distance_request, get_distance, range_categories
+from .parameters import (
+    CarEmissionParameters,
+    MotorbikeEmissionParameters,
+    BusEmissionParameters,
+    TrainEmissionParameters,
+    PlaneEmissionParameters,
+    FerryEmissionParameters,
+    ElectricityEmissionParameters,
+    HeatingEmissionParameters,
+)
 
 script_path = str(Path(__file__).parent)
-emission_factor_df = pd.read_csv(f"{script_path}/../data/emission_factors.csv")
-# fill null values with -99 (integers) and "missing" (strings)
-emission_factor_df["occupancy"] = emission_factor_df["occupancy"].fillna(-99)
-emission_factor_df["capacity"] = emission_factor_df["capacity"].fillna(-99)
-emission_factor_df = emission_factor_df.fillna("missing")
-conversion_factor_df = pd.read_csv(
-    f"{script_path}/../data/conversion_factors_heating.csv"
-)
+
+emission_factors = EmissionFactors()
+conversion_factors = ConversionFactors()
 
 
 def calc_co2_car(
@@ -61,31 +67,13 @@ def calc_co2_car(
     :return: Total emissions of trip in co2 equivalents
     :rtype: Kilogram
     """
-
-    transport_mode = TransportationMode.CAR
-
-    # Set default values
-    if passengers is None:
-        passengers = 1
-        warnings.warn(
-            f"Number of car passengers was not provided. Using default value: '{passengers}'"
-        )
-    if size is None:
-        size = Size.AVERAGE
-        warnings.warn(f"Size of car was not provided. Using default value: '{size}'")
-    if fuel_type is None:
-        fuel_type = CarFuel.AVERAGE
-        warnings.warn(
-            f"Car fuel type was not provided. Using default value: '{fuel_type}'"
-        )
-
-    # Get the co2 factor, calculate and return
-    co2e = get_emission_factor(
-        "transport", transport_mode, size=size, fuel_type=fuel_type
-    )
-    emissions = distance * co2e / passengers
-
-    return emissions
+    # Validate parameters
+    params_extracted = {k: v for k, v in locals().items() if v is not None}
+    params = CarEmissionParameters(**params_extracted)
+    # Get the co2 factor
+    co2e = emission_factors.get(params.dict())
+    # Calculate emissions
+    return distance * co2e / params.passengers
 
 
 def calc_co2_motorbike(distance: Kilometer = None, size: Size = None) -> Kilogram:
@@ -100,20 +88,13 @@ def calc_co2_motorbike(distance: Kilometer = None, size: Size = None) -> Kilogra
     :return: Total emissions of trip in co2 equivalents
     :rtype: Kilogram
     """
-
-    transport_mode = TransportationMode.MOTORBIKE
-
-    # Set default values
-    if size is None:
-        size = Size.AVERAGE
-        warnings.warn(
-            f"Size of motorbike was not provided. Using default value: '{size}'"
-        )
-
-    co2e = get_emission_factor("transport", transport_mode, size=size)
-    emissions = distance * co2e
-
-    return emissions
+    # Validate parameters
+    params_extracted = {k: v for k, v in locals().items() if v is not None}
+    params = MotorbikeEmissionParameters(**params_extracted)
+    # Get the co2 factor
+    co2e = emission_factors.get(params.dict())
+    # Calculate emissions
+    return distance * co2e
 
 
 def calc_co2_bus(
@@ -138,47 +119,12 @@ def calc_co2_bus(
     :return: Total emissions of trip in co2 equivalents
     :rtype: Kilogram
     """
-
-    transport_mode = TransportationMode.BUS
-
-    # Set default values
-    if size is None:
-        size = Size.AVERAGE
-        warnings.warn(f"Size of bus was not provided. Using default value: '{size}'")
-    if fuel_type is None:
-        fuel_type = BusFuel.DIESEL
-        warnings.warn(
-            f"Bus fuel type was not provided. Using default value: '{fuel_type}'"
-        )
-    elif fuel_type in [BusFuel.CNG, BusFuel.HYDROGEN]:
-        occupancy = -99
-        size = Size.AVERAGE
-    elif fuel_type not in [BusFuel.DIESEL, BusFuel.CNG, BusFuel.HYDROGEN]:
-        warnings.warn(
-            f"Bus fuel type {fuel_type} not available. Using default value: 'diesel'"
-        )
-        fuel_type = "diesel"
-    if occupancy is None:
-        occupancy = 50
-        warnings.warn(f"Occupancy was not provided. Using default value: '{occupancy}'")
-    if vehicle_range is None:
-        vehicle_range = BusTrainRange.LONG_DISTANCE
-        warnings.warn(
-            f"Intended range of trip was not provided. Using default value: '{vehicle_range}'"
-        )
-
-    # Get co2 factor, calculate and return
-    co2e = get_emission_factor(
-        "transport",
-        transport_mode,
-        size=size,
-        fuel_type=fuel_type,
-        occupancy=occupancy,
-        range_cat=vehicle_range,
-    )
-    emissions = distance * co2e
-
-    return emissions
+    # Validate parameters
+    params_extracted = {k: v for k, v in locals().items() if v is not None}
+    params = BusEmissionParameters(**params_extracted)
+    # Get the co2 factor
+    co2e = emission_factors.get(params.dict())
+    return distance * co2e
 
 
 def calc_co2_train(
@@ -198,113 +144,104 @@ def calc_co2_train(
     :rtype: Kilogram
     """
 
-    transport_mode = TransportationMode.TRAIN
-    size = Size.AVERAGE
-
-    # Set default values
-    if fuel_type is None:
-        fuel_type = TrainFuel.AVERAGE
-        warnings.warn(
-            f"Train fuel type was not provided. Using default value: '{fuel_type}'"
-        )
-    if vehicle_range is None:
-        vehicle_range = BusTrainRange.LONG_DISTANCE
-        warnings.warn(
-            f"Intended range of trip was not provided. Using default value: '{vehicle_range}'"
-        )
-
-    # Get the co2 factor, calculate and return
-    co2e = get_emission_factor(
-        "transport",
-        transport_mode,
-        fuel_type=fuel_type,
-        range_cat=vehicle_range,
-        size=size,
-    )
-    emissions = distance * co2e
-
-    return emissions
+    # Validate parameters
+    params_extracted = {k: v for k, v in locals().items() if v is not None}
+    params = TrainEmissionParameters(**params_extracted)
+    # Get the co2 factor
+    co2e = emission_factors.get(params.dict())
+    return distance * co2e
 
 
-def calc_co2_plane(distance: Kilometer, seating_class: FlightClass = None) -> Kilogram:
+def calc_co2_plane(distance: Kilometer, seating: FlightClass = None) -> Kilogram:
     """
     Function to compute emissions of a plane trip
     :param distance: Distance of plane flight
-    :param seating_class: Seating class in the airplane; Emission factors differ between seating classes because
+    :param seating: Seating class in the airplane; Emission factors differ between seating classes because
                           business class or first class seats take up more space. An airplane with more such therefore
                           needs to have higher capacity to transport less people -> more co2
                           ["average", "economy_class", "business_class", "premium_economy_class", "first_class"]
     :type distance: Kilometer
-    :type seating_class: str
+    :type seating: str
     :return: Total emissions of flight in co2 equivalents
     :rtype: Kilogram
     """
 
-    transport_mode = TransportationMode.PLANE
-    fuel_type = "kerosine"
-
-    # Set defaults
-    if seating_class is None:
-        seating_class = FlightClass.AVERAGE
-        warnings.warn(
-            f"Seating class was not provided. Using default value: '{seating_class}'"
-        )
-
     # Retrieve whether distance is <= 700, > 700 and <= 3700 or above 3700 km
+    # todo: move to PlaneEmissionParameters
     if distance <= 700:
-        flight_range = FlightRange.DOMESTIC
+        range = FlightRange.DOMESTIC
     elif 700 < distance <= 3700:
-        flight_range = FlightRange.SHORT_HAUL
+        range = FlightRange.SHORT_HAUL
     elif distance > 3700:
-        flight_range = FlightRange.LONG_HAUL
-    # NOTE: Should be checked before geocoding and haversine calculation
-    seating_choices = [item for item in FlightClass]
+        range = FlightRange.LONG_HAUL
 
-    if seating_class not in seating_choices:
-        raise ValueError(
-            f"No emission factor available for the specified seating class '{seating_class}'.\n"
-            f"Please use one of the following: {seating_choices}"
-        )
-
-    # Get emission factor
-    co2e = get_emission_factor(
-        "transport",
-        transport_mode,
-        range_cat=flight_range,
-        seating_class=seating_class,
-        fuel_type=fuel_type,
-    )
-    # multiply emission factor with distance
-    emissions = distance * co2e
-
-    return emissions
+    # Validate parameters
+    params_extracted = {k: v for k, v in locals().items() if v is not None}
+    params = PlaneEmissionParameters(**params_extracted)
+    # Get the co2 factor
+    co2e = emission_factors.get(params.dict())
+    return distance * co2e
 
 
-def calc_co2_ferry(distance: Kilometer, seating_class: FerryClass = None) -> Kilogram:
+def calc_co2_ferry(distance: Kilometer, seating: FerryClass = None) -> Kilogram:
     """
     Function to compute emissions of a ferry trip
     :param distance: Distance of ferry trip
-    :param seating_class: ["average", "Foot passenger", "Car passenger"]
+    :param seating: ["average", "Foot passenger", "Car passenger"]
     :type distance: Kilometer
-    :type seating_class: str
+    :type seating: str
     :return: Total emissions of sea travel in co2 equivalents
     :rtype: Kilogram
     """
 
-    transport_mode = TransportationMode.FERRY
+    # Validate parameters
+    params_extracted = {k: v for k, v in locals().items() if v is not None}
+    params = FerryEmissionParameters(**params_extracted)
+    # Get the co2 factor
+    co2e = emission_factors.get(params.dict())
+    return distance * co2e
 
-    if seating_class is None:
-        seating_class = FerryClass.AVERAGE
-        warnings.warn(
-            f"Seating class was not provided. Using default value: '{seating_class}'"
-        )
 
-    # get emission factor
-    co2e = get_emission_factor("transport", transport_mode, seating_class=seating_class)
-    # multiply emission factor with distance
-    emissions = distance * co2e
+def calc_co2_bicycle(weekly_distance):
+    """Calculate co2 emissions for commuting by bicycle
 
-    return emissions
+    :param weekly_distance: distance in km per week
+    """
+    co2e = emission_factors.get(
+        {
+            "category": EmissionCategory.TRANSPORT,
+            "subcategory": TransportationMode.BICYCLE,
+        }
+    )
+    return co2e * weekly_distance
+
+
+def calc_co2_pedelec(weekly_distance):
+    """Calculate co2 emissions for commuting by pedelec
+
+    :param weekly_distance: distance in km per week
+    """
+    co2e = emission_factors.get(
+        {
+            "category": EmissionCategory.TRANSPORT,
+            "subcategory": TransportationMode.PEDELEC,
+        }
+    )
+    return co2e * weekly_distance
+
+
+def calc_co2_tram(weekly_distance):
+    """Calculate co2 emissions for commuting by pedelec
+
+    :param weekly_distance: distance in km per week
+    """
+    co2e = emission_factors.get(
+        {
+            "category": EmissionCategory.TRANSPORT,
+            "subcategory": TransportationMode.TRAM,
+        }
+    )
+    return co2e * weekly_distance
 
 
 def calc_co2_electricity(
@@ -321,18 +258,17 @@ def calc_co2_electricity(
     :return: total emissions of electricity energy consumption
     :rtype: Kilogram
     """
-    # Set defaults
-    if fuel_type is None:
-        fuel_type = ElectricityFuel.GERMAN_ENERGY_MIX
-        warnings.warn(
-            f"No fuel type or energy mix specified. Using default value: '{fuel_type}'"
-        )
-    co2e = get_emission_factor("electricity", "missing", fuel_type=fuel_type)
+
+    # Validate parameters
+    params_extracted = {k: v for k, v in locals().items() if v is not None}
+    params = ElectricityEmissionParameters(**params_extracted)
+
+    # Get the co2 factor
+    co2e = emission_factors.get(params.dict())
+
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
-    emissions = consumption * energy_share / KWH_TO_TJ * co2e
-
-    return emissions
+    return consumption * energy_share / KWH_TO_TJ * co2e
 
 
 def calc_co2_heating(
@@ -356,34 +292,25 @@ def calc_co2_heating(
     :return: total emissions of heating energy consumption
     :rtype: Kilogram
     """
-    # Set defaults
-    if unit is None:
-        unit = Unit.KWH
-        warnings.warn(f"Unit was not provided. Assuming default value: '{unit}'")
-    if area_share > 1:
-        warnings.warn(
-            f"Share of building area must be a float in the interval (0,1], but was set to '{area_share}'\n."
-            f"The parameter will be set to '1.0' instead"
-        )
-    if fuel_type is None:
-        fuel_type = HeatingFuel.GAS
-        warnings.warn(f"No fuel type specified. Using default value: '{fuel_type}'")
-    valid_unit_choices = tuple(item.value for item in Unit)
-    assert (
-        unit in valid_unit_choices
-    ), f"unit={unit} is invalid. Valid choices are {', '.join(valid_unit_choices)}"
+    # Validate parameters
+    assert 0 < area_share <= 1
+    params_extracted = {k: v for k, v in locals().items() if v is not None}
+    params = HeatingEmissionParameters(**params_extracted)
+
+    # Get the co2 factor
+    co2e = emission_factors.get(params.dict())
+
     if unit is not Unit.KWH:
-        conversion_factor = get_conversion_factor(fuel_type=fuel_type, unit=unit)
+        # Get the conversion factor
+        conversion_factor = conversion_factors.get(fuel_type=fuel_type, unit=unit)
+
         consumption_kwh = consumption * conversion_factor
     else:
         consumption_kwh = consumption
 
-    co2e = get_emission_factor(EmissionCategory.HEATING, "missing", fuel_type=fuel_type)
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
-    emissions = consumption_kwh * area_share / KWH_TO_TJ * co2e
-
-    return emissions
+    return consumption_kwh * area_share / KWH_TO_TJ * co2e
 
 
 def calc_co2_businesstrip(
@@ -466,10 +393,10 @@ def calc_co2_businesstrip(
         )
 
     elif transportation_mode == TransportationMode.PLANE:
-        emissions = calc_co2_plane(distance, seating_class=seating)
+        emissions = calc_co2_plane(distance, seating=seating)
 
     elif transportation_mode == TransportationMode.FERRY:
-        emissions = calc_co2_ferry(distance, seating_class=seating)
+        emissions = calc_co2_ferry(distance, seating=seating)
 
     else:
         raise ValueError(
@@ -482,110 +409,6 @@ def calc_co2_businesstrip(
     range_category, range_description = range_categories(distance)
 
     return emissions, distance, range_category, range_description
-
-
-def get_emission_factor(
-    category: EmissionCategory,
-    mode: TransportationMode,
-    size: str = "missing",
-    fuel_type: str = "missing",
-    occupancy: int = -99,
-    range_cat: str = "missing",
-    seating_class: str = "missing",
-):
-    """
-    Function to retrieve the emission factor for the specified configuration
-
-    :param category: [transport, electricity, heating]
-    :param mode: [car, bus, train, bicycle, pedelec, motorbike, tram]
-    :param size: Size of the vehicle (for category vehicle and public transport)
-    :param fuel_type: Fuel type used for the service
-    :param occupancy: occupancy of the vehicle (for mode bus)
-    :param range_cat: Range category of the trip (for mode bus and plane)
-    :param seating_class: Seating class (for mode plane and ferry)
-    :type category: str
-    :type mode: str
-    :type size: str
-    :type fuel_type: str
-    :type occupancy: int
-    :type range_cat: str
-    :type seating_class: str
-    """
-    try:
-        co2e = emission_factor_df[
-            (emission_factor_df["category"] == category)
-            & (emission_factor_df["subcategory"] == mode)
-            & (emission_factor_df["size_class"] == size)
-            & (emission_factor_df["fuel_type"] == fuel_type)
-            & (emission_factor_df["occupancy"] == occupancy)
-            & (emission_factor_df["range"] == range_cat)
-            & (emission_factor_df["seating"] == seating_class)
-        ]["co2e"].values[0]
-    except IndexError:
-        if mode == TransportationMode.PLANE:
-            default_seating = FlightClass.AVERAGE
-            warnings.warn(
-                f"Seating class '{seating_class}' not available for {range_cat} flights. Switching to "
-                f"'{default_seating}'..."
-            )
-            co2e = emission_factor_df[
-                (emission_factor_df["category"] == category)
-                & (emission_factor_df["subcategory"] == mode)
-                & (emission_factor_df["size_class"] == size)
-                & (emission_factor_df["fuel_type"] == fuel_type)
-                & (emission_factor_df["occupancy"] == occupancy)
-                & (emission_factor_df["range"] == range_cat)
-                & (emission_factor_df["seating"] == default_seating)
-            ]["co2e"].values[0]
-        if (
-            mode == TransportationMode.BUS
-            and size == Size.SMALL
-            and fuel_type == BusFuel.DIESEL
-            and range_cat == BusTrainRange.LONG_DISTANCE
-        ):
-            default_size = Size.AVERAGE
-            warnings.warn(
-                f"Size '{size}' not available for {fuel_type} {range_cat} bus. Switching to size "
-                f"'{default_size}'..."
-            )
-            co2e = emission_factor_df[
-                (emission_factor_df["category"] == category)
-                & (emission_factor_df["subcategory"] == mode)
-                & (emission_factor_df["size_class"] == default_size)
-                & (emission_factor_df["fuel_type"] == fuel_type)
-                & (emission_factor_df["occupancy"] == occupancy)
-                & (emission_factor_df["range"] == range_cat)
-                & (emission_factor_df["seating"] == seating_class)
-            ]["co2e"].values[0]
-
-    return co2e
-
-
-def get_conversion_factor(fuel_type: HeatingFuel, unit: Unit) -> float:
-    """
-    Function to retrieve conversion factor for converting consumption for certain fuel types (and units) to kWh
-    :param fuel_type: :param fuel_type: fuel type used for heating
-        [coal, district_heating, electricity, gas, heat_pump_air,
-        heat_pump_ground, liquid_gas, oil, pellet, solar, woodchips]
-    :param unit: unit of energy consumption [kwh, kg, l, m^3]
-    :return: conversion factor
-    """
-    try:
-        conversion_factor = conversion_factor_df[
-            (conversion_factor_df["fuel"] == fuel_type)
-            & (conversion_factor_df["unit"] == unit)
-        ]["conversion_value"].values[0]
-    except (KeyError, IndexError):
-        print(
-            "No conversion data is available for this fuel type. Conversion is only supported for the following"
-            "fuel types and units. Alternatively, provide consumption in the unit kWh.\n"
-        )
-        print(conversion_factor_df[["fuel", "unit"]])
-        raise ValueError(
-            "No conversion data is available for this fuel type. Provide consumption in a "
-            "different unit."
-        )
-    return conversion_factor
 
 
 def calc_co2_commuting(
@@ -641,22 +464,12 @@ def calc_co2_commuting(
             distance=weekly_distance,
         )
 
-    elif transportation_mode in [
-        TransportationMode.PEDELEC,
-        TransportationMode.BICYCLE,
-    ]:
-        co2e = get_emission_factor(EmissionCategory.TRANSPORT, transportation_mode)
-        weekly_co2e = co2e * weekly_distance
+    elif transportation_mode == TransportationMode.PEDELEC:
+        weekly_co2e = calc_co2_pedelec(weekly_distance)
+    elif transportation_mode == TransportationMode.BICYCLE:
+        weekly_co2e = calc_co2_bicycle(weekly_distance)
     elif transportation_mode == TransportationMode.TRAM:
-        fuel_type = BusFuel.ELECTRIC  # ok like that?
-        size = Size.AVERAGE
-        co2e = get_emission_factor(
-            EmissionCategory.TRANSPORT,
-            transportation_mode,
-            fuel_type=fuel_type,
-            size=size,
-        )
-        weekly_co2e = co2e * weekly_distance
+        weekly_co2e = calc_co2_tram(weekly_distance)
     else:
         raise ValueError(
             f"Transportation mode {transportation_mode} not found in database"
@@ -666,25 +479,3 @@ def calc_co2_commuting(
     # total_co2e = weekly_co2e #* work_weeks
 
     return weekly_co2e
-
-
-def commuting_emissions_group(
-    aggr_co2: Kilogram, n_participants: int, n_members: int
-) -> Kilogram:
-    """Calculate the group's co2e emissions from commuting.
-
-    .. note:: Assumption: a representative sample of group members answered the questionnaire.
-
-    :param aggr_co2: (Annual/monthly) co2e emissions from commuting, aggregated for all group members who answered the
-                            questionnaire (can also be calculated for only one mode of transport)
-    :param n_participants: Number of group members who answered the questionnaire
-    :param n_members: Total number of members of the group
-    :type aggr_co2: Kilogram
-    :type n_participants: int
-    :type n_members: int
-    :return: Calculated or estimated emissions of the entire working group.
-    :rtype: Kilogram
-    """
-    group_co2e = aggr_co2 / n_participants * n_members
-
-    return group_co2e

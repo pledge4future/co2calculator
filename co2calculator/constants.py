@@ -45,7 +45,7 @@ class CarFuel(str, enum.Enum):
 
     ELECTRIC = "electric"
     HYBRID = "hybrid"
-    PLUGIN_HYBRID = "plug-in hybrid"
+    PLUGIN_HYBRID = "plug-in_hybrid"
     CNG = "cng"
     GASOLINE = "gasoline"
     DIESEL = "diesel"
