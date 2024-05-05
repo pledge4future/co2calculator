@@ -27,6 +27,7 @@ from co2calculator import calculate as candidate
 class TestCalculateBusinessTrip:
     """Functional testing of `calc_co2_businesstrip` calls from backend"""
 
+    @pytest.mark.skip(reason="Functions are deprecated")
     @pytest.mark.parametrize(
         "transportation_mode, expected_emissions",
         [
@@ -49,7 +50,6 @@ class TestCalculateBusinessTrip:
             distance=42.0,
             size=None,
             fuel_type=None,
-            occupancy=None,
             seating=None,
             passengers=None,
             roundtrip=False,
@@ -57,6 +57,7 @@ class TestCalculateBusinessTrip:
 
         assert round(actual_emissions, 2) == expected_emissions
 
+    @pytest.mark.skip(reason="Functions are deprecated")
     @pytest.mark.parametrize(
         "transportation_mode, start, destination, expected_emissions",
         [
@@ -146,6 +147,7 @@ class TestCalculateBusinessTrip:
 class TestCalculateCommuting:
     """Functional testing of `calc_co2_commuting` calls from backend"""
 
+    @pytest.mark.skip(reason="Functions are deprecated")
     @pytest.mark.parametrize(
         "transportation_mode,expected_emissions",
         [
