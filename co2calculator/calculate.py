@@ -17,6 +17,7 @@ from co2calculator.mobility.calculate_mobility import (
     calc_co2_train,
     calc_co2_tram,
 )
+from co2calculator.util import get_calc_function_from_transport_mode
 
 from ._types import Kilogram, Kilometer
 from .constants import (
@@ -115,95 +116,32 @@ def calc_co2_heating(
     return consumption_kwh * area_share / KWH_TO_TJ * co2e
 
 
-def calc_co2_businesstrip(
+def calc_co2_trip(
+    distance: Kilometer | None,
     transportation_mode: TransportationMode,
-    start=None,
-    destination=None,
-    distance: Kilometer = None,
-    size: Size = None,
-    fuel_type: CarFuel | BusFuel | TrainFuel = None,
-    occupancy: int = None,
-    seating: FlightClass | FerryClass = None,
-    passengers: int = None,
-    roundtrip: bool = False,
-) -> Tuple[Kilogram, Kilometer, str, str]:
-    """Function to compute emissions for business trips based on transportation mode and trip specifics
+    custom_emission_factor: Kilogram | None = None,
+    options: dict = None,
+) -> Kilogram:
+    """Function to compute emissions for a trip based on distance
 
-    :param transportation_mode: mode of transport [car, bus, train, plane, ferry]
-    :param start: Start of the trip (alternatively, distance can be provided)
-    :param destination: Destination of the trip (alternatively, distance can be provided)
-    :param distance: Distance travelled in km (alternatively, start and destination can be provided)
-    :param size: Size class of the vehicle [small, medium, large, average] - only used for car and bus
-    :param fuel_type: Fuel type of the vehicle
-        [average, cng, diesel, electric, gasoline, hybrid, hydrogen, plug-in_hybrid]
-        - only used for car, bus and train
-    :param occupancy: Occupancy of the vehicle in % [20, 50, 80, 100] - only used for bus
-    :param seating: seating class ["average", "Economy class", "Premium economy class", "Business class", "First class"]
-                    - only used for plane
-    :param passengers: Number of passengers in the vehicle (including the participant), number from 1 to 9
-                                                - only used for car
-    :param roundtrip: whether the trip is a round trip or not [True, False]
-    :type transportation_mode: str
-    :type distance: Kilometer
-    :type size: str
-    :type fuel_type: str
-    :type occupancy: int
-    :type seating: str
-    :type passengers: int
-    :type roundtrip: bool
-    :return:    Emissions of the business trip in co2 equivalents,
-                Distance of the business trip,
-                Range category of the business trip [very short haul, short haul, medium haul, long haul]
-                Range description (i.e., what range of distances does to category correspond to)
-    :rtype: tuple[Kilogram, Kilometer, str, str]
+    :param distance: Distance travelled in km
+    :param transportation_mode: mode of transport. For options, see TransportationMode enum.
+    :param custom_emission_factor: custom emission factor in kg/km. If provided, this will be used instead of the included emission factors.
+    :param options: options for the trip. Type must match transportation mode.
+
+    :return:    Emissions of the business trip in co2 equivalents.
     """
-
-    # Evaluate if distance- or stop-based request.
-    # Rules:
-    # - `distance` is dominant;
-    # - if distance not provided, take stops;
-    # - if stops not available, raise error;
-    # In general:
-    # - If stop-based, calculate distance first, then continue only distance-based
-
-    if not distance:
-        request = create_distance_request(start, destination, transportation_mode)
-        distance = get_distance(request)
-
-    if transportation_mode == TransportationMode.CAR:
-        emissions = calc_co2_car(
-            distance=distance,
-            options={},
-        )
-    elif transportation_mode == TransportationMode.BUS:
-        emissions = calc_co2_bus(
-            distance=distance,
-            options={},
-        )
-
-    elif transportation_mode == TransportationMode.TRAIN:
-        emissions = calc_co2_train(
-            distance=distance,
-            options={},
-        )
-
-    elif transportation_mode == TransportationMode.PLANE:
-        emissions = calc_co2_plane(distance, options={})
-
-    elif transportation_mode == TransportationMode.FERRY:
-        emissions = calc_co2_ferry(distance, options={})
-
+    if custom_emission_factor is not None:
+        print("Ignoring transportation mode as custom emission factor is set")
+        return distance * custom_emission_factor
     else:
-        raise ValueError(
-            f"No emission factor available for the specified mode of transport '{transportation_mode}'."
+        # check for invalid transportation mode
+        assert transportation_mode.lower() in (
+            item.value for item in TransportationMode
         )
-    if roundtrip is True:
-        emissions *= 2
-
-    # categorize according to distance (range)
-    range_category, range_description = range_categories(distance)
-
-    return emissions, distance, range_category, range_description
+        # pass the distance and options to the respective function
+        calc_function = get_calc_function_from_transport_mode(transportation_mode)
+        return calc_function(distance, options)
 
 
 def calc_co2_commuting(
