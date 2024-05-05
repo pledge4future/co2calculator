@@ -8,14 +8,12 @@ from .constants import (
     Size,
     CarFuel,
     BusFuel,
-    TrainFuel,
     BusTrainRange,
     FlightRange,
     FlightClass,
     FerryClass,
     ElectricityFuel,
     HeatingFuel,
-    Unit,
     EmissionCategory,
 )
 from typing import Union
@@ -25,16 +23,8 @@ class TrainEmissionParameters(BaseModel):
 
     category: TransportationMode = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.TRAIN
-    fuel_type: Union[TrainFuel, str] = TrainFuel.AVERAGE
     range: Union[BusTrainRange, str] = BusTrainRange.LONG_DISTANCE
     size: Union[Size, str] = Size.AVERAGE
-
-    @validator("fuel_type", allow_reuse=True)
-    def check_fueltype(cls, v):
-        if isinstance(v, str):
-            assert v.lower() in (item.value for item in TrainFuel)
-            v = v.lower()
-        return TrainFuel(v)
 
     @validator("range", allow_reuse=True)
     def check_range(cls, v):

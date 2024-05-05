@@ -107,11 +107,10 @@ def test_calc_co2_bus(
         pytest.param(1162, {}, 38.23, id="defaults on empty"),
         pytest.param(
             1162,
-            {"fuel_type": "electric", "vehicle_range": "long-distance"},
+            {"vehicle_range": "long-distance"},
             37.18,
             id="all optional arguments",
         ),
-        pytest.param(10, {"fuel_type": "diesel"}, 0.7, id="fuel_type: 'electric'"),
     ],
 )
 def test_calc_co2_train(

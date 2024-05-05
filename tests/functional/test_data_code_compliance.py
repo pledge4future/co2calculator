@@ -9,7 +9,6 @@ from co2calculator import (
     emission_factors,
     ElectricityFuel,
     Size,
-    RangeCategory,
     FlightClass,
     FerryClass,
     FlightRange,
