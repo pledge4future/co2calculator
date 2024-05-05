@@ -386,7 +386,7 @@ class HeatingEmissionParameters(BaseModel):
 class HeatingParameters(BaseModel):
     heating_emission_parameters: HeatingEmissionParameters
     unit: Unit
-    area_share: float
+    area_share: float = 1.0
 
     @validator("unit", allow_reuse=True)
     def check_unit(cls, v):
