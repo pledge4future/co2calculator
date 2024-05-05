@@ -2,6 +2,13 @@
 
 The *co2calculator* can compute emissions caused by mobility, heating and electricity consumption. Emissions are given as CO<sub>2</sub> equivalents (CO<sub>2</sub>e). 
 
+```{image} img/Workflow_figure_co2_calculator.drawio.png
+:alt: workflow figure co2calculator
+:class: bg-primary
+:width: 600px
+:align: center
+```
+
 ## 1 General information
 ### What are CO<sub>2</sub>e emissions?
 
