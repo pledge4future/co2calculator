@@ -265,7 +265,7 @@
 263,global,public transport,plane,mobitool,Flugzeug,P.km,,long-haul,kerosine,kg/P.km,0.1895,economy_class
 264,global,public transport,plane,mobitool,Flugzeug,P.km,,long-haul,kerosine,kg/P.km,0.3914,business_class
 265,global,public transport,plane,mobitool,Flugzeug,P.km,,long-haul,kerosine,kg/P.km,0.6031,first_class
-266,global,public transport,ferry,mobitool,Personenschiff,P.km,,,diesel,kg/P.km,0.1613,
+266,global,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy","Ferry, Average",P.km,,,,kg/P.km,0.11286,average
 267,global,vehicle,motorbike,mobitool,Motorrad,P.km,small,,,kg/P.km,0.121,
 268,global,vehicle,motorbike,mobitool,Motorrad,P.km,medium,,,kg/P.km,0.1548,
 269,global,vehicle,motorbike,mobitool,Motorrad,P.km,large,,,kg/P.km,0.2036,
@@ -305,3 +305,5 @@
 303,SE,electricity,,Carbon Footprint Ltd,Residual fuel mix factor,kWh,,,residual fuel mix,kg/kWh,0.03895,
 304,SI,electricity,,Carbon Footprint Ltd,Residual fuel mix factor,kWh,,,residual fuel mix,kg/kWh,0.3708,
 305,SK,electricity,,Carbon Footprint Ltd,Residual fuel mix factor,kWh,,,residual fuel mix,kg/kWh,0.1865,
+306,global,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy","Ferry, Foot passenger",P.km,,,,kg/P.km,0.01874,foot_passenger
+307,global,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy","Ferry, Car passenger",P.km,,,,kg/P.km,0.12952,car_passenger
