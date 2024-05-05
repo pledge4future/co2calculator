@@ -70,8 +70,9 @@ html_theme_options = {
     "github_user": "pledge4future",
     "github_repo": "co2calculator",
     "show_powered_by": "true",
-    "sidebar_header": "#FFA500",
-    "narrow_sidebar_bg": "#FFA500",
+    "sidebar_header": "#f15e44",
+    "narrow_sidebar_bg": "#f15e44",
+    "font_family": "montserrat",
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
