@@ -1,11 +1,7 @@
-=======================
-Heating and electricity
-=======================
 
-.. contents::
-
+=======
 Heating
--------
+=======
 
 Heating emissions are computed based on the consumption (typically in kWh) and the emission factors for a specified fuel type.
 
@@ -20,13 +16,6 @@ In these cases, it is possible to specify the `unit`. The consumption will then 
     :stub-columns: 2
     :widths: 10 30 30 30
 
-The parameter `area_share` accounts for the fact, that the heating energy consumption may often only be known for an entire building, while a working group just occupies parts of the buildin.
+The parameter `area_share` accounts for the fact, that the heating energy consumption may often only be known for an entire building, while a working group just occupies parts of the building.
 In this case, the (approximate) share of the building floor space, that is occupied by the working group can be provided.
 The `area_share` must be between 0.0 and 1.0 and is 1.0 by default.
-
-Electricity
------------
-
-Electricity emissions are computed based on the consumption (in kWh) and the emission factors for a specified energy mix or energy source.
-
-.. autofunction:: co2calculator.calculate.calc_co2_electricity

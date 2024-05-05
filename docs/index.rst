@@ -19,12 +19,10 @@ Contents
 
    documentation
    tutorial
-   businesstrips
-   commuting
-   calculate/heating_electricity
+   mobility
+   calculate/heating
+   calculate/electricity
    calculate/emission_factors
-   calculate/transport_modes
-
 
 Indices and tables
 ==================

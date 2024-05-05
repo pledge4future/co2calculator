@@ -64,7 +64,7 @@ html_theme = "alabaster"
 html_theme_options = {
     "body_max_width": "none",
     "page_width": "80%",
-    "sidebar_width": "350px",
+    "sidebar_width": "250px",
     "fixed_sidebar": "true",
     "github_button": "true",
     "github_user": "pledge4future",
@@ -72,7 +72,7 @@ html_theme_options = {
     "show_powered_by": "true",
     "sidebar_header": "#f15e44",
     "narrow_sidebar_bg": "#f15e44",
-    "font_family": "montserrat",
+    "font_family": "Roboto Condensed",
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
