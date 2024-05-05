@@ -68,9 +68,6 @@ class EmissionFactors:
         # Select table for emission category
         candidates = self.databases[emission_category]
         for k, v in parameters.items():
-            # TODO: shortterm hack to make it work until occupancy is removed from emission factors
-            if not isinstance(v, int):
-                v = str(v.value)
             if v is None or k not in candidates.columns:
                 continue
             new_candidates = candidates[candidates[k] == v]

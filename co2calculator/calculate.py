@@ -122,7 +122,6 @@ def calc_co2_businesstrip(
     distance: Kilometer = None,
     size: Size = None,
     fuel_type: CarFuel | BusFuel | TrainFuel = None,
-    occupancy: int = None,
     seating: FlightClass | FerryClass = None,
     passengers: int = None,
     roundtrip: bool = False,
@@ -137,7 +136,6 @@ def calc_co2_businesstrip(
     :param fuel_type: Fuel type of the vehicle
         [average, cng, diesel, electric, gasoline, hybrid, hydrogen, plug-in_hybrid]
         - only used for car, bus and train
-    :param occupancy: Occupancy of the vehicle in % [20, 50, 80, 100] - only used for bus
     :param seating: seating class ["average", "Economy class", "Premium economy class", "Business class", "First class"]
                     - only used for plane
     :param passengers: Number of passengers in the vehicle (including the participant), number from 1 to 9
@@ -147,7 +145,6 @@ def calc_co2_businesstrip(
     :type distance: Kilometer
     :type size: str
     :type fuel_type: str
-    :type occupancy: int
     :type seating: str
     :type passengers: int
     :type roundtrip: bool
@@ -211,7 +208,6 @@ def calc_co2_commuting(
     weekly_distance: Kilometer,
     size: Size = None,
     fuel_type: BusFuel | CarFuel | TrainFuel = None,
-    occupancy: int = None,
     passengers: int = None,
 ) -> Kilogram:
     """Calculate co2 emissions for commuting per mode of transport
@@ -220,13 +216,11 @@ def calc_co2_commuting(
     :param weekly_distance: distance in km per week
     :param size: size of car or bus if applicable: [small, medium, large, average]
     :param fuel_type: fuel type of car, bus or train if applicable
-    :param occupancy: occupancy [%], if applicable/known (only for bus): [20, 50, 80, 100]
     :param passengers: number of passengers, if applicable (only for car)
     :type transportation_mode: str
     :type weekly_distance: Kilometer
     :type size: str
     :type fuel_type: str
-    :type occupancy: int
     :type passengers: int
     :return: total weekly emissions for the respective mode of transport
     :rtype: Kilogram
