@@ -1,12 +1,22 @@
 #!/usr/bin/env python
 # coding: utf-8
 """Functions to calculate co2 emissions"""
-
-import warnings
 from pathlib import Path
 from typing import Tuple
 
 import pandas as pd
+
+from co2calculator.mobility.calculate_mobility import (
+    calc_co2_bicycle,
+    calc_co2_bus,
+    calc_co2_car,
+    calc_co2_ferry,
+    calc_co2_motorbike,
+    calc_co2_pedelec,
+    calc_co2_plane,
+    calc_co2_train,
+    calc_co2_tram,
+)
 
 from ._types import Kilogram, Kilometer
 from .constants import (
@@ -17,23 +27,15 @@ from .constants import (
     TrainFuel,
     BusTrainRange,
     FlightClass,
-    FlightRange,
     FerryClass,
     ElectricityFuel,
     HeatingFuel,
     Unit,
     TransportationMode,
-    EmissionCategory,
 )
 from .data_handlers import EmissionFactors, ConversionFactors
 from .distances import create_distance_request, get_distance, range_categories
 from .parameters import (
-    CarEmissionParameters,
-    MotorbikeEmissionParameters,
-    BusEmissionParameters,
-    TrainEmissionParameters,
-    PlaneEmissionParameters,
-    FerryEmissionParameters,
     ElectricityEmissionParameters,
     HeatingEmissionParameters,
 )
@@ -42,206 +44,6 @@ script_path = str(Path(__file__).parent)
 
 emission_factors = EmissionFactors()
 conversion_factors = ConversionFactors()
-
-
-def calc_co2_car(
-    distance: Kilometer,
-    passengers: int = None,
-    size: Size = None,
-    fuel_type: CarFuel = None,
-) -> Kilogram:
-    """
-    Function to compute the emissions of a car trip.
-    :param distance: Distance travelled by car;
-    :param passengers: Number of passengers in the car (including the person answering the questionnaire),
-                        [1, 2, 3, 4, 5, 6, 7, 8, 9]                             default: 1
-    :param size: size of car
-                        ["small", "medium", "large", "average"]                 default: "average"
-    :param fuel_type: type of fuel the car is using
-                        ["diesel", "gasoline", "cng", "electric", "hybrid", "plug-in_hybrid", "average"]
-                        default: "average"
-    :type distance: Kilometer
-    :type passengers: int
-    :type size: str
-    :type fuel_type: str
-    :return: Total emissions of trip in co2 equivalents
-    :rtype: Kilogram
-    """
-    # Validate parameters
-    params_extracted = {k: v for k, v in locals().items() if v is not None}
-    params = CarEmissionParameters(**params_extracted)
-    # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
-    # Calculate emissions
-    return distance * co2e / params.passengers
-
-
-def calc_co2_motorbike(distance: Kilometer = None, size: Size = None) -> Kilogram:
-    """
-    Function to compute the emissions of a motorbike trip.
-    :param distance: Distance travelled by motorbike;
-                        alternatively param <locations> can be provided
-    :param size: size of motorbike
-                        ["small", "medium", "large", "average"]
-    :type distance: Kilometer
-    :type size: str
-    :return: Total emissions of trip in co2 equivalents
-    :rtype: Kilogram
-    """
-    # Validate parameters
-    params_extracted = {k: v for k, v in locals().items() if v is not None}
-    params = MotorbikeEmissionParameters(**params_extracted)
-    # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
-    # Calculate emissions
-    return distance * co2e
-
-
-def calc_co2_bus(
-    distance: Kilometer,
-    size: Size = None,
-    fuel_type: BusFuel = None,
-    occupancy: int = None,
-    vehicle_range: BusTrainRange = None,
-) -> Kilogram:
-    """
-    Function to compute the emissions of a bus trip.
-    :param distance: Distance travelled by bus;
-    :param size: size class of the bus;                 ["medium", "large", "average"]
-    :param fuel_type: type of fuel the bus is using;    ["diesel", "cng", "hydrogen"]
-    :param occupancy: number of people on the bus       [20, 50, 80, 100]
-    :param vehicle_range: range/haul of the vehicle     ["local", "long-distance"]
-    :type distance: Kilometer
-    :type size: str
-    :type fuel_type: str
-    :type occupancy: int
-    :type vehicle_range: str
-    :return: Total emissions of trip in co2 equivalents
-    :rtype: Kilogram
-    """
-    # Validate parameters
-    params_extracted = {k: v for k, v in locals().items() if v is not None}
-    params = BusEmissionParameters(**params_extracted)
-    # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
-    return distance * co2e
-
-
-def calc_co2_train(
-    distance: Kilometer,
-    fuel_type: TrainFuel = None,
-    vehicle_range: BusTrainRange = None,
-) -> Kilogram:
-    """
-    Function to compute the emissions of a train trip.
-    :param distance: Distance travelled by train;
-    :param fuel_type: type of fuel the train is using;    ["diesel", "electric", "average"]
-    :param vehicle_range: range/haul of the vehicle       ["local", "long-distance"]
-    :type distance: Kilometer
-    :type fuel_type: float
-    :type vehicle_range: str
-    :return: Total emissions of trip in co2 equivalents
-    :rtype: Kilogram
-    """
-
-    # Validate parameters
-    params_extracted = {k: v for k, v in locals().items() if v is not None}
-    params = TrainEmissionParameters(**params_extracted)
-    # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
-    return distance * co2e
-
-
-def calc_co2_plane(distance: Kilometer, seating: FlightClass = None) -> Kilogram:
-    """
-    Function to compute emissions of a plane trip
-    :param distance: Distance of plane flight
-    :param seating: Seating class in the airplane; Emission factors differ between seating classes because
-                          business class or first class seats take up more space. An airplane with more such therefore
-                          needs to have higher capacity to transport less people -> more co2
-                          ["average", "economy_class", "business_class", "premium_economy_class", "first_class"]
-    :type distance: Kilometer
-    :type seating: str
-    :return: Total emissions of flight in co2 equivalents
-    :rtype: Kilogram
-    """
-
-    # Retrieve whether distance is <= 700, > 700 and <= 3700 or above 3700 km
-    # todo: move to PlaneEmissionParameters
-    if distance <= 700:
-        range = FlightRange.DOMESTIC
-    elif 700 < distance <= 3700:
-        range = FlightRange.SHORT_HAUL
-    elif distance > 3700:
-        range = FlightRange.LONG_HAUL
-
-    # Validate parameters
-    params_extracted = {k: v for k, v in locals().items() if v is not None}
-    params = PlaneEmissionParameters(**params_extracted)
-    # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
-    return distance * co2e
-
-
-def calc_co2_ferry(distance: Kilometer, seating: FerryClass = None) -> Kilogram:
-    """
-    Function to compute emissions of a ferry trip
-    :param distance: Distance of ferry trip
-    :param seating: ["average", "Foot passenger", "Car passenger"]
-    :type distance: Kilometer
-    :type seating: str
-    :return: Total emissions of sea travel in co2 equivalents
-    :rtype: Kilogram
-    """
-
-    # Validate parameters
-    params_extracted = {k: v for k, v in locals().items() if v is not None}
-    params = FerryEmissionParameters(**params_extracted)
-    # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
-    return distance * co2e
-
-
-def calc_co2_bicycle(weekly_distance):
-    """Calculate co2 emissions for commuting by bicycle
-
-    :param weekly_distance: distance in km per week
-    """
-    co2e = emission_factors.get(
-        {
-            "category": EmissionCategory.TRANSPORT,
-            "subcategory": TransportationMode.BICYCLE,
-        }
-    )
-    return co2e * weekly_distance
-
-
-def calc_co2_pedelec(weekly_distance):
-    """Calculate co2 emissions for commuting by pedelec
-
-    :param weekly_distance: distance in km per week
-    """
-    co2e = emission_factors.get(
-        {
-            "category": EmissionCategory.TRANSPORT,
-            "subcategory": TransportationMode.PEDELEC,
-        }
-    )
-    return co2e * weekly_distance
-
-
-def calc_co2_tram(weekly_distance):
-    """Calculate co2 emissions for commuting by pedelec
-
-    :param weekly_distance: distance in km per week
-    """
-    co2e = emission_factors.get(
-        {
-            "category": EmissionCategory.TRANSPORT,
-            "subcategory": TransportationMode.TRAM,
-        }
-    )
-    return co2e * weekly_distance
 
 
 def calc_co2_electricity(
