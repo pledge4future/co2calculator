@@ -173,32 +173,29 @@ def calc_co2_businesstrip(
     if transportation_mode == TransportationMode.CAR:
         emissions = calc_co2_car(
             distance=distance,
-            passengers=passengers,
-            size=size,
-            fuel_type=fuel_type,
+            options={"passengeres": passengers, "size": size, "fuel_type": fuel_type},
         )
 
     elif transportation_mode == TransportationMode.BUS:
         emissions = calc_co2_bus(
             distance=distance,
-            size=size,
-            fuel_type=fuel_type,
-            occupancy=occupancy,
-            vehicle_range=BusTrainRange.LONG_DISTANCE,
+            options={"size": size, "fuel_type": fuel_type, "occupancy": occupancy},
         )
 
     elif transportation_mode == TransportationMode.TRAIN:
         emissions = calc_co2_train(
             distance=distance,
-            fuel_type=fuel_type,
-            vehicle_range=BusTrainRange.LONG_DISTANCE,
+            options={
+                "fuel_type": fuel_type,
+                "vehicle_range": BusTrainRange.LONG_DISTANCE,
+            },
         )
 
     elif transportation_mode == TransportationMode.PLANE:
-        emissions = calc_co2_plane(distance, seating=seating)
+        emissions = calc_co2_plane(distance, options={"seating": seating})
 
     elif transportation_mode == TransportationMode.FERRY:
-        emissions = calc_co2_ferry(distance, seating=seating)
+        emissions = calc_co2_ferry(distance, options={"seating": seating})
 
     else:
         raise ValueError(
@@ -242,28 +239,24 @@ def calc_co2_commuting(
     # get weekly co2e for respective mode of transport
     if transportation_mode == TransportationMode.CAR:
         weekly_co2e = calc_co2_car(
-            passengers=passengers,
-            size=size,
-            fuel_type=fuel_type,
             distance=weekly_distance,
+            options={"passengers": passengers, "size": size, "fuel_type": fuel_type},
         )
 
     elif transportation_mode == TransportationMode.MOTORBIKE:
-        weekly_co2e = calc_co2_motorbike(size=size, distance=weekly_distance)
+        weekly_co2e = calc_co2_motorbike(
+            options={"size": size}, distance=weekly_distance
+        )
     elif transportation_mode == TransportationMode.BUS:
         weekly_co2e = calc_co2_bus(
-            size=size,
-            fuel_type=fuel_type,
-            occupancy=occupancy,
-            vehicle_range=BusTrainRange.LOCAL,
             distance=weekly_distance,
+            options={"size": size, "fuel_type": fuel_type, "occupancy": occupancy},
         )
 
     elif transportation_mode == TransportationMode.TRAIN:
         weekly_co2e = calc_co2_train(
-            fuel_type=fuel_type,
-            vehicle_range=BusTrainRange.LOCAL,
             distance=weekly_distance,
+            options={"fuel_type": fuel_type, "vehicle_range": BusTrainRange.LOCAL},
         )
 
     elif transportation_mode == TransportationMode.PEDELEC:

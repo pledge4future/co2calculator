@@ -51,10 +51,8 @@ def test_electricity():
 @pytest.mark.parametrize(
     "transportation_mode,weekly_distance,size,fuel_type,occupancy,passengers,expected",
     [
-        pytest.param(
-            "car", 30, "medium", "gasoline", None, None, 6.93, id="car commute"
-        ),
-        pytest.param("bicycle", 60, None, None, None, None, 0.54, id="bicycle commute"),
+        pytest.param("car", 30, "medium", "gasoline", None, 1, 6.93, id="car commute"),
+        pytest.param("bicycle", 60, None, None, None, 1, 0.54, id="bicycle commute"),
     ],
 )
 def test_commuting(
