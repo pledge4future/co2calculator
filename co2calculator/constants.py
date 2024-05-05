@@ -17,26 +17,20 @@ DF_AIRPORTS = pd.read_csv(
 class HeatingFuel(enum.Enum):
     """Enum for heating fuel types"""
 
-    HEAT_PUMP_AIR = "heat_pump_air"
-    HEAT_PUMP_GROUND = "heat_pump_ground"
-    HEAT_PUMP_WATER = "heat_pump_water"
-    LIQUID_GAS = "liquid_gas"
     OIL = "oil"
-    PELLETS = "pellets"
-    SOLAR = "solar"
-    WOODCHIPS = "woodchips"
-    ELECTRICITY = "electricity"
-    GAS = "gas"
     COAL = "coal"
-    DISTRICT_HEATING = "district_heating"
+    GAS = "gas"
+    WOOD_PELLETS = "wood pellets"
+    WOOD_CHIPS = "wood chips"
+    LPG = "liquid_gas"
 
 
 @enum.unique
 class ElectricityFuel(str, enum.Enum):
     """Enum for electricity fuel types"""
 
-    GERMAN_ENERGY_MIX = "german_energy_mix"
-    SOLAR = "solar"
+    PRODUCTION_FUEL_MIX = "production fuel mix"
+    RESIDUAL_FUEL_MIX = "residual fuel mix"
 
 
 @enum.unique

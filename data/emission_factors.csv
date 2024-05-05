@@ -1,4 +1,4 @@
-,country_code,category,subcategory,source,name,unit,size_class,range,fuel_type,co2e_unit,co2e,seating
+,country_code,category,subcategory,source,name,unit,size,range,fuel_type,co2e_unit,co2e,seating
 0,global,heating,,"UK, Department for Business, Energy & Industrial Strategy",coal (domestic),kWh,,,coal,kg/kWh,0.35,
 1,global,heating,,"UK, Department for Business, Energy & Industrial Strategy",natural gas,kWh,,,gas,kg/kWh,0.18,
 2,global,heating,,"UK, Department for Business, Energy & Industrial Strategy",LPG,kWh,,,liquid_gas,kg/kWh,0.21,
