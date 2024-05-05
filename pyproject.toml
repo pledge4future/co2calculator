@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "co2calculator"
-version = "0.1.2b"
+version = "0.1.5b"
 description = "Calculates CO2e emissions from travel and commuting as well as heating and electricity consumption of buildings"
 authors = ["pledge4future Team <info@pledge4future.org>"]
 license = "GPL 3"
