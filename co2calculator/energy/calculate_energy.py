@@ -16,8 +16,7 @@ conversion_factors = ConversionFactors()
 
 
 def calc_co2_heating(
-    consumption: float,
-    options: Union[HeatingParameters, dict] = None,
+    consumption: float, options: Union[HeatingParameters, dict]
 ) -> Kilogram:
     """Function to compute heating emissions
 
@@ -53,7 +52,7 @@ def calc_co2_heating(
 
 
 def calc_co2_electricity(
-    consumption: float, options: Union[ElectricityParameters, dict] = None
+    consumption: float, options: Union[ElectricityParameters, dict]
 ) -> Kilogram:
     """Function to compute electricity emissions
 
