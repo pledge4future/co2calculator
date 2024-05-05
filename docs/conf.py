@@ -72,7 +72,7 @@ html_theme_options = {
     "show_powered_by": "true",
     "sidebar_header": "#f15e44",
     "narrow_sidebar_bg": "#f15e44",
-    "font_family": "Roboto Condensed",
+    "font_family": "montserrat",
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
