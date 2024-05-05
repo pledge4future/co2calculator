@@ -77,14 +77,14 @@ $ pytest
 
 ### Emission factors
 
-- [Probas](https://www.probas.umweltbundesamt.de/php/index.php)
-- [UBA (2021). "Umweltfreundlich mobil"](https://www.umweltbundesamt.de/en/publikationen/umweltfreundlich-mobil)
-- [GOV.UK (2020). Greenhouse gas reporting: conversion factors 2020](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2020)
+- [Carbon footprint (2023). International electricity factors](https://www.carbonfootprint.com/international_electricity_factors.html)
+- [GOV.UK (2023). Greenhouse gas reporting: conversion factors 2023](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023)
+- [mobitoool (2023). mobitool-Faktoren v3.0](https://www.mobitool.ch/de/tools/mobitool-faktoren-v2-1-25.html)
 
 ### Conversion factors
 
 - [BAFA (2020): Merkblatt zur Ermittlung des Gesamtenergieverbrauchs](https://www.bafa.de/SharedDocs/Downloads/DE/Energie/ea_ermittlung_gesamtenergieverbrauch.html)
-- [Krajnc, N. (2015): Wood fuels handbook, FAO](https://agris.fao.org/agris-search/search.do?recordID=XF2017001919)
+- [Krajnc, N. (2015): Wood fuels handbook, FAO](http://large.stanford.edu/courses/2017/ph240/timcheck1/docs/fao-krajnc-2015.pdf)
 
 ### Detour coefficients and constants
 
