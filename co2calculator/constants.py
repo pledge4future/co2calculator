@@ -5,12 +5,7 @@
 import enum
 
 import iso3166
-import pandas as pd
-
-
-DF_AIRPORTS = pd.read_csv(
-    "https://davidmegginson.github.io/ourairports-data/airports.csv"
-)
+from co2calculator.data_handlers import Airports
 
 
 class HeatingFuel(enum.Enum):
@@ -224,7 +219,7 @@ class IataAirportCode(str):
 
     @classmethod
     def validate_iata_code(cls, iata_code: str) -> str:
-        if iata_code in DF_AIRPORTS["iata_code"].values:
+        if iata_code in Airports().airports["iata_code"].values:
             return iata_code
         else:
             raise ValueError(f"{iata_code} was not found in airport database")
