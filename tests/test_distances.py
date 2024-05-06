@@ -9,8 +9,10 @@ import numpy as np
 import pytest
 from dotenv import load_dotenv
 from pydantic import ValidationError
+from co2calculator.constants import RangeCategory
 
 import co2calculator
+import co2calculator.distances
 
 load_dotenv()
 ORS_API_KEY = os.environ.get("ORS_API_KEY")
@@ -228,3 +230,38 @@ def test_get_route_ferry(
         dist_f, dist_t = co2calculator.distances.get_route_ferry([start, dest])
     assert dist_t == pytest.approx(expected_distance, rel=0.01)
     assert dist_f == pytest.approx(expected_ferry_distance, rel=0.01)
+
+
+@pytest.mark.parametrize(
+    "distance,expected_category, expected_description",
+    [
+        pytest.param(0, "very_short_haul", "below 500 km", id="Distance: 0 km"),
+        pytest.param(500, "very_short_haul", "below 500 km", id="Distance: 500 km"),
+        pytest.param(501, "short_haul", "500 to 1500 km", id="Distance: 501 km"),
+        pytest.param(1500, "short_haul", "500 to 1500 km", id="Distance: 1500 km"),
+        pytest.param(1501, "medium_haul", "1500 to 4000 km", id="Distance: 1501 km"),
+        pytest.param(4000, "medium_haul", "1500 to 4000 km", id="Distance: 4000 km"),
+        pytest.param(4001, "long_haul", "above 4000 km", id="Distance: 4001 km"),
+        pytest.param(42.7, "very_short_haul", "below 500 km", id="float"),
+    ],
+)
+def test_range_categories(
+    distance: float, expected_category: RangeCategory, expected_description: str
+) -> None:
+    """Test: Categorization of ranges
+    Expect: See test table
+    """
+    actual_category, actual_description = co2calculator.distances.range_categories(
+        distance
+    )
+
+    assert actual_category == expected_category
+    assert actual_description == expected_description
+
+
+def test_range_categories_negative_distance():
+    """Test: Categorization of ranges when using negative distance
+    Expect: Test fails
+    """
+    with pytest.raises(ValueError):
+        co2calculator.distances.range_categories(-20)

@@ -149,36 +149,3 @@ def test_commuting(
     )
 
     assert round(co2e, 2) == expected
-
-
-@pytest.mark.parametrize(
-    "distance,expected_category, expected_description",
-    [
-        pytest.param(0, "very_short_haul", "below 500 km", id="Distance: 0 km"),
-        pytest.param(500, "very_short_haul", "below 500 km", id="Distance: 500 km"),
-        pytest.param(501, "short_haul", "500 to 1500 km", id="Distance: 501 km"),
-        pytest.param(1500, "short_haul", "500 to 1500 km", id="Distance: 1500 km"),
-        pytest.param(1501, "medium_haul", "1500 to 4000 km", id="Distance: 1501 km"),
-        pytest.param(4000, "medium_haul", "1500 to 4000 km", id="Distance: 4000 km"),
-        pytest.param(4001, "long_haul", "above 4000 km", id="Distance: 4001 km"),
-        pytest.param(42.7, "very_short_haul", "below 500 km", id="float"),
-    ],
-)
-def test_range_categories(
-    distance: float, expected_category: RangeCategory, expected_description: str
-) -> None:
-    """Test: Categorization of ranges
-    Expect: See test table
-    """
-    actual_category, actual_description = candidate.range_categories(distance)
-
-    assert actual_category == expected_category
-    assert actual_description == expected_description
-
-
-def test_range_categories_negative_distance():
-    """Test: Categorization of ranges when using negative distance
-    Expect: Test fails
-    """
-    with pytest.raises(ValueError):
-        candidate.range_categories(-20)
