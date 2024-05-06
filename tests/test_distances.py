@@ -100,8 +100,7 @@ def test_valid_geocoding_dict():
     co2calculator.distances.geocoding_structured(loc_dict)
 
 
-@pytest.mark.skip(reason="API Key missing for test setup. TODO: Mock Response")
-def test_invalid_geocoding_dict():
+def test_invalid_structured_geocoding_dict():
     """Test if a providing an invalid geocoding raises an error"""
     # Given parameters
     loc_dict = {
@@ -141,7 +140,6 @@ def test_geocoding_train_stations_invalid_country():
     assert e.type is ValidationError
 
 
-@pytest.mark.skip(reason="API Key missing for test setup. TODO: Mock Response")
 def test_geocoding_train_stations():
     """Test geocoding of European train station"""
     # Given parameters

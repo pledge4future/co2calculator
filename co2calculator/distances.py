@@ -40,11 +40,6 @@ ORS_API_KEY = os.environ.get("ORS_API_KEY")
 script_path = str(Path(__file__).parent)
 
 
-# TODO: change, so it is only read in function? Or find API?
-airports = Airports().airports
-eu_train_stations = EUTrainStations().stations
-
-
 class StructuredLocation(BaseModel, extra=Extra.forbid):
     address: Optional[str]
     locality: str
@@ -166,10 +161,11 @@ def geocoding_airport(iata: IataAirportCode) -> Tuple[str, Tuple[float, float], 
     :return: name, coordinates and country of the found airport
     :rtype: Tuple[str, Tuple[float, float], str]
     """
+    df_airports = Airports().airports
 
     airport = Airport(iata_code=iata)
     name, lat, lon, country = (
-        airports[airports.iata_code == airport.iata_code][
+        df_airports[df_airports.iata_code == airport.iata_code][
             ["name", "latitude_deg", "longitude_deg", "iso_country"]
         ]
         .values.flatten()
@@ -302,6 +298,7 @@ def geocoding_train_stations(loc_dict):
 
     :return: Name, country and coordinates of the found location
     """
+    eu_train_stations = EUTrainStations().stations
     station = TrainStation(**loc_dict)
 
     country_code = station.country
