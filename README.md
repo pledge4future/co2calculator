@@ -10,18 +10,31 @@ This package is part of [Pledge4Future](https://pledge4future.org/), a project t
 
 ## :computer:  Installation
 
-`co2calculator` is currently only available on GitHub. To use the code, clone the repository as usual, for example with:
+### With pip (recommended)
+
+PyPi release coming soon!
+
+<!--The recommended way to install this package is with pip from the Python Package Index ([PyPi](https://pypi.org/)):
+
+```
+pip install -U co2calculator
+```-->
+
+### From source
+
+To install this package from source, clone the repository as usual, for example with:
 
 ``` 
 git clone https://github.com/pledge4future/co2calculator.git
+cd co2calculator
 ```
 
-This package requires Python 3.9 and the packages listed in `requirements.txt`
+This package requires Python 3.10, 3.11 or 3.12 and can be installed using [poetry](https://python-poetry.org/). You can install it in your (virtual) environment with:
 
 ```
-$ pip install -r requirements.txt
+$ pip install -U poetry
+$ poetry install --no-root
 ```
-
 
 
 ## ⌨  How to Use
@@ -41,11 +54,6 @@ The CO<sub>2</sub> Calculator uses the [OpenRouteService (ORS) API](https://open
 
 If you want to contribute to this project, please fork this repository and create a pull request with your suggested changes.
 
-Running the unit tests and applying the pre-commit hooks requires installing the packages listed in `requirements-dev.txt`.
-
-```
-$ pip install -r requirements-dev.txt
-```
 
 ### Install pre-commit hooks
 
