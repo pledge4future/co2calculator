@@ -88,6 +88,19 @@ class Airports:
         )
 
 
+class EUTrainStations:
+    def __init__(self):
+        """Init"""
+        stations = pd.read_csv(
+            "https://raw.githubusercontent.com/trainline-eu/stations/master/stations.csv",
+            sep=";",
+            low_memory=False,
+            usecols=[0, 1, 2, 5, 6, 8],
+        )
+        # remove stations with no coordinates
+        self.stations = stations.dropna(subset=["latitude", "longitude"])
+
+
 class DetourFactors:
     def __init__(self, data_dir=script_path):
         """Init"""
