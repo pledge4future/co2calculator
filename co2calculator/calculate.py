@@ -29,6 +29,7 @@ from .constants import (
     HeatingFuel,
     Unit,
     TransportationMode,
+    CountryCode2,
 )
 from .data_handlers import EmissionFactors, ConversionFactors
 from .parameters import (
@@ -43,15 +44,20 @@ conversion_factors = ConversionFactors()
 
 
 def calc_co2_electricity(
-    consumption: float, fuel_type: ElectricityFuel = None, own_share: float = 1
+    consumption: float,
+    fuel_type: ElectricityFuel = None,
+    country_code: CountryCode2 = None,
+    own_share: float = 1,
 ) -> Kilogram:
     """Function to compute electricity emissions
 
     :param consumption: energy consumption
-    :param fuel_type: energy (mix) used for electricity [german_energy_mix, solar]
+    :param fuel_type: energy (mix) used for electricity [production fuel mix, residual fuel mix]
+    :param country_code: 2 Letter ISO country code
     :param energy_share: the research group's approximate share of the total electricity energy consumption
     :type consumption: float
     :type fuel_type: str
+    :type country_code: str
     :type own_share: float
     :return: total emissions of electricity energy consumption
     :rtype: Kilogram
