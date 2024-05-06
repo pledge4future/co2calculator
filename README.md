@@ -16,13 +16,6 @@ This package is part of [Pledge4Future](https://pledge4future.org/), a project t
 git clone https://github.com/pledge4future/co2calculator.git
 ```
 
-The repository has a submodule (https://github.com/trainline-eu/stations). This has to be pulled with the following command:
-
-```
-git submodule update --init --recursive
-```
-
-
 This package requires Python 3.9 and the packages listed in `requirements.txt`
 
 ```
@@ -94,9 +87,10 @@ $ pytest
 - Detour coefficients for train trips (1.2) and bus trips (1.5):
     - Adapted from [GES 1point5](https://labos1point5.org/ges-1point5), who were advised by Frédéric Héran (economist and urban planner).
 
-### Airports
+### Airports and Train Stations
 
 - [OurAirports](https://ourairports.com/data/)
+- [Stations - A Database of European Train Stations (Trainline EU)](https://github.com/trainline-eu/stations)
 
 ## 🤝 Project partners
 
