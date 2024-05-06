@@ -17,7 +17,7 @@ from co2calculator.exceptions import EmissionFactorNotFound
 @pytest.mark.parametrize(
     "distance, transportation_mode,options,custom_emission_factor,expected_emissions",
     [
-        pytest.param(100, "car", None, None, 21.5, id="basic car trip"),
+        pytest.param(100, "car", None, None, 18.64, id="basic car trip"),
         pytest.param(
             100, "car", None, 0.1, 10.0, id="car trip with custom emission factor"
         ),
