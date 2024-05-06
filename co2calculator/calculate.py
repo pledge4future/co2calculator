@@ -21,21 +21,17 @@ from co2calculator.util import get_calc_function_from_transport_mode
 
 from ._types import Kilogram, Kilometer
 from .constants import (
-    KWH_TO_TJ,
     Size,
     CarFuel,
     BusFuel,
     TrainFuel,
-    BusTrainRange,
-    FlightClass,
-    FerryClass,
     ElectricityFuel,
     HeatingFuel,
     Unit,
     TransportationMode,
+    CountryCode2,
 )
 from .data_handlers import EmissionFactors, ConversionFactors
-from .distances import create_distance_request, get_distance, range_categories
 from .parameters import (
     ElectricityEmissionParameters,
     HeatingEmissionParameters,
@@ -48,16 +44,21 @@ conversion_factors = ConversionFactors()
 
 
 def calc_co2_electricity(
-    consumption: float, fuel_type: ElectricityFuel = None, energy_share: float = 1
+    consumption: float,
+    fuel_type: ElectricityFuel = None,
+    country_code: CountryCode2 = None,
+    own_share: float = 1,
 ) -> Kilogram:
     """Function to compute electricity emissions
 
     :param consumption: energy consumption
-    :param fuel_type: energy (mix) used for electricity [german_energy_mix, solar]
+    :param fuel_type: energy (mix) used for electricity [production fuel mix, residual fuel mix]
+    :param country_code: 2 Letter ISO country code
     :param energy_share: the research group's approximate share of the total electricity energy consumption
     :type consumption: float
     :type fuel_type: str
-    :type energy_share: float
+    :type country_code: str
+    :type own_share: float
     :return: total emissions of electricity energy consumption
     :rtype: Kilogram
     """
@@ -69,16 +70,14 @@ def calc_co2_electricity(
     # Get the co2 factor
     co2e = emission_factors.get(params.dict())
 
-    # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
-    # so consumption needs to be converted to TJ
-    return consumption * energy_share / KWH_TO_TJ * co2e
+    return consumption * own_share * co2e
 
 
 def calc_co2_heating(
     consumption: float,
     fuel_type: HeatingFuel,
     unit: Unit = None,
-    area_share: float = 1.0,
+    own_share: float = 1.0,
 ) -> Kilogram:
     """Function to compute heating emissions
 
@@ -87,16 +86,16 @@ def calc_co2_heating(
         [coal, district_heating, electricity, gas, heat_pump_air,
         heat_pump_ground, liquid_gas, oil, pellet, solar, woodchips]
     :param unit: unit of energy consumption [kwh, kg, l, m^3]
-    :param area_share: share of building area used by research group
+    :param own_share: share of building area used by research group
     :type consumption: float
     :type fuel_type: str
     :type unit: str
-    :type area_share: float
+    :type own_share: float
     :return: total emissions of heating energy consumption
     :rtype: Kilogram
     """
     # Validate parameters
-    assert 0 < area_share <= 1
+    assert 0 < own_share <= 1
     params_extracted = {k: v for k, v in locals().items() if v is not None}
     params = HeatingEmissionParameters(**params_extracted)
 
@@ -106,14 +105,11 @@ def calc_co2_heating(
     if unit is not Unit.KWH:
         # Get the conversion factor
         conversion_factor = conversion_factors.get(fuel_type=fuel_type, unit=unit)
-
         consumption_kwh = consumption * conversion_factor
     else:
         consumption_kwh = consumption
 
-    # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
-    # so consumption needs to be converted to TJ
-    return consumption_kwh * area_share / KWH_TO_TJ * co2e
+    return consumption_kwh * co2e * own_share
 
 
 def calc_co2_trip(
@@ -149,7 +145,6 @@ def calc_co2_commuting(
     weekly_distance: Kilometer,
     size: Size = None,
     fuel_type: BusFuel | CarFuel | TrainFuel = None,
-    occupancy: int = None,
     passengers: int = None,
 ) -> Kilogram:
     """Calculate co2 emissions for commuting per mode of transport
@@ -158,13 +153,11 @@ def calc_co2_commuting(
     :param weekly_distance: distance in km per week
     :param size: size of car or bus if applicable: [small, medium, large, average]
     :param fuel_type: fuel type of car, bus or train if applicable
-    :param occupancy: occupancy [%], if applicable/known (only for bus): [20, 50, 80, 100]
     :param passengers: number of passengers, if applicable (only for car)
     :type transportation_mode: str
     :type weekly_distance: Kilometer
     :type size: str
     :type fuel_type: str
-    :type occupancy: int
     :type passengers: int
     :return: total weekly emissions for the respective mode of transport
     :rtype: Kilogram

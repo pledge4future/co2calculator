@@ -10,41 +10,74 @@ script_path = str(Path(__file__).parent)
 
 
 class EmissionFactors:
-    def __init__(self):
+    def __init__(self, data_dir=script_path):
         """Init"""
-        self.emission_factors = pd.read_csv(f"{script_path}/data/emission_factors.csv")
-        self.column_names = self.emission_factors.columns
+        self.electricity = pd.read_csv(
+            f"{data_dir}/data/emission_factors_electricity.csv"
+        )
+        self.heating = pd.read_csv(f"{data_dir}/data/emission_factors_heating.csv")
+        self.transport = pd.read_csv(f"{data_dir}/data/emission_factors_transport.csv")
+
+        self.databases = {
+            "electricity": self.electricity,
+            "heating": self.heating,
+            "transport": self.transport,
+        }
 
     def get(self, parameters: dict):
         """
-        Returns factors from the database
+        Returns factor from the database
         :param parameters:
         :type parameters:
         :return:
         :rtype:
         """
-        selected_factors = self.emission_factors
+        assert (
+            "category" in parameters
+        ), "Please provide a category for the emission factor."
+        assert parameters["category"] in [
+            "electricity",
+            "heating",
+            "transport",
+        ], "Please provide a valid emission factor category."
 
-        for k, v in parameters.items():
-            # TODO: shortterm hack to make it work until occupancy is removed from emission factors
-            if not isinstance(v, int):
-                v = str(v.value)
-            if v is None or k not in self.column_names:
-                continue
+        # Search suitable emission factors
+        selected_factors = self._search_factors(parameters, parameters["category"])
 
-            selected_factors_new = selected_factors[selected_factors[k] == v]
-            selected_factors = selected_factors_new
-            if selected_factors_new.empty:
-                raise EmissionFactorNotFound(
-                    "No suitable emission factor found in database. Please adapt your query."
-                )
-
-        if len(selected_factors) > 1:
+        if len(selected_factors) == 0:
+            raise EmissionFactorNotFound(
+                "No suitable emission factor found in database. Please adapt your query."
+            )
+        elif len(selected_factors) > 1:
             raise EmissionFactorNotFound(
                 f"{len(selected_factors)} emission factors found. Please provide more specific selection criteria."
             )
         else:
             return selected_factors["co2e"].values[0]
+
+    def _search_factors(self, parameters, emission_category):
+        """
+        Searches for factors in the database
+        :param parameters: Search parameters
+        :type parameters: dict
+        :param emission_category: Category of emission factors
+        :type emission_category: str
+        """
+        # Select table for emission category
+        candidates = self.databases[emission_category]
+        for k, v in parameters.items():
+            if isinstance(v, int):
+                continue
+            if not isinstance(v, str):
+                v = str(v.value)
+            if v is None or k not in candidates.columns:
+                continue
+            new_candidates = candidates[candidates[k] == v]
+            if new_candidates.empty:
+                return new_candidates
+            candidates = new_candidates
+
+        return candidates
 
 
 class Airports:
@@ -56,16 +89,16 @@ class Airports:
 
 
 class DetourFactors:
-    def __init__(self):
+    def __init__(self, data_dir=script_path):
         """Init"""
-        self.detour_factors = pd.read_csv(f"{script_path}/data/detour.csv")
+        self.detour_factors = pd.read_csv(f"{data_dir}/data/detour.csv")
 
 
 class ConversionFactors:
-    def __init__(self):
+    def __init__(self, data_dir=script_path):
         """Init"""
         self.conversion_factors = pd.read_csv(
-            f"{script_path}/data/conversion_factors_heating.csv"
+            f"{data_dir}/data/conversion_factors_heating.csv"
         )
 
     def get(self, fuel_type, unit):

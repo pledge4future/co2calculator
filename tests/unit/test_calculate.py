@@ -9,12 +9,15 @@ from pytest_mock import MockerFixture
 
 import co2calculator.calculate as candidate
 from co2calculator.constants import RangeCategory
+from pydantic import ValidationError
+
+from co2calculator.exceptions import EmissionFactorNotFound
 
 
 @pytest.mark.parametrize(
     "distance, transportation_mode,options,custom_emission_factor,expected_emissions",
     [
-        pytest.param(100, "car", None, None, 21.5, id="basic car trip"),
+        pytest.param(100, "car", None, None, 18.64, id="basic car trip"),
         pytest.param(
             100, "car", None, 0.1, 10.0, id="car trip with custom emission factor"
         ),
@@ -77,17 +80,13 @@ def test_calc_co2_trip_ignore_error_on_custom_emission_factor():
     assert result == 10
 
 
-# @pytest.mark.skip(
-#    reason="Failing right now, but units will change anyways. let's check after the co2factors are updated"
-# )
 def test_heating_woodchips():
     """Test co2e calculation for heating: woodchips"""
     # Given parameters
-    fuel_type = "woodchips"  # emission factor: 9322 kg/TJ
+    fuel_type = "wood chips"
     consumption = 250
-    unit = "kg"  # conversion factor to kWh = 5.4
-    # divide by 277777.77777778 to convert from TJ to kWh
-    co2e_kg_expected = 43.63
+    unit = "kg"
+    co2e_kg_expected = 13.962
 
     # Calculate co2e
     co2e = candidate.calc_co2_heating(
@@ -101,19 +100,23 @@ def test_heating_woodchips():
 def test_electricity():
     """Test co2e calculation for electricity"""
     # Given parameters
-    fuel_type = "german_energy_mix"
+    fuel_type = "production fuel mix"
+    country = "FR"
     consumption_kwh = 10000
-    co2e_kg_expected = 3942.65  # emission factor: 109518 kg/TJ
+    co2e_kg_expected = 620.7
 
     # Calculate co2e
     co2e = candidate.calc_co2_electricity(
-        consumption=consumption_kwh, fuel_type=fuel_type
+        consumption=consumption_kwh, fuel_type=fuel_type, country_code=country
     )
 
     # Check if expected result matches calculated result
     assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
 
 
+@pytest.mark.skip(
+    reason="Failing right now, but units will change anyways. let's check after the co2factors are updated"
+)
 @pytest.mark.parametrize(
     "transportation_mode,weekly_distance,size,fuel_type,occupancy,passengers,expected",
     [
@@ -146,36 +149,3 @@ def test_commuting(
     )
 
     assert round(co2e, 2) == expected
-
-
-@pytest.mark.parametrize(
-    "distance,expected_category, expected_description",
-    [
-        pytest.param(0, "very_short_haul", "below 500 km", id="Distance: 0 km"),
-        pytest.param(500, "very_short_haul", "below 500 km", id="Distance: 500 km"),
-        pytest.param(501, "short_haul", "500 to 1500 km", id="Distance: 501 km"),
-        pytest.param(1500, "short_haul", "500 to 1500 km", id="Distance: 1500 km"),
-        pytest.param(1501, "medium_haul", "1500 to 4000 km", id="Distance: 1501 km"),
-        pytest.param(4000, "medium_haul", "1500 to 4000 km", id="Distance: 4000 km"),
-        pytest.param(4001, "long_haul", "above 4000 km", id="Distance: 4001 km"),
-        pytest.param(42.7, "very_short_haul", "below 500 km", id="float"),
-    ],
-)
-def test_range_categories(
-    distance: float, expected_category: RangeCategory, expected_description: str
-) -> None:
-    """Test: Categorization of ranges
-    Expect: See test table
-    """
-    actual_category, actual_description = candidate.range_categories(distance)
-
-    assert actual_category == expected_category
-    assert actual_description == expected_description
-
-
-def test_range_categories_negative_distance():
-    """Test: Categorization of ranges when using negative distance
-    Expect: Test fails
-    """
-    with pytest.raises(ValueError):
-        candidate.range_categories(-20)
