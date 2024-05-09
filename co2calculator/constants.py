@@ -20,20 +20,27 @@ DF_AIRPORTS = pd.read_csv(
 class BudgetOnePointFiveDegrees:
     """
     Dataclass for budget for 1.5 degrees scenario
-
+    All values are in tons
+    Source for budget values: https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_SPM_final.pdf#page=33, Table SPM.2
+    Remaining carbon budget calculated using an equal-per-capita allocation
     """
 
+    total_carbon_budget: float = 300_000_000_000
     budget_per_person: float = 34.0
     budget_per_person_and_year: float = 1.4
-    budget_per_person_and_year_long: float = 0.0038
+    budget_per_person_and_year_long: float = 1.1
 
 
 @dataclass
 class BudgetTwoDegrees:
     """
     Dataclass for budget for 2 degrees scenario
+    All values are in tons
+    Source for budget values: https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_SPM_final.pdf#page=33, Table SPM.2
+    Remaining carbon budget calculated using an equal-per-capita allocation
     """
 
+    total_carbon_budget: float = 900_000_000_000
     budget_per_person: float = 101.9
     budget_per_person_and_year: float = 4.1
     budget_per_person_and_year_long: float = 3.4
