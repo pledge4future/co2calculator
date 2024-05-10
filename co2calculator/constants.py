@@ -5,15 +5,11 @@
 import enum
 
 import iso3166
-import pandas as pd
+from co2calculator.data_handlers import Airports
 
 from dataclasses import dataclass
 
 KWH_TO_TJ = 277777.77777778
-
-DF_AIRPORTS = pd.read_csv(
-    "https://davidmegginson.github.io/ourairports-data/airports.csv"
-)
 
 
 @dataclass
@@ -49,26 +45,20 @@ class BudgetTwoDegrees:
 class HeatingFuel(enum.Enum):
     """Enum for heating fuel types"""
 
-    HEAT_PUMP_AIR = "heat_pump_air"
-    HEAT_PUMP_GROUND = "heat_pump_ground"
-    HEAT_PUMP_WATER = "heat_pump_water"
-    LIQUID_GAS = "liquid_gas"
     OIL = "oil"
-    PELLETS = "pellets"
-    SOLAR = "solar"
-    WOODCHIPS = "woodchips"
-    ELECTRICITY = "electricity"
-    GAS = "gas"
     COAL = "coal"
-    DISTRICT_HEATING = "district_heating"
+    GAS = "gas"
+    WOOD_PELLETS = "wood pellets"
+    WOOD_CHIPS = "wood chips"
+    LPG = "liquid gas"
 
 
 @enum.unique
 class ElectricityFuel(str, enum.Enum):
     """Enum for electricity fuel types"""
 
-    GERMAN_ENERGY_MIX = "german_energy_mix"
-    SOLAR = "solar"
+    PRODUCTION_FUEL_MIX = "production fuel mix"
+    RESIDUAL_FUEL_MIX = "residual fuel mix"
 
 
 @enum.unique
@@ -119,7 +109,6 @@ class FlightClass(str, enum.Enum):
     """Enum for flight classes"""
 
     ECONOMY = "economy_class"
-    PREMIUM_ECONOMY = "premium_economy_class"
     BUSINESS = "business_class"
     FIRST = "first_class"
     AVERAGE = "average"
@@ -138,9 +127,9 @@ class FerryClass(str, enum.Enum):
 class FlightRange(str, enum.Enum):
     """Enum for flight ranges"""
 
-    DOMESTIC = "domestic"
     SHORT_HAUL = "short-haul"
     LONG_HAUL = "long-haul"
+    AVERAGE = "average"
 
 
 @enum.unique
@@ -264,7 +253,7 @@ class IataAirportCode(str):
 
     @classmethod
     def validate_iata_code(cls, iata_code: str) -> str:
-        if iata_code in DF_AIRPORTS["iata_code"].values:
+        if iata_code in Airports().airports["iata_code"].values:
             return iata_code
         else:
             raise ValueError(f"{iata_code} was not found in airport database")
