@@ -1,0 +1,244 @@
+,country_code,category,source,name,unit,fuel_type,co2e_unit,co2e
+1,AF,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.1241
+2,AL,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0
+3,DZ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.44513
+4,AS,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+5,AO,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.18537
+6,AG,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.74704
+7,AR,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.2881
+8,AM,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.18481
+9,AW,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.66452
+10,AU,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.77
+11,AT,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.14723
+12,AZ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.5212
+13,BS,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+14,BH,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.42529
+15,BD,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.56719
+16,BB,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.73307
+17,BY,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.35708
+18,BE,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.13882
+19,BZ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.50149
+20,BJ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.7593
+21,BT,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0
+22,BO,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.26967
+23,BA,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.9708
+24,BW,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.85966
+25,BR,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.1295
+26,VG,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+27,BN,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.66003
+28,BG,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.55371
+29,BF,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.68818
+30,BI,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.24284
+31,KH,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.41038
+32,CM,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.29822
+33,CA,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.11
+34,CV,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.66906
+35,KY,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.7706
+36,CF,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0
+37,TD,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.76675
+38,CL,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.32345
+39,CN,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.5572
+40,CO,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.1464
+41,KM,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+42,CG,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.35343
+43,CK,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.47539
+44,CR,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.01573
+45,CI,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.40343
+46,HR,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.25469
+47,CU,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.63716
+48,CY,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.65493
+49,CZ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.76413
+50,CD,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.00215
+51,DK,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.18731
+52,DJ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+53,DM,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.60588
+54,DO,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.57048
+55,EC,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.19018
+56,EG,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.46029
+57,SV,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.16363
+58,GQ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.54681
+59,ER,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.7747
+60,EE,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.75353
+61,SZ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.05916
+62,ET,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.00059
+63,FK,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.39616
+64,FO,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.49048
+65,FJ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.28849
+66,FI,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.0953
+67,FR,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.06207
+68,GF,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.26934
+69,PF,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.53198
+70,GA,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.43964
+71,GM,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+72,GE,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.10128
+73,DE,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.44912
+74,GH,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.33563
+75,GR,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.3784
+76,GL,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.13205
+77,GD,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+78,GP,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.61058
+79,GU,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.75748
+80,GT,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.29645
+81,GN,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.2166
+82,GW,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+83,GY,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.70497
+84,HT,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.68827
+85,HN,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.38705
+86,HK,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.68
+87,HK,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.39
+88,HU,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.27037
+89,IS,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.00017
+90,IN,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.7132
+91,ID,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.7848
+92,IR,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.45473
+93,IQ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.46178
+94,IE,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.35216
+95,IL,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.51764
+96,IT,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.36425
+97,JM,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.53139
+98,JP,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.4615
+99,JO,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.35336
+100,KZ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.64995
+101,KE,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.08078
+102,KI,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+103,KW,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.42512
+104,KG,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.08876
+105,LA,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.23817
+106,LV,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.14807
+107,LB,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.62887
+108,LS,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0
+109,LR,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.33587
+110,LY,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.53136
+111,LT,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.2711
+112,LU,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.08493
+113,MO,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.42542
+114,MG,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.53016
+115,MW,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.12332
+116,MY,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.53834
+117,MV,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.73229
+118,ML,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.50868
+119,MT,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.42689
+120,MQ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+121,MR,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.58159
+122,MU,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.65073
+123,MX,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.3
+124,MD,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.69981
+125,MN,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.80174
+126,ME,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.64377
+127,MS,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+128,MA,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.64226
+129,MZ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.10527
+130,MM,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.32444
+131,NA,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.03809
+132,NR,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+133,NP,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0
+134,NL,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.34089
+135,NC,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.68384
+136,NZ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.13111
+137,NI,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.36238
+138,NE,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.70428
+139,NG,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.31727
+140,KP,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.14784
+141,MK,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.53802
+142,NO,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.00832
+143,OM,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.42358
+144,PK,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.32737
+145,PS,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.4758
+146,PA,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.18387
+147,PG,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.5825
+148,PY,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.00143
+149,PE,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.22693
+150,PH,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.60756
+151,PL,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.87761
+152,PT,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.15641
+153,PR,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.77062
+154,QA,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.42515
+155,RE,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.55147
+156,RO,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.31148
+157,RU,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.34362
+158,RW,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.31692
+159,KN,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.7563
+160,LC,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+161,PM,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+162,VC,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.59423
+163,WS,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.51267
+164,ST,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.71308
+165,SA,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.6142
+166,SN,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.5428
+167,RS,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.96323
+168,SC,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.6948
+169,SL,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.07546
+170,SG,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.408
+171,SK,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.17622
+172,SI,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.27329
+173,SB,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+174,SO,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.71501
+175,ZA,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.8665
+176,KR,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.4113
+177,SS,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.77841
+178,ES,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.17709
+179,LK,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.48882
+180,SD,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.26763
+181,SR,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.39223
+182,SE,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.00731
+183,CH,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.00278
+184,SY,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.53139
+185,TW,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.55746
+186,TJ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.06352
+187,TZ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.36013
+188,TH,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.446
+189,TG,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.49698
+190,TO,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.69327
+191,TT,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.42871
+192,TN,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.40675
+193,TR,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.4261
+194,TM,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.42542
+195,TC,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+196,UG,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.02414
+197,UA,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.20375
+198,AE,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.41789
+199,GB,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.22499
+200,US,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.40706
+201,VI,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.76967
+202,UY,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.07148
+203,UZ,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.46613
+204,VU,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.56977
+205,VE,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.19141
+206,VN,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.37789
+207,EH,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.79231
+208,YE,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.58073
+209,ZM,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.06617
+210,ZW,electricity,Carbon Footprint Ltd,Total production fuel mix factor,kWh,production fuel mix,kg/kWh,0.39607
+211,BA,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.84393
+212,BE,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.14427
+213,BG,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.51705
+214,CH,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0
+215,CY,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.6074
+216,CZ,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.6974
+217,DE,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.68403
+218,DK,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.5574
+219,EE,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.71518
+220,ES,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.27511
+221,FI,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.52077
+222,FR,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.12496
+223,GB,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.36515
+224,GR,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.53138
+225,HR,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.51506
+226,HU,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.31996
+227,IE,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.47484
+228,IS,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.53129
+229,IT,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.45715
+230,LT,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.46636
+231,LU,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.41968
+232,LV,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.51071
+233,ME,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.53859
+234,MT,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.40494
+235,NL,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.43897
+236,NO,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.50231
+237,PL,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.85812
+238,PT,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.44555
+239,RO,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.27575
+240,RS,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.95421
+241,SE,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.03895
+242,SI,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.3708
+243,SK,electricity,Carbon Footprint Ltd,Residual fuel mix factor,kWh,residual fuel mix,kg/kWh,0.1865

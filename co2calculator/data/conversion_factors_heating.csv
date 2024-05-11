@@ -1,7 +1,7 @@
 ,fuel_type,unit,conversion_value
 0,oil,l,10.6
-1,liquid_gas,kg,14.1
+1,liquid gas,kg,14.1
 2,coal,kg,6.0
-3,pellet,kg,5.4
-4,woodchips,kg,5.2
+3,wood pellets,kg,5.4
+4,wood chips,kg,5.2
 5,gas,m^3,10.8

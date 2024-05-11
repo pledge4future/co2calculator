@@ -19,15 +19,19 @@ from co2calculator.util import get_calc_function_from_transport_mode
 
 from ._types import Kilogram, Kilometer
 from .constants import (
-    KWH_TO_TJ,
     Size,
     CarFuel,
     BusFuel,
     TrainFuel,
     TransportationMode,
+    CountryCode2,
 )
 from .data_handlers import EmissionFactors, ConversionFactors
 from .distances import create_distance_request, get_distance, range_categories
+from .parameters import (
+    ElectricityEmissionParameters,
+    HeatingEmissionParameters,
+)
 
 script_path = str(Path(__file__).parent)
 
@@ -68,7 +72,6 @@ def calc_co2_commuting(
     weekly_distance: Kilometer,
     size: Size = None,
     fuel_type: BusFuel | CarFuel | TrainFuel = None,
-    occupancy: int = None,
     passengers: int = None,
 ) -> Kilogram:
     """Calculate co2 emissions for commuting per mode of transport
@@ -77,13 +80,11 @@ def calc_co2_commuting(
     :param weekly_distance: distance in km per week
     :param size: size of car or bus if applicable: [small, medium, large, average]
     :param fuel_type: fuel type of car, bus or train if applicable
-    :param occupancy: occupancy [%], if applicable/known (only for bus): [20, 50, 80, 100]
     :param passengers: number of passengers, if applicable (only for car)
     :type transportation_mode: str
     :type weekly_distance: Kilometer
     :type size: str
     :type fuel_type: str
-    :type occupancy: int
     :type passengers: int
     :return: total weekly emissions for the respective mode of transport
     :rtype: Kilogram

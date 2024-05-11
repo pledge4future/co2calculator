@@ -25,12 +25,12 @@ from .constants import (
     CountryCode3,
     CountryName,
     IataAirportCode,
-    DF_AIRPORTS,
     DetourCoefficient,
     DetourConstant,
     RangeCategory,
     RoutingProfile,
 )
+from .data_handlers import Airports, EUTrainStations
 
 load_dotenv()  # take environment variables from .env.
 
@@ -161,10 +161,11 @@ def geocoding_airport(iata: IataAirportCode) -> Tuple[str, Tuple[float, float], 
     :return: name, coordinates and country of the found airport
     :rtype: Tuple[str, Tuple[float, float], str]
     """
+    df_airports = Airports().airports
 
     airport = Airport(iata_code=iata)
     name, lat, lon, country = (
-        DF_AIRPORTS[DF_AIRPORTS.iata_code == airport.iata_code][
+        df_airports[df_airports.iata_code == airport.iata_code][
             ["name", "latitude_deg", "longitude_deg", "iso_country"]
         ]
         .values.flatten()
@@ -297,18 +298,12 @@ def geocoding_train_stations(loc_dict):
 
     :return: Name, country and coordinates of the found location
     """
+    eu_train_stations = EUTrainStations().stations
     station = TrainStation(**loc_dict)
 
-    stations_df = pd.read_csv(
-        f"{script_path}/../data/stations/stations.csv",
-        sep=";",
-        low_memory=False,
-        usecols=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-    )
-    # remove stations with no coordinates
-    stations_df.dropna(subset=["latitude", "longitude"], inplace=True)
-    countries_eu = stations_df["country"].unique()
     country_code = station.country
+    countries_eu = eu_train_stations["country"].unique()
+
     if country_code not in countries_eu:
         warnings.warn(
             "The provided country is not within Europe. "
@@ -316,16 +311,16 @@ def geocoding_train_stations(loc_dict):
         )
 
     # filter stations by country
-    stations_in_country_df = stations_df[stations_df["country"] == country_code]
+    stations_in_country = eu_train_stations[
+        eu_train_stations["country"] == country_code
+    ]
 
     # use thefuzz to find best match
-    choices = stations_in_country_df["slug"].values
+    choices = stations_in_country["slug"].values
     res_station_slug, score = process.extractOne(
         station.station_name, choices, scorer=fuzz.partial_ratio
     )
-    res_station = stations_in_country_df[
-        stations_in_country_df["slug"] == res_station_slug
-    ]
+    res_station = stations_in_country[stations_in_country["slug"] == res_station_slug]
     res_country, res_station_name = res_station[["country", "name"]].values[0]
 
     coords = (res_station.iloc[0]["latitude"], res_station.iloc[0]["longitude"])

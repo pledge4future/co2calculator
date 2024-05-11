@@ -10,25 +10,31 @@ This package is part of [Pledge4Future](https://pledge4future.org/), a project t
 
 ## :computer:  Installation
 
-`co2calculator` is currently only available on GitHub. To use the code, clone the repository as usual, for example with:
+### With pip (recommended)
+
+PyPi release coming soon!
+
+<!--The recommended way to install this package is with pip from the Python Package Index ([PyPi](https://pypi.org/)):
+
+```
+pip install -U co2calculator
+```-->
+
+### From source
+
+To install this package from source, clone the repository as usual, for example with:
 
 ``` 
 git clone https://github.com/pledge4future/co2calculator.git
+cd co2calculator
 ```
 
-The repository has a submodule (https://github.com/trainline-eu/stations). This has to be pulled with the following command:
+This package requires Python 3.10, 3.11 or 3.12 and can be installed using [poetry](https://python-poetry.org/). You can install it in your (virtual) environment with:
 
 ```
-git submodule update --init --recursive
+$ pip install -U poetry
+$ poetry install --no-root
 ```
-
-
-This package requires Python 3.9 and the packages listed in `requirements.txt`
-
-```
-$ pip install -r requirements.txt
-```
-
 
 
 ## ⌨  How to Use
@@ -48,11 +54,6 @@ The CO<sub>2</sub> Calculator uses the [OpenRouteService (ORS) API](https://open
 
 If you want to contribute to this project, please fork this repository and create a pull request with your suggested changes.
 
-Running the unit tests and applying the pre-commit hooks requires installing the packages listed in `requirements-dev.txt`.
-
-```
-$ pip install -r requirements-dev.txt
-```
 
 ### Install pre-commit hooks
 
@@ -77,14 +78,14 @@ $ pytest
 
 ### Emission factors
 
-- [Probas](https://www.probas.umweltbundesamt.de/php/index.php)
-- [UBA (2021). "Umweltfreundlich mobil"](https://www.umweltbundesamt.de/en/publikationen/umweltfreundlich-mobil)
-- [GOV.UK (2020). Greenhouse gas reporting: conversion factors 2020](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2020)
+- [Carbon footprint (2023). International electricity factors](https://www.carbonfootprint.com/international_electricity_factors.html)
+- [GOV.UK (2023). Greenhouse gas reporting: conversion factors 2023](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023)
+- [mobitoool (2023). mobitool-Faktoren v3.0](https://www.mobitool.ch/de/tools/mobitool-faktoren-v2-1-25.html)
 
 ### Conversion factors
 
 - [BAFA (2020): Merkblatt zur Ermittlung des Gesamtenergieverbrauchs](https://www.bafa.de/SharedDocs/Downloads/DE/Energie/ea_ermittlung_gesamtenergieverbrauch.html)
-- [Krajnc, N. (2015): Wood fuels handbook, FAO](https://agris.fao.org/agris-search/search.do?recordID=XF2017001919)
+- [Krajnc, N. (2015): Wood fuels handbook, FAO](http://large.stanford.edu/courses/2017/ph240/timcheck1/docs/fao-krajnc-2015.pdf)
 
 ### Detour coefficients and constants
 
@@ -94,9 +95,10 @@ $ pytest
 - Detour coefficients for train trips (1.2) and bus trips (1.5):
     - Adapted from [GES 1point5](https://labos1point5.org/ges-1point5), who were advised by Frédéric Héran (economist and urban planner).
 
-### Airports
+### Airports and Train Stations
 
 - [OurAirports](https://ourairports.com/data/)
+- [Stations - A Database of European Train Stations (Trainline EU)](https://github.com/trainline-eu/stations)
 
 ## 🤝 Project partners
 
