@@ -12,7 +12,7 @@ def test_heating_woodchips():
     func_options = {
         # Given parameters
         "heating_emission_parameters": {
-            "fuel_type": "woodchips"  # emission factor: 9322 kg/TJ
+            "fuel_type": "wood chips"  # emission factor: 9322 kg/TJ
         },
         "unit": "kg",  # conversion factor to kWh = 5.4
     }
