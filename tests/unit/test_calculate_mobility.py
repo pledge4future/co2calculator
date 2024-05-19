@@ -34,7 +34,7 @@ def test_calc_co2_car(distance: float, options: dict, expected_emissions: float)
     """Test: Calculate car-trip emissions based on given distance.
     Expect: Returns emissions and distance.
     """
-    actual_emissions = mobility.calc_co2_car(distance=distance, options=options)
+    actual_emissions, _, _ = mobility.calc_co2_car(distance=distance, options=options)
 
     assert isinstance(actual_emissions, float)
 

@@ -33,9 +33,10 @@ def calc_co2_car(
     # Validate parameters
     params = CarEmissionParameters.parse_obj(options)
     # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
+    co2e_factor = emission_factors.get(params.dict())
     # Calculate emissions
-    return distance * co2e / params.passengers
+    co2e = distance * co2e_factor / params.passengers
+    return co2e, co2e_factor, params
 
 
 def calc_co2_motorbike(

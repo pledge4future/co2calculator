@@ -33,7 +33,7 @@ def test_calc_co2_trip(
     """Test: Calculate car-trip emissions based on given distance.
     Expect: Returns emissions and distance.
     """
-    actual_emissions = candidate.calc_co2_trip(
+    actual_emissions, _, _ = candidate.calc_co2_trip(
         distance=distance,
         transportation_mode=transportation_mode,
         options=options,
@@ -71,7 +71,7 @@ def test_calc_co2_trip_invalid_options_for_transportation_mode():
 
 def test_calc_co2_trip_ignore_error_on_custom_emission_factor():
     """Test: Should ignore invalid transportation mode if custom emission factor is set"""
-    result = candidate.calc_co2_trip(
+    result, _, _ = candidate.calc_co2_trip(
         distance=100,
         transportation_mode="invalid",
         options=None,
