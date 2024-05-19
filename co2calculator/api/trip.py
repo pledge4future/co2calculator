@@ -7,29 +7,33 @@ from dataclasses import dataclass
 from pydantic import BaseModel
 
 from co2calculator.api.emission import Emissions
+from co2calculator.distances import get_distance, create_distance_request
 from co2calculator.mobility.calculate_mobility import calc_co2_car
 from co2calculator.constants import CarFuel, Size, TransportationMode
 
 
 class Trip:
-    def __init__(self, distance=None, start=None, end=None):
+    def __init__(
+        self, distance: float = None, start: str = None, destination: str = None
+    ):
         """Initialize a trip object"""
-        self.__verify_parameters(distance, start, end)
+        self.__verify_parameters(distance, start, destination)
         self.distance = distance
         self.start = start
-        self.end = end
+        self.destination = destination
 
-    def __verify_parameters(self, distance, start, end):
+    def __verify_parameters(self, distance: float, start: str, destination: str):
         """Verifies whether the parameters passed by the user are valid"""
-        assert distance > 0, "Distance must be greater than 0"
-        if distance is None:
+        if distance is not None:
+            assert isinstance(distance, (int, float)), "Distance must be a number"
+            assert distance > 0, "Distance must be greater than 0"
             assert (
-                start is not None and end is not None
-            ), "If distance is given, start and end must be None."
-        elif distance is not None:
+                start is None and destination is None
+            ), "If distance is not given, start and destination must be given."
+        else:
             assert (
-                start is None and end is None
-            ), "If distance is not given, start and end must be given."
+                start is not None and destination is not None
+            ), "If distance is given, start and destination must be None."
 
     def by_car(self, fuel_type: str = None, size: str = None):
         return _TripByCar(
@@ -37,7 +41,7 @@ class Trip:
             size=size,
             distance=self.distance,
             start=self.start,
-            end=self.end,
+            destination=self.destination,
         )
 
 
@@ -52,10 +56,12 @@ class _TripByCar(Trip):
         size: str = None,
         distance=None,
         start=None,
-        end=None,
+        destination=None,
     ):
         """Initialize a car trip"""
-        super(_TripByCar, self).__init__(distance=distance, start=start, end=end)
+        super(_TripByCar, self).__init__(
+            distance=distance, start=start, destination=destination
+        )
         self.fuel_type = fuel_type
         self.size = size
 
@@ -67,9 +73,8 @@ class _TripByCar(Trip):
         :param size: The size of the car
         :return: Emissions object
         """
-
         if self.distance is None:
-            distance = self.calculate_distance()
+            self.calculate_distance()
 
         # Calculate emissions
         options = {"fuel_type": self.fuel_type, "size": self.size}
@@ -88,8 +93,14 @@ class _TripByCar(Trip):
         return emissions
 
     def calculate_distance(self):
-        # TODO: Implement distance calculation
-        pass
+        """Calculates travelled get_distance"""
+        request = create_distance_request(
+            transportation_mode=self.transport_mode,
+            start=self.start,
+            destination=self.destination,
+        )
+        self.distance = get_distance(request)
+        return self.distance
 
     def get_options(self):
         # TODO: Implement options retrieval
