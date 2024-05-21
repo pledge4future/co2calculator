@@ -7,6 +7,8 @@ import enum
 import iso3166
 from co2calculator.data_handlers import Airports
 
+KWH_TO_TJ = 277777.77777778
+
 
 class HeatingFuel(enum.Enum):
     """Enum for heating fuel types"""
