@@ -1,7 +1,7 @@
 """Function colleciton to calculate energy type co2 emissions"""
 
 from typing import Union
-from co2calculator.constants import KWH_TO_TJ, Unit
+from co2calculator.constants import Unit
 from co2calculator.data_handlers import ConversionFactors, EmissionFactors
 from co2calculator.parameters import (
     ElectricityEmissionParameters,
@@ -31,14 +31,17 @@ def calc_co2_heating(
     if options is None:
         options = {}
     params = HeatingParameters(**options)
-    emission_params = HeatingEmissionParameters(**params.heating_emission_parameters)
+    emission_params = HeatingEmissionParameters(
+        **params.heating_emission_parameters.dict()
+    )
 
     # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
+    co2e = emission_factors.get(emission_params.dict())
 
     if params.unit is not Unit.KWH:
+        print(emission_params.fuel_type, params.unit)
         # Get the conversion factor
-        conversion_factor = ConversionFactors.get(
+        conversion_factor = conversion_factors.get(
             fuel_type=emission_params.fuel_type, unit=params.unit
         )
 
@@ -48,7 +51,7 @@ def calc_co2_heating(
 
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
-    return consumption_kwh * params.area_share / KWH_TO_TJ * co2e
+    return consumption_kwh * params.area_share * co2e
 
 
 def calc_co2_electricity(
@@ -71,12 +74,12 @@ def calc_co2_electricity(
         options = {}
     params = ElectricityParameters(**options)
     emission_params = ElectricityEmissionParameters(
-        **params.electricity_emission_parameters
+        **params.electricity_emission_parameters.dict()
     )
 
     # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
+    co2e = emission_factors.get(emission_params.dict())
 
     # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
     # so consumption needs to be converted to TJ
-    return consumption * emission_params.energy_share / KWH_TO_TJ * co2e
+    return consumption * params.energy_share / co2e
