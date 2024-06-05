@@ -16,6 +16,7 @@ from .constants import (
     HeatingFuel,
     EmissionCategory,
     CountryCode2,
+    Unit,
 )
 from typing import Union
 
@@ -157,7 +158,9 @@ class ElectricityEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.ELECTRICITY
     fuel_type: Union[ElectricityFuel, str] = ElectricityFuel.PRODUCTION_FUEL_MIX
-    country_code: CountryCode2  # TODO: Shall we set a default? Or add a watning if not provided?
+    country_code: Union[
+        CountryCode2, str
+    ] = "DE"  # TODO: Shall we set a default? Or add a warning if not provided?
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
@@ -167,11 +170,21 @@ class ElectricityEmissionParameters(BaseModel):
         return ElectricityFuel(v)
 
 
+class ElectricityParameters(BaseModel):
+    electricity_emission_parameters: ElectricityEmissionParameters
+    energy_share: float = 1.0
+
+    @validator("energy_share", allow_reuse=True)
+    def check_energy_share(cls, v):
+        assert 0 <= v <= 1
+        return v
+
+
 class HeatingEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.HEATING
     fuel_type: Union[HeatingFuel, str] = HeatingFuel.GAS
-    country_code: str = "global"
+    country_code: Union[CountryCode2, str] = "global"
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
@@ -179,3 +192,21 @@ class HeatingEmissionParameters(BaseModel):
             assert v.lower() in (item.value for item in HeatingFuel)
             v = v.lower()
         return HeatingFuel(v)
+
+
+class HeatingParameters(BaseModel):
+    heating_emission_parameters: HeatingEmissionParameters
+    unit: Unit
+    area_share: float = 1.0
+
+    @validator("unit", allow_reuse=True)
+    def check_unit(cls, v):
+        if isinstance(v, str):
+            assert v.lower() in (item.value for item in Unit)
+            v = v.lower()
+        return Unit(v)
+
+    @validator("area_share", allow_reuse=True)
+    def check_area_share(cls, v):
+        assert 0 <= v <= 1
+        return v

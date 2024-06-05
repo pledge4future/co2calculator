@@ -10,10 +10,8 @@ from co2calculator.mobility.calculate_mobility import (
     calc_co2_bicycle,
     calc_co2_bus,
     calc_co2_car,
-    calc_co2_ferry,
     calc_co2_motorbike,
     calc_co2_pedelec,
-    calc_co2_plane,
     calc_co2_train,
     calc_co2_tram,
 )
@@ -25,13 +23,11 @@ from .constants import (
     CarFuel,
     BusFuel,
     TrainFuel,
-    ElectricityFuel,
-    HeatingFuel,
-    Unit,
     TransportationMode,
     CountryCode2,
 )
 from .data_handlers import EmissionFactors, ConversionFactors
+from .distances import create_distance_request, get_distance, range_categories
 from .parameters import (
     ElectricityEmissionParameters,
     HeatingEmissionParameters,
@@ -41,75 +37,6 @@ script_path = str(Path(__file__).parent)
 
 emission_factors = EmissionFactors()
 conversion_factors = ConversionFactors()
-
-
-def calc_co2_electricity(
-    consumption: float,
-    fuel_type: ElectricityFuel = None,
-    country_code: CountryCode2 = None,
-    own_share: float = 1,
-) -> Kilogram:
-    """Function to compute electricity emissions
-
-    :param consumption: energy consumption
-    :param fuel_type: energy (mix) used for electricity [production fuel mix, residual fuel mix]
-    :param country_code: 2 Letter ISO country code
-    :param energy_share: the research group's approximate share of the total electricity energy consumption
-    :type consumption: float
-    :type fuel_type: str
-    :type country_code: str
-    :type own_share: float
-    :return: total emissions of electricity energy consumption
-    :rtype: Kilogram
-    """
-
-    # Validate parameters
-    params_extracted = {k: v for k, v in locals().items() if v is not None}
-    params = ElectricityEmissionParameters(**params_extracted)
-
-    # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
-
-    return consumption * own_share * co2e
-
-
-def calc_co2_heating(
-    consumption: float,
-    fuel_type: HeatingFuel,
-    unit: Unit = None,
-    own_share: float = 1.0,
-) -> Kilogram:
-    """Function to compute heating emissions
-
-    :param consumption: energy consumption
-    :param fuel_type: fuel type used for heating
-        [coal, district_heating, electricity, gas, heat_pump_air,
-        heat_pump_ground, liquid_gas, oil, pellet, solar, woodchips]
-    :param unit: unit of energy consumption [kwh, kg, l, m^3]
-    :param own_share: share of building area used by research group
-    :type consumption: float
-    :type fuel_type: str
-    :type unit: str
-    :type own_share: float
-    :return: total emissions of heating energy consumption
-    :rtype: Kilogram
-    """
-    # Validate parameters
-    assert 0 < own_share <= 1
-    params_extracted = {k: v for k, v in locals().items() if v is not None}
-    params = HeatingEmissionParameters(**params_extracted)
-
-    # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
-
-    if unit is not Unit.KWH:
-        # Get the conversion factor
-        conversion_factor = conversion_factors.get(fuel_type=fuel_type, unit=unit)
-        consumption_kwh = consumption * conversion_factor
-    else:
-        consumption_kwh = consumption
-
-    return consumption_kwh * co2e * own_share
 
 
 def calc_co2_trip(

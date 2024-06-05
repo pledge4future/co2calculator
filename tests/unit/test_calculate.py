@@ -80,40 +80,6 @@ def test_calc_co2_trip_ignore_error_on_custom_emission_factor():
     assert result == 10
 
 
-def test_heating_woodchips():
-    """Test co2e calculation for heating: woodchips"""
-    # Given parameters
-    fuel_type = "wood chips"
-    consumption = 250
-    unit = "kg"
-    co2e_kg_expected = 13.962
-
-    # Calculate co2e
-    co2e = candidate.calc_co2_heating(
-        consumption=consumption, unit=unit, fuel_type=fuel_type
-    )
-
-    # Check if expected result matches calculated result
-    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
-
-
-def test_electricity():
-    """Test co2e calculation for electricity"""
-    # Given parameters
-    fuel_type = "production fuel mix"
-    country = "FR"
-    consumption_kwh = 10000
-    co2e_kg_expected = 620.7
-
-    # Calculate co2e
-    co2e = candidate.calc_co2_electricity(
-        consumption=consumption_kwh, fuel_type=fuel_type, country_code=country
-    )
-
-    # Check if expected result matches calculated result
-    assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
-
-
 @pytest.mark.skip(
     reason="Failing right now, but units will change anyways. let's check after the co2factors are updated"
 )
