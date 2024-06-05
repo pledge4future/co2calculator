@@ -349,7 +349,9 @@ class ElectricityEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.ELECTRICITY
     fuel_type: Union[ElectricityFuel, str] = ElectricityFuel.PRODUCTION_FUEL_MIX
-    country_code: CountryCode2  # TODO: Shall we set a default? Or add a watning if not provided?
+    country_code: Union[
+        CountryCode2, str
+    ] = "DE"  # TODO: Shall we set a default? Or add a warning if not provided?
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
@@ -361,7 +363,7 @@ class ElectricityEmissionParameters(BaseModel):
 
 class ElectricityParameters(BaseModel):
     electricity_emission_parameters: ElectricityEmissionParameters
-    energy_share: float
+    energy_share: float = 1.0
 
     @validator("energy_share", allow_reuse=True)
     def check_energy_share(cls, v):
@@ -373,7 +375,7 @@ class HeatingEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.HEATING
     fuel_type: Union[HeatingFuel, str] = HeatingFuel.GAS
-    country_code: str = "global"
+    country_code: Union[CountryCode2, str] = "global"
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):

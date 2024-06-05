@@ -4,11 +4,10 @@ import pytest
 
 
 def test_heating_woodchips():
-    """Test co2e calculation for heating: woodchips"""
+    """Test co2e calculation for heating: wood chips"""
     # Given parameters
     consumption = 250
-    co2e_kg_expected = 43.63
-
+    co2e_kg_expected = 13.962
     func_options = {
         # Given parameters
         "heating_emission_parameters": {
@@ -16,7 +15,6 @@ def test_heating_woodchips():
         },
         "unit": "kg",  # conversion factor to kWh = 5.4
     }
-
     # Calculate co2e
     co2e = energy.calc_co2_heating(consumption=consumption, options=func_options)
 
@@ -27,13 +25,13 @@ def test_heating_woodchips():
 def test_electricity():
     """Test co2e calculation for electricity"""
     # Given parameters
-    fuel_type = "german_energy_mix"
     consumption_kwh = 10000
-    co2e_kg_expected = 3942.65  # emission factor: 109518 kg/TJ
+    co2e_kg_expected = 22265
 
     func_options = {
         "electricity_emission_parameters": {
-            "fuel_type": "german_energy_mix"  # emission factor: 109518 kg/TJ
+            "fuel_type": "production fuel mix",
+            "country_code": "DE",
         }
     }
 
