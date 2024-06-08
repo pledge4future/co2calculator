@@ -1,0 +1,4 @@
+category;subcategory;source;model;name;unit;co2e_unit;co2e
+vehicle;bicycle;UBA;;Fahrrad;P.km;kg/P.km;0.009
+vehicle;pedelec;UBA;;Pedelec;P.km;kg/P.km;0.015
+public_transport;tram;UBA;;Strassen-/Stadt-/U-Bahn;P.km;kg/P.km;0.078
