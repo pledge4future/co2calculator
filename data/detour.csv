@@ -1,5 +1,0 @@
-,transportation_mode,coefficient,constant [km]
-0,bus,1.5,0.0
-1,train,1.2,0.0
-2,plane,1.0,95
-3,ferry,1.0,0.0
