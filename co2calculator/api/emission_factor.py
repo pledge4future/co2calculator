@@ -14,5 +14,8 @@ class EmissionFactor:
 
     def __post_init__(self):
         """Validate the attribute values"""
-        # todo: check that factor is positive
+        if isinstance(self.factor, (int, float)):
+            assert self.factor >= 0, "Emission factor must be positive"
+        elif self.factor < 0:
+            raise ValueError("Emission factor must be positive")
         pass
