@@ -9,16 +9,20 @@ from co2calculator.api.trip import Trip
 
 def test_instantiate_trip_by_car():
     """Test whether class is instantiated correctly"""
-
     trip = Trip(300).by_car()
     assert trip.transport_mode == TransportationMode.CAR
     assert trip.fuel_type is None
     assert trip.size is None
 
 
+def test_instantiate_trip_by_train():
+    """Test whether class is instantiated correctly"""
+    trip = Trip(300).by_train()
+    assert trip.transport_mode == TransportationMode.TRAIN
+
+
 def test_trip_by_car_calculation():
     """Test whether class is instantiated correctly"""
-
     emissions = Trip(300).by_car().calculate_co2e()
     assert isinstance(emissions.co2e, float)
 
@@ -29,5 +33,17 @@ def test_trip_by_car_distance_calculation():
     destination = {"locality": "Mannheim", "country": "Germany"}
 
     distance = Trip(start=start, destination=destination).by_car().calculate_distance()
+    assert isinstance(distance, float)
+    assert distance == pytest.approx(31, 1)
+
+
+def test_trip_by_train_distance_calculation():
+    """Test whether class is instantiated correctly"""
+    start = {"locality": "Heidelberg", "country": "Germany"}
+    destination = {"locality": "Mannheim", "country": "Germany"}
+
+    distance = (
+        Trip(start=start, destination=destination).by_train().calculate_distance()
+    )
     assert isinstance(distance, float)
     assert distance == pytest.approx(31, 1)
