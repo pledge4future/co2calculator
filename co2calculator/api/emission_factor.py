@@ -10,12 +10,11 @@ class EmissionFactor:
     """Stores information on emission factors"""
 
     factor: float
-    source: str
+    source: str = None
 
     def __post_init__(self):
         """Validate the attribute values"""
-        if isinstance(self.factor, (int, float)):
-            assert self.factor >= 0, "Emission factor must be positive"
+        if not isinstance(self.factor, (int, float)):
+            raise TypeError("Emission factor must be a number")
         elif self.factor < 0:
             raise ValueError("Emission factor must be positive")
-        pass
