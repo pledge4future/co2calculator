@@ -14,3 +14,8 @@ class Emissions:
     distance: float
     emission_factor: float
     emission_parameters: BaseModel | dict
+
+    def __post_init__(self):
+        """Validate the attribute values"""
+        # Todo: check that co2e is positive, distance is positive, emission_factor is positive
+        pass
