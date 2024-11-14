@@ -17,5 +17,9 @@ class Emissions:
 
     def __post_init__(self):
         """Validate the attribute values"""
-        # Todo: check that co2e is positive, distance is positive, emission_factor is positive
-        pass
+        if self.co2e < 0:
+            raise ValueError("co2e must be positive")
+        elif self.distance < 0:
+            raise ValueError("Distance must be positive")
+        elif self.emission_factor < 0:
+            raise ValueError("Emission factor must be positive")
