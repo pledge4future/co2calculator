@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Trip classes"""
+from co2calculator import CountryCode2, CountryCode3
 from co2calculator.api.emission import Emissions
 from co2calculator.distances import get_distance, create_distance_request
 from co2calculator.mobility.calculate_mobility import (
@@ -42,8 +43,8 @@ class Trip:
             ), "If distance is given, start and destination must be None."
 
     def by_car(self, fuel_type: str = None, size: str = None, passengers: int = 1):
-        # TODO: passengers y/n?
         return _TripByCar(
+            passengers=passengers,
             fuel_type=fuel_type,
             size=size,
             distance=self.distance,
@@ -76,9 +77,9 @@ class Trip:
             destination=self.destination,
         )
 
-    def by_ferry(self, seating: str = None):
+    def by_ferry(self, ferry_class: str = None):
         return _TripByFerry(
-            seating=seating,
+            ferry_class=ferry_class,
             distance=self.distance,
             start=self.start,
             destination=self.destination,
@@ -112,7 +113,7 @@ class _TripByCar(Trip):
         self,
         fuel_type: str = None,
         size: str = None,
-        passengers: int = None,  # TODO: y/n?
+        passengers: int = None,
         distance: float = None,
         start: dict | str = None,
         destination: dict | str = None,
@@ -123,6 +124,7 @@ class _TripByCar(Trip):
         )
         self.fuel_type = fuel_type
         self.size = size
+        self.passengers = passengers
 
     def calculate_co2e(self):
         """
@@ -136,7 +138,11 @@ class _TripByCar(Trip):
             self.calculate_distance()
 
         # Calculate emissions
-        options = {"fuel_type": self.fuel_type, "size": self.size}
+        options = {
+            "fuel_type": self.fuel_type,
+            "size": self.size,
+            "passengers": self.passengers,
+        }
         # Filter out items where value is None
         options = {k: v for k, v in options.items() if v is not None}
 
@@ -183,7 +189,9 @@ class _TripByCar(Trip):
 
 
 class _TripByTrain(Trip):
-    """This is a hidden class which handles train trips."""
+    """This is a hidden class which handles train trips.
+    :param: CountryCode
+    """
 
     transport_mode = TransportationMode.TRAIN
 
@@ -192,7 +200,7 @@ class _TripByTrain(Trip):
         distance: float = None,
         start: dict | str = None,
         destination: dict | str = None,
-        country_code: str = None,
+        country_code: str | CountryCode2 | CountryCode3 = None,
     ):
         """Initialize a train trip"""
         super(_TripByTrain, self).__init__(
@@ -203,8 +211,6 @@ class _TripByTrain(Trip):
     def calculate_co2e(self):
         """
         Calculate the CO2e emissions for a train trip
-
-        :param country_code: XXXXXXX
         :return: Emissions object
         """
         # TODO: change for train
@@ -307,7 +313,6 @@ class _TripByTram(Trip):
 
     def __init__(
         self,
-        size: str = None,
         distance: float = None,
         start: dict | str = None,
         destination: dict | str = None,
@@ -316,25 +321,18 @@ class _TripByTram(Trip):
         super(_TripByTram, self).__init__(
             distance=distance, start=start, destination=destination
         )
-        self.size = size
 
     def calculate_co2e(self):
         """
         Calculate the CO2e emissions for a tram trip
 
-        :param size: The size of a tram # TODO: Size of tram?
         :return: Emissions object
         """
         if self.distance is None:
             self.calculate_distance()
 
-        # Calculate emissions
-        options = {"size": self.size}
-        # Filter out items where value is None
-        options = {k: v for k, v in options.items() if v is not None}
-
         co2e, emission_factor, emission_parameters = calc_co2_tram(
-            self.distance, options=options
+            self.distance, options={}
         )
         emissions = Emissions(
             co2e=co2e,
@@ -366,7 +364,7 @@ class _TripByFerry(Trip):
 
     def __init__(
         self,
-        seating: str = None,
+        ferry_class: str = None,
         distance: float = None,
         start: dict | str = None,
         destination: dict | str = None,
@@ -375,20 +373,20 @@ class _TripByFerry(Trip):
         super(_TripByFerry, self).__init__(
             distance=distance, start=start, destination=destination
         )
-        self.seating = seating
+        self.ferry_class = ferry_class
 
     def calculate_co2e(self):
         """
         Calculate the CO2e emissions for a ferry trip
 
-        :param seating: The type of seating class
+        :param f_c: The type of seating class
         :return: Emissions object
         """
         if self.distance is None:
             self.calculate_distance()
 
         # Calculate emissions
-        options = {"seating": self.seating}
+        options = {"ferry_class": self.ferry_class}
         # Filter out items where value is None
         options = {k: v for k, v in options.items() if v is not None}
 

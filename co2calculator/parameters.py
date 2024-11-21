@@ -39,14 +39,6 @@ class TramEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.TRAM
-    size: Union[Size, str] = Size.AVERAGE
-
-    @validator("size", allow_reuse=True)
-    def check_size(cls, v):
-        if isinstance(v, str):
-            assert v.lower() in (item.value for item in Size)
-            v = v.lower()
-        return Size(v)
 
 
 class CarEmissionParameters(BaseModel):
@@ -99,10 +91,10 @@ class FerryEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.FERRY
-    seating: Union[FerryClass, str] = FerryClass.AVERAGE
+    ferry_class: Union[FerryClass, str] = FerryClass.AVERAGE
 
-    @validator("seating")
-    def check_seating(cls, v):
+    @validator("ferry_class")
+    def check_ferry_class(cls, v):
         if isinstance(v, str):
             assert v.lower() in (item.value for item in FerryClass)
             v = v.lower()
