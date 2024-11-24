@@ -25,7 +25,7 @@ def calc_co2_car(
     Function to compute the emissions of a car trip.
     :param distance: Distance travelled by car;
     :param options: Options for the car trip;
-    :return: Total emissions of trip in co2 equivalents
+    :return: Total emissions of trip in co2 equivalents, Co2e factor and the parameters
     :rtype: Kilogram
     """
     if options is None:
@@ -49,17 +49,18 @@ def calc_co2_motorbike(
     :param options: Options for the motorbike trip;
     :type distance: Kilometer
     :type size: str
-    :return: Total emissions of trip in co2 equivalents
+    :return: Total emissions of trip in co2 equivalents, Co2e factor and the parameters
     :rtype: Kilogram
     """
     # Validate parameters
     if options is None:
         options = {}
-    params = MotorbikeEmissionParameters(**options)
+    params = MotorbikeEmissionParameters.parse_obj(options)
     # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
+    co2e_factor = emission_factors.get(params.dict())
     # Calculate emissions
-    return distance * co2e
+    co2e = distance * co2e_factor
+    return co2e, co2e_factor, params
 
 
 def calc_co2_bus(
@@ -67,24 +68,25 @@ def calc_co2_bus(
 ) -> Kilogram:
     """
     Function to compute the emissions of a bus trip.
-    :param distance: Distance travelled by motorbike;
+    :param distance: Distance travelled by bus;
                         alternatively param <locations> can be provided
     :param options: Options for the bus trip;
     :type distance: Kilometer
     :type size: str
     :type fuel_type: str
-    :type occupancy: int
     :type vehicle_range: str
-    :return: Total emissions of trip in co2 equivalents
+    :return: Total emissions of trip in co2 equivalents, Co2e factor and the parameters
     :rtype: Kilogram
     """
     # Validate parameters
     if options is None:
         options = {}
-    params = BusEmissionParameters(**options)
+    params = BusEmissionParameters.parse_obj(options)
     # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
-    return distance * co2e
+    co2e_factor = emission_factors.get(params.dict())
+    # Calculate emissions
+    co2e = distance * co2e_factor
+    return co2e, co2e_factor, params
 
 
 def calc_co2_train(
@@ -97,16 +99,18 @@ def calc_co2_train(
     :type distance: Kilometer
     :type fuel_type: float
     :type vehicle_range: str
-    :return: Total emissions of trip in co2 equivalents
+    :return: Total emissions of trip in co2 equivalents, Co2e factor and the parameters
     :rtype: Kilogram
     """
 
     if options is None:
         options = {}
-    params = TrainEmissionParameters(**options)
+    params = TrainEmissionParameters.parse_obj(options)
     # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
-    return distance * co2e
+    co2e_factor = emission_factors.get(params.dict())
+    # Calculate emissions
+    co2e = distance * co2e_factor
+    return co2e, co2e_factor, params
 
 
 def calc_co2_plane(distance: Kilometer, options: PlaneEmissionParameters) -> Kilogram:
@@ -116,7 +120,7 @@ def calc_co2_plane(distance: Kilometer, options: PlaneEmissionParameters) -> Kil
     :param options: Options for the plane trip
     :type distance: Kilometer
     :type seating: str
-    :return: Total emissions of flight in co2 equivalents
+    :return: Total emissions of flight in co2 equivalents, Co2e factor and the parameters
     :rtype: Kilogram
     """
 
@@ -131,10 +135,12 @@ def calc_co2_plane(distance: Kilometer, options: PlaneEmissionParameters) -> Kil
     elif distance > 3700:
         options["range"] = FlightRange.LONG_HAUL
 
-    params = PlaneEmissionParameters(**options)
+    params = PlaneEmissionParameters.parse_obj(options)
     # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
-    return distance * co2e
+    co2e_factor = emission_factors.get(params.dict())
+    # Calculate emissions
+    co2e = distance * co2e_factor
+    return co2e, co2e_factor, params
 
 
 def calc_co2_ferry(
@@ -146,55 +152,66 @@ def calc_co2_ferry(
     :param options: Options for the ferry trip
     :type distance: Kilometer
     :type seating: str
-    :return: Total emissions of sea travel in co2 equivalents
+    :return: Total emissions of sea travel in co2 equivalents, Co2e factor and the Parameters
     :rtype: Kilogram
     """
 
     if options is None:
         options = {}
-    params = FerryEmissionParameters(**options)
+    params = FerryEmissionParameters.parse_obj(options)
     # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
-    return distance * co2e
+    co2e_factor = emission_factors.get(params.dict())
+    # Calculate emissions
+    co2e = distance * co2e_factor
+    return co2e, co2e_factor, params
 
 
 def calc_co2_bicycle(distance: Kilometer) -> Kilogram:
     """Calculate co2 emissions for commuting by bicycle
 
     :param distance: distance in km
+    :return: Total emissions of bicycle in co2 equivalents, Co2e factor and the parameters
+    :rtype: Kilogram
     """
-    co2e = emission_factors.get(
+    co2e_factor = emission_factors.get(
         {
             "category": EmissionCategory.TRANSPORT,
             "subcategory": TransportationMode.BICYCLE,
         }
     )
-    return co2e * distance
+    co2e = distance * co2e_factor
+    return co2e, co2e_factor
 
 
 def calc_co2_pedelec(distance: Kilometer) -> Kilogram:
     """Calculate co2 emissions for commuting by pedelec
 
     :param distance: distance in km
+    :return: Total emissions of pedelec in co2 equivalents, Co2e factor and the parameters
+    :rtype: Kilogram
     """
-    co2e = emission_factors.get(
+    co2e_factor = emission_factors.get(
         {
             "category": EmissionCategory.TRANSPORT,
             "subcategory": TransportationMode.PEDELEC,
         }
     )
-    return co2e * distance
+    co2e = distance * co2e_factor
+    return co2e, co2e_factor
 
 
 def calc_co2_tram(distance) -> Kilogram:
     """Calculate co2 emissions for commuting by pedelec
 
     :param distance: distance in km
+    :return: Total emissions of tram in co2 equivalents, Co2e factor and the parameters
+    :rtype: Kilogram
     """
-    co2e = emission_factors.get(
+    co2e_factor = emission_factors.get(
         {
             "category": EmissionCategory.TRANSPORT,
             "subcategory": TransportationMode.TRAM,
         }
     )
-    return co2e * distance
+    co2e = distance * co2e_factor
+    return co2e, co2e_factor
