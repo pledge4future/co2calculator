@@ -49,7 +49,11 @@ from co2calculator.parameters import (
             "seating", FlightClass, "transport", "plane", id="seating: 'FlightClass'"
         ),
         pytest.param(
-            "seating", FerryClass, "transport", "ferry", id="fuel_type: 'FerryClass'"
+            "ferry_class",
+            FerryClass,
+            "transport",
+            "ferry",
+            id="fuel_type: 'FerryClass'",
         ),
     ],
 )

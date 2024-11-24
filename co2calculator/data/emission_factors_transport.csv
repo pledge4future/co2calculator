@@ -1,4 +1,4 @@
-,country_code,category,subcategory,source,name,unit,size,range,fuel_type,co2e_unit,co2e,seating
+,country_code,category,subcategory,source,name,unit,size,range,fuel_type,co2e_unit,co2e,seating,ferry_class
 1,global,transport,bus,mobitool,Stadtbus (9m),P.km,small,local,cng,kg/P.km,0.1464,
 2,global,transport,bus,mobitool,Stadtbus (13m),P.km,medium,local,cng,kg/P.km,0.1034,
 3,global,transport,bus,mobitool,Stadtbus (18m),P.km,large,local,cng,kg/P.km,0.0709,
@@ -49,13 +49,13 @@
 48,global,transport,plane,mobitool,Flugzeug,P.km,,long-haul,kerosine,kg/P.km,0.1895,economy_class
 49,global,transport,plane,mobitool,Flugzeug,P.km,,long-haul,kerosine,kg/P.km,0.3914,business_class
 50,global,transport,plane,mobitool,Flugzeug,P.km,,long-haul,kerosine,kg/P.km,0.6031,first_class
-51,global,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy","Ferry, Average",P.km,,,,kg/P.km,0.11286,average
+51,global,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy","Ferry, Average",P.km,,,,kg/P.km,0.11286,,average
 52,global,transport,motorbike,mobitool,Motorrad,P.km,small,,,kg/P.km,0.121,
 53,global,transport,motorbike,mobitool,Motorrad,P.km,medium,,,kg/P.km,0.1548,
 54,global,transport,motorbike,mobitool,Motorrad,P.km,large,,,kg/P.km,0.2036,
 55,global,transport,motorbike,mobitool,Motorrad,P.km,average,,,kg/P.km,0.1636,
 56,global,transport,bicycle,mobitool,Fahrrad,P.km,,,,kg/P.km,0.0056,
 57,global,transport,pedelec,mobitool,E-Bike,P.km,,,,kg/P.km,0.0113,
-58,global,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy","Ferry, Foot passenger",P.km,,,,kg/P.km,0.01874,foot_passenger
-59,global,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy","Ferry, Car passenger",P.km,,,,kg/P.km,0.12952,car_passenger
+58,global,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy","Ferry, Foot passenger",P.km,,,,kg/P.km,0.01874,,foot_passenger
+59,global,transport,ferry,"UK, Department for Business, Energy & Industrial Strategy","Ferry, Car passenger",P.km,,,,kg/P.km,0.12952,,car_passenger
 60,global,transport,bus,mobitool,Reisebus,P.km,large,long-distance,diesel,kg/P.km,0.0474,
