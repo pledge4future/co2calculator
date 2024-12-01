@@ -104,7 +104,11 @@ class Trip:
 
 
 class _TripByCar(Trip):
-    """This is a hidden class which handles car trips."""
+    """
+    This is a hidden class which handles car trips.
+    :param fuel_type: The fuel type of the car
+    :param size: The size of the car
+    """
 
     transport_mode = TransportationMode.CAR
 
@@ -127,10 +131,7 @@ class _TripByCar(Trip):
 
     def calculate_co2e(self):
         """
-        Calculate the CO2e emissions for a car trip
-
-        :param fuel_type: The fuel type of the car
-        :param size: The size of the car
+        Calculate the CO2e emissions for a car trip.
         :return: Emissions object
         """
         if self.distance is None:
@@ -248,7 +249,10 @@ class _TripByTrain(Trip):
 
 
 class _TripByPlane(Trip):
-    """This is a hidden class which handles plane trips."""
+    """
+    This is a hidden class which handles plane trips.
+    :param seating: The type of seating class
+    """
 
     transport_mode = TransportationMode.PLANE
 
@@ -268,7 +272,6 @@ class _TripByPlane(Trip):
     def calculate_co2e(self):
         """
         Calculate the CO2e emissions for a plane trip
-        :param seating: The type of seating class
         :return Emissions object
         """
         if self.distance is None:
@@ -323,8 +326,7 @@ class _TripByTram(Trip):
 
     def calculate_co2e(self):
         """
-        Calculate the CO2e emissions for a tram trip
-
+        Calculate the CO2e emissions for a tram trip.
         :return: Emissions object
         """
         if self.distance is None:
@@ -357,7 +359,10 @@ class _TripByTram(Trip):
 
 
 class _TripByFerry(Trip):
-    """This is a hidden class which handles ferry trips."""
+    """
+    This is a hidden class which handles ferry trips.
+    :param ferry_class: The type of seating class
+    """
 
     transport_mode = TransportationMode.FERRY
 
@@ -378,7 +383,6 @@ class _TripByFerry(Trip):
         """
         Calculate the CO2e emissions for a ferry trip
 
-        :param ferry_class: The type of seating class
         :return: Emissions object
         """
         if self.distance is None:
@@ -416,7 +420,12 @@ class _TripByFerry(Trip):
 
 
 class _TripByBus(Trip):
-    """This is a hidden class which handles bus trips."""
+    """
+    This is a hidden class which handles bus trips.
+    :param fuel_type: The fuel type of the bus
+    :param size: The size of the bus
+    :param range: The distance of the bus journey
+    """
 
     transport_mode = TransportationMode.BUS
 
@@ -441,9 +450,6 @@ class _TripByBus(Trip):
         """
         Calculate the CO2e emissions for a bus trip
 
-        :param fuel_type: The fuel type of the bus
-        :param size: The size of the bus
-        :param range: The distance of the bus journey
         :return: Emissions object
         """
         if self.distance is None:
@@ -481,7 +487,10 @@ class _TripByBus(Trip):
 
 
 class _TripByMotorbike(Trip):
-    """This is a hidden class which handles motorbike trips."""
+    """
+    This is a hidden class which handles motorbike trips.
+    :param size: The size of the motorbike
+    """
 
     transport_mode = TransportationMode.MOTORBIKE
 
@@ -502,7 +511,6 @@ class _TripByMotorbike(Trip):
         """
         Calculate the CO2e emissions for a bus trip
 
-        :param size: The size of the motorbike
         :return: Emissions object
         """
         if self.distance is None:
