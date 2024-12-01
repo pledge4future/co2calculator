@@ -69,9 +69,8 @@ class Trip:
             destination=self.destination,
         )
 
-    def by_tram(self, size: str = None):
+    def by_tram(self, options=None):
         return _TripByTram(
-            size=size,
             distance=self.distance,
             start=self.start,
             destination=self.destination,
@@ -278,7 +277,7 @@ class _TripByPlane(Trip):
         # Calculate emissions
         options = {"seating": self.seating}
         # Filter out items where value is None
-        options = {k: v for k, v in options.itmes() if v is not None}
+        options = {k: v for k, v in options.items() if v is not None}
 
         co2e, emission_factor, emission_parameters = calc_co2_plane(
             self.distance, options=options
@@ -379,7 +378,7 @@ class _TripByFerry(Trip):
         """
         Calculate the CO2e emissions for a ferry trip
 
-        :param f_c: The type of seating class
+        :param ferry_class: The type of seating class
         :return: Emissions object
         """
         if self.distance is None:
