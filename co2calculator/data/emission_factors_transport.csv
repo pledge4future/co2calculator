@@ -1,4 +1,4 @@
-,country_code,category,subcategory,source,name,unit,size_class,range,fuel_type,co2e_unit,co2e,seating,ferry_class
+,country_code,category,subcategory,source,name,unit,size,range,fuel_type,co2e_unit,co2e,seating,ferry_class
 1,global,transport,bus,mobitool,Stadtbus (9m),P.km,small,local,cng,kg/P.km,0.1464,,
 2,global,transport,bus,mobitool,Stadtbus (13m),P.km,medium,local,cng,kg/P.km,0.1034,,
 3,global,transport,bus,mobitool,Stadtbus (18m),P.km,large,local,cng,kg/P.km,0.0709,,
@@ -24,7 +24,7 @@
 23,global,transport,train,mobitool,Eisenbahn,P.km,,long-distance,,kg/P.km,0.0068,,
 24,global,transport,train,mobitool,Eisenbahn,P.km,,local,,kg/P.km,0.008,,
 25,global,transport,train,mobitool,Eisenbahn,P.km,,average,,kg/P.km,0.007,,
-26,global,transport,tram,mobitool,Strassenbahn,P.km,,local,electric,kg/P.km,0.0428,,
+26,global,transport,tram,mobitool,Strassenbahn,P.km,average,local,electric,kg/P.km,0.0428,,
 27,DE,transport,train,mobitool,Bahn Deutschland,P.km,,average,,kg/P.km,0.0408,,
 28,FR,transport,train,mobitool,Bahn Frankreich,P.km,,average,,kg/P.km,0.0125,,
 29,IT,transport,train,mobitool,Bahn Italien,P.km,,average,,kg/P.km,0.0747,,
