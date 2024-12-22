@@ -12,12 +12,10 @@ from co2calculator.mobility.calculate_mobility import (
     calc_co2_tram,
     calc_co2_ferry,
     calc_co2_bus,
+    calc_co2_bicycle,
+    calc_co2_pedelec,
 )
 from co2calculator.constants import CarFuel, Size, TransportationMode
-
-
-# co2calculator.
-
 
 class Trip:
     def __init__(
@@ -69,7 +67,7 @@ class Trip:
             destination=self.destination,
         )
 
-    def by_tram(self, options=None):
+    def by_tram(self):
         return _TripByTram(
             distance=self.distance,
             start=self.start,
@@ -97,6 +95,18 @@ class Trip:
     def by_motorbike(self, size: str = None):
         return _TripByMotorbike(
             size=size,
+            distance=self.distance,
+            start=self.start,
+            destination=self.destination,
+        )
+    def by_bicycle(self):
+        return _TripByBicycle(
+            distance=self.distance,
+            start=self.start,
+            destination=self.destination,
+        )
+    def by_pedelec(self):
+        return _TripByPedelec(
             distance=self.distance,
             start=self.start,
             destination=self.destination,
@@ -523,6 +533,104 @@ class _TripByMotorbike(Trip):
 
         co2e, emission_factor, emission_parameters = calc_co2_motorbike(
             self.distance, options=options
+        )
+        emissions = Emissions(
+            co2e=co2e,
+            distance=self.distance,
+            emission_factor=emission_factor,
+            emission_parameters=emission_parameters,
+        )
+        return emissions
+
+    def calculate_distance(self):
+        """Calculates travelled get_distance"""
+        request = create_distance_request(
+            transportation_mode=self.transport_mode,
+            start=self.start,
+            destination=self.destination,
+        )
+        self.distance = get_distance(request)
+        return self.distance
+
+    def get_options(self):
+        # TODO: Implement options retrieval
+        pass
+
+class _TripByBicycle(Trip):
+    """This is a hidden class which handles bicycle trips."""
+
+    transport_mode = TransportationMode.BICYCLE
+
+    def __init__(
+        self,
+        distance: float = None,
+        start: dict | str = None,
+        destination: dict | str = None,
+    ):
+        """Initialue a tram trip"""
+        super(_TripByBicycle, self).__init__(
+            distance=distance, start=start, destination=destination
+        )
+
+    def calculate_co2e(self):
+        """
+        Calculate the CO2e emissions for a bicycle trip.
+        :return: Emissions object
+        """
+        if self.distance is None:
+            self.calculate_distance()
+
+        co2e, emission_factor, emission_parameters = calc_co2_bicycle(
+            self.distance, options={}
+        )
+        emissions = Emissions(
+            co2e=co2e,
+            distance=self.distance,
+            emission_factor=emission_factor,
+            emission_parameters=emission_parameters,
+        )
+        return emissions
+
+    def calculate_distance(self):
+        """Calculates travelled get_distance"""
+        request = create_distance_request(
+            transportation_mode=self.transport_mode,
+            start=self.start,
+            destination=self.destination,
+        )
+        self.distance = get_distance(request)
+        return self.distance
+
+    def get_options(self):
+        # TODO: Implement options retrieval
+        pass
+
+class _TripByPedelec(Trip):
+    """This is a hidden class which handles pedelec trips."""
+
+    transport_mode = TransportationMode.PEDELEC
+
+    def __init__(
+        self,
+        distance: float = None,
+        start: dict | str = None,
+        destination: dict | str = None,
+    ):
+        """Initialue a tram trip"""
+        super(_TripByPedelec, self).__init__(
+            distance=distance, start=start, destination=destination
+        )
+
+    def calculate_co2e(self):
+        """
+        Calculate the CO2e emissions for a pedelec trip.
+        :return: Emissions object
+        """
+        if self.distance is None:
+            self.calculate_distance()
+
+        co2e, emission_factor, emission_parameters = calc_co2_pedelec(
+            self.distance, options={}
         )
         emissions = Emissions(
             co2e=co2e,

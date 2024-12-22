@@ -184,13 +184,47 @@ def test_trip_by_motorbike_distance_calculation():
     assert isinstance(distance, float)
     assert distance == pytest.approx(31, 1)
 
+def test_instantiate_trip_by_bicycle():
+    """Test whether class is instantiated correctly"""
+    trip = Trip(300).by_bicycle()
+    assert trip.transport_mode == TransportationMode.BICYCLE
 
-# def test_trip_by_train_distance_calculation():
-#    """Test whether class is instantiated correctly"""
-#    start = {"locality": "Heidelberg", "country": "Germany"}
-#    destination = {"locality": "Mannheim", "country": "Germany"}
+def test_trip_by_bicycle_calculation():
+    """Test whether trip emissions are calculated correctly"""
+    emissions = Trip(300).by_bicycle().calculate_co2e()
+    assert isinstance(emissions, Emissions)
+    assert isinstance(emissions.co2e, float)
 
-#    distance = (
-#        Trip(start=start, destination=destination).by_train().calculate_distance()
-#    )
-#    assert isinstance(distance, float)
+def test_trip_by_bicycle_distance_calculation():
+    """Test whether distance is calculated correctly"""
+    start = {"locality": "Heidelberg", "country": "Germany"}
+    destination = {"locality": "Mannheim", "country": "Germany"}
+
+    distance = (
+        Trip(start=start, destination=destination).by_bicycle().calculate_distance()
+    )
+    assert isinstance(distance, float)
+    assert distance == pytest.approx(31, 1)
+
+def test_instantiate_trip_by_pedelec():
+    """Test whether class is instantiated correctly"""
+    trip = Trip(300).by_pedelec()
+    assert trip.transport_mode == TransportationMode.PEDELEC
+
+def test_trip_by_pedelec_calculation():
+    """Test whether trip emissions are calculated correctly"""
+    emissions = Trip(300).by_pedelec().calculate_co2e()
+    assert isinstance(emissions, Emissions)
+    assert isinstance(emissions.co2e, float)
+
+def test_trip_by_pedelec_distance_calculation():
+    """Test whether distance is calculated correctly"""
+    start = {"locality": "Heidelberg", "country": "Germany"}
+    destination = {"locality": "Mannheim", "country": "Germany"}
+
+    distance = (
+        Trip(start=start, destination=destination).by_pedelec().calculate_distance()
+    )
+    assert isinstance(distance, float)
+    assert distance == pytest.approx(31, 1)
+

@@ -497,6 +497,8 @@ def create_distance_request(
             TransportationMode.MOTORBIKE,
             TransportationMode.BUS,
             TransportationMode.FERRY,
+            TransportationMode.BICYCLE,
+            TransportationMode.PEDELEC,
         ]:
             return DistanceRequest(
                 transportation_mode=transportation_mode,
@@ -543,11 +545,15 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         TransportationMode.TRAM: True,
         TransportationMode.PLANE: True,
         TransportationMode.FERRY: False,
+        TransportationMode.BICYCLE: False,
+        TransportationMode.PEDELEC: False,
     }
-
+# TODO: Do we want to calculate the distance for bicycles and pedelecs same like for cars?
     if request.transportation_mode in [
         TransportationMode.CAR,
         TransportationMode.MOTORBIKE,
+        TransportationMode.PEDELEC,
+        TransportationMode.BICYCLE,
     ]:
         coords = []
         for loc in [request.start, request.destination]:

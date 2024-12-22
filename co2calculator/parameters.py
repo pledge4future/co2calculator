@@ -78,6 +78,41 @@ class TramEmissionParameters(BaseModel):
 
         return values
 
+class BicycleEmissionParameters(BaseModel):
+
+    category: EmissionCategory = EmissionCategory.TRANSPORT
+    subcategory: TransportationMode = TransportationMode.BICYCLE
+
+    @root_validator(pre=True)
+    def validate_input_parameters(cls, values):
+        allowed_keys = {None}
+        invalid_keys = set(values.keys()) - allowed_keys
+
+        if invalid_keys:
+            raise ValueError(
+                f"Invalid parameter(s): {', '.join(invalid_keys)}. "
+                "No input parameters are allowed for bicycle."
+            )
+
+        return values
+
+class PedelecEmissionParameters(BaseModel):
+
+    category: EmissionCategory = EmissionCategory.TRANSPORT
+    subcategory: TransportationMode = TransportationMode.PEDELEC
+
+    @root_validator(pre=True)
+    def validate_input_parameters(cls, values):
+        allowed_keys = {None}
+        invalid_keys = set(values.keys()) - allowed_keys
+
+        if invalid_keys:
+            raise ValueError(
+                f"Invalid parameter(s): {', '.join(invalid_keys)}. "
+                "No input parameters are allowed for pedelec."
+            )
+
+        return values
 
 class CarEmissionParameters(BaseModel):
 
