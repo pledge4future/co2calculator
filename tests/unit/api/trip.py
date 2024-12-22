@@ -65,11 +65,11 @@ def test_instantiate_trip_by_plane():
     assert trip.seating is None
 
 
-# def test_trip_by_plane_calculation():
-#    """Test whether trip emissions are calculated correctly"""
-#    emissions = Trip(300).by_plane().calculate_co2e()
-#    assert isinstance(emissions, Emissions)
-#    assert isinstance(emissions.co2e, float)
+def test_trip_by_plane_calculation():
+    """Test whether trip emissions are calculated correctly"""
+    emissions = Trip(300).by_plane().calculate_co2e()
+    assert isinstance(emissions, Emissions)
+    assert isinstance(emissions.co2e, float)
 
 
 def test_trip_by_plane_distance_calculation():
@@ -89,11 +89,21 @@ def test_instantiate_trip_by_tram():
     assert trip.transport_mode == TransportationMode.TRAM
 
 
-# def test_trip_by_tram_calculation():
-#    """Test whether trip emissions are calculated correctly"""
-#    emissions = Trip(300).by_tram().calculate_co2e()
-#    assert isinstance(emissions, Emissions)
-#    assert isinstance(emissions.co2e, float)
+def test_trip_by_tram_calculation():
+    """Test whether trip emissions are calculated correctly"""
+    emissions = Trip(300).by_tram().calculate_co2e()
+    assert isinstance(emissions, Emissions)
+    assert isinstance(emissions.co2e, float)
+
+def test_trip_by_tram_distance_calculation():
+    """Test whether distance is calculated correctly"""
+    start = {"station_name": "Heidelberg Hbf", "country": "DE"}
+    destination = {"station_name": "Mannheim Hbf", "country": "DE"}
+
+    distance = (
+        Trip(start=start, destination=destination).by_tram().calculate_distance()
+    )
+    assert isinstance(distance, float)
 
 
 def test_instanitate_trip_by_ferry():
@@ -110,14 +120,17 @@ def test_trip_by_ferry_calculation():
     assert isinstance(emissions.co2e, float)
 
 
-# def test_trip_by_ferry_distance_calculation():
-#    """Test whether distance is calculated correctly"""
-#    start = {"locality": "Winterhuder Fährhaus", "country":"Germany"}
-#    destination = {"locality": "Streekbrücke", "country":"Germany"}
+def test_trip_by_ferry_distance_calculation():
+    """Test whether distance is calculated correctly"""
+    start = {"locality": "Hamburg", "country":"DE"}# --> working
+    destination = {"locality": "Cuxhaven", "country":"DE"} #--> working
 
-#    distance = (Trip(start=start, destination=destination).by_ferry().calculate_distance())
-#
-# assert isinstance(distance, float)
+    #start = {"address": "Bubendey-Ufer","locality": "Hamburg", "country": "Germany"} #--> not working
+    #destination = {"address": "Altona (Fischmarkt)","locality": "Hamburg", "country": "Germany"} #--> not working
+
+    distance = (Trip(start=start, destination=destination).by_ferry().calculate_distance())
+
+    assert isinstance(distance, float)
 
 
 def test_instantiate_trip_by_bus():
