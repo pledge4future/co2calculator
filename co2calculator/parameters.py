@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 """Base classes to handle and validate parameters for emission calculations"""
 
-from pydantic import BaseModel, validator
+from typing import Union
+
+from pydantic import BaseModel, validator, root_validator, ValidationError
+#from .api.trip import Trip ##--> causes circular import
 from .constants import (
     TransportationMode,
     Size,
@@ -17,8 +20,6 @@ from .constants import (
     EmissionCategory,
     CountryCode2,
 )
-from typing import Union
-
 
 class TrainEmissionParameters(BaseModel):
 
@@ -34,11 +35,48 @@ class TrainEmissionParameters(BaseModel):
             v = v.lower()
         return BusTrainRange(v)
 
+    @root_validator(pre=True)
+    def validate_input_parameters(cls, values):
+        allowed_keys = {"range", "country_code"}
+        invalid_keys = set(values.keys()) - allowed_keys
+
+        if invalid_keys:
+            raise ValueError(
+                f"Invalid parameter(s): {', '.join(invalid_keys)}. "
+                "Only 'range' and 'country_code' are allowed as input parameters for train."
+            )
+
+        return values
+
+    @root_validator
+    def validate_country_code_and_range(cls, values):
+        country_code = values.get("country_code")
+        range = values.get("range")
+
+        # check if size is specified, fuel_type must also be specified
+        if country_code != "global" and range != BusTrainRange.AVERAGE:
+            raise ValueError("If 'country_code' is specified, 'range' must be 'average'.")
+
+        return values
+
 
 class TramEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.TRAM
+
+    @root_validator(pre=True)
+    def validate_input_parameters(cls, values):
+        allowed_keys = {None}
+        invalid_keys = set(values.keys()) - allowed_keys
+
+        if invalid_keys:
+            raise ValueError(
+                f"Invalid parameter(s): {', '.join(invalid_keys)}. "
+                "No input parameters are allowed for tram."
+            )
+
+        return values
 
 
 class CarEmissionParameters(BaseModel):
@@ -48,6 +86,30 @@ class CarEmissionParameters(BaseModel):
     fuel_type: Union[CarFuel, str] = CarFuel.AVERAGE
     size: Union[Size, str] = Size.AVERAGE
     passengers: int = 1
+
+    @root_validator(pre=True)
+    def validate_input_parameters(cls, values):
+        allowed_keys = {"fuel_type", "size", "passengers"}
+        invalid_keys = set(values.keys()) - allowed_keys
+
+        if invalid_keys:
+            raise ValueError(
+                f"Invalid parameter(s): {', '.join(invalid_keys)}. "
+                "Only 'fuel_type', 'size' and 'passengers' are allowed as input parameters for car."
+            )
+
+        return values
+
+    @root_validator
+    def validate_size_and_fuel_type(cls, values):
+        size = values.get("size")
+        fuel_type = values.get("fuel_type")
+
+        # check if size is specified, fuel_type must also be specified
+        if size != Size.AVERAGE and fuel_type == CarFuel.AVERAGE:
+            raise ValueError("If 'size' is specified, 'fuel_type' must also be specified.")
+
+        return values
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
@@ -69,14 +131,22 @@ class PlaneEmissionParameters(BaseModel):
     category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.PLANE
     seating: Union[FlightClass, str] = FlightClass.AVERAGE
-    range: Union[FlightRange, str]
+    range: Union[FlightRange, str] = None
+    # range needs to be added here but therefore the user can also give range as input.
 
-    @validator("range")
-    def check_range(cls, v):
-        if isinstance(v, str):
-            assert v.lower() in (item.value for item in FlightRange)
-            v = v.lower()
-        return FlightRange(v)
+
+    @root_validator(pre=True)
+    def validate_input_parameters(cls, values):
+        allowed_keys = {"seating", "range"} #
+        invalid_keys = set(values.keys()) - allowed_keys
+
+        if invalid_keys:
+            raise ValueError(
+                f"Invalid parameter(s): {', '.join(invalid_keys)}. "
+                "Only 'seating' is allowed as input parameter for plane. Range is defined through distance."
+            )
+
+        return values
 
     @validator("seating")
     def check_seating(cls, v):
@@ -86,12 +156,24 @@ class PlaneEmissionParameters(BaseModel):
             v = v.lower()
         return FlightClass(v)
 
-
 class FerryEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.FERRY
     ferry_class: Union[FerryClass, str] = FerryClass.AVERAGE
+
+    @root_validator(pre=True)
+    def validate_input_parameters(cls, values):
+        allowed_keys = {"ferry_class"}
+        invalid_keys = set(values.keys()) - allowed_keys
+
+        if invalid_keys:
+            raise ValueError(
+                f"Invalid parameter(s): {', '.join(invalid_keys)}. "
+                "Only 'ferry_class' is allowed as input parameter for ferry."
+            )
+
+        return values
 
     @validator("ferry_class")
     def check_ferry_class(cls, v):
@@ -108,6 +190,54 @@ class BusEmissionParameters(BaseModel):
     fuel_type: Union[BusFuel, str] = BusFuel.DIESEL
     size: Union[Size, str] = Size.SMALL
     range: Union[BusTrainRange, str] = BusTrainRange.LONG_DISTANCE
+
+    @root_validator(pre=True)
+    def validate_input_parameters(cls, values):
+        allowed_keys = {"fuel_type", "size", "range"}
+        invalid_keys = set(values.keys()) - allowed_keys
+
+        if invalid_keys:
+            raise ValueError(
+                f"Invalid parameter(s): {', '.join(invalid_keys)}. "
+                "Only 'fuel_type', 'size' and 'range' are allowed as input parameters for bus."
+            )
+
+        return values
+
+    @root_validator
+    def validate_fuel_type_electric_with_size_and_range(cls, values):
+        size = values.get("size")
+        fuel_type = values.get("fuel_type")
+        range = values.get("range")
+
+        # check if fuel_type is electric, size must be average and range must be local
+        if fuel_type == BusFuel.ELECTRIC and (size != Size.AVERAGE or range != BusTrainRange.LOCAL):
+            raise ValueError("If 'fuel_type' is 'electric', 'size' must be 'average' and 'range' must be 'local'.")
+
+        return values
+
+    @root_validator
+    def validate_fuel_type_cng_with_range(cls, values):
+        fuel_type = values.get("fuel_type")
+        range = values.get("range")
+
+        # check if fuel_type is cng range must be local
+        if fuel_type == BusFuel.CNG and range != BusTrainRange.LOCAL:
+            raise ValueError("If 'fuel_type' is 'cng' 'range' must be 'local'.")
+
+        return values
+
+    @root_validator
+    def validate_fuel_type_diesel_with_range_and_size(cls, values):
+        size = values.get("size")
+        fuel_type = values.get("fuel_type")
+        range = values.get("range")
+
+        # check if fuel_type is diesel and range is long-distance, size must be small or large
+        if fuel_type == BusFuel.DIESEL and range == BusTrainRange.LONG_DISTANCE and size not in {Size.SMALL, Size.LARGE}:
+            raise ValueError("If 'fuel_type' is 'diesel' and 'range' is 'long-distance', size must be 'small' or 'large'.")
+
+        return values
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
@@ -136,6 +266,19 @@ class MotorbikeEmissionParameters(BaseModel):
     category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.MOTORBIKE
     size: Union[Size, str] = Size.AVERAGE
+
+    @root_validator(pre=True)
+    def validate_input_parameters(cls, values):
+        allowed_keys = {"size"}
+        invalid_keys = set(values.keys()) - allowed_keys
+
+        if invalid_keys:
+            raise ValueError(
+                f"Invalid parameter(s): {', '.join(invalid_keys)}. "
+                "Only 'size' is allowed as input parameter for motorbike."
+            )
+
+        return values
 
     @validator("size", allow_reuse=True)
     def check_size(cls, v):
