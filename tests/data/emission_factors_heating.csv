@@ -1,7 +1,0 @@
-,country_code,category,source,name,unit,fuel_type,co2e_unit,co2e
-0,global,heating,"UK, Department for Business, Energy & Industrial Strategy",coal (domestic),kWh,coal,kg/kWh,0.35
-1,global,heating,"UK, Department for Business, Energy & Industrial Strategy",natural gas,kWh,gas,kg/kWh,0.18
-2,global,heating,"UK, Department for Business, Energy & Industrial Strategy",LPG,kWh,liquid gas,kg/kWh,0.21
-3,global,heating,"UK, Department for Business, Energy & Industrial Strategy",fuel oil,kWh,oil,kg/kWh,0.27
-4,global,heating,"UK, Department for Business, Energy & Industrial Strategy",wood pellets,kWh,wood pellets,kg/kWh,0.01074
-5,global,heating,"UK, Department for Business, Energy & Industrial Strategy",wood chips,kWh,wood chips,kg/kWh,0.01074

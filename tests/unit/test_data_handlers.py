@@ -5,7 +5,7 @@
 from pathlib import Path
 import pytest
 from co2calculator.data_handlers import EmissionFactors, Airports, EUTrainStations
-from co2calculator.parameters import HeatingEmissionParameters
+from co2calculator import emission_factors
 import pandas as pd
 
 
@@ -27,11 +27,11 @@ def eu_train_stations_test():
     return EUTrainStations()
 
 
-def test_load_emission_factors(emission_factors_test):
+def test_load_emission_factors():
     """Test if the emission factors are loaded correctly"""
-    assert isinstance(emission_factors_test.heating, pd.DataFrame)
-    assert isinstance(emission_factors_test.electricity, pd.DataFrame)
-    assert isinstance(emission_factors_test.transport, pd.DataFrame)
+    assert isinstance(emission_factors.heating, pd.DataFrame)
+    assert isinstance(emission_factors.electricity, pd.DataFrame)
+    assert isinstance(emission_factors.transport, pd.DataFrame)
 
 
 def test_load_airports(airports_test):

@@ -28,7 +28,7 @@
 27,DE,transport,train,mobitool,Bahn Deutschland,P.km,,average,,kg/P.km,0.0408,,
 28,FR,transport,train,mobitool,Bahn Frankreich,P.km,,average,,kg/P.km,0.0125,,
 29,IT,transport,train,mobitool,Bahn Italien,P.km,,average,,kg/P.km,0.0747,,
-30,AT,transport,train,mobitool,Bahn �sterreich,P.km,,average,,kg/P.km,0.0151,,
+30,AT,transport,train,mobitool,Bahn Österreich,P.km,,average,,kg/P.km,0.0151,,
 31,global,transport,car,mobitool,Personenkraftwagen,P.km,large,,hybrid,kg/P.km,0.1785,,
 32,global,transport,car,mobitool,Personenkraftwagen,P.km,small,,hybrid,kg/P.km,0.1182,,
 33,global,transport,car,mobitool,Personenkraftwagen,P.km,medium,,hybrid,kg/P.km,0.1397,,

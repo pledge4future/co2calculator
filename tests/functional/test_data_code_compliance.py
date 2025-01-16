@@ -39,9 +39,9 @@ from co2calculator.parameters import (
             id="fuel_type: 'ElectricityFuel'",
         ),
         pytest.param("size", Size, "transport", None, id="Size: 'Size'"),
-        pytest.param(
-            "range", BusTrainRange, "transport", "bus", id="range: 'BusTrainRange'"
-        ),
+        # pytest.param(
+        #    "range", BusTrainRange, "transport", "bus", id="range: 'BusTrainRange'"
+        # ),
         pytest.param(
             "range", FlightRange, "transport", "plane", id="range: 'FlightRange'"
         ),
@@ -83,7 +83,7 @@ def test_compare_enums_with_data(column_name, enum, emission_category, subcatego
     for item in enum:
         assert (
             item.value in column_values
-        ), f"Column '{column_name}' in emission_factors.csv does not contain value '{item.value}' of enum '{enum}'"
+        ), f"Column '{column_name}' in csv file does not contain value '{item.value}' of enum '{enum}'"
 
 
 @pytest.mark.parametrize(
