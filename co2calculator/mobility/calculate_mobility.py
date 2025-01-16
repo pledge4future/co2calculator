@@ -68,7 +68,7 @@ def calc_co2_motorbike(
 
 
 def calc_co2_bus(
-    distance: Kilometer, options: Union[BusEmissionParameters, dict] =None
+    distance: Kilometer, options: Union[BusEmissionParameters, dict] = None
 ) -> Kilogram:
     """
     Function to compute the emissions of a bus trip.
@@ -117,7 +117,9 @@ def calc_co2_train(
     return co2e, co2e_factor, params
 
 
-def calc_co2_plane(distance: Kilometer, options: PlaneEmissionParameters = None) -> Kilogram:
+def calc_co2_plane(
+    distance: Kilometer, options: PlaneEmissionParameters = None
+) -> Kilogram:
     """
     Function to compute emissions of a plane trip
     :param distance: Distance of plane flight
@@ -169,7 +171,9 @@ def calc_co2_ferry(
     return co2e, co2e_factor, params
 
 
-def calc_co2_bicycle(distance: Kilometer, options: Union[BicycleEmissionParameters, dict] = None) -> Kilogram:
+def calc_co2_bicycle(
+    distance: Kilometer, options: Union[BicycleEmissionParameters, dict] = None
+) -> Kilogram:
     """Calculate co2 emissions for commuting by bicycle
 
     :param distance: distance in km
@@ -186,7 +190,9 @@ def calc_co2_bicycle(distance: Kilometer, options: Union[BicycleEmissionParamete
     return co2e, co2e_factor, None
 
 
-def calc_co2_pedelec(distance: Kilometer, options: Union[PedelecEmissionParameters, dict] = None) -> Kilogram:
+def calc_co2_pedelec(
+    distance: Kilometer, options: Union[PedelecEmissionParameters, dict] = None
+) -> Kilogram:
     """Calculate co2 emissions for commuting by pedelec
 
     :param distance: distance in km
@@ -203,7 +209,9 @@ def calc_co2_pedelec(distance: Kilometer, options: Union[PedelecEmissionParamete
     return co2e, co2e_factor, None
 
 
-def calc_co2_tram(distance : Kilometer, options: Union[TramEmissionParameters, dict] = None) -> Kilogram:
+def calc_co2_tram(
+    distance: Kilometer, options: Union[TramEmissionParameters, dict] = None
+) -> Kilogram:
     """Calculate co2 emissions for commuting by tram
     :param options: Options for the tram trip
     :param distance: distance in km

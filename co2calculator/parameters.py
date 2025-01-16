@@ -5,7 +5,8 @@
 from typing import Union
 
 from pydantic import BaseModel, validator, root_validator, ValidationError
-#from .api.trip import Trip ##--> causes circular import
+
+# from .api.trip import Trip ##--> causes circular import
 from .constants import (
     TransportationMode,
     Size,
@@ -20,6 +21,7 @@ from .constants import (
     EmissionCategory,
     CountryCode2,
 )
+
 
 class TrainEmissionParameters(BaseModel):
 
@@ -55,7 +57,9 @@ class TrainEmissionParameters(BaseModel):
 
         # check if size is specified, fuel_type must also be specified
         if country_code != "global" and range != BusTrainRange.AVERAGE:
-            raise ValueError("If 'country_code' is specified, 'range' must be 'average'.")
+            raise ValueError(
+                "If 'country_code' is specified, 'range' must be 'average'."
+            )
 
         return values
 
@@ -78,6 +82,7 @@ class TramEmissionParameters(BaseModel):
 
         return values
 
+
 class BicycleEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.TRANSPORT
@@ -96,6 +101,7 @@ class BicycleEmissionParameters(BaseModel):
 
         return values
 
+
 class PedelecEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.TRANSPORT
@@ -113,6 +119,7 @@ class PedelecEmissionParameters(BaseModel):
             )
 
         return values
+
 
 class CarEmissionParameters(BaseModel):
 
@@ -142,7 +149,9 @@ class CarEmissionParameters(BaseModel):
 
         # check if size is specified, fuel_type must also be specified
         if size != Size.AVERAGE and fuel_type == CarFuel.AVERAGE:
-            raise ValueError("If 'size' is specified, 'fuel_type' must also be specified.")
+            raise ValueError(
+                "If 'size' is specified, 'fuel_type' must also be specified."
+            )
 
         return values
 
@@ -169,10 +178,9 @@ class PlaneEmissionParameters(BaseModel):
     range: Union[FlightRange, str] = None
     # range needs to be added here but therefore the user can also give range as input.
 
-
     @root_validator(pre=True)
     def validate_input_parameters(cls, values):
-        allowed_keys = {"seating", "range"} #
+        allowed_keys = {"seating", "range"}  #
         invalid_keys = set(values.keys()) - allowed_keys
 
         if invalid_keys:
@@ -190,6 +198,7 @@ class PlaneEmissionParameters(BaseModel):
             assert v.lower() in (item.value for item in FlightClass)
             v = v.lower()
         return FlightClass(v)
+
 
 class FerryEmissionParameters(BaseModel):
 
@@ -246,8 +255,12 @@ class BusEmissionParameters(BaseModel):
         range = values.get("range")
 
         # check if fuel_type is electric, size must be average and range must be local
-        if fuel_type == BusFuel.ELECTRIC and (size != Size.AVERAGE or range != BusTrainRange.LOCAL):
-            raise ValueError("If 'fuel_type' is 'electric', 'size' must be 'average' and 'range' must be 'local'.")
+        if fuel_type == BusFuel.ELECTRIC and (
+            size != Size.AVERAGE or range != BusTrainRange.LOCAL
+        ):
+            raise ValueError(
+                "If 'fuel_type' is 'electric', 'size' must be 'average' and 'range' must be 'local'."
+            )
 
         return values
 
@@ -269,8 +282,14 @@ class BusEmissionParameters(BaseModel):
         range = values.get("range")
 
         # check if fuel_type is diesel and range is long-distance, size must be small or large
-        if fuel_type == BusFuel.DIESEL and range == BusTrainRange.LONG_DISTANCE and size not in {Size.SMALL, Size.LARGE}:
-            raise ValueError("If 'fuel_type' is 'diesel' and 'range' is 'long-distance', size must be 'small' or 'large'.")
+        if (
+            fuel_type == BusFuel.DIESEL
+            and range == BusTrainRange.LONG_DISTANCE
+            and size not in {Size.SMALL, Size.LARGE}
+        ):
+            raise ValueError(
+                "If 'fuel_type' is 'diesel' and 'range' is 'long-distance', size must be 'small' or 'large'."
+            )
 
         return values
 

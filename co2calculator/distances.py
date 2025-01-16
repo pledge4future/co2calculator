@@ -548,7 +548,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         TransportationMode.BICYCLE: False,
         TransportationMode.PEDELEC: False,
     }
-# TODO: Do we want to calculate the distance for bicycles and pedelecs same like for cars?
+    # TODO: Do we want to calculate the distance for bicycles and pedelecs same like for cars?
     if request.transportation_mode in [
         TransportationMode.CAR,
         TransportationMode.MOTORBIKE,
@@ -577,7 +577,10 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             )
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode in [TransportationMode.TRAIN, TransportationMode.TRAM]:
+    if request.transportation_mode in [
+        TransportationMode.TRAIN,
+        TransportationMode.TRAM,
+    ]:
 
         distance = 0
         coords = []

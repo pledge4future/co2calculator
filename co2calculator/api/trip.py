@@ -17,6 +17,7 @@ from co2calculator.mobility.calculate_mobility import (
 )
 from co2calculator.constants import CarFuel, Size, TransportationMode
 
+
 class Trip:
     def __init__(
         self, distance: float = None, start: str = None, destination: str = None
@@ -99,12 +100,14 @@ class Trip:
             start=self.start,
             destination=self.destination,
         )
+
     def by_bicycle(self):
         return _TripByBicycle(
             distance=self.distance,
             start=self.start,
             destination=self.destination,
         )
+
     def by_pedelec(self):
         return _TripByPedelec(
             distance=self.distance,
@@ -556,6 +559,7 @@ class _TripByMotorbike(Trip):
         # TODO: Implement options retrieval
         pass
 
+
 class _TripByBicycle(Trip):
     """This is a hidden class which handles bicycle trips."""
 
@@ -604,6 +608,7 @@ class _TripByBicycle(Trip):
     def get_options(self):
         # TODO: Implement options retrieval
         pass
+
 
 class _TripByPedelec(Trip):
     """This is a hidden class which handles pedelec trips."""
