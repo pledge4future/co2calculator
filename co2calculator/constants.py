@@ -138,6 +138,7 @@ class BusTrainRange(str, enum.Enum):
 
     LOCAL = "local"
     LONG_DISTANCE = "long-distance"
+    AVERAGE = "average"
 
 
 @enum.unique

@@ -36,7 +36,7 @@ load_dotenv()  # take environment variables from .env.
 
 # Load environment vars (TODO: Use pydantic.BaseSettings)
 ORS_API_KEY = os.environ.get("ORS_API_KEY")
-
+# TODO: check if key exists or is valid
 script_path = str(Path(__file__).parent)
 
 
@@ -497,6 +497,8 @@ def create_distance_request(
             TransportationMode.MOTORBIKE,
             TransportationMode.BUS,
             TransportationMode.FERRY,
+            TransportationMode.BICYCLE,
+            TransportationMode.PEDELEC,
         ]:
             return DistanceRequest(
                 transportation_mode=transportation_mode,
@@ -504,7 +506,7 @@ def create_distance_request(
                 destination=StructuredLocation(**destination),
             )
 
-        if transportation_mode in [TransportationMode.TRAIN]:
+        if transportation_mode in [TransportationMode.TRAIN, TransportationMode.TRAM]:
             return DistanceRequest(
                 transportation_mode=transportation_mode,
                 start=TrainStation(**start),
@@ -540,13 +542,18 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         TransportationMode.MOTORBIKE: False,
         TransportationMode.BUS: True,
         TransportationMode.TRAIN: True,
+        TransportationMode.TRAM: True,
         TransportationMode.PLANE: True,
         TransportationMode.FERRY: False,
+        TransportationMode.BICYCLE: False,
+        TransportationMode.PEDELEC: False,
     }
-
+    # TODO: Do we want to calculate the distance for bicycles and pedelecs same like for cars?
     if request.transportation_mode in [
         TransportationMode.CAR,
         TransportationMode.MOTORBIKE,
+        TransportationMode.PEDELEC,
+        TransportationMode.BICYCLE,
     ]:
         coords = []
         for loc in [request.start, request.destination]:
@@ -570,7 +577,10 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             )
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode == TransportationMode.TRAIN:
+    if request.transportation_mode in [
+        TransportationMode.TRAIN,
+        TransportationMode.TRAM,
+    ]:
 
         distance = 0
         coords = []

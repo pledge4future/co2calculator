@@ -110,14 +110,14 @@ if __name__ == "__main__":
             elif "_ferry" in f:
                 start = user_data["start"].values[i]
                 dest = user_data["destination"].values[i]
-                seating = user_data["seating_class"].values[i]
+                ferry_class = user_data["ferry_class"].values[i]
                 roundtrip = bool(user_data["roundtrip"].values[i])
                 total_co2e = calc_co2_businesstrip(
                     "ferry",
                     start=start,
                     destination=dest,
                     roundtrip=roundtrip,
-                    seating=seating,
+                    ferry_class=ferry_class,
                 )
                 user_data.loc[i, "co2e_kg"] = total_co2e
 

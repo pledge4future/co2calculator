@@ -36,7 +36,7 @@ def test_calc_co2_car(distance: float, options: dict, expected_emissions: float)
     """
     actual_emissions = mobility.calc_co2_car(distance=distance, options=options)
 
-    assert isinstance(actual_emissions, float)
+    assert isinstance(actual_emissions[0], float)
 
 
 @pytest.mark.parametrize(
@@ -53,7 +53,7 @@ def test_calc_co2_motorbike(distance: float, options: dict, expected_emissions: 
     """
     actual_emissions = mobility.calc_co2_motorbike(distance=distance, options=options)
 
-    assert isinstance(actual_emissions, float)
+    assert isinstance(actual_emissions[0], float)
 
 
 @pytest.mark.parametrize(
@@ -65,15 +65,13 @@ def test_calc_co2_motorbike(distance: float, options: dict, expected_emissions: 
             {
                 "size": "large",
                 "fuel_type": "diesel",
-                "occupancy": 80,
-                "vehicle_range": "long-distance",
+                "range": "long-distance",
             },
             12.3,
             id="all options",
         ),
         pytest.param(10, {"size": "small"}, 0.42, id="size: 'small'"),
-        pytest.param(10, {"occupancy": 20}, 0.92, id="occupancy: 20"),
-        pytest.param(10, {"vehicle_range": "local"}, 0.39, id="local range"),
+        pytest.param(10, {"range": "local"}, 0.39, id="local range"),
         pytest.param(
             549,
             {},
@@ -97,7 +95,7 @@ def test_calc_co2_bus(
         options=options,
     )
 
-    assert isinstance(actual_emissions, float)
+    assert isinstance(actual_emissions[0], float)
 
 
 @pytest.mark.parametrize(
@@ -107,7 +105,7 @@ def test_calc_co2_bus(
         pytest.param(1162, {}, 38.23, id="defaults on empty"),
         pytest.param(
             1162,
-            {"vehicle_range": "long-distance"},
+            {"range": "long-distance"},
             37.18,
             id="all optional arguments",
         ),
@@ -124,7 +122,7 @@ def test_calc_co2_train(
 
     actual_emissions = mobility.calc_co2_train(distance=distance, options=options)
 
-    assert isinstance(actual_emissions, float)
+    assert isinstance(actual_emissions[0], float)
 
 
 @pytest.mark.parametrize(
@@ -146,7 +144,7 @@ def test_calc_co2_plane(
 
     actual_emissions = mobility.calc_co2_plane(distance=distance, options=options)
 
-    assert isinstance(actual_emissions, float)
+    assert isinstance(actual_emissions[0], float)
 
 
 def test_calc_co2_plane__failed() -> None:
@@ -171,9 +169,9 @@ def test_calc_co2_plane__invalid_distance_seating_combo() -> None:
     [
         pytest.param(None, 11.29, id="defaults"),
         pytest.param({}, 11.29, id="defaults on empty"),
-        pytest.param({"seating": "average"}, 11.29, id="seating_class: 'average'"),
+        pytest.param({"ferry_class": "average"}, 11.29, id="ferry_class: 'average'"),
         pytest.param(
-            {"seating": "foot_passenger"}, 1.87, id="seating_class: 'Foot passenger'"
+            {"ferry_class": "foot_passenger"}, 1.87, id="ferry_class: 'Foot passenger'"
         ),
     ],
 )
@@ -182,4 +180,4 @@ def test_calc_ferry(options: dict, expected_emissions: float) -> None:
     Expect: Returns emissions and distance.
     """
     actual_emissions = mobility.calc_co2_ferry(distance=100, options=options)
-    assert isinstance(actual_emissions, float)
+    assert isinstance(actual_emissions[0], float)

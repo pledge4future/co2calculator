@@ -42,4 +42,4 @@ class TestCalculateCommuting:
             transportation_mode=transportation_mode, weekly_distance=42
         )
 
-        assert isinstance(actual_emissions, float)
+        assert isinstance(actual_emissions[0], float)
