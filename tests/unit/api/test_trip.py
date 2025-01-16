@@ -95,14 +95,13 @@ def test_trip_by_tram_calculation():
     assert isinstance(emissions, Emissions)
     assert isinstance(emissions.co2e, float)
 
+
 def test_trip_by_tram_distance_calculation():
     """Test whether distance is calculated correctly"""
     start = {"station_name": "Heidelberg Hbf", "country": "DE"}
     destination = {"station_name": "Mannheim Hbf", "country": "DE"}
 
-    distance = (
-        Trip(start=start, destination=destination).by_tram().calculate_distance()
-    )
+    distance = Trip(start=start, destination=destination).by_tram().calculate_distance()
     assert isinstance(distance, float)
 
 
@@ -122,13 +121,15 @@ def test_trip_by_ferry_calculation():
 
 def test_trip_by_ferry_distance_calculation():
     """Test whether distance is calculated correctly"""
-    start = {"locality": "Hamburg", "country":"DE"}# --> working
-    destination = {"locality": "Cuxhaven", "country":"DE"} #--> working
+    start = {"locality": "Hamburg", "country": "DE"}  # --> working
+    destination = {"locality": "Cuxhaven", "country": "DE"}  # --> working
 
-    #start = {"address": "Bubendey-Ufer","locality": "Hamburg", "country": "Germany"} #--> not working
-    #destination = {"address": "Altona (Fischmarkt)","locality": "Hamburg", "country": "Germany"} #--> not working
+    # start = {"address": "Bubendey-Ufer","locality": "Hamburg", "country": "Germany"} #--> not working
+    # destination = {"address": "Altona (Fischmarkt)","locality": "Hamburg", "country": "Germany"} #--> not working
 
-    distance = (Trip(start=start, destination=destination).by_ferry().calculate_distance())
+    distance = (
+        Trip(start=start, destination=destination).by_ferry().calculate_distance()
+    )
 
     assert isinstance(distance, float)
 
@@ -184,16 +185,19 @@ def test_trip_by_motorbike_distance_calculation():
     assert isinstance(distance, float)
     assert distance == pytest.approx(31, 1)
 
+
 def test_instantiate_trip_by_bicycle():
     """Test whether class is instantiated correctly"""
     trip = Trip(300).by_bicycle()
     assert trip.transport_mode == TransportationMode.BICYCLE
+
 
 def test_trip_by_bicycle_calculation():
     """Test whether trip emissions are calculated correctly"""
     emissions = Trip(300).by_bicycle().calculate_co2e()
     assert isinstance(emissions, Emissions)
     assert isinstance(emissions.co2e, float)
+
 
 def test_trip_by_bicycle_distance_calculation():
     """Test whether distance is calculated correctly"""
@@ -206,16 +210,19 @@ def test_trip_by_bicycle_distance_calculation():
     assert isinstance(distance, float)
     assert distance == pytest.approx(31, 1)
 
+
 def test_instantiate_trip_by_pedelec():
     """Test whether class is instantiated correctly"""
     trip = Trip(300).by_pedelec()
     assert trip.transport_mode == TransportationMode.PEDELEC
+
 
 def test_trip_by_pedelec_calculation():
     """Test whether trip emissions are calculated correctly"""
     emissions = Trip(300).by_pedelec().calculate_co2e()
     assert isinstance(emissions, Emissions)
     assert isinstance(emissions.co2e, float)
+
 
 def test_trip_by_pedelec_distance_calculation():
     """Test whether distance is calculated correctly"""
@@ -227,4 +234,3 @@ def test_trip_by_pedelec_distance_calculation():
     )
     assert isinstance(distance, float)
     assert distance == pytest.approx(31, 1)
-
