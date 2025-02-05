@@ -68,9 +68,12 @@ def calc_co2_electricity(
     params = ElectricityEmissionParameters(**params_extracted)
 
     # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
+    co2e_factor = emission_factors.get(params.dict())
 
-    return consumption * own_share * co2e
+    # Calculate emissions
+    co2e = consumption * co2e_factor * own_share
+
+    return co2e, co2e_factor, params
 
 
 def calc_co2_heating(
@@ -100,7 +103,7 @@ def calc_co2_heating(
     params = HeatingEmissionParameters(**params_extracted)
 
     # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
+    co2e_factor = emission_factors.get(params.dict())
 
     if unit is not Unit.KWH:
         # Get the conversion factor
@@ -108,8 +111,9 @@ def calc_co2_heating(
         consumption_kwh = consumption * conversion_factor
     else:
         consumption_kwh = consumption
+    co2e = consumption_kwh * co2e_factor * own_share
 
-    return consumption_kwh * co2e * own_share
+    return co2e, co2e_factor, params
 
 
 def calc_co2_trip(
