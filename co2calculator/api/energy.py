@@ -1,9 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Trip classes"""
-from co2calculator import CountryCode2, CountryCode3, calc_co2_electricity, ElectricityFuel, calc_co2_heating
+"""Energy classes"""
+from co2calculator import (
+    CountryCode2,
+    CountryCode3,
+    calc_co2_electricity,
+    ElectricityFuel,
+    calc_co2_heating,
+)
 
 from typing import Optional
+
 
 class Energy:
     def __init__(
@@ -12,7 +19,7 @@ class Energy:
         fuel_type: Optional[str] = None,
         unit: Optional[str] = None,
         own_share: float = 1.0,
-        country_code: Optional[str] = None
+        country_code: Optional[str] = None,
     ):
         """Initialize an Energy object"""
         self.consumption = consumption
@@ -36,24 +43,20 @@ class Energy:
         if self.country_code is not None and not isinstance(self.country_code, str):
             raise ValueError("Invalid country code format. Must be a string.")
 
-    def from_electricity(consumption: float, fuel_type: Optional[str] = None,
-                    country_code: Optional[str] = None, own_share: float = 1.0):
-        """Calculate emissions from electricity without needing an Energy instance"""
+    def from_electricity(self):
+        """Calculate emissions from electricity consumption"""
         return calc_co2_electricity(
-            consumption=consumption,
-            fuel_type=fuel_type,
-            country_code=country_code,
-            own_share=own_share,
+            consumption=self.consumption,
+            fuel_type=self.fuel_type,
+            country_code=self.country_code,
+            own_share=self.own_share,
         )
 
-    def from_heating(consumption: float, fuel_type: Optional[str] = None,
-                unit: Optional[str] = None, own_share: float = 1.0):
-        """Calculate emissions from heating without needing an Energy instance"""
+    def from_heating(self):
+        """Calculate emissions from heating consumption"""
         return calc_co2_heating(
-            consumption=consumption,
-            fuel_type=fuel_type,
-            unit=unit,
-            own_share=own_share,
+            consumption=self.consumption,
+            fuel_type=self.fuel_type,
+            unit=self.unit,
+            own_share=self.own_share,
         )
-
-
