@@ -46,4 +46,4 @@ class TransportEmissions(Emissions):
         """Validate the attribute values"""
         super().__post_init__()
         if self.distance < 0:
-            raise ValueError("Distance must <= 0")
+            raise ValueError("Distance must be >= 0")
