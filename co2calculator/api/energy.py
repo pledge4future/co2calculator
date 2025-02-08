@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Energy classes"""
-from co2calculator import (
+from co2calculator.energy.calculate_energy import (
     calc_co2_electricity,
     calc_co2_heating,
 )
-from co2calculator.api.emission import Emissions, TransportEmissions, EnergyEmissions
+from co2calculator.api.emission import EnergyEmissions
 
 from typing import Optional
 
@@ -102,11 +102,12 @@ class _EnergyFromElectricity(Energy):
             "own_share": self.own_share,
             "country_code": self.country_code,
         }
+
         # Filter out items where value is None
         options = {k: v for k, v in options.items() if v is not None}
 
         co2e, emission_factor, emission_parameters = calc_co2_electricity(
-            self.consumption, self.own_share, options=options
+            consumption=self.consumption, options=options
         )
         emissions = EnergyEmissions(
             co2e=co2e,
@@ -147,11 +148,12 @@ class _EnergyFromHeating(Energy):
             "own_share": self.own_share,
             "unit": self.unit,
         }
+
         # Filter out items where value is None
         options = {k: v for k, v in options.items() if v is not None}
 
         co2e, emission_factor, emission_parameters = calc_co2_heating(
-            self.consumption, self.own_share, unit=self.unit, options=options
+            self.consumption, options=options
         )
         emissions = EnergyEmissions(
             co2e=co2e,

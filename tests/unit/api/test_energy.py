@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Tests for Energy class"""
+import pytest
+
 from co2calculator.api.energy import Energy
 from co2calculator.api.emission import Emissions
 
@@ -32,3 +34,14 @@ def test_calculation_heating():
     )
     assert isinstance(energy, Emissions)
     assert isinstance(energy.co2e, float)
+
+
+def test_calculation_heating_pellets():
+    """Test whether heating emissions are calculated correctly"""
+    energy = (
+        Energy(consumption=300, fuel_type="wood pellets")
+        .from_heating(unit="kg")
+        .calculate_co2e()
+    )
+    assert isinstance(energy, Emissions)
+    assert energy.co2e == pytest.approx(17.3988, rel=0.01)
