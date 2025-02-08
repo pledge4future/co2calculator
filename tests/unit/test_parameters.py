@@ -49,18 +49,12 @@ def test_emission_factors_electricity() -> None:
     assert isinstance(co2e, float)
 
 
-@pytest.mark.skip(
-    reason="No emission factor available, if defaults are used in combination with this user input"
-    "We first need to decide how to handle this"
-)
 def test_emission_factors_car() -> None:
-    """Test emission factors for car"""
+    """
+    Test if a ValidationError is raised if only one parameter is given to find the right emission factor. In this way,
+    the user is forced to provide all the necessary parameters to find the right emission factor.
+    """
     size = "small"
-    co2e_expected = 0.1
 
-    params = CarEmissionParameters(size=size)
-
-    # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
-
-    assert co2e == co2e_expected
+    with pytest.raises(ValidationError):
+        CarEmissionParameters(size=size)
