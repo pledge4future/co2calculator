@@ -1,6 +1,6 @@
 """Function colleciton to calculate energy type co2 emissions"""
 
-from typing import Union
+from typing import Union, Tuple
 from co2calculator.constants import Unit
 from co2calculator.data_handlers import ConversionFactors, EmissionFactors
 from co2calculator.parameters import (
@@ -30,13 +30,14 @@ def calc_co2_heating(
     # Validate parameters
     if options is None:
         options = {}
-    params = HeatingParameters(**options)
-    emission_params = HeatingEmissionParameters(
-        **params.heating_emission_parameters.dict()
+
+    emission_params = HeatingEmissionParameters(**options)
+    params = HeatingParameters(
+        heating_emission_parameters=emission_params, unit=options["unit"]
     )
 
     # Get the co2 factor
-    co2e = emission_factors.get(emission_params.dict())
+    co2e_factor = emission_factors.get(emission_params.dict())
 
     if params.unit is not Unit.KWH:
         print(emission_params.fuel_type, params.unit)
@@ -48,8 +49,9 @@ def calc_co2_heating(
         consumption_kwh = consumption * conversion_factor
     else:
         consumption_kwh = consumption
+    co2e = consumption_kwh * co2e_factor * params.area_share
 
-    return consumption_kwh * params.area_share * co2e
+    return co2e, co2e_factor, params
 
 
 def calc_co2_electricity(
@@ -70,12 +72,12 @@ def calc_co2_electricity(
     # Validate parameters
     if options is None:
         options = {}
-    params = ElectricityParameters(**options)
-    emission_params = ElectricityEmissionParameters(
-        **params.electricity_emission_parameters.dict()
-    )
+
+    emission_params = ElectricityEmissionParameters(**options)
+    params = ElectricityParameters(electricity_emission_parameters=emission_params)
 
     # Get the co2 factor
-    co2e = emission_factors.get(emission_params.dict())
+    co2e_factor = emission_factors.get(emission_params.dict())
 
-    return consumption * params.energy_share * co2e
+    co2e = consumption * co2e_factor * params.energy_share
+    return co2e, co2e_factor, params
