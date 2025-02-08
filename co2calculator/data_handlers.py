@@ -122,9 +122,8 @@ class ConversionFactors:
         :return:
         :rtype:
         """
-        print(f'fuel_type == "{fuel_type.value}" & unit == "{unit}"')
         selected_factors = self.conversion_factors.query(
-            f'fuel_type == "{fuel_type.value}" & unit == "{unit}"'
+            f'fuel_type == "{fuel_type.value}" & unit == "{unit.value}"'
         )
         if selected_factors.empty:
             raise ConversionFactorNotFound(

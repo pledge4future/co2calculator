@@ -52,7 +52,7 @@ def calc_co2_trip(
     """
     if custom_emission_factor is not None:
         print("Ignoring transportation mode as custom emission factor is set")
-        return distance * custom_emission_factor
+        return distance * custom_emission_factor, custom_emission_factor, options
     else:
         # check for invalid transportation mode
         assert transportation_mode.lower() in (

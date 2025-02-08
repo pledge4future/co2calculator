@@ -26,7 +26,7 @@ def test_electricity():
     """Test co2e calculation for electricity"""
     # Given parameters
     consumption_kwh = 10000
-    co2e_kg_expected = 22265
+    co2e_kg_expected = 4491.2
 
     func_options = {
         "electricity_emission_parameters": {

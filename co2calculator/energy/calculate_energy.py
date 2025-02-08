@@ -49,8 +49,6 @@ def calc_co2_heating(
     else:
         consumption_kwh = consumption
 
-    # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
-    # so consumption needs to be converted to TJ
     return consumption_kwh * params.area_share * co2e
 
 
@@ -80,6 +78,4 @@ def calc_co2_electricity(
     # Get the co2 factor
     co2e = emission_factors.get(emission_params.dict())
 
-    # co2 equivalents for heating and electricity refer to a consumption of 1 TJ
-    # so consumption needs to be converted to TJ
-    return consumption * params.energy_share / co2e
+    return consumption * params.energy_share * co2e

@@ -20,6 +20,7 @@ from .constants import (
     HeatingFuel,
     EmissionCategory,
     CountryCode2,
+    Unit,
 )
 
 
