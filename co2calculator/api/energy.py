@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Energy classes"""
+from typing import Optional
 from co2calculator.energy.calculate_energy import (
     calc_co2_electricity,
     calc_co2_heating,
 )
 from co2calculator.api.emission import EnergyEmissions
-
-from typing import Optional
 
 
 class Energy:

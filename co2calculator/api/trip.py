@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Trip classes"""
 from co2calculator import CountryCode2, CountryCode3
-from co2calculator.api.emission import Emissions, TransportEmissions
+from co2calculator.api.emission import TransportEmissions
 from co2calculator.distances import get_distance, create_distance_request
 from co2calculator.mobility.calculate_mobility import (
     calc_co2_car,
