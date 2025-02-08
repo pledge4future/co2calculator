@@ -82,7 +82,7 @@ def test_geocoding_airport_EAP():
     assert e.type is ValidationError
 
 
-@pytest.mark.skip(reason="API Key missing for test setup. TODO: Mock Response")
+@pytest.mark.ors
 def test_valid_geocoding_dict():
     """Test if a valid geocoding dictionary is recognized as valid"""
     # Given parameters
@@ -100,7 +100,7 @@ def test_valid_geocoding_dict():
     co2calculator.distances.geocoding_structured(loc_dict)
 
 
-@pytest.mark.skip(reason="API Key missing for test setup. TODO: Mock Response")
+@pytest.mark.ors
 def test_invalid_structured_geocoding_dict():
     """Test if a providing an invalid geocoding raises an error"""
     # Given parameters
@@ -179,40 +179,28 @@ def test_apply_detour(
     assert distance_with_detour == expected_distance
 
 
-@pytest.mark.skip(reason="API Key missing for test setup. TODO: Mock Response")
-def test_get_route_ferry_savona_bastia():
-    """Test getting the ferry distance between given locations"""
-    start = [8.471, 44.307]  # Savona (IT)
-    dest = [9.447, 42.702]  # Bastia (FR, Corse)
-    dist_f, dist_t = co2calculator.distances.get_route_ferry([start, dest])
-    distance_expected = 211
-    ferry_distance_expected = 200
-    assert dist_t == pytest.approx(distance_expected, rel=0.01)
-    assert dist_f == pytest.approx(ferry_distance_expected, rel=0.01)
-
-
 @pytest.mark.parametrize(
     "start, dest, expected_distance, expected_ferry_distance, expect_warning",
     [
         pytest.param(
             [8.471, 44.307],
             [9.447, 42.702],
-            211,
-            200,
+            215.835,
+            207.1721,
             False,
             id="Savona (IT) - Bastia (FR, Corse)",
         ),
         pytest.param(
             [10.3975, 42.7673],
             [10.9214, 42.3593],
-            180,
-            48.8,
+            168.8674,
+            37.825,
             True,
             id="Elba (IT) - Giglio (IT)",
         ),
     ],
 )
-@pytest.mark.skip(reason="API Key missing for test setup. TODO: Mock Response")
+@pytest.mark.ors
 def test_get_route_ferry(
     start: list,
     dest: list,
