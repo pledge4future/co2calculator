@@ -7,14 +7,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Install lint dependencies
         run: |
           pip install pre-commit black
       - name: Install and run pre-commit
-        uses: pre-commit/action@v3.0.0
+        uses: pre-commit/action@v3.0.1
   test:
     runs-on: ubuntu-22.04
     needs:
@@ -27,11 +27,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up testing python ${{ matrix.config.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.config.python-version }}
       - name: Install poetry
-        uses: abatilo/actions-poetry@v2.3.0
+        uses: abatilo/actions-poetry@v3
       - name: Setup a local virtual environment for caching
         run: |
           poetry config virtualenvs.create true --local
