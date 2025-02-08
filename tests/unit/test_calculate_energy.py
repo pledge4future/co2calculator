@@ -4,16 +4,18 @@ import co2calculator.energy.calculate_energy as energy
 import pytest
 
 
-def test_heating_woodchips():
+@pytest.mark.parametrize(
+    "consumption,func_options,co2e_kg_expected",
+    [
+        pytest.param(250, {"fuel_type": "wood chips", "unit": "kwh"}, 2.685),
+        pytest.param(250, {"fuel_type": "wood chips", "unit": "kg"}, 13.962),
+    ],
+)
+def test_heating_woodchips(
+    consumption: float, func_options: dict, co2e_kg_expected: float
+):
     """Test co2e calculation for heating: wood chips"""
-    # Given parameters
-    consumption = 250
-    co2e_kg_expected = 2.685
-    func_options = {
-        # Given parameters
-        "fuel_type": "wood chips",  # emission factor: 9322 kg/TJ
-        "unit": "kwh",  # conversion factor to kWh = 5.4
-    }
+
     # Calculate co2e
     co2e, _, _ = energy.calc_co2_heating(consumption=consumption, options=func_options)
 
@@ -21,18 +23,21 @@ def test_heating_woodchips():
     assert co2e == pytest.approx(co2e_kg_expected, rel=0.01)
 
 
-def test_electricity():
+@pytest.mark.parametrize(
+    "consumption_kwh,func_options,co2e_kg_expected",
+    [
+        pytest.param(
+            10000, {"fuel_type": "production fuel mix", "country_code": "DE"}, 4491.2
+        ),
+        pytest.param(
+            10000, {"fuel_type": "production fuel mix", "country_code": "FR"}, 620.7
+        ),
+    ],
+)
+def test_electricity(
+    consumption_kwh: float, func_options: dict, co2e_kg_expected: float
+):
     """Test co2e calculation for electricity"""
-    # Given parameters
-    consumption_kwh = 10000
-    co2e_kg_expected = 4491.2
-
-    func_options = {
-        "electricity_emission_parameters": {
-            "fuel_type": "production fuel mix",
-            "country_code": "DE",
-        }
-    }
 
     # Calculate co2e
     co2e, _, _ = energy.calc_co2_electricity(

@@ -49,7 +49,7 @@ def calc_co2_heating(
         consumption_kwh = consumption * conversion_factor
     else:
         consumption_kwh = consumption
-    co2e = consumption_kwh * co2e_factor * params.area_share
+    co2e = consumption_kwh * co2e_factor * params.own_share
 
     return co2e, co2e_factor, params
 
@@ -79,5 +79,5 @@ def calc_co2_electricity(
     # Get the co2 factor
     co2e_factor = emission_factors.get(emission_params.dict())
 
-    co2e = consumption * co2e_factor * params.energy_share
+    co2e = consumption * co2e_factor * params.own_share
     return co2e, co2e_factor, params

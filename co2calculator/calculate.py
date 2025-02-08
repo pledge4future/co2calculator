@@ -2,7 +2,7 @@
 # coding: utf-8
 """Functions to calculate co2 emissions"""
 from pathlib import Path
-from typing import Tuple
+from typing import Tuple, Union
 
 import pandas as pd
 

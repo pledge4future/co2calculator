@@ -362,10 +362,10 @@ class ElectricityEmissionParameters(BaseModel):
 
 class ElectricityParameters(BaseModel):
     electricity_emission_parameters: ElectricityEmissionParameters
-    energy_share: float = 1.0
+    own_share: float = 1.0
 
-    @validator("energy_share", allow_reuse=True)
-    def check_energy_share(cls, v):
+    @validator("own_share", allow_reuse=True)
+    def check_own_share(cls, v):
         assert 0 <= v <= 1
         return v
 
@@ -387,7 +387,7 @@ class HeatingEmissionParameters(BaseModel):
 class HeatingParameters(BaseModel):
     heating_emission_parameters: HeatingEmissionParameters
     unit: Unit
-    area_share: float = 1.0
+    own_share: float = 1.0
 
     @validator("unit", allow_reuse=True)
     def check_unit(cls, v):
@@ -396,7 +396,7 @@ class HeatingParameters(BaseModel):
             v = v.lower()
         return Unit(v)
 
-    @validator("area_share", allow_reuse=True)
-    def check_area_share(cls, v):
+    @validator("own_share", allow_reuse=True)
+    def check_own_share(cls, v):
         assert 0 <= v <= 1
         return v
