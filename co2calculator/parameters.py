@@ -27,10 +27,10 @@ class TrainEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.TRAIN
-    range: Union[BusTrainRange, str] = BusTrainRange.LONG_DISTANCE
+    vehicle_range: Union[BusTrainRange, str] = BusTrainRange.LONG_DISTANCE
     country_code: str = "global"
 
-    @validator("range", allow_reuse=True)
+    @validator("vehicle_range", allow_reuse=True)
     def check_range(cls, v):
         if isinstance(v, str):
             assert v.lower() in (item.value for item in BusTrainRange)
@@ -39,13 +39,13 @@ class TrainEmissionParameters(BaseModel):
 
     @root_validator(pre=True)
     def validate_input_parameters(cls, values):
-        allowed_keys = {"range", "country_code"}
+        allowed_keys = {"vehicle_range", "country_code"}
         invalid_keys = set(values.keys()) - allowed_keys
 
         if invalid_keys:
             raise ValueError(
                 f"Invalid parameter(s): {', '.join(invalid_keys)}. "
-                "Only 'range' and 'country_code' are allowed as input parameters for train."
+                "Only 'vehicle_range' and 'country_code' are allowed as input parameters for train."
             )
 
         return values
@@ -53,12 +53,12 @@ class TrainEmissionParameters(BaseModel):
     @root_validator
     def validate_country_code_and_range(cls, values):
         country_code = values.get("country_code")
-        range = values.get("range")
+        vehicle_range = values.get("vehicle_range")
 
         # check if size is specified, fuel_type must also be specified
-        if country_code != "global" and range != BusTrainRange.AVERAGE:
+        if country_code != "global" and vehicle_range != BusTrainRange.AVERAGE:
             raise ValueError(
-                "If 'country_code' is specified, 'range' must be 'average'."
+                "If 'country_code' is specified, 'vehicle_range' must be 'average'."
             )
 
         return values
@@ -175,12 +175,13 @@ class PlaneEmissionParameters(BaseModel):
     category: EmissionCategory = EmissionCategory.TRANSPORT
     subcategory: TransportationMode = TransportationMode.PLANE
     seating: Union[FlightClass, str] = FlightClass.AVERAGE
-    range: Union[FlightRange, str] = None
-    # range needs to be added here but therefore the user can also give range as input.
+    vehicle_range: Union[FlightRange, str] = None
+    # vehicle_range needs to be added here but therefore the user
+    # can also give vehicle_range as input.
 
     @root_validator(pre=True)
     def validate_input_parameters(cls, values):
-        allowed_keys = {"seating", "range"}  #
+        allowed_keys = {"seating", "vehicle_range"}  #
         invalid_keys = set(values.keys()) - allowed_keys
 
         if invalid_keys:
@@ -233,17 +234,17 @@ class BusEmissionParameters(BaseModel):
     subcategory: TransportationMode = TransportationMode.BUS
     fuel_type: Union[BusFuel, str] = BusFuel.DIESEL
     size: Union[Size, str] = Size.SMALL
-    range: Union[BusTrainRange, str] = BusTrainRange.LONG_DISTANCE
+    vehicle_range: Union[BusTrainRange, str] = BusTrainRange.LONG_DISTANCE
 
     @root_validator(pre=True)
     def validate_input_parameters(cls, values):
-        allowed_keys = {"fuel_type", "size", "range"}
+        allowed_keys = {"fuel_type", "size", "vehicle_range"}
         invalid_keys = set(values.keys()) - allowed_keys
 
         if invalid_keys:
             raise ValueError(
                 f"Invalid parameter(s): {', '.join(invalid_keys)}. "
-                "Only 'fuel_type', 'size' and 'range' are allowed as input parameters for bus."
+                "Only 'fuel_type', 'size' and 'vehicle_range' are allowed as input parameters for bus."
             )
 
         return values
@@ -252,14 +253,14 @@ class BusEmissionParameters(BaseModel):
     def validate_fuel_type_electric_with_size_and_range(cls, values):
         size = values.get("size")
         fuel_type = values.get("fuel_type")
-        range = values.get("range")
+        vehicle_range = values.get("vehicle_range")
 
         # check if fuel_type is electric, size must be average and range must be local
         if fuel_type == BusFuel.ELECTRIC and (
-            size != Size.AVERAGE or range != BusTrainRange.LOCAL
+            size != Size.AVERAGE or vehicle_range != BusTrainRange.LOCAL
         ):
             raise ValueError(
-                "If 'fuel_type' is 'electric', 'size' must be 'average' and 'range' must be 'local'."
+                "If 'fuel_type' is 'electric', 'size' must be 'average' and 'vehicle_range' must be 'local'."
             )
 
         return values
@@ -267,11 +268,13 @@ class BusEmissionParameters(BaseModel):
     @root_validator
     def validate_fuel_type_cng_with_range(cls, values):
         fuel_type = values.get("fuel_type")
-        range = values.get("range")
+        vehicle_range = values.get("vehicle_range")
 
         # check if fuel_type is cng range must be local
-        if fuel_type == BusFuel.CNG and range != BusTrainRange.LOCAL:
-            raise ValueError("If 'fuel_type' is 'cng' 'range' must be 'local'.")
+        if fuel_type == BusFuel.CNG and vehicle_range != BusTrainRange.LOCAL:
+            raise ValueError(
+                "If 'fuel_type' is 'cng', 'vehicle_range' must be 'local'."
+            )
 
         return values
 
@@ -279,16 +282,16 @@ class BusEmissionParameters(BaseModel):
     def validate_fuel_type_diesel_with_range_and_size(cls, values):
         size = values.get("size")
         fuel_type = values.get("fuel_type")
-        range = values.get("range")
+        vehicle_range = values.get("vehicle_range")
 
-        # check if fuel_type is diesel and range is long-distance, size must be small or large
+        # check if fuel_type is diesel and vehicle_range is long-distance, size must be small or large
         if (
             fuel_type == BusFuel.DIESEL
-            and range == BusTrainRange.LONG_DISTANCE
+            and vehicle_range == BusTrainRange.LONG_DISTANCE
             and size not in {Size.SMALL, Size.LARGE}
         ):
             raise ValueError(
-                "If 'fuel_type' is 'diesel' and 'range' is 'long-distance', size must be 'small' or 'large'."
+                "If 'fuel_type' is 'diesel' and 'vehicle_range' is 'long-distance', size must be 'small' or 'large'."
             )
 
         return values
@@ -307,7 +310,7 @@ class BusEmissionParameters(BaseModel):
             v = v.lower()
         return Size(v)
 
-    @validator("range", allow_reuse=True)
+    @validator("vehicle_range", allow_reuse=True)
     def check_range(cls, v):
         if isinstance(v, str):
             assert v.lower() in (item.value for item in BusTrainRange)

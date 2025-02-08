@@ -89,7 +89,7 @@ def test_heating_woodchips():
     co2e_kg_expected = 13.962
 
     # Calculate co2e
-    co2e = candidate.calc_co2_heating(
+    co2e, _, _ = candidate.calc_co2_heating(
         consumption=consumption, unit=unit, fuel_type=fuel_type
     )
 
@@ -106,7 +106,7 @@ def test_electricity():
     co2e_kg_expected = 620.7
 
     # Calculate co2e
-    co2e = candidate.calc_co2_electricity(
+    co2e, _, _ = candidate.calc_co2_electricity(
         consumption=consumption_kwh, fuel_type=fuel_type, country_code=country
     )
 

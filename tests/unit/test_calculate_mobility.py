@@ -65,13 +65,13 @@ def test_calc_co2_motorbike(distance: float, options: dict, expected_emissions: 
             {
                 "size": "large",
                 "fuel_type": "diesel",
-                "range": "long-distance",
+                "vehicle_range": "long-distance",
             },
             12.3,
             id="all options",
         ),
         pytest.param(10, {"size": "small"}, 0.42, id="size: 'small'"),
-        pytest.param(10, {"range": "local"}, 0.39, id="local range"),
+        pytest.param(10, {"vehicle_range": "local"}, 0.39, id="local range"),
         pytest.param(
             549,
             {},
@@ -105,7 +105,7 @@ def test_calc_co2_bus(
         pytest.param(1162, {}, 38.23, id="defaults on empty"),
         pytest.param(
             1162,
-            {"range": "long-distance"},
+            {"vehicle_range": "long-distance"},
             37.18,
             id="all optional arguments",
         ),

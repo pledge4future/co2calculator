@@ -40,10 +40,14 @@ from co2calculator.parameters import (
         ),
         pytest.param("size", Size, "transport", None, id="Size: 'Size'"),
         # pytest.param(
-        #    "range", BusTrainRange, "transport", "bus", id="range: 'BusTrainRange'"
+        #    "vehicle_range", BusTrainRange, "transport", "bus", id="range: 'BusTrainRange'"
         # ),
         pytest.param(
-            "range", FlightRange, "transport", "plane", id="range: 'FlightRange'"
+            "vehicle_range",
+            FlightRange,
+            "transport",
+            "plane",
+            id="range: 'FlightRange'",
         ),
         pytest.param(
             "seating", FlightClass, "transport", "plane", id="seating: 'FlightClass'"

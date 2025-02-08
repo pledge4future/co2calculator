@@ -136,9 +136,9 @@ def calc_co2_plane(
     if distance is None:
         raise ValueError("Distance is not given. Range can not be calculated.")
     if distance <= 3700:
-        options["range"] = FlightRange.SHORT_HAUL
+        options["vehicle_range"] = FlightRange.SHORT_HAUL
     else:
-        options["range"] = FlightRange.LONG_HAUL
+        options["vehicle_range"] = FlightRange.LONG_HAUL
 
     params = PlaneEmissionParameters.parse_obj(options)
     # Get the co2 factor
