@@ -19,7 +19,6 @@ from co2calculator.util import get_calc_function_from_transport_mode
 
 from ._types import Kilogram, Kilometer
 from .constants import (
-    KWH_TO_TJ,
     Size,
     CarFuel,
     BusFuel,
@@ -33,34 +32,6 @@ script_path = str(Path(__file__).parent)
 
 emission_factors = EmissionFactors()
 conversion_factors = ConversionFactors()
-
-
-def calc_co2_trip(
-    distance: Kilometer | None,
-    transportation_mode: TransportationMode,
-    custom_emission_factor: Kilogram | None = None,
-    options: dict = None,
-) -> Kilogram:
-    """Function to compute emissions for a trip based on distance
-
-    :param distance: Distance travelled in km
-    :param transportation_mode: mode of transport. For options, see TransportationMode enum.
-    :param custom_emission_factor: custom emission factor in kg/km. If provided, this will be used instead of the included emission factors.
-    :param options: options for the trip. Type must match transportation mode.
-
-    :return:    Emissions of the business trip in co2 equivalents.
-    """
-    if custom_emission_factor is not None:
-        print("Ignoring transportation mode as custom emission factor is set")
-        return distance * custom_emission_factor, custom_emission_factor, options
-    else:
-        # check for invalid transportation mode
-        assert transportation_mode.lower() in (
-            item.value for item in TransportationMode
-        )
-        # pass the distance and options to the respective function
-        calc_function = get_calc_function_from_transport_mode(transportation_mode)
-        return calc_function(distance, options)
 
 
 def calc_co2_commuting(

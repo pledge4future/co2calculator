@@ -350,9 +350,7 @@ class ElectricityEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.ELECTRICITY
     fuel_type: Union[ElectricityFuel, str] = ElectricityFuel.PRODUCTION_FUEL_MIX
-    country_code: Union[
-        CountryCode2, str
-    ] = "DE"  # TODO: Shall we set a default? Or add a warning if not provided?
+    country_code: Union[CountryCode2, str] = "DE"
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):

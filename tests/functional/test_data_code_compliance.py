@@ -105,7 +105,6 @@ def test_defaults(default_parameters):
     """Test if default parameters are available in the csv files"""
 
     # Get the emission factor for the default parameter combination
-    print(default_parameters().dict())
     co2e = emission_factors.get(default_parameters().dict())
     assert isinstance(
         co2e, float
