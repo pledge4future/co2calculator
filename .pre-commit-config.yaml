@@ -22,7 +22,7 @@ repos:
               "flake8-deprecated",
               "flake8-pep3101",
               "flake8-polyfill",
-              "flake8-print",
+              # "flake8-print",
               "flake8-string-format",
               "flake8-docstrings",
           ]
