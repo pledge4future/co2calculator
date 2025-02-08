@@ -142,7 +142,7 @@ def test_instantiate_trip_by_bus():
     assert trip.transport_mode == TransportationMode.BUS
     assert trip.fuel_type is None
     assert trip.size is None
-    assert trip.range is None
+    assert trip.vehicle_range is None
 
 
 def test_trip_by_bus_calculation():

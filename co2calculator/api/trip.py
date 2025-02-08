@@ -83,11 +83,13 @@ class Trip:
             destination=self.destination,
         )
 
-    def by_bus(self, fuel_type: str = None, size: str = None, range: str = None):
+    def by_bus(
+        self, fuel_type: str = None, size: str = None, vehicle_range: str = None
+    ):
         return _TripByBus(
             fuel_type=fuel_type,
             size=size,
-            range=range,
+            vehicle_range=vehicle_range,
             distance=self.distance,
             start=self.start,
             destination=self.destination,
@@ -437,7 +439,7 @@ class _TripByBus(Trip):
     This is a hidden class which handles bus trips.
     :param fuel_type: The fuel type of the bus
     :param size: The size of the bus
-    :param range: The distance of the bus journey
+    :param vehicle_range: The distance of the bus journey
     """
 
     transport_mode = TransportationMode.BUS
@@ -446,7 +448,7 @@ class _TripByBus(Trip):
         self,
         fuel_type: str = None,
         size: str = None,
-        range: str = None,
+        vehicle_range: str = None,
         distance: float = None,
         start: dict | str = None,
         destination: dict | str = None,
@@ -457,7 +459,7 @@ class _TripByBus(Trip):
         )
         self.fuel_type = fuel_type
         self.size = size
-        self.range = range
+        self.vehicle_range = vehicle_range
 
     def calculate_co2e(self):
         """
@@ -469,7 +471,11 @@ class _TripByBus(Trip):
             self.calculate_distance()
 
         # Calculate emissions
-        options = {"fuel_type": self.fuel_type, "size": self.size, "range": self.range}
+        options = {
+            "fuel_type": self.fuel_type,
+            "size": self.size,
+            "vehicle_range": self.vehicle_range,
+        }
         # Filter out items where value is None
         options = {k: v for k, v in options.items() if v is not None}
 

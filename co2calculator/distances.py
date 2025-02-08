@@ -261,14 +261,16 @@ def geocoding_structured(loc_dict):
             if (
                 layer != "address" and layer != "locality" and layer != "street"
             ) and n_results > 1:
-                print(
-                    f"Data type not matching search ({layer} instead of address or locality. Skipping {name}, {coords}"
+                warnings.warn(
+                    f"Data type not matching search ({layer} instead of address or locality. Skipping {name}, {coords}",
+                    stacklevel=2,
                 )
                 continue
         confidence = feature["properties"]["confidence"]
         if confidence < 0.8:
             warnings.warn(
-                f"Low confidence: {confidence:.1f} for result {name}, {coords}"
+                f"Low confidence: {confidence:.1f} for result {name}, {coords}",
+                stacklevel=2,
             )
         break
     print(
@@ -307,7 +309,8 @@ def geocoding_train_stations(loc_dict):
     if country_code not in countries_eu:
         warnings.warn(
             "The provided country is not within Europe. "
-            "Please provide the address of the station instead of the station name for accurate results."
+            "Please provide the address of the station instead of the station name for accurate results.",
+            stacklevel=2,
         )
 
     # filter stations by country
@@ -344,7 +347,8 @@ def get_route(coords: list, profile: RoutingProfile = None) -> Kilometer:
         profile = RoutingProfile.CAR
         warnings.warn(
             f"Warning! Specified profile not available or no profile passed.\n"
-            f"Profile set to '{profile}' by default."
+            f"Profile set to '{profile}' by default.",
+            stacklevel=2,
         )
     route = directions(clnt, coords, profile=profile)
     dist = (
@@ -372,7 +376,8 @@ def get_route_ferry(
         profile = RoutingProfile.WALK
         warnings.warn(
             f"Warning! Specified profile not available or no profile passed.\n"
-            f"Profile set to '{profile}' by default."
+            f"Profile set to '{profile}' by default.",
+            stacklevel=2,
         )
     res = directions(clnt, coords, profile=profile, extra_info=["waytype"])
     """waytypes = {0: "Unknown",
@@ -410,6 +415,7 @@ def get_route_ferry(
             the approximate ferry trip distance directly instead of the port addresses.
             """,
             UserWarning,
+            stacklevel=2,
         )
 
     return dist_ferry, total_dist
@@ -437,9 +443,10 @@ def _apply_detour(
             f"""
         No detour coefficient or constant available for this transportation mode.
         Detour parameters are available for the following transportation modes:
-        {[mode for mode in DetourCoefficient]}
+        {list(DetourCoefficient)}
         Using detour_coefficient = {detour_coefficient} and detour_constant = {detour_constant}.
-        """
+        """,
+            stacklevel=2,
         )
     distance_with_detour = detour_coefficient * distance + detour_constant
 
