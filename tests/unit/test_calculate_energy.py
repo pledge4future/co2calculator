@@ -1,4 +1,5 @@
 """tests for energy calculation"""
+
 import co2calculator.energy.calculate_energy as energy
 import pytest
 
