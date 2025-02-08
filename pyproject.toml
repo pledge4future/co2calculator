@@ -10,12 +10,10 @@ readme = "README.md"
 python = "^3.10"
 pandas = "^2.2.2"
 openrouteservice = "^2.3.3"
-pydantic = "1.10.13"
+pydantic = "1.10.21"
 iso3166 = "^2.1.1"
 python-dotenv = "^1.0.1"
 thefuzz = "^0.22.1"
-coverage-badge = "^1.1.1"
-coverage = "^7.5.1"
 myst-parser = "^3.0.1"
 
 [tool.poetry.group.dev.dependencies]
@@ -28,8 +26,8 @@ sphinx = "^7.3.7"
 sphinx-toolbox = "^3.5.0"
 sphinx_rtd_theme = "^1.0.0"
 myst-parser = "^3.0.1"
-coverage-badge = "^1.1.1"
-coverage = "^7.5.1"
+coverage = "7.6.10"
+coverage-badge = "^1.1.2"
 
 [build-system]
 requires = ["poetry-core"]
