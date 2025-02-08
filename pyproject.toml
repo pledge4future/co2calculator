@@ -34,3 +34,11 @@ coverage = "^7.5.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+markers = [
+    "ors: mark tests requiring ORS API key",
+]
+testpaths = [
+    "tests",
+]

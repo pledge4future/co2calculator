@@ -46,6 +46,8 @@ jobs:
       - name: Install coverage-badge
         run: pip install coverage-badge
       - name: Pytest
+        env:
+          ORS_API_KEY: ${{ secrets.ORS_API_KEY }}
         run: poetry run coverage run -m pytest -x
       - name: coverage badge
         run: coverage-badge -o coverage.svg
