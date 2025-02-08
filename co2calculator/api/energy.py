@@ -5,6 +5,7 @@ from co2calculator import (
     calc_co2_electricity,
     calc_co2_heating,
 )
+from co2calculator.api.emission import Emissions, TransportEmissions, EnergyEmissions
 
 from typing import Optional
 
@@ -48,10 +49,10 @@ class Energy:
         """
         if country_code is not None and not isinstance(country_code, str):
             raise ValueError("Invalid country code format. Must be a string.")
-        return calc_co2_electricity(
+        return _EnergyFromElectricity(
             consumption=self.consumption,
-            fuel_type=self.fuel_type,
             own_share=self.own_share,
+            fuel_type=self.fuel_type,
             country_code=country_code,
         )
 
@@ -63,9 +64,99 @@ class Energy:
         """
         if unit is not None and not isinstance(unit, str):
             raise ValueError("unit must be a string")
-        return calc_co2_heating(
+        return _EnergyFromHeating(
             consumption=self.consumption,
             fuel_type=self.fuel_type,
             own_share=self.own_share,
             unit=unit,
         )
+
+
+class _EnergyFromElectricity(Energy):
+    """
+    This is a hidden class which handles emissions from electricity.
+    """
+
+    def __init__(
+        self,
+        consumption: float,
+        fuel_type: Optional[str] = None,
+        own_share: float = 1.0,
+        country_code: str = "DE",
+    ):
+        # initialize
+        super(_EnergyFromElectricity, self).__init__(
+            consumption=consumption, fuel_type=fuel_type, own_share=own_share
+        )
+        self.country_code = country_code
+
+    def calculate_co2e(self):
+        """
+        Calculate the CO2e emissions for electricity.
+        :return: EnergyEmissions object
+        """
+
+        # Calculate emissions
+        options = {
+            "fuel_type": self.fuel_type,
+            "own_share": self.own_share,
+            "country_code": self.country_code,
+        }
+        # Filter out items where value is None
+        options = {k: v for k, v in options.items() if v is not None}
+
+        co2e, emission_factor, emission_parameters = calc_co2_electricity(
+            self.consumption, self.own_share, options=options
+        )
+        emissions = EnergyEmissions(
+            co2e=co2e,
+            emission_factor=emission_factor,
+            emission_parameters=emission_parameters,
+            consumption=self.consumption,
+        )
+        return emissions
+
+
+class _EnergyFromHeating(Energy):
+    """
+    This is a hidden class which handles emissions from heating.
+    """
+
+    def __init__(
+        self,
+        consumption: float,
+        fuel_type: Optional[str] = None,
+        own_share: float = 1.0,
+        unit: str = "kwh",
+    ):
+        # initialize
+        super(_EnergyFromHeating, self).__init__(
+            consumption=consumption, fuel_type=fuel_type, own_share=own_share
+        )
+        self.unit = unit
+
+    def calculate_co2e(self):
+        """
+        Calculate the CO2e emissions for heating.
+        :return: EnergyEmissions object
+        """
+
+        # Calculate emissions
+        options = {
+            "fuel_type": self.fuel_type,
+            "own_share": self.own_share,
+            "unit": self.unit,
+        }
+        # Filter out items where value is None
+        options = {k: v for k, v in options.items() if v is not None}
+
+        co2e, emission_factor, emission_parameters = calc_co2_heating(
+            self.consumption, self.own_share, unit=self.unit, options=options
+        )
+        emissions = EnergyEmissions(
+            co2e=co2e,
+            emission_factor=emission_factor,
+            emission_parameters=emission_parameters,
+            consumption=self.consumption,
+        )
+        return emissions

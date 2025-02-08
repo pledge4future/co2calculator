@@ -83,14 +83,14 @@ def test_calc_co2_trip_ignore_error_on_custom_emission_factor():
 def test_heating_woodchips():
     """Test co2e calculation for heating: woodchips"""
     # Given parameters
-    fuel_type = "wood chips"
+    options = {"fuel_type": "wood chips"}
     consumption = 250
     unit = "kg"
     co2e_kg_expected = 13.962
 
     # Calculate co2e
     co2e, _, _ = candidate.calc_co2_heating(
-        consumption=consumption, unit=unit, fuel_type=fuel_type
+        consumption=consumption, unit=unit, options=options
     )
 
     # Check if expected result matches calculated result
@@ -100,14 +100,13 @@ def test_heating_woodchips():
 def test_electricity():
     """Test co2e calculation for electricity"""
     # Given parameters
-    fuel_type = "production fuel mix"
-    country = "FR"
+    options = {"fuel_type": "production fuel mix", "country_code": "FR"}
     consumption_kwh = 10000
     co2e_kg_expected = 620.7
 
     # Calculate co2e
     co2e, _, _ = candidate.calc_co2_electricity(
-        consumption=consumption_kwh, fuel_type=fuel_type, country_code=country
+        consumption=consumption_kwh, options=options
     )
 
     # Check if expected result matches calculated result

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """Tests for Energy class"""
 from co2calculator.api.energy import Energy
+from co2calculator.api.emission import Emissions
 
 
 def test_instantiate_energy():
@@ -15,13 +16,19 @@ def test_instantiate_energy():
 
 def test_calculation_electricity():
     """Test whether electricity emissions are calculated correctly"""
-    energy = Energy(consumption=300).from_electricity(country_code="DE")
-    assert isinstance(energy, tuple)
-    assert isinstance(energy[0], float)
+    energy = (
+        Energy(consumption=300).from_electricity(country_code="DE").calculate_co2e()
+    )
+    assert isinstance(energy, Emissions)
+    assert isinstance(energy.co2e, float)
 
 
 def test_calculation_heating():
     """Test whether heating emissions are calculated correctly"""
-    energy = Energy(consumption=300, fuel_type="gas").from_heating(unit="m^3")
-    assert isinstance(energy, tuple)
-    assert isinstance(energy[0], float)
+    energy = (
+        Energy(consumption=300, fuel_type="gas")
+        .from_heating(unit="m^3")
+        .calculate_co2e()
+    )
+    assert isinstance(energy, Emissions)
+    assert isinstance(energy.co2e, float)
