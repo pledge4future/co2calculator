@@ -19,17 +19,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up testing python ${{ matrix.config.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.config.python-version }}
       - name: Install poetry
-        uses: abatilo/actions-poetry@v2.3.0
+        uses: abatilo/actions-poetry@v3
       - name: Setup a local virtual environment for caching
         run: |
           poetry config virtualenvs.create true --local
           poetry config virtualenvs.in-project true --local
       - name: Define a cache for the virtual environment based on the dependencies lock file to speed up later runs
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ./.venv
           key: venv-${{ hashFiles('poetry.lock') }}
@@ -46,11 +46,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up base Python 3.11
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: 3.11
       - name: Python Poetry Action
-        uses: abatilo/actions-poetry@v2.3.0
+        uses: abatilo/actions-poetry@v3
       - name: Publish distribution 📦 with test.pypi.org
         if: startsWith(github.ref, 'refs/tags')
         run: |
