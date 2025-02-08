@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Energy classes"""
-from co2calculator import (
+from co2calculator.energy.calculate_energy import (
     calc_co2_electricity,
     calc_co2_heating,
 )
@@ -48,11 +48,18 @@ class Energy:
         """
         if country_code is not None and not isinstance(country_code, str):
             raise ValueError("Invalid country code format. Must be a string.")
+
+        options = {
+            "electricity_emission_parameters": {
+                "fuel_type": self.fuel_type,
+                "energy_share": self.own_share,
+                "country_code": country_code,
+            }
+        }
+
         return calc_co2_electricity(
             consumption=self.consumption,
-            fuel_type=self.fuel_type,
-            own_share=self.own_share,
-            country_code=country_code,
+            options=options,
         )
 
     def from_heating(self, unit: str):
@@ -63,9 +70,14 @@ class Energy:
         """
         if unit is not None and not isinstance(unit, str):
             raise ValueError("unit must be a string")
+
+        options = {
+            "fuel_type": self.fuel_type,
+            "area_share": self.own_share,
+            "unit": unit,
+        }
+
         return calc_co2_heating(
             consumption=self.consumption,
-            fuel_type=self.fuel_type,
-            own_share=self.own_share,
-            unit=unit,
+            options=options,
         )
