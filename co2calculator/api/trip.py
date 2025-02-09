@@ -778,13 +778,3 @@ class _TripCustom(Trip):
             emission_parameters=emission_parameters,
         )
         return emissions
-
-    def calculate_distance(self):
-        """Calculates travelled get_distance"""
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
