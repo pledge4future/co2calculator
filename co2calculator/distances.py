@@ -495,7 +495,7 @@ def create_distance_request(
 
     # Validate the spatial data wrt. the mode of transportation
     # And creates a DistanceRequest object containing either StructuredLocation,
-    # TrainStation or Airport objects based on the unser input address_type
+    # TrainStation or Airport objects based on the user input address_type
     # for start and destination, if nothing is given assume StructuredLocation
 
     try:
