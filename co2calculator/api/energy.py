@@ -19,8 +19,10 @@ class Energy:
         """Initialize an Energy object
 
         :param consumption: energy consumption
-        :param fuel_type: energy (mix) used for electricity/heating (see HeatingFuel and ElectricityFuel in constants.py)
-        :param own_share: the research group's approximate share of the total electricity energy consumption
+        :param fuel_type: energy (mix) used for electricity/heating
+        (see HeatingFuel and ElectricityFuel in constants.py)
+        :param own_share: the research group's approximate share of the
+        total electricity energy consumption. Value range 0 to 1.
         :type consumption: float
         :type fuel_type: str
         :type own_share: float
@@ -72,8 +74,16 @@ class Energy:
 
 
 class _EnergyFromElectricity(Energy):
-    """
-    This is a hidden class which handles emissions from electricity.
+    """This is a hidden class which handles emissions from electricity.
+
+    :param consumption: energy consumption
+    :param fuel_type: energy mix used for electricity (see ElectricityFuel in constants.py)
+    :param own_share: the research group's approximate share of the total electricity energy consumption. Value range 0 to 1.
+    :param country_code: 2-letter ISO country code
+    :type consumption: float
+    :type fuel_type: str
+    :type own_share: float
+    :type country_code: str
     """
 
     def __init__(
@@ -90,8 +100,8 @@ class _EnergyFromElectricity(Energy):
         self.country_code = country_code
 
     def calculate_co2e(self):
-        """
-        Calculate the CO2e emissions for electricity.
+        """Calculate the CO2e emissions from electricity.
+
         :return: EnergyEmissions object
         """
 
@@ -118,8 +128,16 @@ class _EnergyFromElectricity(Energy):
 
 
 class _EnergyFromHeating(Energy):
-    """
-    This is a hidden class which handles emissions from heating.
+    """This is a hidden class which handles emissions from heating.
+
+    :param consumption: energy consumption
+    :param fuel_type: energy mix used for heating (see HeatingFuel in constants.py)
+    :param own_share: the research group's approximate share of the total heating energy consumption. Value range 0 to 1.
+    :param unit: Unit of heating energy consumption (see Unit in constants.py)
+    :type consumption: float
+    :type fuel_type: str
+    :type own_share: float
+    :type unit: str
     """
 
     def __init__(
@@ -136,8 +154,8 @@ class _EnergyFromHeating(Energy):
         self.unit = unit
 
     def calculate_co2e(self):
-        """
-        Calculate the CO2e emissions for heating.
+        """Calculate the CO2e emissions from heating.
+
         :return: EnergyEmissions object
         """
 

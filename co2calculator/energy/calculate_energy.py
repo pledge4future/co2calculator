@@ -1,4 +1,4 @@
-"""Function colleciton to calculate energy type co2 emissions"""
+"""Function collection to calculate energy type co2 emissions"""
 
 from typing import Union, Tuple
 from co2calculator.constants import Unit
@@ -17,15 +17,17 @@ conversion_factors = ConversionFactors()
 
 def calc_co2_heating(
     consumption: float, options: Union[HeatingParameters, dict]
-) -> Kilogram:
+) -> Tuple[float, float, HeatingParameters]:
     """Function to compute heating emissions
 
     :param consumption: energy consumption
     :param options: parameters for heating emissions calculation
     :type consumption: float
     :type options: HeatingParameters | dict
-    :return: total emissions of heating energy consumption
-    :rtype: Kilogram
+    :return co2e: total emissions of heating energy consumption (kg)
+    :return co2e_factor: heating emission factor
+    :return params: parameters for heating emissions calculation
+    :rtype: Tuple
     """
     # Validate parameters
     if options is None:
@@ -56,17 +58,17 @@ def calc_co2_heating(
 
 def calc_co2_electricity(
     consumption: float, options: Union[ElectricityParameters, dict]
-) -> Kilogram:
+) -> Tuple[float, float, ElectricityParameters]:
     """Function to compute electricity emissions
 
     :param consumption: energy consumption
-    :param fuel_type: energy (mix) used for electricity [german_energy_mix, solar]
-    :param energy_share: the research group's approximate share of the total electricity energy consumption
+    :param options: parameters for electricity emissions calculation
     :type consumption: float
-    :type fuel_type: str
-    :type energy_share: float
-    :return: total emissions of electricity energy consumption
-    :rtype: Kilogram
+    :type options: ElectricityParameters | dict
+    :return co2e: total emissions of electricity energy consumption (kg)
+    :return co2e_factor: electricity emission factor
+    :return params: parameters for electricity emissions calculation
+    :rtype: Tuple
     """
 
     # Validate parameters
