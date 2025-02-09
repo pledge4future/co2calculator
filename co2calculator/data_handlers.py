@@ -29,7 +29,7 @@ class EmissionFactors:
         }
 
     def get(self, parameters: dict):
-        """Returns factor from the database
+        """Returns emission factor from the database
 
         :param parameters: Options of the co2e calculation
         :type parameters: dict
