@@ -366,16 +366,6 @@ class ElectricityEmissionParameters(BaseModel):
         return v
 
 
-class ElectricityParameters(BaseModel):
-    electricity_emission_parameters: ElectricityEmissionParameters
-    own_share: float = 1.0
-
-    @validator("own_share", allow_reuse=True)
-    def check_own_share(cls, v):
-        assert 0 <= v <= 1
-        return v
-
-
 class HeatingEmissionParameters(BaseModel):
 
     category: EmissionCategory = EmissionCategory.HEATING
@@ -390,12 +380,6 @@ class HeatingEmissionParameters(BaseModel):
             assert v.lower() in (item.value for item in HeatingFuel)
             v = v.lower()
         return HeatingFuel(v)
-
-
-class HeatingParameters(BaseModel):
-    heating_emission_parameters: HeatingEmissionParameters
-    unit: Unit
-    own_share: float = 1.0
 
     @validator("unit", allow_reuse=True)
     def check_unit(cls, v):

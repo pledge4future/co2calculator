@@ -42,7 +42,7 @@ class BudgetTwoDegrees:
     budget_per_person_and_year_long: float = 3.4
 
 
-class HeatingFuel(enum.Enum):
+class HeatingFuel(str, enum.Enum):
     """Enum for heating fuel types"""
 
     OIL = "oil"

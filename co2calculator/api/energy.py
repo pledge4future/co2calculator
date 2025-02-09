@@ -14,7 +14,7 @@ class Energy:
         self,
         consumption: float,
         fuel_type: Optional[str] = None,
-        own_share: float = None,
+        own_share: float = 1.0,
     ):
         """Initialize an Energy object
 
