@@ -10,7 +10,6 @@ from typing import Tuple, Union, Optional
 
 import numpy as np
 import openrouteservice
-import pandas as pd
 from dotenv import load_dotenv
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
@@ -44,7 +43,7 @@ script_path = str(Path(__file__).parent)
 class StructuredLocation(BaseModel, extra=Extra.forbid):
     address: Optional[str]
     locality: str
-    country: Union[CountryCode2, CountryCode3, CountryName]
+    country: Optional[Union[CountryCode2, CountryCode3, CountryName]]
     region: Optional[str]
     county: Optional[str]
     borough: Optional[str]
@@ -52,12 +51,12 @@ class StructuredLocation(BaseModel, extra=Extra.forbid):
     neighbourhood: Optional[str]
 
 
-class TrainStation(BaseModel):
+class TrainStation(BaseModel, extra=Extra.forbid):
     station_name: str
     country: CountryCode2
 
 
-class Airport(BaseModel):
+class Airport(BaseModel, extra=Extra.forbid):
     iata_code: IataAirportCode
 
 
@@ -511,30 +510,39 @@ def create_distance_request(
     # for start and destination, if nothing is given assume StructuredLocation
 
     try:
-        location = [None, None]
+        locations = [None, None]
         for i, o in enumerate([start, destination]):
-            if "address_type" in o:
-                if o["address_type"] == AddressType.ADDRESS:
-                    location[i] = StructuredLocation(**o)
-                elif o["address_type"] == AddressType.TRAINSTATION:
-                    location[i] = TrainStation(**o)
-                elif o["address_type"] == AddressType.AIRPORT:
-                    location[i] = Airport(iata_code=o["IATA"])
+            if isinstance(o, dict):
+                if "address_type" in o:
+                    if o["address_type"] == AddressType.ADDRESS:
+                        del o["address_type"]
+                        locations[i] = StructuredLocation(**o)
+                    elif o["address_type"] == AddressType.TRAINSTATION:
+                        del o["address_type"]
+                        locations[i] = TrainStation(**o)
+                    elif o["address_type"] == AddressType.AIRPORT:
+                        del o["address_type"]
+                        locations[i] = Airport(iata_code=o["IATA"])
+                    else:
+                        raise InvalidSpatialInput(
+                            f"unknown address type: '{o['address_type']}'"
+                        )
                 else:
-                    raise InvalidSpatialInput(
-                        f"unknown address type: '{o['address_type']}'"
+                    print(
+                        "No address type provided: ('address', 'trainstation' ,'airport'), assume address"
                     )
+                    locations[i] = StructuredLocation(**o)
+            elif isinstance(o, str):
+                locations[i] = StructuredLocation(locality=o)
             else:
-                print(
-                    "No address type provided: ('address', 'trainstation' ,'airport'), assume address"
+                raise InvalidSpatialInput(
+                    f"start and destination must be either dict or string, not {type(o)}"
                 )
-                location[i] = StructuredLocation(**o)
-        print(location)
 
         return DistanceRequest(
             transportation_mode=transportation_mode,
-            start=location[0],
-            destination=location[1],
+            start=locations[0],
+            destination=locations[1],
         )
 
     except ValidationError as e:
@@ -557,11 +565,11 @@ def get_distance(request: DistanceRequest) -> Kilometer:
     # StructuredLocation, TrainStation, Airport based on the object class of
     # start and destination in the request
     for loc in [request.start, request.destination]:
-        if loc.__class__ is StructuredLocation:
+        if isinstance(loc, StructuredLocation):
             _, _, loc_coords, _ = geocoding_structured(loc.dict())
-        elif loc.__class__ is TrainStation:
+        elif isinstance(loc, TrainStation):
             _, _, loc_coords = geocoding_train_stations(loc.dict())
-        elif loc.__class__ is Airport:
+        elif isinstance(loc, Airport):
             _, loc_coords, _ = geocoding_airport(loc.iata_code)
         else:
             raise Exception("Address Type not valid")

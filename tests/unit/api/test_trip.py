@@ -34,6 +34,21 @@ def test_trip_by_car_distance_calculation():
     assert distance == pytest.approx(31, 1)
 
 
+@pytest.mark.ors
+def test_trip_by_car_distance_calculation_2():
+    """Test whether distance is calculated correctly"""
+    start = {"locality": "Heidelberg", "country": "Germany", "address_type": "address"}
+    destination = {
+        "locality": "Mannheim",
+        "country": "Germany",
+        "address_type": "address",
+    }
+
+    distance = Trip(start=start, destination=destination).by_car().calculate_distance()
+    assert isinstance(distance, float)
+    assert distance == pytest.approx(31, 1)
+
+
 def test_instantiate_trip_by_train():
     """Test whether class is instantiated correctly"""
     trip = Trip(300).by_train()
@@ -299,3 +314,34 @@ def test_trip_by_custom_co2e_train_to_airport_by_car():
         .by_custom(transport_mode="car", emission_factor=0.1)
         .calculate_co2e()
     )
+
+
+def test_geocoding_structured_single_input():
+    """Test geocoding with minimal structured input"""
+    start = {
+        "locality": "Heidelberg",
+        "address_type": "address",
+    }
+    destination = {
+        "locality": "Hamburg",
+        "address_type": "address",
+    }
+
+    distance = (
+        Trip(start=start, destination=destination).by_train().calculate_distance()
+    )
+
+    assert distance == pytest.approx(569.7402306228078, 1)
+
+
+def test_geocoding_structured_single_input_str():
+    """Test geocoding with str as input"""
+    start = "Heidelberg"
+
+    destination = "Hamburg"
+
+    distance = (
+        Trip(start=start, destination=destination).by_train().calculate_distance()
+    )
+
+    assert distance == pytest.approx(569.7402306228078, 1)
