@@ -100,7 +100,7 @@ class _EnergyFromElectricity(Energy):
         self.country_code = country_code
 
     def calculate_co2e(self):
-        """Calculate the CO2e emissions for electricity.
+        """Calculate the CO2e emissions from electricity.
 
         :return: EnergyEmissions object
         """
