@@ -117,6 +117,15 @@ class Trip:
             destination=self.destination,
         )
 
+    def by_custom(self, emission_factor: float, transport_mode: str = None):
+        return _TripCustom(
+            emission_factor=emission_factor,
+            transport_mode=transport_mode,
+            distance=self.distance,
+            start=self.start,
+            destination=self.destination,
+        )
+
 
 class _TripByCar(Trip):
     """
@@ -647,6 +656,67 @@ class _TripByPedelec(Trip):
             co2e=co2e,
             distance=self.distance,
             emission_factor=emission_factor,
+            emission_parameters=emission_parameters,
+        )
+        return emissions
+
+    def calculate_distance(self):
+        """Calculates travelled get_distance"""
+        request = create_distance_request(
+            transportation_mode=self.transport_mode,
+            start=self.start,
+            destination=self.destination,
+        )
+        self.distance = get_distance(request)
+        return self.distance
+
+    def get_options(self):
+        # TODO: Implement options retrieval
+        pass
+
+
+class _TripCustom(Trip):
+    """This is a hidden class which handles custom trips."""
+
+    def __init__(
+        self,
+        emission_factor: float = None,
+        transport_mode: str = None,
+        distance: float = None,
+        start: dict | str = None,
+        destination: dict | str = None,
+    ):
+        """Initialize a custom trip"""
+        super(_TripCustom, self).__init__(
+            distance=distance, start=start, destination=destination
+        )
+        assert emission_factor >= 0, "Emission factor must be >= 0"
+        self.emission_factor = emission_factor
+        if transport_mode is None and distance is None:
+            raise ValueError(
+                "Transport mode must be given, unless distance is provided."
+            )
+        if transport_mode is not None:
+            self.transport_mode = TransportationMode(transport_mode)
+        else:
+            self.transport_mode = None
+
+    def calculate_co2e(self):
+        """
+        Calculate the CO2e emissions for a custom trip.
+        :return: Emissions object
+        """
+        if self.distance is None:
+            self.calculate_distance()
+
+        # calculate emissions
+        emission_parameters = {"transport_mode": self.transport_mode}
+        co2e = self.distance * self.emission_factor
+
+        emissions = TransportEmissions(
+            co2e=co2e,
+            distance=self.distance,
+            emission_factor=self.emission_factor,
             emission_parameters=emission_parameters,
         )
         return emissions
