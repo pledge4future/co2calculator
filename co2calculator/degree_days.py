@@ -42,6 +42,7 @@ def get_temp_series(location: str | tuple | list | np.ndarray,
     ds = ds.resample(time="1h").interpolate("linear")
     return ds
 
+
 def calc_degreedays(dd_type: str, 
                     location: str | tuple | list | np.ndarray, 
                     date: ddate | dtime | str, 
@@ -82,17 +83,19 @@ def calc_degreedays(dd_type: str,
     ds = get_temp_series(location, start_date, end_date)
 
     if dd_type == 'heating':
-        if Tref != None: Tref = 288.65 # (15.5 C)
+        if Tref is None:
+            Tref = 288.65  # (15.5 C)
         ds['t2m'] = Tref - ds['t2m']
     else: # type == cooling
-        if Tref != None: Tref = 295.15 # (22 C)
+        if Tref is None:
+            Tref = 295.15  # (22 C)
         ds['t2m'] = ds['t2m'] - Tref
     ds = np.maximum(ds, 0)
 
     # note: integrate sets each hour as unit 1, must divide by total number of hours (24 in a day) to obtain cumulative degree days
     dd = ds.integrate('time',datetime_unit='h') /24 
-    # manuall set a minimum value of 0.1 to avoid issues with dividing by 0
-    if (dd['t2m'].values < 0.1):
+    # manually set a minimum value of 0.1 to avoid issues with dividing by 0
+    if dd['t2m'].values < 0.1:
         print("WARNING calc_degreedays: degree days calculated to be <0.1, setting cutoff at 0.1.")
     result = min(dd['t2m'].values, 0.1)
     return result
