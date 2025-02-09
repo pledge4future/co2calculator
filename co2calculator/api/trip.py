@@ -730,7 +730,3 @@ class _TripCustom(Trip):
         )
         self.distance = get_distance(request)
         return self.distance
-
-    def get_options(self):
-        # TODO: Implement options retrieval
-        pass
