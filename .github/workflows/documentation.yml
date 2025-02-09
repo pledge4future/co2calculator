@@ -28,11 +28,11 @@ jobs:
 #        with:
 #          path: ./.venv
 #          key: venv-${{ hashFiles('poetry.lock') }}
-      
-      - name: Manually activate virtual environment
-        run: |
-          source .venv/bin/activate
-          which sphinx-build
+#      
+#      - name: Manually activate virtual environment
+#        run: |
+#          source .venv/bin/activate
+#          which sphinx-build
     
       - name: Sphinx build
         run: |
