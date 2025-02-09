@@ -60,7 +60,7 @@ class EmissionFactors:
             return selected_factors["co2e"].values[0]
 
     def _search_factors(self, parameters, emission_category):
-        """Searches for factors in the database
+        """Searches for emission factors in the database
 
         :param parameters: Search parameters
         :type parameters: dict
