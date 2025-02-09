@@ -31,7 +31,7 @@ class EmissionFactors:
     def get(self, parameters: dict):
         """Returns emission factor from the database
 
-        :param parameters: Options of the co2e calculation
+        :param parameters: Parameters for searching suitable emission factor 
         :type parameters: dict
         :return: co2e factor
         :rtype: float
