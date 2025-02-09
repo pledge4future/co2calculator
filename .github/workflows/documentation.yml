@@ -22,9 +22,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ./.venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            venv-${{ runner.os }}-
+          key: venv-${{ hashFiles('poetry.lock') }}
       - name: Install sphinx
         run: pip install sphinx sphinx_rtd_theme
       - name: Install myst-parser
