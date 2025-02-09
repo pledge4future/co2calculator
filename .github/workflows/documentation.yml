@@ -1,35 +1,42 @@
 name: Docs
 on: [push, pull_request, workflow_dispatch]
 permissions:
-    contents: write
+  contents: write
 jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
       - name: Install poetry
         uses: abatilo/actions-poetry@v3
+
       - name: Install dependencies
         run: poetry install --no-root
+
       - name: Setup a local virtual environment for caching
         run: |
           poetry config virtualenvs.create true --local
           poetry config virtualenvs.in-project true --local
-      - name: Define a cache for the virtual environment based on the dependencies lock file to speed up later runs
+
+      - name: Cache the virtual environment
         uses: actions/cache@v4
         with:
           path: ./.venv
           key: venv-${{ hashFiles('poetry.lock') }}
-      - name: Install sphinx
-        run: pip install sphinx sphinx_rtd_theme
-      - name: Install myst-parser
-        run: pip install myst-parser
+
+      - name: Install Sphinx and other documentation tools
+        run: |
+          poetry add sphinx sphinx_rtd_theme myst-parser
+
       - name: Sphinx build
         run: |
-          sphinx-build docs _build
+          poetry run sphinx-build docs _build
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
