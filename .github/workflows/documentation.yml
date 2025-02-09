@@ -17,22 +17,6 @@ jobs:
 
       - name: Install dependencies
         run: poetry install
-
-#      - name: Setup a local virtual environment for caching
-#        run: |
-#          poetry config virtualenvs.create true --local
-#          poetry config virtualenvs.in-project true --local
-#
-#      - name: Cache the virtual environment
-#        uses: actions/cache@v4
-#        with:
-#          path: ./.venv
-#          key: venv-${{ hashFiles('poetry.lock') }}
-#      
-#      - name: Manually activate virtual environment
-#        run: |
-#          source .venv/bin/activate
-#          which sphinx-build
     
       - name: Sphinx build
         run: |
