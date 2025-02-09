@@ -154,7 +154,7 @@ class _EnergyFromHeating(Energy):
         self.unit = unit
 
     def calculate_co2e(self):
-        """Calculate the CO2e emissions for heating.
+        """Calculate the CO2e emissions from heating.
 
         :return: EnergyEmissions object
         """
