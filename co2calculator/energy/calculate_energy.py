@@ -31,10 +31,6 @@ def calc_co2_heating(
     if options is None:
         options = {}
 
-    # emission_params = HeatingEmissionParameters(**options)
-    # params = HeatingParameters(
-    #    heating_emission_parameters=emission_params, unit=options["unit"]
-    # )
     params = HeatingEmissionParameters.parse_obj(options)
 
     if params.unit is not Unit.KWH:
@@ -74,8 +70,6 @@ def calc_co2_electricity(
     if options is None:
         options = {}
 
-    # emission_params = ElectricityEmissionParameters(**options)
-    # params = ElectricityParameters(electricity_emission_parameters=emission_params)
     params = ElectricityEmissionParameters.parse_obj(options)
     # Get the co2 factor
     co2e_factor = emission_factors.get(params.dict())

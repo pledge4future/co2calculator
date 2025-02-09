@@ -72,8 +72,6 @@ class EmissionFactors:
         for k, v in parameters.items():
             if isinstance(v, int):
                 continue
-            # if not isinstance(v, str):
-            #    v = str(v.value)
             if hasattr(v, "value"):
                 v = str(v.value)
             if not isinstance(v, str):
