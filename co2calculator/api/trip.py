@@ -15,14 +15,22 @@ from co2calculator.mobility.calculate_mobility import (
     calc_co2_bicycle,
     calc_co2_pedelec,
 )
-from co2calculator.constants import CarFuel, Size, TransportationMode
+from co2calculator.constants import TransportationMode
 
 
 class Trip:
     def __init__(
         self, distance: float = None, start: str = None, destination: str = None
     ):
-        """Initialize a trip object"""
+        """Initialize a trip object
+
+        :param distance: Distance in kilometers
+        :param start: Start location of the trip
+        :param destination: Destination location of the trip
+        :type distance: float
+        :type start: str
+        :type destination: str
+        """
         self.__verify_parameters(distance, start, destination)
         self.distance = distance
         self.start = start
@@ -42,6 +50,16 @@ class Trip:
             ), "If distance is given, start and destination must be None."
 
     def by_car(self, fuel_type: str = None, size: str = None, passengers: int = 1):
+        """Initialize a car trip object
+
+        :param fuel_type: The fuel type of the car (see CarFuel in constants.py)
+        :param size: The size of the car (see Size in constants.py)
+        :param passengers: number of passengers (default value: 1)
+        :type fuel_type: str
+        :type size: str
+        :type passengers: int
+        :return: _TripByCar object
+        """
         return _TripByCar(
             passengers=passengers,
             fuel_type=fuel_type,
@@ -53,6 +71,12 @@ class Trip:
 
     # TODO: calculate_mobility and constants have 'fuel_type' but TrainEmissionParameters not
     def by_train(self, country_code: str = "global"):
+        """Initialize a train trip object
+
+        :param country_code: 2- or 3-letter ISO country code
+        :type country_code: str
+        :return: _TripByTrain object
+        """
         return _TripByTrain(
             country_code=country_code,
             distance=self.distance,
@@ -61,6 +85,12 @@ class Trip:
         )
 
     def by_plane(self, seating: str = None):
+        """Initialize a plane trip object
+
+        :param seating: The type of seating class (see FlightClass in constants.py)
+        :type seating: str
+        :return: _TripByPlane object
+        """
         return _TripByPlane(
             seating=seating,
             distance=self.distance,
@@ -69,6 +99,10 @@ class Trip:
         )
 
     def by_tram(self):
+        """Initialize a tram trip object
+
+        :return: _TripByTram object
+        """
         return _TripByTram(
             distance=self.distance,
             start=self.start,
@@ -76,6 +110,12 @@ class Trip:
         )
 
     def by_ferry(self, ferry_class: str = None):
+        """Initialize a ferry trip object
+
+        :param ferry_class: The type of seating class (see FerryClass in constants.py)
+        :type ferry_class: str
+        :return: _TripByFerry object
+        """
         return _TripByFerry(
             ferry_class=ferry_class,
             distance=self.distance,
@@ -86,6 +126,16 @@ class Trip:
     def by_bus(
         self, fuel_type: str = None, size: str = None, vehicle_range: str = None
     ):
+        """Initialize a bus trip object
+
+        :param fuel_type: The fuel type of the bus (see BusFuel in constants.py)
+        :param size: The size of the bus
+        :param vehicle_range: The distance of the bus journey (see BusTrainRange in constants.py)
+        :type fuel_type: str
+        :type size: str
+        :type vehicle_range: str
+        :return: _TripByBus object
+        """
         return _TripByBus(
             fuel_type=fuel_type,
             size=size,
@@ -96,6 +146,12 @@ class Trip:
         )
 
     def by_motorbike(self, size: str = None):
+        """Initialize a motorbike trip object
+
+        :param size: The size of the motorbike
+        :type size: str
+        :return: _TripByMotorbike object
+        """
         return _TripByMotorbike(
             size=size,
             distance=self.distance,
@@ -104,6 +160,10 @@ class Trip:
         )
 
     def by_bicycle(self):
+        """Initialize a bicycle trip object
+
+        :return: _TripByBicycle object
+        """
         return _TripByBicycle(
             distance=self.distance,
             start=self.start,
@@ -111,6 +171,10 @@ class Trip:
         )
 
     def by_pedelec(self):
+        """Initialize a pedelec trip object
+
+        :return: _TripByPedelec object
+        """
         return _TripByPedelec(
             distance=self.distance,
             start=self.start,
@@ -130,8 +194,19 @@ class Trip:
 class _TripByCar(Trip):
     """
     This is a hidden class which handles car trips.
+
     :param fuel_type: The fuel type of the car
     :param size: The size of the car
+    :param passengers: number of passengers (default value: 1)
+    :param distance: The distance of the car journey
+    :param start: The start location of the car journey
+    :param destination: The destination location of the car journey
+    :type fuel_type: str
+    :type size: str
+    :type passengers: int
+    :type distance: float
+    :type start: dict | str
+    :type destination: dict | str
     """
 
     transport_mode = TransportationMode.CAR
@@ -154,8 +229,8 @@ class _TripByCar(Trip):
         self.passengers = passengers
 
     def calculate_co2e(self):
-        """
-        Calculate the CO2e emissions for a car trip.
+        """Calculate the CO2e emissions for a car trip.
+
         :return: Emissions object
         """
         if self.distance is None:
@@ -182,7 +257,6 @@ class _TripByCar(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -192,8 +266,8 @@ class _TripByCar(Trip):
         return self.distance
 
     def get_options(self):
-        """
-        Return available options for car trips.
+        """Return available options for car trips.
+
         :return: Dictionary of available options
         """
         options = {
@@ -214,7 +288,15 @@ class _TripByCar(Trip):
 
 class _TripByTrain(Trip):
     """This is a hidden class which handles train trips.
-    :param: CountryCode
+
+    :param distance: The distance of the train journey
+    :param start: The start location of the train journey
+    :param destination: The destination location of the train journey
+    :param country_code: 2- or 3-letter ISO country code
+    :type distance: float
+    :type start: dict | str
+    :type destination: dict | str
+    :type country_code: str | CountryCode2 | CountryCode3
     """
 
     transport_mode = TransportationMode.TRAIN
@@ -233,8 +315,8 @@ class _TripByTrain(Trip):
         self.country_code = country_code
 
     def calculate_co2e(self):
-        """
-        Calculate the CO2e emissions for a train trip
+        """Calculate the CO2e emissions for a train trip
+
         :return: Emissions object
         """
         # TODO: change for train
@@ -258,7 +340,6 @@ class _TripByTrain(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -273,9 +354,16 @@ class _TripByTrain(Trip):
 
 
 class _TripByPlane(Trip):
-    """
-    This is a hidden class which handles plane trips.
-    :param seating: The type of seating class
+    """This is a hidden class which handles plane trips.
+
+    :param seating: The type of seating class (see FlightClass in constants.py)
+    :param distance: The distance of the plane journey
+    :param start: The start location of the plane journey
+    :param destination: The destination location of the plane journey
+    :type seating: str
+    :type distance: float
+    :type start: dict | str
+    :type destination: dict | str
     """
 
     transport_mode = TransportationMode.PLANE
@@ -294,8 +382,8 @@ class _TripByPlane(Trip):
         self.seating = seating
 
     def calculate_co2e(self):
-        """
-        Calculate the CO2e emissions for a plane trip
+        """Calculate the CO2e emissions for a plane trip
+
         :return Emissions object
         """
         if self.distance is None:
@@ -318,7 +406,6 @@ class _TripByPlane(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -333,7 +420,15 @@ class _TripByPlane(Trip):
 
 
 class _TripByTram(Trip):
-    """This is a hidden class which handles tram trips."""
+    """This is a hidden class which handles tram trips.
+
+    :param distance: The distance of the train journey
+    :param start: The start location of the train journey
+    :param destination: The destination location of the train journey
+    :type distance: float
+    :type start: dict | str
+    :type destination: dict | str
+    """
 
     transport_mode = TransportationMode.TRAM
 
@@ -343,14 +438,14 @@ class _TripByTram(Trip):
         start: dict | str = None,
         destination: dict | str = None,
     ):
-        """Initialue a tram trip"""
+        """Initialize a tram trip"""
         super(_TripByTram, self).__init__(
             distance=distance, start=start, destination=destination
         )
 
     def calculate_co2e(self):
-        """
-        Calculate the CO2e emissions for a tram trip.
+        """Calculate the CO2e emissions for a tram trip.
+
         :return: Emissions object
         """
         if self.distance is None:
@@ -368,7 +463,6 @@ class _TripByTram(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -383,9 +477,16 @@ class _TripByTram(Trip):
 
 
 class _TripByFerry(Trip):
-    """
-    This is a hidden class which handles ferry trips.
+    """This is a hidden class which handles ferry trips.
+
     :param ferry_class: The type of seating class
+    :param distance: The distance of the ferry journey
+    :param start: The start location of the ferry journey
+    :param destination: The destination location of the ferry journey
+    :type ferry_class: str
+    :type distance: float
+    :type start: dict | str
+    :type destination: dict | str
     """
 
     transport_mode = TransportationMode.FERRY
@@ -404,8 +505,7 @@ class _TripByFerry(Trip):
         self.ferry_class = ferry_class
 
     def calculate_co2e(self):
-        """
-        Calculate the CO2e emissions for a ferry trip
+        """Calculate the CO2e emissions for a ferry trip
 
         :return: Emissions object
         """
@@ -429,7 +529,6 @@ class _TripByFerry(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -444,11 +543,20 @@ class _TripByFerry(Trip):
 
 
 class _TripByBus(Trip):
-    """
-    This is a hidden class which handles bus trips.
-    :param fuel_type: The fuel type of the bus
+    """This is a hidden class which handles bus trips.
+
+    :param fuel_type: The fuel type of the bus (see BusFuel in constants.py)
     :param size: The size of the bus
-    :param vehicle_range: The distance of the bus journey
+    :param vehicle_range: The distance of the bus journey (see BusTrainRange in constants.py)
+    :param distance: The distance of the bus journey
+    :param start: The start location of the bus journey
+    :param destination: The destination location of the bus journey
+    :type fuel_type: str
+    :type size: str
+    :type vehicle_range: str
+    :type distance: float
+    :type start: dict | str
+    :type destination: dict | str
     """
 
     transport_mode = TransportationMode.BUS
@@ -462,7 +570,7 @@ class _TripByBus(Trip):
         start: dict | str = None,
         destination: dict | str = None,
     ):
-        """Initialize a car trip"""
+        """Initialize a bus trip"""
         super(_TripByBus, self).__init__(
             distance=distance, start=start, destination=destination
         )
@@ -471,8 +579,7 @@ class _TripByBus(Trip):
         self.vehicle_range = vehicle_range
 
     def calculate_co2e(self):
-        """
-        Calculate the CO2e emissions for a bus trip
+        """Calculate the CO2e emissions for a bus trip
 
         :return: Emissions object
         """
@@ -500,7 +607,6 @@ class _TripByBus(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -515,9 +621,16 @@ class _TripByBus(Trip):
 
 
 class _TripByMotorbike(Trip):
-    """
-    This is a hidden class which handles motorbike trips.
+    """This is a hidden class which handles motorbike trips.
+
     :param size: The size of the motorbike
+    :param distance: The distance of the motorbike journey
+    :param start: The start location of the motorbike journey
+    :param destination: The destination location of the motorbike journey
+    :type size: str
+    :type distance: float
+    :type start: dict | str
+    :type destination: dict | str
     """
 
     transport_mode = TransportationMode.MOTORBIKE
@@ -529,15 +642,14 @@ class _TripByMotorbike(Trip):
         start: dict | str = None,
         destination: dict | str = None,
     ):
-        """Initialize a car trip"""
+        """Initialize a motorbike trip"""
         super(_TripByMotorbike, self).__init__(
             distance=distance, start=start, destination=destination
         )
         self.size = size
 
     def calculate_co2e(self):
-        """
-        Calculate the CO2e emissions for a bus trip
+        """Calculate the CO2e emissions for a motorbike trip
 
         :return: Emissions object
         """
@@ -561,7 +673,6 @@ class _TripByMotorbike(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -576,7 +687,15 @@ class _TripByMotorbike(Trip):
 
 
 class _TripByBicycle(Trip):
-    """This is a hidden class which handles bicycle trips."""
+    """This is a hidden class which handles bicycle trips.
+
+    :param distance: The distance of the bicycle journey
+    :param start: The start location of the bicycle journey
+    :param destination: The destination location of the bicycle journey
+    :type distance: float
+    :type start: dict | str
+    :type destination: dict | str
+    """
 
     transport_mode = TransportationMode.BICYCLE
 
@@ -586,14 +705,14 @@ class _TripByBicycle(Trip):
         start: dict | str = None,
         destination: dict | str = None,
     ):
-        """Initialue a tram trip"""
+        """Initialize a bicycle trip"""
         super(_TripByBicycle, self).__init__(
             distance=distance, start=start, destination=destination
         )
 
     def calculate_co2e(self):
-        """
-        Calculate the CO2e emissions for a bicycle trip.
+        """Calculate the CO2e emissions for a bicycle trip.
+
         :return: Emissions object
         """
         if self.distance is None:
@@ -611,7 +730,6 @@ class _TripByBicycle(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -626,7 +744,15 @@ class _TripByBicycle(Trip):
 
 
 class _TripByPedelec(Trip):
-    """This is a hidden class which handles pedelec trips."""
+    """This is a hidden class which handles pedelec trips.
+
+    :param distance: The distance of the pedelec journey
+    :param start: The start location of the pedelec journey
+    :param destination: The destination location of the pedelec journey
+    :type distance: float
+    :type start: dict | str
+    :type destination: dict | str
+    """
 
     transport_mode = TransportationMode.PEDELEC
 
@@ -636,14 +762,14 @@ class _TripByPedelec(Trip):
         start: dict | str = None,
         destination: dict | str = None,
     ):
-        """Initialue a tram trip"""
+        """Initialize a pedelec trip"""
         super(_TripByPedelec, self).__init__(
             distance=distance, start=start, destination=destination
         )
 
     def calculate_co2e(self):
-        """
-        Calculate the CO2e emissions for a pedelec trip.
+        """Calculate the CO2e emissions for a pedelec trip.
+
         :return: Emissions object
         """
         if self.distance is None:
@@ -661,7 +787,6 @@ class _TripByPedelec(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,

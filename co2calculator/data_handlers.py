@@ -11,7 +11,11 @@ script_path = str(Path(__file__).parent)
 
 class EmissionFactors:
     def __init__(self, data_dir=script_path):
-        """Init"""
+        """Initialize an EmissionFactors object
+
+        :param data_dir: Path to the directory of the script
+        :type data_dir: str
+        """
         self.electricity = pd.read_csv(
             f"{data_dir}/data/emission_factors_electricity.csv"
         )
@@ -25,12 +29,12 @@ class EmissionFactors:
         }
 
     def get(self, parameters: dict):
-        """
-        Returns factor from the database
-        :param parameters:
-        :type parameters:
-        :return:
-        :rtype:
+        """Returns emission factor from the database
+
+        :param parameters: Parameters for searching suitable emission factor
+        :type parameters: dict
+        :return: co2e factor
+        :rtype: float
         """
         assert (
             "category" in parameters
@@ -56,8 +60,8 @@ class EmissionFactors:
             return selected_factors["co2e"].values[0]
 
     def _search_factors(self, parameters, emission_category):
-        """
-        Searches for factors in the database
+        """Searches for emission factors in the database
+
         :param parameters: Search parameters
         :type parameters: dict
         :param emission_category: Category of emission factors
@@ -86,7 +90,7 @@ class EmissionFactors:
 
 class Airports:
     def __init__(self):
-        """Init"""
+        """Initialize Airports class"""
         self.airports = pd.read_csv(
             "https://davidmegginson.github.io/ourairports-data/airports.csv"
         )
@@ -94,7 +98,7 @@ class Airports:
 
 class EUTrainStations:
     def __init__(self):
-        """Init"""
+        """Initialize EUTrainStations class"""
         stations = pd.read_csv(
             "https://raw.githubusercontent.com/trainline-eu/stations/master/stations.csv",
             sep=";",
@@ -107,24 +111,28 @@ class EUTrainStations:
 
 class DetourFactors:
     def __init__(self, data_dir=script_path):
-        """Init"""
+        """Initialize detour factor class"""
         self.detour_factors = pd.read_csv(f"{data_dir}/data/detour.csv")
 
 
 class ConversionFactors:
     def __init__(self, data_dir=script_path):
-        """Init"""
+        """Initialize conversion factor class
+
+        :param data_dir: Path to the directory of the script
+        :type data_dir: str
+        """
         self.conversion_factors = pd.read_csv(
             f"{data_dir}/data/conversion_factors_heating.csv"
         )
 
     def get(self, fuel_type, unit):
-        """
-        Returns factors from the database
-        :param parameters:
-        :type parameters:
-        :return:
-        :rtype:
+        """Returns conversion factors from the database
+
+        :param fuel_type: Fuel type to be converted
+        :param unit: Unit of fuel consumption to be converted
+        :return: Conversion factor from unit to kwh
+        :rtype: float
         """
         selected_factors = self.conversion_factors.query(
             f'fuel_type == "{fuel_type.value}" & unit == "{unit.value}"'
