@@ -130,6 +130,7 @@ def calc_co2_plane(
     if options is None:
         options = {}
     # Retrieve whether distance is <= 3700 or above 3700 km
+    # TODO: Put this in extra function?
     if distance is None:
         raise ValueError("Distance is not given. Range can not be calculated.")
     if distance <= 3700:
