@@ -85,7 +85,7 @@ The distance as the crow flies is calculated using the haversine formula:
 The transport modes for which this approach is used are listed in the table below, together with their detour parameters.
 
 .. csv-table:: Detour parameters
-    :file: ../../data/detour.csv
+    :file: ../../co2calculator/data/detour.csv
     :header-rows: 1
     :stub-columns: 2
     :widths: 10 30 30 30
