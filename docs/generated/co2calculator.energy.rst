@@ -1,0 +1,30 @@
+co2calculator.energy
+====================
+
+.. automodule:: co2calculator.energy
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   co2calculator.energy.calculate_energy

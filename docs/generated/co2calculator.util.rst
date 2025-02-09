@@ -1,0 +1,26 @@
+co2calculator.util
+==================
+
+.. automodule:: co2calculator.util
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      get_calc_function_from_transport_mode
+   
+   
+
+   
+   
+   
+
+   
+   
+   

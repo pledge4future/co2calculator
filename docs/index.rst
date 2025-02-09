@@ -20,8 +20,7 @@ Contents
    documentation
    tutorial
    mobility
-   calculate/heating
-   calculate/electricity
+   calculate/energy
    calculate/emission_factors
    api
 

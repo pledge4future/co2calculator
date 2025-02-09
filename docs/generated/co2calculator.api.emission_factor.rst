@@ -1,0 +1,26 @@
+co2calculator.api.emission\_factor
+==================================
+
+.. automodule:: co2calculator.api.emission_factor
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      EmissionFactor
+   
+   
+
+   
+   
+   

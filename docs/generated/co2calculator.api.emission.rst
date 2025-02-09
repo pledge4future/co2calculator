@@ -1,0 +1,28 @@
+co2calculator.api.emission
+==========================
+
+.. automodule:: co2calculator.api.emission
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Emissions
+      EnergyEmissions
+      TransportEmissions
+   
+   
+
+   
+   
+   
