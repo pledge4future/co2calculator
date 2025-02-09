@@ -15,7 +15,7 @@ conversion_factors = ConversionFactors()
 
 def calc_co2_heating(
     consumption: float, options: Union[HeatingEmissionParameters, dict]
-) -> Tuple[Kilogram, float, HeatingParameters]:
+) -> Tuple[Kilogram, float, HeatingEmissionParameters]:
     """Function to compute heating emissions
 
     :param consumption: energy consumption
@@ -57,7 +57,7 @@ def calc_co2_heating(
 
 def calc_co2_electricity(
     consumption: float, options: Union[ElectricityEmissionParameters, dict]
-) -> Tuple[Kilogram, float, ElectricityParameters]:
+) -> Tuple[Kilogram, float, ElectricityEmissionParameters]:
     """Function to compute electricity emissions
 
     :param consumption: energy consumption
