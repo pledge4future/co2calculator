@@ -22,7 +22,7 @@ class Energy:
         :param fuel_type: energy (mix) used for electricity/heating
         (see HeatingFuel and ElectricityFuel in constants.py)
         :param own_share: the research group's approximate share of the
-        total electricity energy consumption
+        total electricity energy consumption. Value range 0 to 1.
         :type consumption: float
         :type fuel_type: str
         :type own_share: float
