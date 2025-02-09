@@ -21,6 +21,7 @@ from thefuzz import process
 from ._types import Kilometer
 from .constants import (
     TransportationMode,
+    AddressType,
     CountryCode2,
     CountryCode3,
     CountryName,
@@ -481,8 +482,8 @@ def range_categories(distance: Kilometer) -> Tuple[RangeCategory, str]:
 
 
 def create_distance_request(
-    start: Union[str, dict],
-    destination: Union[str, dict],
+    start: dict,
+    destination: dict,
     transportation_mode: TransportationMode,
 ) -> DistanceRequest:
     """Transform and validate the user input into a proper model for distance calculations
@@ -493,44 +494,39 @@ def create_distance_request(
     """
 
     # Validate the spatial data wrt. the mode of transportation
-    # NOTE: Since `start` and `destination` are different depending on the `transportation_mode`,
-    # we map the respective models to the mode of transportation.
-    # NOTE: Eventually the user of co2calculator should use the models right away (improve their
-    # structure in that iteration too!).
+    # And creates a DistanceRequest object containing either StructuredLocation,
+    # TrainStation or Airport objects based on the unser input address_type
+    # for start and destination, if nothing is given assume StructuredLocation
 
     try:
-        if transportation_mode in [
-            TransportationMode.CAR,
-            TransportationMode.MOTORBIKE,
-            TransportationMode.BUS,
-            TransportationMode.FERRY,
-            TransportationMode.BICYCLE,
-            TransportationMode.PEDELEC,
-        ]:
-            return DistanceRequest(
-                transportation_mode=transportation_mode,
-                start=StructuredLocation(**start),
-                destination=StructuredLocation(**destination),
-            )
+        location = [None, None]
+        for i, o in enumerate([start, destination]):
+            if "address_type" in o:
+                if o["address_type"] == AddressType.ADDRESS:
+                    location[i] = StructuredLocation(**o)
+                elif o["address_type"] == AddressType.TRAINSTATION:
+                    location[i] = TrainStation(**o)
+                elif o["address_type"] == AddressType.AIRPORT:
+                    location[i] = Airport(iata_code=o["IATA"])
+                else:
+                    raise InvalidSpatialInput(
+                        f"unknown address type: '{o['address_type']}'"
+                    )
+            else:
+                print(
+                    "No address type provided: ('address', 'trainstation' ,'airport'), assume address"
+                )
+                location[i] = StructuredLocation(**o)
+        print(location)
 
-        if transportation_mode in [TransportationMode.TRAIN, TransportationMode.TRAM]:
-            return DistanceRequest(
-                transportation_mode=transportation_mode,
-                start=TrainStation(**start),
-                destination=TrainStation(**destination),
-            )
-
-        if transportation_mode in [TransportationMode.PLANE]:
-            return DistanceRequest(
-                transportation_mode=transportation_mode,
-                start=Airport(iata_code=start),
-                destination=Airport(iata_code=destination),
-            )
+        return DistanceRequest(
+            transportation_mode=transportation_mode,
+            start=location[0],
+            destination=location[1],
+        )
 
     except ValidationError as e:
         raise InvalidSpatialInput(e)
-
-    raise InvalidSpatialInput(f"unknown transportation_mode: '{transportation_mode}'")
 
 
 def get_distance(request: DistanceRequest) -> Kilometer:
@@ -544,17 +540,21 @@ def get_distance(request: DistanceRequest) -> Kilometer:
     :rtype: Kilometer
     """
 
-    detour_map = {
-        TransportationMode.CAR: False,
-        TransportationMode.MOTORBIKE: False,
-        TransportationMode.BUS: True,
-        TransportationMode.TRAIN: True,
-        TransportationMode.TRAM: True,
-        TransportationMode.PLANE: True,
-        TransportationMode.FERRY: False,
-        TransportationMode.BICYCLE: False,
-        TransportationMode.PEDELEC: False,
-    }
+    # Calculate cords
+    coords = []
+    # StructuredLocation, TrainStation, Airport based on the object class of
+    # start and destination in the request
+    for loc in [request.start, request.destination]:
+        if loc.__class__ is StructuredLocation:
+            _, _, loc_coords, _ = geocoding_structured(loc.dict())
+        elif loc.__class__ is TrainStation:
+            _, _, loc_coords = geocoding_train_stations(loc.dict())
+        elif loc.__class__ is Airport:
+            _, loc_coords, _ = geocoding_airport(loc.iata_code)
+        else:
+            raise Exception("Address Type not valid")
+        coords.append(loc_coords)
+
     # TODO: Do we want to calculate the distance for bicycles and pedelecs same like for cars?
     if request.transportation_mode in [
         TransportationMode.CAR,
@@ -562,45 +562,17 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         TransportationMode.PEDELEC,
         TransportationMode.BICYCLE,
     ]:
-        coords = []
-        for loc in [request.start, request.destination]:
-            _, _, loc_coords, _ = geocoding_structured(loc.dict())
-            coords.append(loc_coords)
         return get_route(coords, RoutingProfile.CAR)
 
-    if request.transportation_mode == TransportationMode.BUS:
-        # Same as car (StructuredLocation)
-        # TODO: Validate with BaseModel
-        # TODO: Question: Why are we not calculating the bus trip like `driving-car` routes?
-
-        distance = 0
-        coords = []
-        for loc in [request.start, request.destination]:
-            _, _, loc_coords, _ = geocoding_structured(loc.dict())
-            coords.append(loc_coords)
-        for i in range(0, len(coords) - 1):
-            distance += haversine(
-                coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
-            )
-        return _apply_detour(distance, request.transportation_mode)
-
-    if request.transportation_mode in [
+    elif request.transportation_mode in [
         TransportationMode.TRAIN,
         TransportationMode.TRAM,
+        TransportationMode.BUS,
+        TransportationMode.PLANE,
     ]:
 
         distance = 0
-        coords = []
-
-        for loc in [request.start, request.destination]:
-            try:
-                _, _, loc_coords = geocoding_train_stations(loc.dict())
-            except RuntimeWarning:
-                _, _, loc_coords, _ = geocoding_structured(loc.dict())
-            except ValueError:
-                _, _, loc_coords, _ = geocoding_structured(loc.dict())
-            coords.append(loc_coords)
-
+        # This could also be used for longer lists of cords (with via)
         for i in range(len(coords) - 1):
             # compute great circle distance between locations
             distance += haversine(
@@ -608,26 +580,11 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             )
         return _apply_detour(distance, request.transportation_mode)
 
-    if request.transportation_mode == TransportationMode.PLANE:
-        # Stops are IATA code of airports
-        # TODO: Validate stops with BaseModel
-
-        _, geom_start, _ = geocoding_airport(request.start.iata_code)
-        _, geom_dest, _ = geocoding_airport(request.destination.iata_code)
-
-        distance = haversine(geom_start[1], geom_start[0], geom_dest[1], geom_dest[0])
-        return _apply_detour(distance, request.transportation_mode)
-
     if request.transportation_mode == TransportationMode.FERRY:
-        _, _, geom_start, _ = geocoding_structured(request.start.dict())
-        _, _, geom_dest, _ = geocoding_structured(request.destination.dict())
-
         # hardcoding not ideal, profile should be determined based on specified "seating type"
-        distance, distance_total = get_route_ferry(
-            [geom_start, geom_dest], profile=RoutingProfile.WALK
-        )
+        distance, distance_total = get_route_ferry(coords, profile=RoutingProfile.WALK)
 
         # if "seating" is "Car passenger", the remaining distance should be calculated as car trip ...
         # TODO: implement this
-        remaining_distance = distance - distance_total
+        # remaining_distance = distance - distance_total
         return distance

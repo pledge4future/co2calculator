@@ -200,6 +200,13 @@ class RoutingProfile(str, enum.Enum):
     WALK = "foot-walking"
 
 
+@enum.unique
+class AddressType(str, enum.Enum):
+    ADDRESS = "address"
+    TRAINSTATION = "trainstation"
+    AIRPORT = "airport"
+
+
 class CountryCode2(str):
     """Class for 2-letter country codes (ISO 3166-1 alpha-2)"""
 

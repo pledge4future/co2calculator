@@ -49,8 +49,16 @@ def test_trip_by_train_calculation():
 
 def test_trip_by_train_distance_calculation():
     """Test whether distance is calculated"""
-    start = {"station_name": "Heidelberg Hbf", "country": "DE"}
-    destination = {"station_name": "Mannheim Hbf", "country": "DE"}
+    start = {
+        "station_name": "Heidelberg Hbf",
+        "country": "DE",
+        "address_type": "trainstation",
+    }
+    destination = {
+        "station_name": "Mannheim Hbf",
+        "country": "DE",
+        "address_type": "trainstation",
+    }
 
     distance = (
         Trip(start=start, destination=destination).by_train().calculate_distance()
@@ -74,8 +82,8 @@ def test_trip_by_plane_calculation():
 
 def test_trip_by_plane_distance_calculation():
     """Test whether distance is calculated"""
-    start = "FRA"
-    destination = "STR"
+    start = {"IATA": "FRA", "address_type": "airport"}
+    destination = {"IATA": "STR", "address_type": "airport"}
 
     distance = (
         Trip(start=start, destination=destination).by_plane().calculate_distance()
@@ -98,8 +106,16 @@ def test_trip_by_tram_calculation():
 
 def test_trip_by_tram_distance_calculation():
     """Test whether distance is calculated"""
-    start = {"station_name": "Heidelberg Hbf", "country": "DE"}
-    destination = {"station_name": "Mannheim Hbf", "country": "DE"}
+    start = {
+        "station_name": "Heidelberg Hbf",
+        "country": "DE",
+        "address_type": "trainstation",
+    }
+    destination = {
+        "station_name": "Mannheim Hbf",
+        "country": "DE",
+        "address_type": "trainstation",
+    }
 
     distance = Trip(start=start, destination=destination).by_tram().calculate_distance()
     assert isinstance(distance, float)
@@ -267,3 +283,19 @@ def test_trip_by_custom_distance_calculation():
     )
     assert isinstance(distance, float)
     assert distance == pytest.approx(31, 1)
+
+
+def test_trip_by_custom_co2e_train_to_airport_by_car():
+    """Test a travel by car from Trainstation to airport"""
+    start = {
+        "station_name": "Heidelberg Hbf",
+        "country": "DE",
+        "address_type": "trainstation",
+    }
+    destination = {"IATA": "STR", "address_type": "airport"}
+
+    trip = (
+        Trip(start=start, destination=destination)
+        .by_custom(transport_mode="car", emission_factor=0.1)
+        .calculate_co2e()
+    )
