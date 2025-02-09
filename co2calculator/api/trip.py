@@ -15,7 +15,7 @@ from co2calculator.mobility.calculate_mobility import (
     calc_co2_bicycle,
     calc_co2_pedelec,
 )
-from co2calculator.constants import CarFuel, Size, TransportationMode
+from co2calculator.constants import TransportationMode
 
 
 class Trip:
@@ -173,7 +173,7 @@ class _TripByCar(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
+        """Calculates travelled distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -249,7 +249,7 @@ class _TripByTrain(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
+        """Calculates travelled distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -309,7 +309,7 @@ class _TripByPlane(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
+        """Calculates travelled distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -359,7 +359,7 @@ class _TripByTram(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
+        """Calculates travelled distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -420,7 +420,7 @@ class _TripByFerry(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
+        """Calculates travelled distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -453,7 +453,7 @@ class _TripByBus(Trip):
         start: dict | str = None,
         destination: dict | str = None,
     ):
-        """Initialize a car trip"""
+        """Initialize a bus trip"""
         super(_TripByBus, self).__init__(
             distance=distance, start=start, destination=destination
         )
@@ -491,7 +491,7 @@ class _TripByBus(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
+        """Calculates travelled distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -520,7 +520,7 @@ class _TripByMotorbike(Trip):
         start: dict | str = None,
         destination: dict | str = None,
     ):
-        """Initialize a car trip"""
+        """Initialize a motorbike trip"""
         super(_TripByMotorbike, self).__init__(
             distance=distance, start=start, destination=destination
         )
@@ -528,7 +528,7 @@ class _TripByMotorbike(Trip):
 
     def calculate_co2e(self):
         """
-        Calculate the CO2e emissions for a bus trip
+        Calculate the CO2e emissions for a motorbike trip
 
         :return: Emissions object
         """
@@ -552,7 +552,7 @@ class _TripByMotorbike(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
+        """Calculates travelled distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -577,7 +577,7 @@ class _TripByBicycle(Trip):
         start: dict | str = None,
         destination: dict | str = None,
     ):
-        """Initialue a tram trip"""
+        """Initialue a bicycle trip"""
         super(_TripByBicycle, self).__init__(
             distance=distance, start=start, destination=destination
         )
@@ -602,7 +602,7 @@ class _TripByBicycle(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
+        """Calculates travelled distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
@@ -627,7 +627,7 @@ class _TripByPedelec(Trip):
         start: dict | str = None,
         destination: dict | str = None,
     ):
-        """Initialue a tram trip"""
+        """Initialue a pedelec trip"""
         super(_TripByPedelec, self).__init__(
             distance=distance, start=start, destination=destination
         )
@@ -652,7 +652,7 @@ class _TripByPedelec(Trip):
         return emissions
 
     def calculate_distance(self):
-        """Calculates travelled get_distance"""
+        """Calculates travelled distance"""
         request = create_distance_request(
             transportation_mode=self.transport_mode,
             start=self.start,
