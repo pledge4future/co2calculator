@@ -68,8 +68,13 @@ class EmissionFactors:
         for k, v in parameters.items():
             if isinstance(v, int):
                 continue
+            #if not isinstance(v, str):
+            #    v = str(v.value)
             if not isinstance(v, str):
-                v = str(v.value)
+                if hasattr(v, "value"):  # Falls `v` ein Objekt mit `.value` ist
+                    v = str(v.value)
+                else:
+                    v = str(v)  # Falls `v` ein float oder ein anderer primitiver Typ ist
             if v is None or k not in candidates.columns:
                 continue
             new_candidates = candidates[candidates[k] == v]

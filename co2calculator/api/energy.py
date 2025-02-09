@@ -14,7 +14,7 @@ class Energy:
         self,
         consumption: float,
         fuel_type: Optional[str] = None,
-        own_share: float = 1.0,
+        own_share: float = None,
     ):
         """Initialize an Energy object
 
@@ -80,7 +80,7 @@ class _EnergyFromElectricity(Energy):
         self,
         consumption: float,
         fuel_type: Optional[str] = None,
-        own_share: float = 1.0,
+        own_share: float = None,
         country_code: str = "DE",
     ):
         # initialize
@@ -126,8 +126,8 @@ class _EnergyFromHeating(Energy):
         self,
         consumption: float,
         fuel_type: Optional[str] = None,
-        own_share: float = 1.0,
-        unit: str = "kwh",
+        own_share: float = None,
+        unit: str = None,
     ):
         # initialize
         super(_EnergyFromHeating, self).__init__(

@@ -31,19 +31,20 @@ def calc_co2_heating(
     if options is None:
         options = {}
 
-    emission_params = HeatingEmissionParameters(**options)
-    params = HeatingParameters(
-        heating_emission_parameters=emission_params, unit=options["unit"]
-    )
+    #emission_params = HeatingEmissionParameters(**options)
+    #params = HeatingParameters(
+    #    heating_emission_parameters=emission_params, unit=options["unit"]
+    #)
+    params = HeatingEmissionParameters.parse_obj(options)
 
     # Get the co2 factor
-    co2e_factor = emission_factors.get(emission_params.dict())
+    co2e_factor = emission_factors.get(params.dict())
 
     if params.unit is not Unit.KWH:
-        print(emission_params.fuel_type, params.unit)
+        #print(emission_params.fuel_type, params.unit)
         # Get the conversion factor
         conversion_factor = conversion_factors.get(
-            fuel_type=emission_params.fuel_type, unit=params.unit
+            fuel_type=params.fuel_type, unit=params.unit
         )
 
         consumption_kwh = consumption * conversion_factor
@@ -73,11 +74,11 @@ def calc_co2_electricity(
     if options is None:
         options = {}
 
-    emission_params = ElectricityEmissionParameters(**options)
-    params = ElectricityParameters(electricity_emission_parameters=emission_params)
-
+    #emission_params = ElectricityEmissionParameters(**options)
+    #params = ElectricityParameters(electricity_emission_parameters=emission_params)
+    params = ElectricityEmissionParameters.parse_obj(options)
     # Get the co2 factor
-    co2e_factor = emission_factors.get(emission_params.dict())
+    co2e_factor = emission_factors.get(params.dict())
 
     co2e = consumption * co2e_factor * params.own_share
     return co2e, co2e_factor, params
