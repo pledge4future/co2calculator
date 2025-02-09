@@ -15,8 +15,11 @@ jobs:
       - name: Install poetry
         uses: abatilo/actions-poetry@v3
 
+      - name: Remove broken virtual environment
+        run: rm -rf .venv
+
       - name: Install dependencies
-        run: poetry install --no-root
+        run: poetry install
 
       - name: Setup a local virtual environment for caching
         run: |
@@ -28,7 +31,12 @@ jobs:
         with:
           path: ./.venv
           key: venv-${{ hashFiles('poetry.lock') }}
-
+      
+      - name: Manually activate virtual environment
+        run: |
+          source .venv/bin/activate
+          which sphinx-build
+    
       - name: Sphinx build
         run: |
           poetry run sphinx-build docs _build
