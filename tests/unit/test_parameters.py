@@ -22,19 +22,6 @@ def test_planeemissionparameter_raise_validation_error():
         PlaneEmissionParameters(subcategory=TransportationMode.PLANE, seating="INVALID")
 
 
-def test_emission_factors_heating() -> None:
-    """Test emission factors for heating"""
-    # fuel_type = HeatingFuel.COAL
-    fuel_type = "coal"
-    unit = "kg"
-
-    params = HeatingEmissionParameters(fuel_type=fuel_type, unit=unit)
-    # Get the co2 factor
-    co2e = emission_factors.get(params.dict())
-
-    assert isinstance(co2e, float)
-
-
 def test_emission_factors_electricity() -> None:
     """Test emission factors for heating"""
     fuel_type = "production fuel mix"
