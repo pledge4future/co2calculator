@@ -143,7 +143,7 @@ class BusTrainRange(str, enum.Enum):
 
 @enum.unique
 class RangeCategory(str, enum.Enum):
-    """Enum for range categories"""
+    """Enum for flight range categories"""
 
     VERY_SHORT_HAUL = "very_short_haul"
     SHORT_HAUL = "short_haul"
@@ -180,6 +180,8 @@ class TransportationMode(str, enum.Enum):
 
 @enum.unique
 class Unit(str, enum.Enum):
+    """Enum for energy consumption units"""
+
     KWH = "kwh"
     KG = "kg"
     L = "l"
@@ -188,6 +190,8 @@ class Unit(str, enum.Enum):
 
 @enum.unique
 class EmissionCategory(str, enum.Enum):
+    """Enum for emission categories"""
+
     HEATING = "heating"
     ELECTRICITY = "electricity"
     TRANSPORT = "transport"
@@ -195,6 +199,8 @@ class EmissionCategory(str, enum.Enum):
 
 @enum.unique
 class RoutingProfile(str, enum.Enum):
+    """Enum for OpenRouteService routing profiles"""
+
     CAR = "driving-car"
     CYCLING = "cycling-regular"
     WALK = "foot-walking"
