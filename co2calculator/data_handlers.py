@@ -72,8 +72,10 @@ class EmissionFactors:
         for k, v in parameters.items():
             if isinstance(v, int):
                 continue
-            if not isinstance(v, str):
+            if hasattr(v, "value"):
                 v = str(v.value)
+            if not isinstance(v, str):
+                v = str(v)
             if v is None or k not in candidates.columns:
                 continue
             new_candidates = candidates[candidates[k] == v]

@@ -351,6 +351,7 @@ class ElectricityEmissionParameters(BaseModel):
     category: EmissionCategory = EmissionCategory.ELECTRICITY
     fuel_type: Union[ElectricityFuel, str] = ElectricityFuel.PRODUCTION_FUEL_MIX
     country_code: Union[CountryCode2, str] = "DE"
+    own_share: float = 1.0
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
@@ -358,11 +359,6 @@ class ElectricityEmissionParameters(BaseModel):
             assert v.lower() in (item.value for item in ElectricityFuel)
             v = v.lower()
         return ElectricityFuel(v)
-
-
-class ElectricityParameters(BaseModel):
-    electricity_emission_parameters: ElectricityEmissionParameters
-    own_share: float = 1.0
 
     @validator("own_share", allow_reuse=True)
     def check_own_share(cls, v):
@@ -375,6 +371,8 @@ class HeatingEmissionParameters(BaseModel):
     category: EmissionCategory = EmissionCategory.HEATING
     fuel_type: Union[HeatingFuel, str] = HeatingFuel.GAS
     country_code: Union[CountryCode2, str] = "global"
+    own_share: float = 1.0
+    unit: Union[Unit, str] = Unit.M3
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
@@ -382,12 +380,6 @@ class HeatingEmissionParameters(BaseModel):
             assert v.lower() in (item.value for item in HeatingFuel)
             v = v.lower()
         return HeatingFuel(v)
-
-
-class HeatingParameters(BaseModel):
-    heating_emission_parameters: HeatingEmissionParameters
-    unit: Unit
-    own_share: float = 1.0
 
     @validator("unit", allow_reuse=True)
     def check_unit(cls, v):

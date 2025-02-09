@@ -7,12 +7,14 @@ import pytest
 from co2calculator import (
     HeatingFuel,
     emission_factors,
+    conversion_factors,
     ElectricityFuel,
     Size,
     FlightClass,
     FerryClass,
     FlightRange,
     BusTrainRange,
+    Unit,
 )
 from co2calculator.parameters import (
     CarEmissionParameters,
@@ -22,6 +24,7 @@ from co2calculator.parameters import (
     MotorbikeEmissionParameters,
     ElectricityEmissionParameters,
     HeatingEmissionParameters,
+    PlaneEmissionParameters,
 )
 
 
@@ -98,7 +101,6 @@ def test_compare_enums_with_data(column_name, enum, emission_category, subcatego
         pytest.param(TrainEmissionParameters, id="train"),
         pytest.param(FerryEmissionParameters, id="ferry"),
         pytest.param(MotorbikeEmissionParameters, id="motorbike"),
-        pytest.param(HeatingEmissionParameters, id="heating"),
     ],
 )
 def test_defaults(default_parameters):
@@ -106,6 +108,48 @@ def test_defaults(default_parameters):
 
     # Get the emission factor for the default parameter combination
     co2e = emission_factors.get(default_parameters().dict())
+    assert isinstance(
+        co2e, float
+    ), f"No emission factor found for default parameters of {default_parameters.__name__}"
+
+
+def test_defaults_heating():
+    """Test if default parameters are available in the csv files"""
+
+    # Get the emission factor for the default parameter combination
+    default_parameters = HeatingEmissionParameters()
+    if default_parameters.unit is not Unit.KWH:
+        # Get the conversion factor
+        conversion_factor = conversion_factors.get(
+            fuel_type=default_parameters.fuel_type, unit=default_parameters.unit
+        )
+        assert isinstance(
+            conversion_factor, float
+        ), f"No conversion factor found for {default_parameters.fuel_type} and {default_parameters.unit}"
+        default_parameters.unit = Unit.KWH
+    co2e = emission_factors.get(default_parameters.dict())
+    assert isinstance(
+        co2e, float
+    ), f"No emission factor found for default parameters of {default_parameters.__name__}"
+
+
+def test_defaults_plane():
+    """Test if default parameters are available in the csv files"""
+
+    # Get the emission factor for the default parameter combination
+    default_parameters = PlaneEmissionParameters()
+    options = default_parameters.dict()
+    distance = 5000
+
+    # Retrieve whether distance is <= 3700 or above 3700 km
+    if distance is None:
+        raise ValueError("Distance is not given. Range can not be calculated.")
+    if distance <= 3700:
+        options["vehicle_range"] = FlightRange.SHORT_HAUL
+    else:
+        options["vehicle_range"] = FlightRange.LONG_HAUL
+
+    co2e = emission_factors.get(options)
     assert isinstance(
         co2e, float
     ), f"No emission factor found for default parameters of {default_parameters.__name__}"

@@ -16,11 +16,31 @@ def test_instantiate_energy():
     assert energy.own_share == 1.0
 
 
+def test_instantiate_energy_with_share():
+    """Test whether class is instantiated correctly"""
+    energy = Energy(consumption=300, own_share=0.5)
+    assert isinstance(energy, Energy)
+    assert energy.consumption == 300
+    assert energy.fuel_type is None
+    assert energy.own_share == 0.5
+
+
 def test_calculation_electricity():
     """Test whether electricity emissions are calculated correctly"""
     energy = (
         Energy(consumption=300).from_electricity(country_code="DE").calculate_co2e()
     )
+    assert isinstance(energy, Emissions)
+    assert isinstance(energy.co2e, float)
+
+
+def test_calculation_electricity_with_share():
+    """Test whether electricity emissions are calculated correctly"""
+    energy_inst = Energy(consumption=300, own_share=0.5).from_electricity(
+        country_code="DE"
+    )
+    assert energy_inst.own_share == 0.5
+    energy = energy_inst.calculate_co2e()
     assert isinstance(energy, Emissions)
     assert isinstance(energy.co2e, float)
 
