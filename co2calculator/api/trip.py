@@ -41,6 +41,21 @@ class Trip:
                 start is not None and destination is not None
             ), "If distance is given, start and destination must be None."
 
+    def calculate_distance(self):
+        """Calculates travelled get_distance"""
+        try:
+            transport_mode = self.transport_mode
+        except AttributeError:
+            print("No TransportationMode given use car to calculate distance")
+            transport_mode = TransportationMode.CAR
+        request = create_distance_request(
+            transportation_mode=transport_mode,
+            start=self.start,
+            destination=self.destination,
+        )
+        self.distance = get_distance(request)
+        return self.distance
+
     def by_car(self, fuel_type: str = None, size: str = None, passengers: int = 1):
         return _TripByCar(
             passengers=passengers,
@@ -172,16 +187,6 @@ class _TripByCar(Trip):
         )
         return emissions
 
-    def calculate_distance(self):
-        """Calculates travelled get_distance"""
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
-
     def get_options(self):
         """
         Return available options for car trips.
@@ -248,16 +253,6 @@ class _TripByTrain(Trip):
         )
         return emissions
 
-    def calculate_distance(self):
-        """Calculates travelled get_distance"""
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
-
     def get_options(self):
         # TODO: Implement options retrieval
         pass
@@ -308,16 +303,6 @@ class _TripByPlane(Trip):
         )
         return emissions
 
-    def calculate_distance(self):
-        """Calculates travelled get_distance"""
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
-
     def get_options(self):
         # TODO: Implement options retrieval
         pass
@@ -357,16 +342,6 @@ class _TripByTram(Trip):
             emission_parameters=emission_parameters,
         )
         return emissions
-
-    def calculate_distance(self):
-        """Calculates travelled get_distance"""
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
 
     def get_options(self):
         # TODO: Implement options retrieval
@@ -418,16 +393,6 @@ class _TripByFerry(Trip):
             emission_parameters=emission_parameters,
         )
         return emissions
-
-    def calculate_distance(self):
-        """Calculates travelled get_distance"""
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
 
     def get_options(self):
         # TODO: Implement options retrieval
@@ -490,16 +455,6 @@ class _TripByBus(Trip):
         )
         return emissions
 
-    def calculate_distance(self):
-        """Calculates travelled get_distance"""
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
-
     def get_options(self):
         # TODO: Implement options retrieval
         pass
@@ -551,16 +506,6 @@ class _TripByMotorbike(Trip):
         )
         return emissions
 
-    def calculate_distance(self):
-        """Calculates travelled get_distance"""
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
-
     def get_options(self):
         # TODO: Implement options retrieval
         pass
@@ -601,16 +546,6 @@ class _TripByBicycle(Trip):
         )
         return emissions
 
-    def calculate_distance(self):
-        """Calculates travelled get_distance"""
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
-
     def get_options(self):
         # TODO: Implement options retrieval
         pass
@@ -650,16 +585,6 @@ class _TripByPedelec(Trip):
             emission_parameters=emission_parameters,
         )
         return emissions
-
-    def calculate_distance(self):
-        """Calculates travelled get_distance"""
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
 
     def get_options(self):
         # TODO: Implement options retrieval
