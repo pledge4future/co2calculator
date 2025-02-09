@@ -29,10 +29,6 @@ jobs:
           path: ./.venv
           key: venv-${{ hashFiles('poetry.lock') }}
 
-      - name: Install Sphinx and other documentation tools
-        run: |
-          poetry add sphinx sphinx_rtd_theme myst-parser
-
       - name: Sphinx build
         run: |
           poetry run sphinx-build docs _build
