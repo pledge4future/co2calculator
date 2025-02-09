@@ -26,8 +26,9 @@ def test_emission_factors_heating() -> None:
     """Test emission factors for heating"""
     # fuel_type = HeatingFuel.COAL
     fuel_type = "coal"
+    unit = "m^3"
 
-    params = HeatingEmissionParameters(fuel_type=fuel_type)
+    params = HeatingEmissionParameters(fuel_type=fuel_type, unit=unit)
     # Get the co2 factor
     co2e = emission_factors.get(params.dict())
 
