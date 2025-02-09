@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Trip classes"""
+from typing import Optional
 from co2calculator import CountryCode2, CountryCode3
 from co2calculator.api.emission import TransportEmissions
 from co2calculator.distances import get_distance, create_distance_request
@@ -15,18 +16,23 @@ from co2calculator.mobility.calculate_mobility import (
     calc_co2_bicycle,
     calc_co2_pedelec,
 )
-from co2calculator.constants import CarFuel, Size, TransportationMode
+from co2calculator.constants import TransportationMode
 
 
 class Trip:
     def __init__(
-        self, distance: float = None, start: str = None, destination: str = None
+        self,
+        distance: float = None,
+        start: str | dict = None,
+        destination: str | dict = None,
+        transport_mode: Optional[TransportationMode] = TransportationMode.CAR,
     ):
         """Initialize a trip object"""
         self.__verify_parameters(distance, start, destination)
         self.distance = distance
         self.start = start
         self.destination = destination
+        self.transport_mode = transport_mode
 
     def __verify_parameters(self, distance: float, start: str, destination: str):
         """Verifies whether the parameters passed by the user are valid"""
@@ -43,13 +49,8 @@ class Trip:
 
     def calculate_distance(self):
         """Calculates travelled get_distance"""
-        try:
-            transport_mode = self.transport_mode
-        except AttributeError:
-            print("No TransportationMode given use car to calculate distance")
-            transport_mode = TransportationMode.CAR
         request = create_distance_request(
-            transportation_mode=transport_mode,
+            transportation_mode=self.transport_mode,
             start=self.start,
             destination=self.destination,
         )
@@ -162,7 +163,10 @@ class _TripByCar(Trip):
     ):
         """Initialize a car trip"""
         super(_TripByCar, self).__init__(
-            distance=distance, start=start, destination=destination
+            distance=distance,
+            start=start,
+            destination=destination,
+            transport_mode=self.transport_mode,
         )
         self.fuel_type = fuel_type
         self.size = size
@@ -233,7 +237,10 @@ class _TripByTrain(Trip):
     ):
         """Initialize a train trip"""
         super(_TripByTrain, self).__init__(
-            distance=distance, start=start, destination=destination
+            distance=distance,
+            start=start,
+            destination=destination,
+            transport_mode=self.transport_mode,
         )
         self.country_code = country_code
 
@@ -284,7 +291,10 @@ class _TripByPlane(Trip):
     ):
         """Initialize a plane trip"""
         super(_TripByPlane, self).__init__(
-            distance=distance, start=start, destination=destination
+            distance=distance,
+            start=start,
+            destination=destination,
+            transport_mode=self.transport_mode,
         )
         self.seating = seating
 
@@ -330,7 +340,10 @@ class _TripByTram(Trip):
     ):
         """Initialue a tram trip"""
         super(_TripByTram, self).__init__(
-            distance=distance, start=start, destination=destination
+            distance=distance,
+            start=start,
+            destination=destination,
+            transport_mode=self.transport_mode,
         )
 
     def calculate_co2e(self):
@@ -374,7 +387,10 @@ class _TripByFerry(Trip):
     ):
         """Initialize a ferry trip"""
         super(_TripByFerry, self).__init__(
-            distance=distance, start=start, destination=destination
+            distance=distance,
+            start=start,
+            destination=destination,
+            transport_mode=self.transport_mode,
         )
         self.ferry_class = ferry_class
 
@@ -429,7 +445,10 @@ class _TripByBus(Trip):
     ):
         """Initialize a car trip"""
         super(_TripByBus, self).__init__(
-            distance=distance, start=start, destination=destination
+            distance=distance,
+            start=start,
+            destination=destination,
+            transport_mode=self.transport_mode,
         )
         self.fuel_type = fuel_type
         self.size = size
@@ -486,7 +505,10 @@ class _TripByMotorbike(Trip):
     ):
         """Initialize a car trip"""
         super(_TripByMotorbike, self).__init__(
-            distance=distance, start=start, destination=destination
+            distance=distance,
+            start=start,
+            destination=destination,
+            transport_mode=self.transport_mode,
         )
         self.size = size
 
@@ -533,7 +555,10 @@ class _TripByBicycle(Trip):
     ):
         """Initialue a tram trip"""
         super(_TripByBicycle, self).__init__(
-            distance=distance, start=start, destination=destination
+            distance=distance,
+            start=start,
+            destination=destination,
+            transport_mode=self.transport_mode,
         )
 
     def calculate_co2e(self):
@@ -573,7 +598,10 @@ class _TripByPedelec(Trip):
     ):
         """Initialue a tram trip"""
         super(_TripByPedelec, self).__init__(
-            distance=distance, start=start, destination=destination
+            distance=distance,
+            start=start,
+            destination=destination,
+            transport_mode=self.transport_mode,
         )
 
     def calculate_co2e(self):
@@ -612,9 +640,6 @@ class _TripCustom(Trip):
         destination: dict | str = None,
     ):
         """Initialize a custom trip"""
-        super(_TripCustom, self).__init__(
-            distance=distance, start=start, destination=destination
-        )
         assert emission_factor >= 0, "Emission factor must be >= 0"
         self.emission_factor = emission_factor
         if transport_mode is None and distance is None:
@@ -625,6 +650,12 @@ class _TripCustom(Trip):
             self.transport_mode = TransportationMode(transport_mode)
         else:
             self.transport_mode = None
+        super(_TripCustom, self).__init__(
+            distance=distance,
+            start=start,
+            destination=destination,
+            transport_mode=self.transport_mode,
+        )
 
     def calculate_co2e(self):
         """
