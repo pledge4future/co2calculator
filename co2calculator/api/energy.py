@@ -132,7 +132,7 @@ class _EnergyFromHeating(Energy):
 
     :param consumption: energy consumption
     :param fuel_type: energy mix used for heating (see HeatingFuel in constants.py)
-    :param own_share: the research group's approximate share of the total heating energy consumption
+    :param own_share: the research group's approximate share of the total heating energy consumption. Value range 0 to 1.
     :param unit: Unit of heating energy consumption (see Unit in constants.py)
     :type consumption: float
     :type fuel_type: str
