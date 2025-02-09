@@ -335,8 +335,10 @@ def get_route(coords: list, profile: RoutingProfile = None) -> Kilometer:
     """Obtain the distance of a route between given waypoints using a given profile
     todo: check if coords may also be a tuple/array etc.
 
-    :param list coords: list of [lat,long] coordinates
-    :param str profile: driving-car, cycling-regular
+    :param coords: list of [lat,long] coordinates
+    :param profile: driving-car, cycling-regular
+    :type coords: list
+    :type profile: str
     :return: distance of the route
     :rtype: Kilometer
     """
@@ -364,8 +366,10 @@ def get_route_ferry(
     """Obtain the distance of a ferry route (and the total trip distance) between given waypoints
     todo: check if coords may also be a tuple/array etc.
 
-    :param list coords: list of [lat,long] coordinates
-    :param str profile: driving-car, foot-walking
+    :param coords: list of [lat,long] coordinates
+    :param profile: driving-car, foot-walking
+    :type coords: list
+    :type profile: str
     :return: distance of the ferry crossing, total distance
     :rtype: Kilometer, Kilometer
     """
@@ -424,8 +428,8 @@ def get_route_ferry(
 def _apply_detour(
     distance: Kilometer, transportation_mode: TransportationMode
 ) -> Kilometer:
-    """
-    Function to apply specific detour parameters to a distance as the crow flies
+    """Function to apply specific detour parameters to a distance as the crow flies
+
     :param distance: Distance as the crow flies between location of departure and destination of a trip
     :param transportation_mode: Mode of transport used in the trip
     :type distance: Kilometer
@@ -488,8 +492,16 @@ def create_distance_request(
     """Transform and validate the user input into a proper model for distance calculations
 
     Raises:
-        - InvalidSpatialInput for validation error
-        - InvalidSpatialInput for unknown transportation_mode
+    - InvalidSpatialInput for validation error
+    - InvalidSpatialInput for unknown transportation_mode
+    :param start: Start of the trip
+    :param destination: Destination of the trip
+    :param transportation_mode: Mode of transport used in the trip
+    :type start: Union[str, dict]
+    :type destination: Union[str, dict]
+    :type transportation_mode: TransportationMode
+    :return: Request for distance calculation between two locations for a given transportation mode
+    :rtype: DistanceRequest
     """
 
     # Validate the spatial data wrt. the mode of transportation
