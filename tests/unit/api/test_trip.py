@@ -11,7 +11,7 @@ from co2calculator.api.trip import Trip
 def test_instantiate_trip_by_car():
     """Test whether class is instantiated correctly"""
     trip = Trip(300).by_car()
-    assert trip.transport_mode == TransportationMode.CAR
+    assert trip.transportation_mode == TransportationMode.CAR
     assert trip.fuel_type is None
     assert trip.size is None
 
@@ -52,7 +52,7 @@ def test_trip_by_car_distance_calculation_2():
 def test_instantiate_trip_by_train():
     """Test whether class is instantiated correctly"""
     trip = Trip(300).by_train()
-    assert trip.transport_mode == TransportationMode.TRAIN
+    assert trip.transportation_mode == TransportationMode.TRAIN
 
 
 def test_trip_by_train_calculation():
@@ -84,7 +84,7 @@ def test_trip_by_train_distance_calculation():
 def test_instantiate_trip_by_plane():
     """Test whether class is instantiated correctly"""
     trip = Trip(300).by_plane()
-    assert trip.transport_mode == TransportationMode.PLANE
+    assert trip.transportation_mode == TransportationMode.PLANE
     assert trip.seating is None
 
 
@@ -109,7 +109,7 @@ def test_trip_by_plane_distance_calculation():
 def test_instantiate_trip_by_tram():
     """Test whether class is instantiated correctly"""
     trip = Trip(300).by_tram()
-    assert trip.transport_mode == TransportationMode.TRAM
+    assert trip.transportation_mode == TransportationMode.TRAM
 
 
 def test_trip_by_tram_calculation():
@@ -139,7 +139,7 @@ def test_trip_by_tram_distance_calculation():
 def test_instanitate_trip_by_ferry():
     """Test whether class is instantiated correctly"""
     trip = Trip(300).by_ferry()
-    assert trip.transport_mode == TransportationMode.FERRY
+    assert trip.transportation_mode == TransportationMode.FERRY
     assert trip.ferry_class is None
 
 
@@ -167,7 +167,7 @@ def test_trip_by_ferry_distance_calculation():
 def test_instantiate_trip_by_bus():
     """Test whether class is instantiated correctly"""
     trip = Trip(300).by_bus()
-    assert trip.transport_mode == TransportationMode.BUS
+    assert trip.transportation_mode == TransportationMode.BUS
     assert trip.fuel_type is None
     assert trip.size is None
     assert trip.vehicle_range is None
@@ -194,7 +194,7 @@ def test_trip_by_bus_distance_calculation():
 def test_instantiate_trip_by_motorbike():
     """Test whether class is instantiated correctly"""
     trip = Trip(300).by_motorbike()
-    assert trip.transport_mode == TransportationMode.MOTORBIKE
+    assert trip.transportation_mode == TransportationMode.MOTORBIKE
     assert trip.size is None
 
 
@@ -221,7 +221,7 @@ def test_trip_by_motorbike_distance_calculation():
 def test_instantiate_trip_by_bicycle():
     """Test whether class is instantiated correctly"""
     trip = Trip(300).by_bicycle()
-    assert trip.transport_mode == TransportationMode.BICYCLE
+    assert trip.transportation_mode == TransportationMode.BICYCLE
 
 
 def test_trip_by_bicycle_calculation():
@@ -247,7 +247,7 @@ def test_trip_by_bicycle_distance_calculation():
 def test_instantiate_trip_by_pedelec():
     """Test whether class is instantiated"""
     trip = Trip(300).by_pedelec()
-    assert trip.transport_mode == TransportationMode.PEDELEC
+    assert trip.transportation_mode == TransportationMode.PEDELEC
 
 
 def test_trip_by_pedelec_calculation():
@@ -293,7 +293,7 @@ def test_trip_by_custom_distance_calculation():
 
     distance = (
         Trip(start=start, destination=destination)
-        .by_custom(transport_mode="car", emission_factor=0.1)
+        .by_custom(transportation_mode="car", emission_factor=0.1)
         .calculate_distance()
     )
     assert isinstance(distance, float)
@@ -311,7 +311,7 @@ def test_trip_by_custom_co2e_train_to_airport_by_car():
 
     trip = (
         Trip(start=start, destination=destination)
-        .by_custom(transport_mode="car", emission_factor=0.1)
+        .by_custom(transportation_mode="car", emission_factor=0.1)
         .calculate_co2e()
     )
 
