@@ -1,0 +1,26 @@
+co2calculator.api.energy
+========================
+
+.. automodule:: co2calculator.api.energy
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Energy
+   
+   
+
+   
+   
+   

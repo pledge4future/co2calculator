@@ -1,0 +1,30 @@
+co2calculator.mobility
+======================
+
+.. automodule:: co2calculator.mobility
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   co2calculator.mobility.calculate_mobility

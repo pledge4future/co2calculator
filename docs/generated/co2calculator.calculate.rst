@@ -1,0 +1,26 @@
+co2calculator.calculate
+=======================
+
+.. automodule:: co2calculator.calculate
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      calc_co2_commuting
+   
+   
+
+   
+   
+   
+
+   
+   
+   

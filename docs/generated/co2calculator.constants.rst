@@ -1,0 +1,48 @@
+co2calculator.constants
+=======================
+
+.. automodule:: co2calculator.constants
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      BudgetOnePointFiveDegrees
+      BudgetTwoDegrees
+      BusFuel
+      BusTrainRange
+      CarFuel
+      CountryCode2
+      CountryCode3
+      CountryName
+      DetourCoefficient
+      DetourConstant
+      ElectricityFuel
+      EmissionCategory
+      FerryClass
+      FlightClass
+      FlightRange
+      HeatingFuel
+      IataAirportCode
+      RangeCategory
+      RoutingProfile
+      Size
+      TrainFuel
+      TransportationMode
+      Unit
+   
+   
+
+   
+   
+   

@@ -1,0 +1,36 @@
+co2calculator.parameters
+========================
+
+.. automodule:: co2calculator.parameters
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      BicycleEmissionParameters
+      BusEmissionParameters
+      CarEmissionParameters
+      ElectricityEmissionParameters
+      FerryEmissionParameters
+      HeatingEmissionParameters
+      MotorbikeEmissionParameters
+      PedelecEmissionParameters
+      PlaneEmissionParameters
+      TrainEmissionParameters
+      TramEmissionParameters
+   
+   
+
+   
+   
+   
