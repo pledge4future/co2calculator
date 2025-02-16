@@ -47,11 +47,16 @@ def test_calculation_electricity_with_share():
 
 def test_calculation_heating():
     """Test whether heating emissions are calculated correctly"""
-    energy = (
-        Energy(consumption=300, fuel_type="gas")
-        .from_heating(unit="m^3")
-        .calculate_co2e()
-    )
+    energy = Energy(consumption=300, fuel_type="gas").from_heating().calculate_co2e()
+    assert isinstance(energy, Emissions)
+    assert isinstance(energy.co2e, float)
+
+
+def test_calculation_heating_with_share():
+    """Test whether heating emissions are calculated correctly"""
+    energy_inst = Energy(consumption=300, fuel_type="gas", own_share=0.5).from_heating()
+    assert energy_inst.own_share == 0.5
+    energy = energy_inst.calculate_co2e()
     assert isinstance(energy, Emissions)
     assert isinstance(energy.co2e, float)
 
@@ -60,8 +65,19 @@ def test_calculation_heating_pellets():
     """Test whether heating emissions are calculated correctly"""
     energy = (
         Energy(consumption=300, fuel_type="wood pellets")
-        .from_heating(unit="kg")
+        .from_heating()
         .calculate_co2e()
     )
     assert isinstance(energy, Emissions)
     assert energy.co2e == pytest.approx(17.3988, rel=0.01)
+
+
+def test_calculation_heating_in_kwh():
+    """Test whether heating emissions are calculated correctly"""
+    energy = (
+        Energy(consumption=300, fuel_type="gas")
+        .from_heating(in_kwh=True)
+        .calculate_co2e()
+    )
+    assert isinstance(energy, Emissions)
+    assert energy.co2e == pytest.approx(54.0, rel=0.01)

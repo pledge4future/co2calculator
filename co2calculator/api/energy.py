@@ -57,19 +57,16 @@ class Energy:
             country_code=country_code,
         )
 
-    def from_heating(self, unit: str):
+    def from_heating(self, in_kwh: bool = False):
         """Calculate emissions from heating consumption
 
-        :param unit: unit of measurement for heating consumption
-        :type unit: str
+        :param in_kwh: if True, consumption is in kWh
         """
-        if unit is not None and not isinstance(unit, str):
-            raise ValueError("unit must be a string")
         return _EnergyFromHeating(
             consumption=self.consumption,
             fuel_type=self.fuel_type,
             own_share=self.own_share,
-            unit=unit,
+            in_kwh=in_kwh,
         )
 
 
@@ -133,11 +130,11 @@ class _EnergyFromHeating(Energy):
     :param consumption: energy consumption
     :param fuel_type: energy mix used for heating (see HeatingFuel in constants.py)
     :param own_share: the research group's approximate share of the total heating energy consumption. Value range 0 to 1.
-    :param unit: Unit of heating energy consumption (see Unit in constants.py)
+    :param in_kwh: if True, consumption is in kWh
     :type consumption: float
     :type fuel_type: str
     :type own_share: float
-    :type unit: str
+    :type in_kwh: bool
     """
 
     def __init__(
@@ -145,13 +142,13 @@ class _EnergyFromHeating(Energy):
         consumption: float,
         fuel_type: Optional[str] = None,
         own_share: float = None,
-        unit: str = None,
+        in_kwh: bool = False,
     ):
         # initialize
         super(_EnergyFromHeating, self).__init__(
             consumption=consumption, fuel_type=fuel_type, own_share=own_share
         )
-        self.unit = unit
+        self.in_kwh = in_kwh
 
     def calculate_co2e(self):
         """Calculate the CO2e emissions from heating.
@@ -163,7 +160,7 @@ class _EnergyFromHeating(Energy):
         options = {
             "fuel_type": self.fuel_type,
             "own_share": self.own_share,
-            "unit": self.unit,
+            "in_kwh": self.in_kwh,
         }
 
         # Filter out items where value is None
