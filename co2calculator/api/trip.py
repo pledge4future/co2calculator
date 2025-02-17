@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Trip classes"""
+from typing import Optional
 from co2calculator import CountryCode2, CountryCode3
 from co2calculator.api.emission import TransportEmissions
 from co2calculator.distances import get_distance, create_distance_request
@@ -20,7 +21,10 @@ from co2calculator.constants import TransportationMode
 
 class Trip:
     def __init__(
-        self, distance: float = None, start: str = None, destination: str = None
+        self,
+        distance: float = None,
+        start: str | dict = None,
+        destination: str | dict = None,
     ):
         """Initialize a trip object
 
@@ -35,6 +39,7 @@ class Trip:
         self.distance = distance
         self.start = start
         self.destination = destination
+        self.transportation_mode = None
 
     def __verify_parameters(self, distance: float, start: str, destination: str):
         """Verifies whether the parameters passed by the user are valid"""
@@ -48,6 +53,16 @@ class Trip:
             assert (
                 start is not None and destination is not None
             ), "If distance is given, start and destination must be None."
+
+    def calculate_distance(self):
+        """Calculates travelled get_distance"""
+        request = create_distance_request(
+            transportation_mode=self.transportation_mode,
+            start=self.start,
+            destination=self.destination,
+        )
+        self.distance = get_distance(request)
+        return self.distance
 
     def by_car(self, fuel_type: str = None, size: str = None, passengers: int = 1):
         """Initialize a car trip object
@@ -181,10 +196,10 @@ class Trip:
             destination=self.destination,
         )
 
-    def by_custom(self, emission_factor: float, transport_mode: str = None):
+    def by_custom(self, emission_factor: float, transportation_mode: str = None):
         return _TripCustom(
             emission_factor=emission_factor,
-            transport_mode=transport_mode,
+            transportation_mode=transportation_mode,
             distance=self.distance,
             start=self.start,
             destination=self.destination,
@@ -209,8 +224,6 @@ class _TripByCar(Trip):
     :type destination: dict | str
     """
 
-    transport_mode = TransportationMode.CAR
-
     def __init__(
         self,
         fuel_type: str = None,
@@ -227,6 +240,7 @@ class _TripByCar(Trip):
         self.fuel_type = fuel_type
         self.size = size
         self.passengers = passengers
+        self.transportation_mode = TransportationMode.CAR
 
     def calculate_co2e(self):
         """Calculate the CO2e emissions for a car trip.
@@ -255,15 +269,6 @@ class _TripByCar(Trip):
             distance=self.distance,
         )
         return emissions
-
-    def calculate_distance(self):
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
 
     def get_options(self):
         """Return available options for car trips.
@@ -299,8 +304,6 @@ class _TripByTrain(Trip):
     :type country_code: str | CountryCode2 | CountryCode3
     """
 
-    transport_mode = TransportationMode.TRAIN
-
     def __init__(
         self,
         distance: float = None,
@@ -313,6 +316,7 @@ class _TripByTrain(Trip):
             distance=distance, start=start, destination=destination
         )
         self.country_code = country_code
+        self.transportation_mode = TransportationMode.TRAIN
 
     def calculate_co2e(self):
         """Calculate the CO2e emissions for a train trip
@@ -339,15 +343,6 @@ class _TripByTrain(Trip):
         )
         return emissions
 
-    def calculate_distance(self):
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
-
     def get_options(self):
         # TODO: Implement options retrieval
         pass
@@ -366,8 +361,6 @@ class _TripByPlane(Trip):
     :type destination: dict | str
     """
 
-    transport_mode = TransportationMode.PLANE
-
     def __init__(
         self,
         seating: str = None,
@@ -380,6 +373,7 @@ class _TripByPlane(Trip):
             distance=distance, start=start, destination=destination
         )
         self.seating = seating
+        self.transportation_mode = TransportationMode.PLANE
 
     def calculate_co2e(self):
         """Calculate the CO2e emissions for a plane trip
@@ -405,15 +399,6 @@ class _TripByPlane(Trip):
         )
         return emissions
 
-    def calculate_distance(self):
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
-
     def get_options(self):
         # TODO: Implement options retrieval
         pass
@@ -430,8 +415,6 @@ class _TripByTram(Trip):
     :type destination: dict | str
     """
 
-    transport_mode = TransportationMode.TRAM
-
     def __init__(
         self,
         distance: float = None,
@@ -442,6 +425,7 @@ class _TripByTram(Trip):
         super(_TripByTram, self).__init__(
             distance=distance, start=start, destination=destination
         )
+        self.transportation_mode = TransportationMode.TRAM
 
     def calculate_co2e(self):
         """Calculate the CO2e emissions for a tram trip.
@@ -462,15 +446,6 @@ class _TripByTram(Trip):
         )
         return emissions
 
-    def calculate_distance(self):
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
-
     def get_options(self):
         # TODO: Implement options retrieval
         pass
@@ -489,8 +464,6 @@ class _TripByFerry(Trip):
     :type destination: dict | str
     """
 
-    transport_mode = TransportationMode.FERRY
-
     def __init__(
         self,
         ferry_class: str = None,
@@ -503,6 +476,7 @@ class _TripByFerry(Trip):
             distance=distance, start=start, destination=destination
         )
         self.ferry_class = ferry_class
+        self.transportation_mode = TransportationMode.FERRY
 
     def calculate_co2e(self):
         """Calculate the CO2e emissions for a ferry trip
@@ -528,15 +502,6 @@ class _TripByFerry(Trip):
         )
         return emissions
 
-    def calculate_distance(self):
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
-
     def get_options(self):
         # TODO: Implement options retrieval
         pass
@@ -559,8 +524,6 @@ class _TripByBus(Trip):
     :type destination: dict | str
     """
 
-    transport_mode = TransportationMode.BUS
-
     def __init__(
         self,
         fuel_type: str = None,
@@ -577,6 +540,7 @@ class _TripByBus(Trip):
         self.fuel_type = fuel_type
         self.size = size
         self.vehicle_range = vehicle_range
+        self.transportation_mode = TransportationMode.BUS
 
     def calculate_co2e(self):
         """Calculate the CO2e emissions for a bus trip
@@ -606,15 +570,6 @@ class _TripByBus(Trip):
         )
         return emissions
 
-    def calculate_distance(self):
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
-
     def get_options(self):
         # TODO: Implement options retrieval
         pass
@@ -633,8 +588,6 @@ class _TripByMotorbike(Trip):
     :type destination: dict | str
     """
 
-    transport_mode = TransportationMode.MOTORBIKE
-
     def __init__(
         self,
         size: str = None,
@@ -647,6 +600,7 @@ class _TripByMotorbike(Trip):
             distance=distance, start=start, destination=destination
         )
         self.size = size
+        self.transportation_mode = TransportationMode.MOTORBIKE
 
     def calculate_co2e(self):
         """Calculate the CO2e emissions for a motorbike trip
@@ -672,15 +626,6 @@ class _TripByMotorbike(Trip):
         )
         return emissions
 
-    def calculate_distance(self):
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
-
     def get_options(self):
         # TODO: Implement options retrieval
         pass
@@ -697,8 +642,6 @@ class _TripByBicycle(Trip):
     :type destination: dict | str
     """
 
-    transport_mode = TransportationMode.BICYCLE
-
     def __init__(
         self,
         distance: float = None,
@@ -709,6 +652,7 @@ class _TripByBicycle(Trip):
         super(_TripByBicycle, self).__init__(
             distance=distance, start=start, destination=destination
         )
+        self.transportation_mode = TransportationMode.BICYCLE
 
     def calculate_co2e(self):
         """Calculate the CO2e emissions for a bicycle trip.
@@ -729,15 +673,6 @@ class _TripByBicycle(Trip):
         )
         return emissions
 
-    def calculate_distance(self):
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
-
     def get_options(self):
         # TODO: Implement options retrieval
         pass
@@ -754,8 +689,6 @@ class _TripByPedelec(Trip):
     :type destination: dict | str
     """
 
-    transport_mode = TransportationMode.PEDELEC
-
     def __init__(
         self,
         distance: float = None,
@@ -766,6 +699,7 @@ class _TripByPedelec(Trip):
         super(_TripByPedelec, self).__init__(
             distance=distance, start=start, destination=destination
         )
+        self.transportation_mode = TransportationMode.PEDELEC
 
     def calculate_co2e(self):
         """Calculate the CO2e emissions for a pedelec trip.
@@ -786,15 +720,6 @@ class _TripByPedelec(Trip):
         )
         return emissions
 
-    def calculate_distance(self):
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
-
     def get_options(self):
         # TODO: Implement options retrieval
         pass
@@ -806,7 +731,7 @@ class _TripCustom(Trip):
     def __init__(
         self,
         emission_factor: float = None,
-        transport_mode: str = None,
+        transportation_mode: str = None,
         distance: float = None,
         start: dict | str = None,
         destination: dict | str = None,
@@ -817,14 +742,14 @@ class _TripCustom(Trip):
         )
         assert emission_factor >= 0, "Emission factor must be >= 0"
         self.emission_factor = emission_factor
-        if transport_mode is None and distance is None:
+        if transportation_mode is None and distance is None:
             raise ValueError(
                 "Transport mode must be given, unless distance is provided."
             )
-        if transport_mode is not None:
-            self.transport_mode = TransportationMode(transport_mode)
+        if transportation_mode is not None:
+            self.transportation_mode = TransportationMode(transportation_mode)
         else:
-            self.transport_mode = None
+            self.transportation_mode = None
 
     def calculate_co2e(self):
         """
@@ -835,7 +760,7 @@ class _TripCustom(Trip):
             self.calculate_distance()
 
         # calculate emissions
-        emission_parameters = {"transport_mode": self.transport_mode}
+        emission_parameters = {"transportation_mode": self.transportation_mode}
         co2e = self.distance * self.emission_factor
 
         emissions = TransportEmissions(
@@ -845,13 +770,3 @@ class _TripCustom(Trip):
             emission_parameters=emission_parameters,
         )
         return emissions
-
-    def calculate_distance(self):
-        """Calculates travelled get_distance"""
-        request = create_distance_request(
-            transportation_mode=self.transport_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance

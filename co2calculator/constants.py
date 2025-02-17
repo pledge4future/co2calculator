@@ -17,7 +17,9 @@ class BudgetOnePointFiveDegrees:
     """
     Dataclass for budget for 1.5 degrees scenario
     All values are in tons
-    Source for budget values: https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_SPM_final.pdf#page=33, Table SPM.2
+    Source for budget values:
+    https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_SPM_final.pdf#page=33,
+    Table SPM.2
     Remaining carbon budget calculated using an equal-per-capita allocation
     """
 
@@ -204,6 +206,13 @@ class RoutingProfile(str, enum.Enum):
     CAR = "driving-car"
     CYCLING = "cycling-regular"
     WALK = "foot-walking"
+
+
+@enum.unique
+class AddressType(str, enum.Enum):
+    ADDRESS = "address"
+    TRAINSTATION = "trainstation"
+    AIRPORT = "airport"
 
 
 class CountryCode2(str):
