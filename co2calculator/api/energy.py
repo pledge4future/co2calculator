@@ -2,11 +2,16 @@
 # -*- coding: utf-8 -*-
 """Energy classes"""
 from typing import Optional
+
+from co2calculator import ConversionFactors
+
 from co2calculator.energy.calculate_energy import (
     calc_co2_electricity,
     calc_co2_heating,
 )
 from co2calculator.api.emission import EnergyEmissions
+
+from co2calculator.energy.calculate_energy import conversion_factors
 
 
 class Energy:
@@ -162,17 +167,26 @@ class _EnergyFromHeating(Energy):
             "own_share": self.own_share,
             "in_kwh": self.in_kwh,
         }
-
         # Filter out items where value is None
         options = {k: v for k, v in options.items() if v is not None}
 
         co2e, emission_factor, emission_parameters = calc_co2_heating(
             self.consumption, options=options
         )
+        # Get the unit
+        if self.in_kwh:
+            unit = "kWh"
+        else:
+            unit = conversion_factors.get_unit()
+
+        # Remove in_kwh from emission_parameters to avoid repetition in output
+        delattr(emission_parameters, "in_kwh")
+
         emissions = EnergyEmissions(
             co2e=co2e,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
             consumption=self.consumption,
+            unit=unit,
         )
         return emissions

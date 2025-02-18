@@ -139,4 +139,8 @@ class ConversionFactors:
                 "No suitable conversion factor found in database. Please adapt your query."
             )
         else:
+            self._last_selected_factors = selected_factors
             return selected_factors["conversion_value"].values[0]
+
+    def get_unit(self):
+        return self._last_selected_factors["unit"].values[0]
