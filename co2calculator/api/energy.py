@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """Energy classes"""
 from typing import Optional
+import pandas as pd
 
 from co2calculator import ConversionFactors
 
@@ -10,7 +11,6 @@ from co2calculator.energy.calculate_energy import (
     calc_co2_heating,
 )
 from co2calculator.api.emission import EnergyEmissions
-
 from co2calculator.energy.calculate_energy import conversion_factors
 
 
@@ -67,6 +67,9 @@ class Energy:
 
         :param in_kwh: if True, consumption is in kWh
         """
+        if self.fuel_type is None and not in_kwh:
+            raise ValueError("Please provide a fuel type or set in_kwh to True")
+
         return _EnergyFromHeating(
             consumption=self.consumption,
             fuel_type=self.fuel_type,
@@ -190,3 +193,19 @@ class _EnergyFromHeating(Energy):
             unit=unit,
         )
         return emissions
+
+    def get_options(self):
+        """Return fuel type options and their corresponding units as a table."""
+
+        options = {
+            "fuel_type": [
+                "oil",
+                "liquid gas",
+                "coal",
+                "wood pellets",
+                "wood chips",
+                "gas",
+            ],
+            "unit": ["l", "kg", "kg", "kg", "kg", "m^3"],
+        }
+        return pd.DataFrame(options)
