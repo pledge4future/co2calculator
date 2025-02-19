@@ -2,11 +2,16 @@
 # -*- coding: utf-8 -*-
 """Energy classes"""
 from typing import Optional
+import pandas as pd
+
+from co2calculator import ConversionFactors
+
 from co2calculator.energy.calculate_energy import (
     calc_co2_electricity,
     calc_co2_heating,
 )
 from co2calculator.api.emission import EnergyEmissions
+from co2calculator.energy.calculate_energy import conversion_factors
 
 
 class Energy:
@@ -57,19 +62,19 @@ class Energy:
             country_code=country_code,
         )
 
-    def from_heating(self, unit: str):
+    def from_heating(self, in_kwh: bool = False):
         """Calculate emissions from heating consumption
 
-        :param unit: unit of measurement for heating consumption
-        :type unit: str
+        :param in_kwh: if True, consumption is in kWh
         """
-        if unit is not None and not isinstance(unit, str):
-            raise ValueError("unit must be a string")
+        if self.fuel_type is None and not in_kwh:
+            raise ValueError("Please provide a fuel type or set in_kwh to True")
+
         return _EnergyFromHeating(
             consumption=self.consumption,
             fuel_type=self.fuel_type,
             own_share=self.own_share,
-            unit=unit,
+            in_kwh=in_kwh,
         )
 
 
@@ -133,11 +138,11 @@ class _EnergyFromHeating(Energy):
     :param consumption: energy consumption
     :param fuel_type: energy mix used for heating (see HeatingFuel in constants.py)
     :param own_share: the research group's approximate share of the total heating energy consumption. Value range 0 to 1.
-    :param unit: Unit of heating energy consumption (see Unit in constants.py)
+    :param in_kwh: if True, consumption is in kWh
     :type consumption: float
     :type fuel_type: str
     :type own_share: float
-    :type unit: str
+    :type in_kwh: bool
     """
 
     def __init__(
@@ -145,13 +150,13 @@ class _EnergyFromHeating(Energy):
         consumption: float,
         fuel_type: Optional[str] = None,
         own_share: float = None,
-        unit: str = None,
+        in_kwh: bool = False,
     ):
         # initialize
         super(_EnergyFromHeating, self).__init__(
             consumption=consumption, fuel_type=fuel_type, own_share=own_share
         )
-        self.unit = unit
+        self.in_kwh = in_kwh
 
     def calculate_co2e(self):
         """Calculate the CO2e emissions from heating.
@@ -163,19 +168,44 @@ class _EnergyFromHeating(Energy):
         options = {
             "fuel_type": self.fuel_type,
             "own_share": self.own_share,
-            "unit": self.unit,
+            "in_kwh": self.in_kwh,
         }
-
         # Filter out items where value is None
         options = {k: v for k, v in options.items() if v is not None}
 
         co2e, emission_factor, emission_parameters = calc_co2_heating(
             self.consumption, options=options
         )
+        # Get the unit
+        if self.in_kwh:
+            unit = "kWh"
+        else:
+            unit = conversion_factors.get_unit()
+
+        # Remove in_kwh from emission_parameters to avoid repetition in output
+        delattr(emission_parameters, "in_kwh")
+
         emissions = EnergyEmissions(
             co2e=co2e,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
             consumption=self.consumption,
+            unit=unit,
         )
         return emissions
+
+    def get_options(self):
+        """Return fuel type options and their corresponding units as a table."""
+
+        options = {
+            "fuel_type": [
+                "oil",
+                "liquid gas",
+                "coal",
+                "wood pellets",
+                "wood chips",
+                "gas",
+            ],
+            "unit": ["l", "kg", "kg", "kg", "kg", "m^3"],
+        }
+        return pd.DataFrame(options)

@@ -33,14 +33,11 @@ def calc_co2_heating(
 
     params = HeatingEmissionParameters.parse_obj(options)
 
-    if params.unit is not Unit.KWH:
+    if params.in_kwh is not True:
         # Get the conversion factor
-        conversion_factor = conversion_factors.get(
-            fuel_type=params.fuel_type, unit=params.unit
-        )
+        conversion_factor = conversion_factors.get(fuel_type=params.fuel_type)
 
         consumption_kwh = consumption * conversion_factor
-        params.unit = Unit.KWH
     else:
         consumption_kwh = consumption
 

@@ -3,6 +3,8 @@
 """Emission class"""
 
 from dataclasses import dataclass
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -27,6 +29,7 @@ class EnergyEmissions(Emissions):
     """Class for storing information on energy emissions"""
 
     consumption: float
+    unit: str = "kWh"
 
     def __post_init__(self):
         """Validate the attribute values"""

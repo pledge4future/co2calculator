@@ -14,7 +14,6 @@ from co2calculator import (
     FerryClass,
     FlightRange,
     BusTrainRange,
-    Unit,
 )
 from co2calculator.parameters import (
     CarEmissionParameters,
@@ -101,6 +100,7 @@ def test_compare_enums_with_data(column_name, enum, emission_category, subcatego
         pytest.param(TrainEmissionParameters, id="train"),
         pytest.param(FerryEmissionParameters, id="ferry"),
         pytest.param(MotorbikeEmissionParameters, id="motorbike"),
+        pytest.param(HeatingEmissionParameters, id="plane"),
     ],
 )
 def test_defaults(default_parameters):
@@ -108,26 +108,6 @@ def test_defaults(default_parameters):
 
     # Get the emission factor for the default parameter combination
     co2e = emission_factors.get(default_parameters().dict())
-    assert isinstance(
-        co2e, float
-    ), f"No emission factor found for default parameters of {default_parameters.__name__}"
-
-
-def test_defaults_heating():
-    """Test if default parameters are available in the csv files"""
-
-    # Get the emission factor for the default parameter combination
-    default_parameters = HeatingEmissionParameters()
-    if default_parameters.unit is not Unit.KWH:
-        # Get the conversion factor
-        conversion_factor = conversion_factors.get(
-            fuel_type=default_parameters.fuel_type, unit=default_parameters.unit
-        )
-        assert isinstance(
-            conversion_factor, float
-        ), f"No conversion factor found for {default_parameters.fuel_type} and {default_parameters.unit}"
-        default_parameters.unit = Unit.KWH
-    co2e = emission_factors.get(default_parameters.dict())
     assert isinstance(
         co2e, float
     ), f"No emission factor found for default parameters of {default_parameters.__name__}"

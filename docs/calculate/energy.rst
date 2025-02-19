@@ -16,8 +16,10 @@ For the emission factors, see :doc:`Emission factors <emission_factors>`
 Heating
 --------
 
-Per default, the expected unit is kWh. For some fuel types, the consumption may also be specified using different units, e.g., litres of oil or kg of wood chips.
-In these cases, it is possible to specify the `unit`. The consumption will then be converted from the specified unit to kWh, based on common conversion factors:
+Heating consumption is expected in different units, depending on the fuel type, e.g., litres of oil or kg of wood chips.
+The consumption will first be converted to kWh, based on common conversion factors, and then be multiplied by the emission factor.
+See the table below for the expected units per fuel type.
+For all fuel types, the consumption can also be specified in kWh. In this case, the `in_kwh` flag must be set to `True`.
 
 .. csv-table:: Conversion factors heating
     :file: ../../co2calculator/data/conversion_factors_heating.csv
