@@ -17,63 +17,67 @@ from co2calculator.energy.calculate_energy import conversion_factors
 class Energy:
     def __init__(
         self,
+    ):
+        """Initialize an Energy object"""
+
+    def from_electricity(
+        self,
         consumption: float,
+        country_code: str,
         fuel_type: Optional[str] = None,
         own_share: float = 1.0,
     ):
-        """Initialize an Energy object
-
-        :param consumption: energy consumption
-        :param fuel_type: energy (mix) used for electricity/heating
-        (see HeatingFuel and ElectricityFuel in constants.py)
-        :param own_share: the research group's approximate share of the
-        total electricity energy consumption. Value range 0 to 1.
-        :type consumption: float
-        :type fuel_type: str
-        :type own_share: float
-        """
-        self.consumption = consumption
-        self.fuel_type = fuel_type
-        self.own_share = own_share
-
-        self.__verify_parameters()
-
-    def __verify_parameters(self):
-        """Verifies whether the parameters passed by the user are valid"""
-        if self.consumption <= 0:
-            raise ValueError("Consumption must be greater than 0")
-        if self.fuel_type is not None and not isinstance(self.fuel_type, str):
-            raise ValueError("fuel_type must be a string")
-        if not (0 <= self.own_share <= 1):
-            raise ValueError("Own share must be between 0 and 1")
-
-    def from_electricity(self, country_code: str):
         """Calculate emissions from electricity consumption
 
+        :param consumption: energy consumption
         :param country_code: 2-letter ISO country code
         :type country_code: str
+        :param fuel_type: energy mix used for electricity (see ElectricityFuel in constants.py)
+        :param own_share: the research group's approximate share of the total electricity energy consumption. Value range 0 to 1.
         """
+        if consumption <= 0:
+            raise ValueError("Consumption must be greater than 0")
         if country_code is not None and not isinstance(country_code, str):
             raise ValueError("Invalid country code format. Must be a string.")
+        if fuel_type is not None and not isinstance(fuel_type, str):
+            raise ValueError("fuel_type must be a string")
+        if not (0 <= own_share <= 1):
+            raise ValueError("Own share must be between 0 and 1")
+
         return _EnergyFromElectricity(
-            consumption=self.consumption,
-            own_share=self.own_share,
-            fuel_type=self.fuel_type,
+            consumption=consumption,
+            own_share=own_share,
+            fuel_type=fuel_type,
             country_code=country_code,
         )
 
-    def from_heating(self, in_kwh: bool = False):
+    def from_heating(
+        self,
+        consumption: float,
+        in_kwh: bool = False,
+        fuel_type: Optional[str] = None,
+        own_share: float = 1.0,
+    ):
         """Calculate emissions from heating consumption
 
+        :param consumption: energy consumption
         :param in_kwh: if True, consumption is in kWh
+        :param fuel_type: energy mix used for heating (see HeatingFuel in constants.py)
+        :param own_share: the research group's approximate share of the total heating energy consumption. Value range 0 to 1.
         """
-        if self.fuel_type is None and not in_kwh:
+        if consumption <= 0:
+            raise ValueError("Consumption must be greater than 0")
+        if fuel_type is None and not in_kwh:
             raise ValueError("Please provide a fuel type or set in_kwh to True")
+        if fuel_type is not None and not isinstance(fuel_type, str):
+            raise ValueError("fuel_type must be a string")
+        if not (0 <= own_share <= 1):
+            raise ValueError("Own share must be between 0 and 1")
 
         return _EnergyFromHeating(
-            consumption=self.consumption,
-            fuel_type=self.fuel_type,
-            own_share=self.own_share,
+            consumption=consumption,
+            fuel_type=fuel_type,
+            own_share=own_share,
             in_kwh=in_kwh,
         )
 
@@ -99,9 +103,10 @@ class _EnergyFromElectricity(Energy):
         country_code: str = "DE",
     ):
         # initialize
-        super(_EnergyFromElectricity, self).__init__(
-            consumption=consumption, fuel_type=fuel_type, own_share=own_share
-        )
+        super(_EnergyFromElectricity, self).__init__()
+        self.consumption = consumption
+        self.fuel_type = fuel_type
+        self.own_share = own_share
         self.country_code = country_code
 
     def calculate_co2e(self):
@@ -153,9 +158,10 @@ class _EnergyFromHeating(Energy):
         in_kwh: bool = False,
     ):
         # initialize
-        super(_EnergyFromHeating, self).__init__(
-            consumption=consumption, fuel_type=fuel_type, own_share=own_share
-        )
+        super(_EnergyFromHeating, self).__init__()
+        self.consumption = consumption
+        self.fuel_type = fuel_type
+        self.own_share = own_share
         self.in_kwh = in_kwh
 
     def calculate_co2e(self):
