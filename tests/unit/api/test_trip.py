@@ -136,32 +136,32 @@ def test_trip_by_tram_distance_calculation():
     assert isinstance(distance, float)
 
 
-def test_instanitate_trip_by_ferry():
-    """Test whether class is instantiated correctly"""
-    trip = Trip(300).by_ferry()
-    assert trip.transportation_mode == TransportationMode.FERRY
-    assert trip.ferry_class is None
+# def test_instanitate_trip_by_ferry():
+#    """Test whether class is instantiated correctly"""
+#    trip = Trip(300).by_ferry()
+#    assert trip.transportation_mode == TransportationMode.FERRY
+#    assert trip.ferry_class is None
 
 
-def test_trip_by_ferry_calculation():
-    """Test whether trip emissions are calculated"""
-    emissions = Trip(300).by_ferry().calculate_co2e()
-    assert isinstance(emissions, Emissions)
-    assert isinstance(emissions.co2e, float)
+# def test_trip_by_ferry_calculation():
+#    """Test whether trip emissions are calculated"""
+#    emissions = Trip(300).by_ferry().calculate_co2e()
+#    assert isinstance(emissions, Emissions)
+#    assert isinstance(emissions.co2e, float)
 
 
-def test_trip_by_ferry_distance_calculation():
-    """Test whether distance is calculated"""
-    start = {"locality": "Hamburg", "country": "DE"}  # --> working
-    destination = {"locality": "Cuxhaven", "country": "DE"}  # --> working
-
-    # start = {"address": "Bubendey-Ufer","locality": "Hamburg", "country": "Germany"} #--> not working
-    # destination = {"address": "Altona (Fischmarkt)","locality": "Hamburg", "country": "Germany"} #--> not working
-
-    distance = (
-        Trip(start=start, destination=destination).by_ferry().calculate_distance()
-    )
-    assert isinstance(distance, float)
+# def test_trip_by_ferry_distance_calculation():
+#    """Test whether distance is calculated"""
+#    start = {"locality": "Hamburg", "country": "DE"}  # --> working
+#    destination = {"locality": "Cuxhaven", "country": "DE"}  # --> working
+#
+#    # start = {"address": "Bubendey-Ufer","locality": "Hamburg", "country": "Germany"} #--> not working
+#    # destination = {"address": "Altona (Fischmarkt)","locality": "Hamburg", "country": "Germany"} #--> not working
+#
+#    distance = (
+#        Trip(start=start, destination=destination).by_ferry().calculate_distance()
+#    )
+#    assert isinstance(distance, float)
 
 
 def test_instantiate_trip_by_bus():

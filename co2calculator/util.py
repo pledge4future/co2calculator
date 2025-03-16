@@ -5,7 +5,7 @@ from co2calculator.mobility.calculate_mobility import (
     calc_co2_bicycle,
     calc_co2_bus,
     calc_co2_car,
-    calc_co2_ferry,
+    #    calc_co2_ferry,
     calc_co2_motorbike,
     calc_co2_pedelec,
     calc_co2_train,
@@ -23,7 +23,7 @@ def get_calc_function_from_transport_mode(
         TransportationMode.TRAIN: calc_co2_train,
         TransportationMode.BICYCLE: calc_co2_bicycle,
         TransportationMode.TRAM: calc_co2_tram,
-        TransportationMode.FERRY: calc_co2_ferry,
+        #        TransportationMode.FERRY: calc_co2_ferry,
         TransportationMode.PEDELEC: calc_co2_pedelec,
     }
     return transportation_mode_calc_function_map[transport_mode]

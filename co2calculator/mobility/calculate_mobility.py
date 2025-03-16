@@ -146,27 +146,26 @@ def calc_co2_plane(
     return co2e, co2e_factor, params
 
 
-def calc_co2_ferry(
-    distance: Kilometer, options: Union[FerryEmissionParameters, dict] = None
-) -> Tuple[Kilogram, float, FerryEmissionParameters]:
-    """Function to compute emissions of a ferry trip
-
-    :param distance: Distance of ferry trip (km), alternatively param <locations> can be provided
-    :param options: Options for the ferry trip
-    :type distance: Kilometer
-    :type options: Union[FerryEmissionParameters, dict]
-    :return: Total emissions of ferry trip in co2 equivalents, Co2e factor and the parameters
-    :rtype: Tuple[Kilogram, float, FerryEmissionParameters]
-    """
-
-    if options is None:
-        options = {}
-    params = FerryEmissionParameters.parse_obj(options)
-    # Get the co2 factor
-    co2e_factor = emission_factors.get(params.dict())
-    # Calculate emissions
-    co2e = distance * co2e_factor
-    return co2e, co2e_factor, params
+# def calc_co2_ferry(
+#    distance: Kilometer, options: Union[FerryEmissionParameters, dict] = None
+# ) -> Tuple[Kilogram, float, FerryEmissionParameters]:
+#    """Function to compute emissions of a ferry trip
+#
+#    :param distance: Distance of ferry trip (km), alternatively param <locations> can be provided
+#    :param options: Options for the ferry trip
+#    :type distance: Kilometer
+#    :type options: Union[FerryEmissionParameters, dict]
+#    :return: Total emissions of ferry trip in co2 equivalents, Co2e factor and the parameters
+#    :rtype: Tuple[Kilogram, float, FerryEmissionParameters]
+#    """
+#    if options is None:
+#        options = {}
+#    params = FerryEmissionParameters.parse_obj(options)
+#    # Get the co2 factor
+#    co2e_factor = emission_factors.get(params.dict())
+#    # Calculate emissions
+#    co2e = distance * co2e_factor
+#   return co2e, co2e_factor, params
 
 
 def calc_co2_bicycle(

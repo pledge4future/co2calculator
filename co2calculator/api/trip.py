@@ -11,7 +11,7 @@ from co2calculator.mobility.calculate_mobility import (
     calc_co2_plane,
     calc_co2_motorbike,
     calc_co2_tram,
-    calc_co2_ferry,
+    #    calc_co2_ferry,
     calc_co2_bus,
     calc_co2_bicycle,
     calc_co2_pedelec,
@@ -124,19 +124,19 @@ class Trip:
             destination=self.destination,
         )
 
-    def by_ferry(self, ferry_class: str = None):
-        """Initialize a ferry trip object
-
-        :param ferry_class: The type of seating class (see FerryClass in constants.py)
-        :type ferry_class: str
-        :return: _TripByFerry object
-        """
-        return _TripByFerry(
-            ferry_class=ferry_class,
-            distance=self.distance,
-            start=self.start,
-            destination=self.destination,
-        )
+    #    def by_ferry(self, ferry_class: str = None):
+    #        """Initialize a ferry trip object
+    #
+    #        :param ferry_class: The type of seating class (see FerryClass in constants.py)
+    #        :type ferry_class: str
+    #        :return: _TripByFerry object
+    #        """
+    #        return _TripByFerry(
+    #            ferry_class=ferry_class,
+    #            distance=self.distance,
+    #            start=self.start,
+    #            destination=self.destination,
+    #        )
 
     def by_bus(
         self, fuel_type: str = None, size: str = None, vehicle_range: str = None
@@ -451,60 +451,60 @@ class _TripByTram(Trip):
         pass
 
 
-class _TripByFerry(Trip):
-    """This is a hidden class which handles ferry trips.
-
-    :param ferry_class: The type of seating class
-    :param distance: The distance of the ferry journey
-    :param start: The start location of the ferry journey
-    :param destination: The destination location of the ferry journey
-    :type ferry_class: str
-    :type distance: float
-    :type start: dict | str
-    :type destination: dict | str
-    """
-
-    def __init__(
-        self,
-        ferry_class: str = None,
-        distance: float = None,
-        start: dict | str = None,
-        destination: dict | str = None,
-    ):
-        """Initialize a ferry trip"""
-        super(_TripByFerry, self).__init__(
-            distance=distance, start=start, destination=destination
-        )
-        self.ferry_class = ferry_class
-        self.transportation_mode = TransportationMode.FERRY
-
-    def calculate_co2e(self):
-        """Calculate the CO2e emissions for a ferry trip
-
-        :return: Emissions object
-        """
-        if self.distance is None:
-            self.calculate_distance()
-
-        # Calculate emissions
-        options = {"ferry_class": self.ferry_class}
-        # Filter out items where value is None
-        options = {k: v for k, v in options.items() if v is not None}
-
-        co2e, emission_factor, emission_parameters = calc_co2_ferry(
-            self.distance, options=options
-        )
-        emissions = TransportEmissions(
-            co2e=co2e,
-            distance=self.distance,
-            emission_factor=emission_factor,
-            emission_parameters=emission_parameters,
-        )
-        return emissions
-
-    def get_options(self):
-        # TODO: Implement options retrieval
-        pass
+# class _TripByFerry(Trip):
+#    """This is a hidden class which handles ferry trips.
+#
+#    :param ferry_class: The type of seating class
+#    :param distance: The distance of the ferry journey
+#    :param start: The start location of the ferry journey
+#    :param destination: The destination location of the ferry journey
+#    :type ferry_class: str
+#    :type distance: float
+#    :type start: dict | str
+#    :type destination: dict | str
+#    """
+#
+#    def __init__(
+#        self,
+#        ferry_class: str = None,
+#        distance: float = None,
+#        start: dict | str = None,
+#        destination: dict | str = None,
+#    ):
+#        """Initialize a ferry trip"""
+#        super(_TripByFerry, self).__init__(
+#            distance=distance, start=start, destination=destination
+#        )
+#        self.ferry_class = ferry_class
+#        self.transportation_mode = TransportationMode.FERRY
+#
+#    def calculate_co2e(self):
+#        """Calculate the CO2e emissions for a ferry trip
+#
+#        :return: Emissions object
+#        """
+#        if self.distance is None:
+#            self.calculate_distance()
+#
+#        # Calculate emissions
+#        options = {"ferry_class": self.ferry_class}
+#        # Filter out items where value is None
+#        options = {k: v for k, v in options.items() if v is not None}
+#
+#        co2e, emission_factor, emission_parameters = calc_co2_ferry(
+#            self.distance, options=options
+#        )
+#        emissions = TransportEmissions(
+#            co2e=co2e,
+#            distance=self.distance,
+#            emission_factor=emission_factor,
+#            emission_parameters=emission_parameters,
+#        )
+#        return emissions
+#
+#    def get_options(self):
+#        # TODO: Implement options retrieval
+#        pass
 
 
 class _TripByBus(Trip):
