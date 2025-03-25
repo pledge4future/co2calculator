@@ -62,6 +62,7 @@ class Trip:
             destination=self.destination,
         )
         self.distance = get_distance(request)
+        #        print("Distance:", self.distance)
         return self.distance
 
     def by_car(self, fuel_type: str = None, size: str = None, passengers: int = 1):
@@ -248,7 +249,9 @@ class _TripByCar(Trip):
         :return: Emissions object
         """
         if self.distance is None:
-            self.calculate_distance()
+            distance = self.calculate_distance()
+        else:
+            distance = self.distance
 
         # Calculate emissions
         options = {
@@ -260,13 +263,13 @@ class _TripByCar(Trip):
         options = {k: v for k, v in options.items() if v is not None}
 
         co2e, emission_factor, emission_parameters = calc_co2_car(
-            self.distance, options=options
+            distance, options=options
         )
         emissions = TransportEmissions(
             co2e=co2e,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
-            distance=self.distance,
+            distance=distance,
         )
         return emissions
 
@@ -325,7 +328,9 @@ class _TripByTrain(Trip):
         """
         # TODO: change for train
         if self.distance is None:
-            self.calculate_distance()
+            distance = self.calculate_distance()
+        else:
+            distance = self.distance
 
         # Calculate emissions
         options = {"country_code": self.country_code}
@@ -333,13 +338,13 @@ class _TripByTrain(Trip):
         options = {k: v for k, v in options.items() if v is not None}
 
         co2e, emission_factor, emission_parameters = calc_co2_train(
-            self.distance, options=options
+            distance, options=options
         )
         emissions = TransportEmissions(
             co2e=co2e,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
-            distance=self.distance,
+            distance=distance,
         )
         return emissions
 
@@ -381,7 +386,9 @@ class _TripByPlane(Trip):
         :return Emissions object
         """
         if self.distance is None:
-            self.calculate_distance()
+            distance = self.calculate_distance()
+        else:
+            distance = self.distance
 
         # Calculate emissions
         options = {"seating": self.seating}
@@ -389,11 +396,11 @@ class _TripByPlane(Trip):
         options = {k: v for k, v in options.items() if v is not None}
 
         co2e, emission_factor, emission_parameters = calc_co2_plane(
-            self.distance, options=options
+            distance, options=options
         )
         emissions = TransportEmissions(
             co2e=co2e,
-            distance=self.distance,
+            distance=distance,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
         )
@@ -433,14 +440,14 @@ class _TripByTram(Trip):
         :return: Emissions object
         """
         if self.distance is None:
-            self.calculate_distance()
+            distance = self.calculate_distance()
+        else:
+            distance = self.distance
 
-        co2e, emission_factor, emission_parameters = calc_co2_tram(
-            self.distance, options={}
-        )
+        co2e, emission_factor, emission_parameters = calc_co2_tram(distance, options={})
         emissions = TransportEmissions(
             co2e=co2e,
-            distance=self.distance,
+            distance=distance,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
         )
@@ -548,7 +555,9 @@ class _TripByBus(Trip):
         :return: Emissions object
         """
         if self.distance is None:
-            self.calculate_distance()
+            distance = self.calculate_distance()
+        else:
+            distance = self.distance
 
         # Calculate emissions
         options = {
@@ -560,11 +569,11 @@ class _TripByBus(Trip):
         options = {k: v for k, v in options.items() if v is not None}
 
         co2e, emission_factor, emission_parameters = calc_co2_bus(
-            self.distance, options=options
+            distance, options=options
         )
         emissions = TransportEmissions(
             co2e=co2e,
-            distance=self.distance,
+            distance=distance,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
         )
@@ -608,7 +617,9 @@ class _TripByMotorbike(Trip):
         :return: Emissions object
         """
         if self.distance is None:
-            self.calculate_distance()
+            distance = self.calculate_distance()
+        else:
+            distance = self.distance
 
         # Calculate emissions
         options = {"size": self.size}
@@ -616,11 +627,11 @@ class _TripByMotorbike(Trip):
         options = {k: v for k, v in options.items() if v is not None}
 
         co2e, emission_factor, emission_parameters = calc_co2_motorbike(
-            self.distance, options=options
+            distance, options=options
         )
         emissions = TransportEmissions(
             co2e=co2e,
-            distance=self.distance,
+            distance=distance,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
         )
@@ -660,14 +671,16 @@ class _TripByBicycle(Trip):
         :return: Emissions object
         """
         if self.distance is None:
-            self.calculate_distance()
+            distance = self.calculate_distance()
+        else:
+            distance = self.distance
 
         co2e, emission_factor, emission_parameters = calc_co2_bicycle(
-            self.distance, options={}
+            distance, options={}
         )
         emissions = TransportEmissions(
             co2e=co2e,
-            distance=self.distance,
+            distance=distance,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
         )
@@ -707,14 +720,16 @@ class _TripByPedelec(Trip):
         :return: Emissions object
         """
         if self.distance is None:
-            self.calculate_distance()
+            distance = self.calculate_distance()
+        else:
+            distance = self.distance
 
         co2e, emission_factor, emission_parameters = calc_co2_pedelec(
-            self.distance, options={}
+            distance, options={}
         )
         emissions = TransportEmissions(
             co2e=co2e,
-            distance=self.distance,
+            distance=distance,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
         )
@@ -757,15 +772,17 @@ class _TripCustom(Trip):
         :return: Emissions object
         """
         if self.distance is None:
-            self.calculate_distance()
+            distance = self.calculate_distance()
+        else:
+            distance = self.distance
 
         # calculate emissions
         emission_parameters = {"transportation_mode": self.transportation_mode}
-        co2e = self.distance * self.emission_factor
+        co2e = distance * self.emission_factor
 
         emissions = TransportEmissions(
             co2e=co2e,
-            distance=self.distance,
+            distance=distance,
             emission_factor=self.emission_factor,
             emission_parameters=emission_parameters,
         )
