@@ -326,7 +326,7 @@ def geocoding_train_stations(loc_dict):
     res_station = stations_in_country[stations_in_country["slug"] == res_station_slug]
     res_country, res_station_name = res_station[["country", "name"]].values[0]
 
-    coords = (res_station.iloc[0]["latitude"], res_station.iloc[0]["longitude"])
+    coords = (res_station.iloc[0]["longitude"], res_station.iloc[0]["latitude"])
 
     return res_station_name, res_country, coords
 
@@ -549,7 +549,9 @@ def create_distance_request(
         raise InvalidSpatialInput(e)
 
 
-def get_distance(request: DistanceRequest) -> Kilometer:
+def get_distance(
+    request: DistanceRequest,
+) -> tuple[Kilometer, list[tuple[float, float]]]:
     """Get the distance between start and destination
 
     Raises:
@@ -582,7 +584,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         TransportationMode.PEDELEC,
         TransportationMode.BICYCLE,
     ]:
-        return get_route(coords, RoutingProfile.CAR)
+        return get_route(coords, RoutingProfile.CAR), coords
 
     elif request.transportation_mode in [
         TransportationMode.TRAIN,
@@ -598,7 +600,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             distance += haversine(
                 coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
             )
-        return _apply_detour(distance, request.transportation_mode)
+        return _apply_detour(distance, request.transportation_mode), coords
 
     if request.transportation_mode == TransportationMode.FERRY:
         # hardcoding not ideal, profile should be determined based on specified "seating type"
@@ -607,4 +609,4 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         # if "seating" is "Car passenger", the remaining distance should be calculated as car trip ...
         # TODO: implement this
         # remaining_distance = distance - distance_total
-        return distance
+        return distance, coords

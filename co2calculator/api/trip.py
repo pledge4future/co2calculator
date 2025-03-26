@@ -40,6 +40,8 @@ class Trip:
         self.start = start
         self.destination = destination
         self.transportation_mode = None
+        self._start_coords = None
+        self._destination_coords = None
 
     def __verify_parameters(self, distance: float, start: str, destination: str):
         """Verifies whether the parameters passed by the user are valid"""
@@ -61,8 +63,13 @@ class Trip:
             start=self.start,
             destination=self.destination,
         )
-        self.distance = get_distance(request)
-        #        print("Distance:", self.distance)
+        distance, coords = get_distance(request)
+        self.distance = distance
+
+        # get coordinates
+        self._start_coords = coords[0]
+        self._destination_coords = coords[1]
+
         return self.distance
 
     def by_car(self, fuel_type: str = None, size: str = None, passengers: int = 1):
@@ -270,6 +277,10 @@ class _TripByCar(Trip):
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
             distance=distance,
+            start=self.start,
+            start_coords=self._start_coords,
+            destination=self.destination,
+            destination_coords=self._destination_coords,
         )
         return emissions
 
@@ -345,6 +356,10 @@ class _TripByTrain(Trip):
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
             distance=distance,
+            start=self.start,
+            start_coords=self._start_coords,
+            destination=self.destination,
+            destination_coords=self._destination_coords,
         )
         return emissions
 
@@ -403,6 +418,10 @@ class _TripByPlane(Trip):
             distance=distance,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
+            start=self.start,
+            start_coords=self._start_coords,
+            destination=self.destination,
+            destination_coords=self._destination_coords,
         )
         return emissions
 
@@ -450,6 +469,10 @@ class _TripByTram(Trip):
             distance=distance,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
+            start=self.start,
+            start_coords=self._start_coords,
+            destination=self.destination,
+            destination_coords=self._destination_coords,
         )
         return emissions
 
@@ -576,6 +599,10 @@ class _TripByBus(Trip):
             distance=distance,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
+            start=self.start,
+            start_coords=self._start_coords,
+            destination=self.destination,
+            destination_coords=self._destination_coords,
         )
         return emissions
 
@@ -634,6 +661,10 @@ class _TripByMotorbike(Trip):
             distance=distance,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
+            start=self.start,
+            start_coords=self._start_coords,
+            destination=self.destination,
+            destination_coords=self._destination_coords,
         )
         return emissions
 
@@ -683,6 +714,10 @@ class _TripByBicycle(Trip):
             distance=distance,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
+            start=self.start,
+            start_coords=self._start_coords,
+            destination=self.destination,
+            destination_coords=self._destination_coords,
         )
         return emissions
 
@@ -732,6 +767,10 @@ class _TripByPedelec(Trip):
             distance=distance,
             emission_factor=emission_factor,
             emission_parameters=emission_parameters,
+            start=self.start,
+            start_coords=self._start_coords,
+            destination=self.destination,
+            destination_coords=self._destination_coords,
         )
         return emissions
 
@@ -785,5 +824,9 @@ class _TripCustom(Trip):
             distance=distance,
             emission_factor=self.emission_factor,
             emission_parameters=emission_parameters,
+            start=self.start,
+            start_coords=self._start_coords,
+            destination=self.destination,
+            destination_coords=self._destination_coords,
         )
         return emissions

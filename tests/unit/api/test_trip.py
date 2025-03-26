@@ -345,3 +345,23 @@ def test_geocoding_structured_single_input_str():
     )
 
     assert distance == pytest.approx(569.7402306228078, 1)
+
+
+def test_return_coords_in_TransportEmissions():
+    """Test if coordinates are returned in TransportEmissions"""
+    start = {
+        "station_name": "Heidelberg Hbf",
+        "country": "DE",
+        "address_type": "trainstation",
+    }
+    destination = {
+        "station_name": "Berlin Hbf",
+        "country": "DE",
+        "address_type": "trainstation",
+    }
+
+    trip = Trip(start=start, destination=destination).by_train().calculate_co2e()
+    assert isinstance(trip.start_coords, tuple)
+    assert isinstance(trip.destination_coords, tuple)
+    assert trip.start_coords == pytest.approx((8.675858, 49.404381), 0.1)
+    assert trip.destination_coords == pytest.approx((13.369406, 52.525083), 0.1)
