@@ -148,7 +148,7 @@ def test_geocoding_train_stations():
         "country": "DE",
         "station_name": "Heidelberg Hbf",
     }
-    coords = [49.404381, 8.675858]
+    coords = [8.675858, 49.404381]
     (
         station_name,
         country,
