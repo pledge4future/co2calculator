@@ -528,9 +528,9 @@ def create_distance_request(
                             f"unknown address type: '{o['address_type']}'"
                         )
                 else:
-                    print(
-                        "No address type provided: ('address', 'trainstation' ,'airport'), assume address"
-                    )
+                    # print(
+                    #    "No address type provided: ('address', 'trainstation' ,'airport'), assume address"
+                    # )
                     locations[i] = StructuredLocation(**o)
             elif isinstance(o, str):
                 locations[i] = StructuredLocation(locality=o)
