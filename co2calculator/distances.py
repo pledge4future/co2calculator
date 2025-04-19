@@ -401,7 +401,6 @@ def get_route_ferry(
         raise InvalidSpatialInput(
             "The generated route does not contain any ferry crossing. Are you sure about the waypoints?"
         )
-        dist_ferry = 0.0
     total_dist = (
         res["routes"][0]["summary"]["distance"] / 1000
     )  # divide by 1000, as we're working with distances in km
@@ -481,8 +480,8 @@ def range_categories(distance: Kilometer) -> Tuple[RangeCategory, str]:
 
 
 def create_distance_request(
-    start: dict,
-    destination: dict,
+    start: str | dict,
+    destination: str | dict,
     transportation_mode: TransportationMode,
 ) -> DistanceRequest:
     """Transform and validate the user input into a proper model for distance calculations
@@ -604,5 +603,5 @@ def get_distance(
 
         # if "seating" is "Car passenger", the remaining distance should be calculated as car trip ...
         # TODO: implement this
-        # remaining_distance = distance - distance_total
-        return distance, coords
+        remaining_distance = distance - distance_total
+        return distance

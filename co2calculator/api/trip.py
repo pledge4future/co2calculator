@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Trip classes"""
-from typing import Optional
 from co2calculator import CountryCode2, CountryCode3
 from co2calculator.api.emission import TransportEmissions
 from co2calculator.distances import get_distance, create_distance_request
@@ -811,22 +810,26 @@ class _TripCustom(Trip):
         :return: Emissions object
         """
         if self.distance is None:
-            distance = self.calculate_distance()
-        else:
-            distance = self.distance
+            self.calculate_distance()
 
         # calculate emissions
         emission_parameters = {"transportation_mode": self.transportation_mode}
-        co2e = distance * self.emission_factor
+        co2e = self.distance * self.emission_factor
 
         emissions = TransportEmissions(
             co2e=co2e,
-            distance=distance,
+            distance=self.distance,
             emission_factor=self.emission_factor,
             emission_parameters=emission_parameters,
-            start=self.start,
-            start_coords=self._start_coords,
-            destination=self.destination,
-            destination_coords=self._destination_coords,
         )
         return emissions
+
+    def calculate_distance(self):
+        """Calculates travelled get_distance"""
+        request = create_distance_request(
+            transportation_mode=self.transportation_mode,
+            start=self.start,
+            destination=self.destination,
+        )
+        self.distance = get_distance(request)
+        return self.distance
