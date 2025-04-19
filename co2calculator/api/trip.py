@@ -32,8 +32,8 @@ class Trip:
         :param start: Start location of the trip
         :param destination: Destination location of the trip
         :type distance: float
-        :type start: str
-        :type destination: str
+        :type start: str | dict
+        :type destination: str | dict
         """
         self.__verify_parameters(distance, start, destination)
         self.distance = distance
