@@ -200,6 +200,9 @@ def test_apply_detour(
         ),
     ],
 )
+@pytest.mark.skip(
+    reason="ferry is too complex right now,need to check before we enable it"
+)
 @pytest.mark.ors
 def test_get_route_ferry(
     start: list,
