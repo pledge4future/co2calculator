@@ -31,6 +31,7 @@ from .constants import (
     RoutingProfile,
 )
 from .data_handlers import Airports, EUTrainStations
+from .exceptions import InvalidSpatialInput
 
 load_dotenv()  # take environment variables from .env.
 
@@ -75,11 +76,6 @@ class Coordinate(BaseModel):
     def deg2rad(self):
         self.lat_rad = np.deg2rad(self.lat)
         self.long_rad = np.deg2rad(self.long)
-
-
-# Module's exceptions
-class InvalidSpatialInput(Exception):
-    """Raised when consumer inputs invalid spatial information"""
 
 
 def haversine(
