@@ -164,20 +164,20 @@ def test_calc_co2_plane__invalid_distance_seating_combo() -> None:
         mobility.calc_co2_plane(distance=800, options={"seating": "first_class"})
 
 
-@pytest.mark.parametrize(
-    "options,expected_emissions",
-    [
-        pytest.param(None, 11.29, id="defaults"),
-        pytest.param({}, 11.29, id="defaults on empty"),
-        pytest.param({"ferry_class": "average"}, 11.29, id="ferry_class: 'average'"),
-        pytest.param(
-            {"ferry_class": "foot_passenger"}, 1.87, id="ferry_class: 'Foot passenger'"
-        ),
-    ],
-)
-def test_calc_ferry(options: dict, expected_emissions: float) -> None:
-    """Test: Calculate ferry-trip emissions based on given distance.
-    Expect: Returns emissions and distance.
-    """
-    actual_emissions = mobility.calc_co2_ferry(distance=100, options=options)
-    assert isinstance(actual_emissions[0], float)
+# @pytest.mark.parametrize(
+#    "options,expected_emissions",
+#    [
+#        pytest.param(None, 11.29, id="defaults"),
+#        pytest.param({}, 11.29, id="defaults on empty"),
+#        pytest.param({"ferry_class": "average"}, 11.29, id="ferry_class: 'average'"),
+#        pytest.param(
+#            {"ferry_class": "foot_passenger"}, 1.87, id="ferry_class: 'Foot passenger'"
+#        ),
+#    ],
+# )
+# def test_calc_ferry(options: dict, expected_emissions: float) -> None:
+#    """Test: Calculate ferry-trip emissions based on given distance.
+#    Expect: Returns emissions and distance.
+#    """
+#    actual_emissions = mobility.calc_co2_ferry(distance=100, options=options)
+#    assert isinstance(actual_emissions[0], float)

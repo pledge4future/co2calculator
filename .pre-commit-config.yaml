@@ -35,6 +35,7 @@ repos:
       - id: forbid-new-submodules
       - id: pretty-format-json
         args: [ '--no-sort-keys' ]
+        exclude_types: [jupyter]
       - id: no-commit-to-branch
         args: [ --branch, master ]
       - id: no-commit-to-branch

@@ -7,8 +7,8 @@ import pytest
 @pytest.mark.parametrize(
     "consumption,func_options,co2e_kg_expected",
     [
-        pytest.param(250, {"fuel_type": "wood chips", "unit": "kwh"}, 2.685),
-        pytest.param(250, {"fuel_type": "wood chips", "unit": "kg"}, 13.962),
+        pytest.param(250, {"fuel_type": "wood chips", "in_kwh": True}, 2.685),
+        pytest.param(250, {"fuel_type": "wood chips"}, 13.962),
     ],
 )
 def test_heating_woodchips(

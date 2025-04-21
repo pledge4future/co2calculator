@@ -28,6 +28,7 @@ sphinx_rtd_theme = "^1.0.0"
 myst-parser = "^3.0.1"
 coverage = "7.6.10"
 coverage-badge = "^1.1.2"
+jupyter = "^1.1.1"
 
 [build-system]
 requires = ["poetry-core"]

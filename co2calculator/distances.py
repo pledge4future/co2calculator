@@ -31,6 +31,7 @@ from .constants import (
     RoutingProfile,
 )
 from .data_handlers import Airports, EUTrainStations
+from .exceptions import InvalidSpatialInput
 
 load_dotenv()  # take environment variables from .env.
 
@@ -75,11 +76,6 @@ class Coordinate(BaseModel):
     def deg2rad(self):
         self.lat_rad = np.deg2rad(self.lat)
         self.long_rad = np.deg2rad(self.long)
-
-
-# Module's exceptions
-class InvalidSpatialInput(Exception):
-    """Raised when consumer inputs invalid spatial information"""
 
 
 def haversine(
@@ -326,7 +322,7 @@ def geocoding_train_stations(loc_dict):
     res_station = stations_in_country[stations_in_country["slug"] == res_station_slug]
     res_country, res_station_name = res_station[["country", "name"]].values[0]
 
-    coords = (res_station.iloc[0]["latitude"], res_station.iloc[0]["longitude"])
+    coords = (res_station.iloc[0]["longitude"], res_station.iloc[0]["latitude"])
 
     return res_station_name, res_country, coords
 
@@ -405,7 +401,6 @@ def get_route_ferry(
         raise InvalidSpatialInput(
             "The generated route does not contain any ferry crossing. Are you sure about the waypoints?"
         )
-        dist_ferry = 0.0
     total_dist = (
         res["routes"][0]["summary"]["distance"] / 1000
     )  # divide by 1000, as we're working with distances in km
@@ -485,8 +480,8 @@ def range_categories(distance: Kilometer) -> Tuple[RangeCategory, str]:
 
 
 def create_distance_request(
-    start: dict,
-    destination: dict,
+    start: str | dict,
+    destination: str | dict,
     transportation_mode: TransportationMode,
 ) -> DistanceRequest:
     """Transform and validate the user input into a proper model for distance calculations
@@ -528,9 +523,9 @@ def create_distance_request(
                             f"unknown address type: '{o['address_type']}'"
                         )
                 else:
-                    print(
-                        "No address type provided: ('address', 'trainstation' ,'airport'), assume address"
-                    )
+                    # print(
+                    #    "No address type provided: ('address', 'trainstation' ,'airport'), assume address"
+                    # )
                     locations[i] = StructuredLocation(**o)
             elif isinstance(o, str):
                 locations[i] = StructuredLocation(locality=o)
@@ -549,7 +544,9 @@ def create_distance_request(
         raise InvalidSpatialInput(e)
 
 
-def get_distance(request: DistanceRequest) -> Kilometer:
+def get_distance(
+    request: DistanceRequest,
+) -> tuple[Kilometer, list[tuple[float, float]]]:
     """Get the distance between start and destination
 
     Raises:
@@ -582,7 +579,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
         TransportationMode.PEDELEC,
         TransportationMode.BICYCLE,
     ]:
-        return get_route(coords, RoutingProfile.CAR)
+        return get_route(coords, RoutingProfile.CAR), coords
 
     elif request.transportation_mode in [
         TransportationMode.TRAIN,
@@ -598,7 +595,7 @@ def get_distance(request: DistanceRequest) -> Kilometer:
             distance += haversine(
                 coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]
             )
-        return _apply_detour(distance, request.transportation_mode)
+        return _apply_detour(distance, request.transportation_mode), coords
 
     if request.transportation_mode == TransportationMode.FERRY:
         # hardcoding not ideal, profile should be determined based on specified "seating type"
@@ -606,5 +603,5 @@ def get_distance(request: DistanceRequest) -> Kilometer:
 
         # if "seating" is "Car passenger", the remaining distance should be calculated as car trip ...
         # TODO: implement this
-        # remaining_distance = distance - distance_total
+        remaining_distance = distance - distance_total
         return distance

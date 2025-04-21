@@ -124,20 +124,23 @@ class ConversionFactors:
             f"{data_dir}/data/conversion_factors_heating.csv"
         )
 
-    def get(self, fuel_type, unit):
+    def get(self, fuel_type):
         """Returns conversion factors from the database
 
         :param fuel_type: Fuel type to be converted
-        :param unit: Unit of fuel consumption to be converted
         :return: Conversion factor from unit to kwh
         :rtype: float
         """
         selected_factors = self.conversion_factors.query(
-            f'fuel_type == "{fuel_type.value}" & unit == "{unit.value}"'
+            f'fuel_type == "{fuel_type.value}"'
         )
         if selected_factors.empty:
             raise ConversionFactorNotFound(
                 "No suitable conversion factor found in database. Please adapt your query."
             )
         else:
+            self._last_selected_factors = selected_factors
             return selected_factors["conversion_value"].values[0]
+
+    def get_unit(self):
+        return self._last_selected_factors["unit"].values[0]

@@ -372,7 +372,7 @@ class HeatingEmissionParameters(BaseModel):
     fuel_type: Union[HeatingFuel, str] = HeatingFuel.GAS
     country_code: Union[CountryCode2, str] = "global"
     own_share: float = 1.0
-    unit: Union[Unit, str] = Unit.M3
+    in_kwh: bool = False
 
     @validator("fuel_type", allow_reuse=True)
     def check_fueltype(cls, v):
@@ -381,12 +381,10 @@ class HeatingEmissionParameters(BaseModel):
             v = v.lower()
         return HeatingFuel(v)
 
-    @validator("unit", allow_reuse=True)
-    def check_unit(cls, v):
-        if isinstance(v, str):
-            assert v.lower() in (item.value for item in Unit)
-            v = v.lower()
-        return Unit(v)
+    @validator("in_kwh", allow_reuse=True)
+    def check_in_kwh(cls, v):
+        assert isinstance(v, bool)
+        return v
 
     @validator("own_share", allow_reuse=True)
     def check_own_share(cls, v):

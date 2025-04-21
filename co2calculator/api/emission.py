@@ -3,6 +3,8 @@
 """Emission class"""
 
 from dataclasses import dataclass
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -27,6 +29,7 @@ class EnergyEmissions(Emissions):
     """Class for storing information on energy emissions"""
 
     consumption: float
+    unit: str = "kWh"
 
     def __post_init__(self):
         """Validate the attribute values"""
@@ -40,6 +43,10 @@ class TransportEmissions(Emissions):
     """Class for storing information on transport emissions"""
 
     distance: float
+    start: Optional[str | dict] = None
+    start_coords: Optional[tuple[float, float]] = None
+    destination: Optional[str | dict] = None
+    destination_coords: Optional[tuple[float, float]] = None
 
     def __post_init__(self):
         """Validate the attribute values"""
