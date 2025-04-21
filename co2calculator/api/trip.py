@@ -810,26 +810,18 @@ class _TripCustom(Trip):
         :return: Emissions object
         """
         if self.distance is None:
-            self.calculate_distance()
+            distance = self.calculate_distance()
+        else:
+            distance = self.distance
 
         # calculate emissions
         emission_parameters = {"transportation_mode": self.transportation_mode}
-        co2e = self.distance * self.emission_factor
+        co2e = distance * self.emission_factor
 
         emissions = TransportEmissions(
             co2e=co2e,
-            distance=self.distance,
+            distance=distance,
             emission_factor=self.emission_factor,
             emission_parameters=emission_parameters,
         )
         return emissions
-
-    def calculate_distance(self):
-        """Calculates travelled get_distance"""
-        request = create_distance_request(
-            transportation_mode=self.transportation_mode,
-            start=self.start,
-            destination=self.destination,
-        )
-        self.distance = get_distance(request)
-        return self.distance
