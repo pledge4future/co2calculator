@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """Tests for distance computation"""
 
-import os
 from pathlib import Path
 
 import numpy as np
@@ -14,8 +13,8 @@ from co2calculator.constants import RangeCategory
 import co2calculator
 import co2calculator.distances
 
+# Set ORS API key
 load_dotenv()
-ORS_API_KEY = os.environ.get("ORS_API_KEY")
 script_path = str(Path(__file__).parent.parent)
 
 

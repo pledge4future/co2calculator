@@ -33,11 +33,6 @@ from .constants import (
 from .data_handlers import Airports, EUTrainStations
 from .exceptions import InvalidSpatialInput
 
-load_dotenv()  # take environment variables from .env.
-
-# Load environment vars (TODO: Use pydantic.BaseSettings)
-ORS_API_KEY = os.environ.get("ORS_API_KEY")
-# TODO: check if key exists or is valid
 script_path = str(Path(__file__).parent)
 
 
@@ -124,7 +119,7 @@ def geocoding_airport_pelias(
     :return: name, coordinates and country of the found airport
     :rtype: Tuple[str, Tuple[float, float], str]
     """
-    clnt = openrouteservice.Client(key=ORS_API_KEY)
+    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
 
     call = pelias_search(clnt, f"{iata} Airport")
 
@@ -185,7 +180,7 @@ def geocoding(address):
     :return: Name, country and coordinates of the found location
     """
 
-    clnt = openrouteservice.Client(key=ORS_API_KEY)
+    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
 
     call = pelias_search(clnt, address)
     for feature in call["features"]:
@@ -234,7 +229,7 @@ def geocoding_structured(loc_dict):
     :return: Name, country and coordinates of the found location
     """
 
-    clnt = openrouteservice.Client(key=ORS_API_KEY)
+    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
 
     location = StructuredLocation(**loc_dict)
 
@@ -338,7 +333,7 @@ def get_route(coords: list, profile: RoutingProfile = None) -> Kilometer:
     :return: distance of the route
     :rtype: Kilometer
     """
-    clnt = openrouteservice.Client(key=ORS_API_KEY)
+    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
 
     # profile may be: driving-car, cycling-regular
     if profile not in [RoutingProfile.CAR, RoutingProfile.CYCLING] or profile is None:
@@ -370,7 +365,7 @@ def get_route_ferry(
     :rtype: Kilometer, Kilometer
     """
     # profile may be: driving-car, walking
-    clnt = openrouteservice.Client(key=ORS_API_KEY)
+    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
 
     if profile not in [RoutingProfile.WALK, RoutingProfile.CAR] or profile is None:
         profile = RoutingProfile.WALK
