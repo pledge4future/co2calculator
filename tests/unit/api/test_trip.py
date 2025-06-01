@@ -2,10 +2,16 @@
 # -*- coding: utf-8 -*-
 """Tests for Trip class"""
 import pytest
-
+from dotenv import load_dotenv
+import os
 from co2calculator import TransportationMode
 from co2calculator.api.emission import Emissions
 from co2calculator.api.trip import Trip
+
+
+def prepare():
+    load_dotenv()
+    assert os.getenv("ORS_API_KEY") != ""
 
 
 def test_instantiate_trip_by_car():
@@ -26,6 +32,7 @@ def test_trip_by_car_calculation():
 @pytest.mark.ors
 def test_trip_by_car_distance_calculation():
     """Test whether distance is calculated correctly"""
+    prepare()
     start = {"locality": "Heidelberg", "country": "Germany"}
     destination = {"locality": "Mannheim", "country": "Germany"}
 
@@ -37,6 +44,7 @@ def test_trip_by_car_distance_calculation():
 @pytest.mark.ors
 def test_trip_by_car_distance_calculation_2():
     """Test whether distance is calculated correctly"""
+    prepare()
     start = {"locality": "Heidelberg", "country": "Germany", "address_type": "address"}
     destination = {
         "locality": "Mannheim",
@@ -64,6 +72,7 @@ def test_trip_by_train_calculation():
 
 def test_trip_by_train_distance_calculation():
     """Test whether distance is calculated"""
+    prepare()
     start = {
         "station_name": "Heidelberg Hbf",
         "country": "DE",
@@ -121,6 +130,7 @@ def test_trip_by_tram_calculation():
 
 def test_trip_by_tram_distance_calculation():
     """Test whether distance is calculated"""
+    prepare()
     start = {
         "station_name": "Heidelberg Hbf",
         "country": "DE",
@@ -183,6 +193,7 @@ def test_trip_by_bus_calculation():
 @pytest.mark.ors
 def test_trip_by_bus_distance_calculation():
     """Test whether distance is calculated correctly"""
+    prepare()
     start = {"locality": "Heidelberg", "country": "Germany"}
     destination = {"locality": "Mannheim", "country": "Germany"}
 
@@ -208,6 +219,7 @@ def test_trip_by_motorbike_calculation():
 @pytest.mark.ors
 def test_trip_by_motorbike_distance_calculation():
     """Test whether distance is calculated correctly"""
+    prepare()
     start = {"locality": "Heidelberg", "country": "Germany"}
     destination = {"locality": "Mannheim", "country": "Germany"}
 
@@ -234,6 +246,7 @@ def test_trip_by_bicycle_calculation():
 @pytest.mark.ors
 def test_trip_by_bicycle_distance_calculation():
     """Test whether distance is calculated correctly"""
+    prepare()
     start = {"locality": "Heidelberg", "country": "Germany"}
     destination = {"locality": "Mannheim", "country": "Germany"}
 
@@ -260,6 +273,7 @@ def test_trip_by_pedelec_calculation():
 @pytest.mark.ors
 def test_trip_by_pedelec_distance_calculation():
     """Test whether distance is calculated correctly"""
+    prepare()
     start = {"locality": "Heidelberg", "country": "Germany"}
     destination = {"locality": "Mannheim", "country": "Germany"}
 
@@ -288,6 +302,7 @@ def test_trip_by_custom_no_emission_factor():
 
 def test_trip_by_custom_distance_calculation():
     """Test whether distance is calculated correctly"""
+    prepare()
     start = {"locality": "Heidelberg", "country": "Germany"}
     destination = {"locality": "Mannheim", "country": "Germany"}
 
