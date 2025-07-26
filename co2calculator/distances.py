@@ -31,7 +31,12 @@ from .constants import (
     RoutingProfile,
 )
 from .data_handlers import Airports, EUTrainStations
-from .exceptions import InvalidSpatialInput, InvalidCoordinateInput
+from .exceptions import (
+    AirportCodeNodeFound,
+    InvalidSpatialInput,
+    InvalidCoordinateInput,
+    AddressNotFound,
+)
 
 script_path = str(Path(__file__).parent)
 
@@ -137,8 +142,12 @@ def geocoding_airport_pelias(
     clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
 
     call = pelias_search(clnt, f"{iata} Airport")
+    features = call.get("features", [])
 
-    for feature in call["features"]:
+    if not features:
+        raise AirportCodeNodeFound(f"No results found for address: {iata}")
+
+    for feature in features:
         try:
             if feature["properties"]["addendum"]["osm"]["iata"] == iata:
                 name = feature["properties"]["name"]
@@ -196,14 +205,15 @@ def geocoding(address):
     """
 
     clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
-
     call = pelias_search(clnt, address)
-    for feature in call["features"]:
+    features = call.get("features", [])
+    if not features:
+        raise AddressNotFound(f"No results found for address: {address}")
+    for feature in features:
         name = feature["properties"]["name"]
         country = feature["properties"]["country"]
         coords = feature["geometry"]["coordinates"]
         break
-
     return name, country, coords
 
 
@@ -249,12 +259,11 @@ def geocoding_structured(loc_dict):
     location = StructuredLocation(**loc_dict)
 
     call = pelias_structured(clnt, **location.dict())
-    n_results = len(call["features"])
-    res = call["features"]
-    assert n_results != 0, "No places found with these search parameters"
-    if n_results == 0:
-        raise Exception("No places found with these search parameters")
-
+    features = call.get("features", [])
+    n_results = len(features)
+    if not features:
+        raise AddressNotFound(f"No results found for structured location: {loc_dict}")
+    res = features
     # TODO: Validate response with a pydantic.BaseModel (`PeliasStructuredResponse`)
     # TODO: Unpack required data from response with a pydantic.BaseModel which we use internally
     # as Point of Interest (or similar, e.g., `PointOfInterest`)

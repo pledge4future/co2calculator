@@ -22,3 +22,11 @@ class InvalidSpatialInput(Exception):
 
 class InvalidCoordinateInput(Exception):
     """Raised when latitude or longitude input is invalid"""
+
+
+class AddressNotFound(Exception):
+    """Raised when an address or location cannot be found by geocoding."""
+
+
+class AirportCodeNodeFound(Exception):
+    """Raised when an invalid airport code is provided by the user"""
