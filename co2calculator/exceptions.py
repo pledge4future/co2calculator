@@ -18,3 +18,7 @@ class ConversionFactorNotFound(Exception):
 # Module's exceptions
 class InvalidSpatialInput(Exception):
     """Raised when consumer inputs invalid spatial information"""
+
+
+class InvalidCoordinateInput(Exception):
+    """Raised when latitude or longitude input is invalid"""

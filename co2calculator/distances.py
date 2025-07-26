@@ -13,7 +13,7 @@ import openrouteservice
 from dotenv import load_dotenv
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
-from pydantic import BaseModel, ValidationError, Extra, confloat
+from pydantic import BaseModel, ValidationError, Extra, confloat, root_validator
 from thefuzz import fuzz
 from thefuzz import process
 
@@ -31,7 +31,7 @@ from .constants import (
     RoutingProfile,
 )
 from .data_handlers import Airports, EUTrainStations
-from .exceptions import InvalidSpatialInput
+from .exceptions import InvalidSpatialInput, InvalidCoordinateInput
 
 script_path = str(Path(__file__).parent)
 
@@ -68,6 +68,20 @@ class Coordinate(BaseModel):
     lat_rad: confloat(ge=-np.pi / 2, le=np.pi / 2) = None
     long_rad: confloat(ge=-np.pi, le=np.pi) = None
 
+    @root_validator(pre=True)
+    def check_lat_long(cls, values):
+        lat = values.get("lat")
+        long = values.get("long")
+        if lat is not None and not (-90 <= lat <= 90):
+            raise InvalidCoordinateInput(
+                f"Latitude must be between -90 and 90. Got: {lat}"
+            )
+        if long is not None and not (-180 <= long <= 180):
+            raise InvalidCoordinateInput(
+                f"Longitude must be between -180 and 180. Got: {long}"
+            )
+        return values
+
     def deg2rad(self):
         self.lat_rad = np.deg2rad(self.lat)
         self.long_rad = np.deg2rad(self.long)
@@ -89,6 +103,7 @@ def haversine(
     :return: Distance
     :rtype: Kilometer
     """
+
     start = Coordinate(lat=lat_start, long=long_start)
     dest = Coordinate(lat=lat_dest, long=long_dest)
 
