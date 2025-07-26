@@ -3,13 +3,11 @@
 
 """Functions for obtaining the distance between given addresses."""
 
-import os
 import warnings
 from pathlib import Path
 from typing import Tuple, Union, Optional
 
 import numpy as np
-import openrouteservice
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
 from pydantic import BaseModel, ValidationError, Extra, confloat, root_validator
@@ -35,7 +33,6 @@ from .exceptions import (
     InvalidSpatialInput,
     InvalidCoordinateInput,
     AddressNotFound,
-    InvalidORSApiKey,
 )
 from .util import get_ors_client
 
@@ -140,7 +137,7 @@ def geocoding_airport_pelias(
     :return: name, coordinates and country of the found airport
     :rtype: Tuple[str, Tuple[float, float], str]
     """
-    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
+    clnt = get_ors_client()
 
     call = pelias_search(clnt, f"{iata} Airport")
     features = call.get("features", [])
@@ -358,7 +355,7 @@ def get_route(coords: list, profile: RoutingProfile = None) -> Kilometer:
     :return: distance of the route
     :rtype: Kilometer
     """
-    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
+    clnt = get_ors_client()
 
     # profile may be: driving-car, cycling-regular
     if profile not in [RoutingProfile.CAR, RoutingProfile.CYCLING] or profile is None:
@@ -390,7 +387,7 @@ def get_route_ferry(
     :rtype: Kilometer, Kilometer
     """
     # profile may be: driving-car, walking
-    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
+    clnt = get_ors_client()
 
     if profile not in [RoutingProfile.WALK, RoutingProfile.CAR] or profile is None:
         profile = RoutingProfile.WALK
