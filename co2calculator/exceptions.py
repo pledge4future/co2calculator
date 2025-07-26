@@ -18,3 +18,23 @@ class ConversionFactorNotFound(Exception):
 # Module's exceptions
 class InvalidSpatialInput(Exception):
     """Raised when consumer inputs invalid spatial information"""
+
+
+class InvalidCoordinateInput(Exception):
+    """Raised when latitude or longitude input is invalid"""
+
+
+class AddressNotFound(Exception):
+    """Raised when an address or location cannot be found by geocoding."""
+
+
+class AirportCodeNodeFound(Exception):
+    """Raised when an invalid airport code is provided by the user"""
+
+
+class MissingORSApiKey(Exception):
+    """Raised when the ORS API key is missing from the environment."""
+
+
+class InvalidORSApiKey(Exception):
+    """Raised when the ORS API key is invalid or unauthorized."""
