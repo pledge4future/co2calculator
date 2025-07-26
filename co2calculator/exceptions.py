@@ -30,3 +30,11 @@ class AddressNotFound(Exception):
 
 class AirportCodeNodeFound(Exception):
     """Raised when an invalid airport code is provided by the user"""
+
+
+class MissingORSApiKey(Exception):
+    """Raised when the ORS API key is missing from the environment."""
+
+
+class InvalidORSApiKey(Exception):
+    """Raised when the ORS API key is invalid or unauthorized."""

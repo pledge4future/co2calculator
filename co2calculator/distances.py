@@ -10,7 +10,6 @@ from typing import Tuple, Union, Optional
 
 import numpy as np
 import openrouteservice
-from dotenv import load_dotenv
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
 from pydantic import BaseModel, ValidationError, Extra, confloat, root_validator
@@ -36,7 +35,9 @@ from .exceptions import (
     InvalidSpatialInput,
     InvalidCoordinateInput,
     AddressNotFound,
+    InvalidORSApiKey,
 )
+from .util import get_ors_client
 
 script_path = str(Path(__file__).parent)
 
@@ -204,7 +205,7 @@ def geocoding(address):
     :return: Name, country and coordinates of the found location
     """
 
-    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
+    clnt = get_ors_client()
     call = pelias_search(clnt, address)
     features = call.get("features", [])
     if not features:
@@ -254,7 +255,7 @@ def geocoding_structured(loc_dict):
     :return: Name, country and coordinates of the found location
     """
 
-    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
+    clnt = get_ors_client()
 
     location = StructuredLocation(**loc_dict)
 
