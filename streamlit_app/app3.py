@@ -12,15 +12,12 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from co2calculator.api.trip import Trip
+from pathlib import Path
+from co2calculator.api.settings import set_ors_apikey
 
-project_path = os.path.abspath(
-    "/Users/milenaschnitzler/Documents/originalCO2/co2calculator"
-)
-if project_path not in sys.path:
-    sys.path.insert(0, project_path)
+set_ors_apikey()
 
-
-logo_pledge = "/Users/milenaschnitzler/Documents/originalCO2/Final_logo.png"
+logo_pledge = Path(__file__).parent / "assets/Final_logo.png"
 with open(logo_pledge, "rb") as image_file:
     encoded = base64.b64encode(image_file.read()).decode()
 
@@ -59,6 +56,7 @@ if st.button("Calculate"):
         end = {"locality": end_input, "country": "Germany"}
 
         trip = Trip(start=start, destination=end)
+
         car = trip.by_car().calculate_co2e()
         train = trip.by_train().calculate_co2e()
         plane = trip.by_plane().calculate_co2e()
