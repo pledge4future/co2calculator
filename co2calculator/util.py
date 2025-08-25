@@ -38,7 +38,7 @@ def get_ors_api_key() -> str:
     api_key = os.environ.get("ORS_API_KEY")
     if api_key is None:
         raise MissingORSApiKey(
-            "ORS API key is missing. Please set the ORS_API_KEY environment variable."
+            "ORS API key is missing. Please set the ORS_API_KEY environment variable using the `co2calculator.set_ors_apikey` function."
         )
     return api_key
 
