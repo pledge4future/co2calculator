@@ -6,20 +6,22 @@ import streamlit as st
 import seaborn as sns
 import base64
 
-import sys
-import os
-
 import pandas as pd
 import matplotlib.pyplot as plt
 from co2calculator.api.trip import Trip
 from pathlib import Path
 from co2calculator.api.settings import set_ors_apikey
 
-set_ors_apikey()
+set_ors_apikey("5b3ce3597851110001cf6248a0445220cfd9466caaf5c618e25c5869")
 
 logo_pledge = Path(__file__).parent / "assets/Final_logo.png"
+logo_ors = Path(__file__).parent / "assets/ors_logo_small.png"
+
 with open(logo_pledge, "rb") as image_file:
     encoded = base64.b64encode(image_file.read()).decode()
+
+with open(logo_ors, "rb") as image_ors:
+    encoded_ors = base64.b64encode(image_ors.read()).decode()
 
 # import logo as HTML
 st.markdown(
@@ -27,8 +29,8 @@ st.markdown(
     <style>
         .logo-container {{
             position: fixed;
-            top: 10px;
-            left: 10px;
+            top: 30px;
+            left: 20px;
             z-index: 100;
         }}
         .logo-container img {{
@@ -37,6 +39,36 @@ st.markdown(
     </style>
     <div class="logo-container">
         <img src="data:image/png;base64,{encoded}" alt="Logo">
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+# ORS logo as HTML
+st.markdown(
+    f"""
+    <style>
+        .logo-container-ors {{
+            position: fixed;
+            top: 130px;
+            left: 60px;
+            z-index: 100;
+            text-align: center;
+            font-size: 10px;
+            color: #333;
+        }}
+        .logo-container-ors img {{
+            width: 100px;
+            display: block;
+            margin: 0 auto;
+        }}
+        .logo-title {{
+            margin-bottom: 1px;
+            font-weight: bold;
+        }}
+    </style>
+    <div class="logo-container-ors">
+        <div class="logo-title">powered by</div>
+        <img src="data:image/png;base64,{encoded_ors}" alt="ORS Logo">
     </div>
     """,
     unsafe_allow_html=True,
