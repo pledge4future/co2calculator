@@ -1,0 +1,152 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""streamlit app"""
+
+import streamlit as st
+import seaborn as sns
+import base64
+import folium
+from streamlit_folium import st_folium
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from co2calculator.api.trip import Trip
+from pathlib import Path
+from co2calculator.api.settings import set_ors_apikey
+
+
+set_ors_apikey("5b3ce3597851110001cf6248a0445220cfd9466caaf5c618e25c5869")
+
+logo_pledge = Path(__file__).parent / "assets/Final_logo.png"
+logo_ors = Path(__file__).parent / "assets/ors_logo_small.png"
+
+with open(logo_pledge, "rb") as image_file:
+    encoded = base64.b64encode(image_file.read()).decode()
+
+with open(logo_ors, "rb") as image_ors:
+    encoded_ors = base64.b64encode(image_ors.read()).decode()
+
+# import logo as HTML
+st.markdown(
+    f"""
+    <style>
+        .logo-container {{
+            position: fixed;
+            top: 30px;
+            left: 20px;
+            z-index: 100;
+        }}
+        .logo-container img {{
+            width: 200px;
+        }}
+    </style>
+    <div class="logo-container">
+        <img src="data:image/png;base64,{encoded}" alt="Logo">
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+# ORS logo as HTML
+st.markdown(
+    f"""
+    <style>
+        .logo-container-ors {{
+            position: fixed;
+            top: 130px;
+            left: 60px;
+            z-index: 100;
+            text-align: center;
+            font-size: 10px;
+            color: #333;
+        }}
+        .logo-container-ors img {{
+            width: 100px;
+            display: block;
+            margin: 0 auto;
+        }}
+        .logo-title {{
+            margin-bottom: 1px;
+            font-weight: bold;
+        }}
+    </style>
+    <div class="logo-container-ors">
+        <div class="logo-title">powered by</div>
+        <img src="data:image/png;base64,{encoded_ors}" alt="ORS Logo">
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+st.markdown("<h1 style='color: #4A4A4A;'>CO2calculator</h1>", unsafe_allow_html=True)
+st.write("You can only enter cities in Germany")
+
+# user input
+start_input = st.text_input(
+    "Start of your trip", placeholder="e.g. Berlin", key="start_input"
+)
+end_input = st.text_input(
+    "Destination of your trip", placeholder="e.g. München", key="end_input"
+)
+
+if "run_calc" not in st.session_state:
+    st.session_state.run_calc = False
+
+if st.button("Calculate"):
+    if start_input.strip() and end_input.strip():
+        st.session_state.run_calc = True
+        st.session_state.start = {"locality": start_input, "country": "Germany"}
+        st.session_state.end = {"locality": end_input, "country": "Germany"}
+    else:
+        st.warning("Please enter input for both fields.")
+        st.stop()
+
+if st.session_state.run_calc:
+    trip = Trip(start=st.session_state.start, destination=st.session_state.end)
+    car = trip.by_car().calculate_co2e()
+    train = trip.by_train().calculate_co2e()
+    plane = trip.by_plane().calculate_co2e()
+    motorbike = trip.by_motorbike().calculate_co2e()
+
+    co2e = car.co2e, train.co2e, plane.co2e, motorbike.co2e
+    transportmode = ["Car", "Train", "Plane", "Motorbike"]
+
+    df = pd.DataFrame({"Transport mode": transportmode, "CO2 in kg": co2e})
+
+    logo_colors = ["#FF7518", "#283C92", "#49AFF1", "#FF1200"]
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+    sns.barplot(data=df, x="Transport mode", y="CO2 in kg", palette=logo_colors, ax=ax)
+    ax.set_title(
+        f"CO2-Emissions for your trip from {st.session_state.start['locality']} to {st.session_state.end['locality']}"
+    )
+    ax.set_xlabel("Transport mode")
+    ax.set_ylabel("CO2 in kg")
+    plt.tight_layout()
+    st.pyplot(fig)
+
+    st.write("#### Map of your trip")
+    st.write(
+        "Make sure start and destination are correct. "
+        "Start and destination coordinates for a car trip are displayed on the map."
+    )
+    # generate map
+    st_coords = car.start_coords
+    dest_coords = car.destination_coords
+    # change order of coordinates
+    start_coords = (st_coords[1], st_coords[0])
+    end_coords = (dest_coords[1], dest_coords[0])
+    coords = [start_coords, end_coords]
+
+    center = [
+        (start_coords[0] + end_coords[0]) / 2,
+        (start_coords[1] + end_coords[1]) / 2,
+    ]
+
+    map = folium.Map(location=center, zoom_start=6, tiles="OpenStreetMap")
+
+    folium.Marker(start_coords, popup="Start", icon=folium.Icon(color="green")).add_to(
+        map
+    )
+    folium.Marker(end_coords, popup="End", icon=folium.Icon(color="red")).add_to(map)
+
+    st_folium(map, width=800, height=500)

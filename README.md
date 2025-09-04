@@ -20,6 +20,12 @@ PyPi release coming soon!
 pip install -U co2calculator
 ```-->
 
+To install the package from the local files run the following command in the root directory of the repository:
+
+```
+pip install -e .
+```
+
 ### From source
 
 To install this package from source, clone the repository as usual, for example with:
