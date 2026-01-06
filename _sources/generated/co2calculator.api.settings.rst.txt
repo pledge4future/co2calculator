@@ -1,0 +1,29 @@
+co2calculator.api.settings
+==========================
+
+.. automodule:: co2calculator.api.settings
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      set_ors_apikey
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

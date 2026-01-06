@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Methodology &#8212; co2calculator 0.2.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=ac3642c1" />
+    <link rel="stylesheet" type="text/css" href="_static/css-style.css?v=f20b0197" />
+    <script src="_static/documentation_options.js?v=938c9ccc"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tutorial" href="tutorial.html" />
+    <link rel="prev" title="Welcome to co2calculator’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/Final logo.svg" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="index.html">co2calculator</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=pledge4future&repo=co2calculator&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobility.html">Mobility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculate/energy.html">Energy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calculate/emission_factors.html">Emission factors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Docs</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to co2calculator’s documentation!</a></li>
+      <li>Next: <a href="tutorial.html" title="next chapter">Tutorial</a></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="methodology">
+<h1>Methodology<a class="headerlink" href="#methodology" title="Link to this heading">¶</a></h1>
+<p>The <em>co2calculator</em> can compute emissions caused by mobility, heating and electricity consumption. Emissions are given as CO<sub>2</sub> equivalents (CO<sub>2</sub>e).</p>
+<a class="bg-primary reference internal image-reference" href="_images/Workflow_figure_co2_calculator.drawio.png"><img alt="workflow figure co2calculator" class="bg-primary align-center" src="_images/Workflow_figure_co2_calculator.drawio.png" style="width: 600px;" /></a>
+<section id="general-information">
+<h2>1 General information<a class="headerlink" href="#general-information" title="Link to this heading">¶</a></h2>
+<section id="what-are-co2e-emissions">
+<h3>What are CO<sub>2</sub>e emissions?<a class="headerlink" href="#what-are-co2e-emissions" title="Link to this heading">¶</a></h3>
+<p>Anthropogenic climate change is caused by greenhouse gases, such as carbon dioxide (CO<sub>2</sub>), methane (CH<sub>4</sub>), nitrous oxides (N<sub>2O</sub>) and others. The molecules of these gases contribute differently to global warming. For example, the impact of one methane molecule is 21 times higher than the impact caused by one carbon dioxide molecule (<a class="reference external" href="https://animres.edpsciences.org/articles/animres/abs/2000/03/z0305/z0305.html">Moss et al. 2000</a>). This is why the impact of different greenhouse gases is usually converted to the equivalent impact that carbon dioxide molecules would have, resulting in CO<sub>2</sub>e equivalents as a standard unit (<a class="reference external" href="https://rmets.onlinelibrary.wiley.com/doi/10.1002/wea.103">Gohar &amp; Shine 2007</a>). The basic formula for a consumption value <span class="math notranslate nohighlight">\(c\)</span> and an emission factor <span class="math notranslate nohighlight">\(\epsilon\)</span> is:</p>
+</section>
+<section id="sources">
+<h3>Sources<a class="headerlink" href="#sources" title="Link to this heading">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[y_{co_2} = \epsilon \cdot c\]</div>
+<p>CO<sub>2</sub>e emissions are quantified in kilograms. The unit of consumption values depend on the specific activity. For heating and electricity, the input value is the consumption in kilowatt-hours (kWh), and for mobility, it is the distance travelled in kilometers (km).</p>
+</section>
+<section id="emission-factor-sources-and-uncertainties">
+<h3>Emission factor sources and uncertainties<a class="headerlink" href="#emission-factor-sources-and-uncertainties" title="Link to this heading">¶</a></h3>
+<p>The CO<sub>2</sub>e emissions are calculated using emission factors from different sources:</p>
+<ul class="simple">
+<li><p>Electricity: <a class="reference external" href="https://www.carbonfootprint.com/international_electricity_factors.html">carbon footprint (2023). International electricity factors.</a></p></li>
+<li><p>Mobility: <a class="reference external" href="https://www.mobitool.ch/de/tools/mobitool-faktoren-v2-1-25.html">mobitoool (2023). mobitool-Faktoren v3.0</a></p></li>
+<li><p>Heating: <a class="reference external" href="https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023">GOV.UK (2023). Greenhouse gas reporting: conversion factors 2023</a></p></li>
+</ul>
+<p>The specific emission factors for different activities are collected in <a class="reference external" href="https://github.com/pledge4future/co2calculator/blob/main/data/emission_factors.csv">this emission factor table</a>.</p>
+<p>Several data sources for emission factors are available with differences in their level of detail (e.g. occupancy rates of vehicles, car sizes…), geographic resolution (e.g. national, sub-national…) and up-to-dateness with resulting implications for their within- and across-country comparability.
+With the selected sources, we aim at providing reliable and user-friendly emission calculations that are comparable across countries, most recent and that come along with acceptable user efforts. When comparisons within countries or more detailed heating emission calculations are required, we suggest to rely on national sources and to provide custom emission factors as district heating can vary significantly across district heating networks within a country. Similarly, while emission factors for most public and private transport are globally comparable, those for electrically powered trams or trains vary significantly across countries. For possible more detailed emission factors, see <a class="reference internal" href="#geographical-coverage">Geographical coverage</a>.</p>
+</section>
+<section id="compliance-with-the-ghg-protocols">
+<span id="id1"></span><h3>Compliance with the GHG Protocols<a class="headerlink" href="#compliance-with-the-ghg-protocols" title="Link to this heading">¶</a></h3>
+<p>The Greenhouse Gas (GHG) Protocol Corporate Standards provide a globally used framework to measure greenhouse gas emissions (<a class="reference external" href="https://ghgprotocol.org/">Greenhouse Gas Protocol 2024</a>). They account for three scopes:</p>
+<ul class="simple">
+<li><p>Scope 1 emissions are direct emissions from sources that are owned or controlled by the reporting entity, such as emissions from combustion in owned vehicles or boilers.</p></li>
+<li><p>Scope 2 emissions are indirect emissions caused by the generation of purchased or consumed electricity, heating, cooling or steam.</p></li>
+<li><p>Scope 3 emissions are indirect emissions other than those captured in scope 3. These include all other emissions generated in the life cycle of the product, including production and disposal.</p></li>
+</ul>
+<p>For electricity and mobility, the <em>co2calculator</em> computes emissions based on the whole life cycle of a product, i.e. including scope 3 emissions. For heating, scope 1 emissions are caculated.</p>
+</section>
+<section id="geographical-coverage">
+<span id="id2"></span><h3>Geographical coverage<a class="headerlink" href="#geographical-coverage" title="Link to this heading">¶</a></h3>
+<p>The <em>co2calculator</em> can compute heating and mobility CO<sub>2</sub>e emissions for the whole globe. For electricity, emissions of production mixes can be calculated for the whole globe and residual mixes for most European countries.</p>
+<p>Sub-national electricity emission factors for the USA, Canada and Australia are available on <a class="reference external" href="https://www.carbonfootprint.com/docs/2023_07_international_factors_release_11.xlsx">carbon footprint (2023). International electricity factors.</a>. Further sub-national emission factors for the USA are also available on <a class="reference external" href="https://www.epa.gov/system/files/documents/2023-03/ghg_emission_factors_hub.pdf">EPA (2023)</a>. Detailed emission factors specifically for Germany can be derived from <a class="reference external" href="https://www.probas.umweltbundesamt.de/">ProBas</a>. Detailed emission factors specifically for France are available on <a class="reference external" href="https://data.ademe.fr/datasets/base-carboner">Base Carbone (2023)</a>.</p>
+<p>Country-specific emission factors for Switzerland, Austria, Germany, France and Italy for eletric trams and trains are provided by <a class="reference external" href="https://www.mobitool.ch/de/tools/mobitool-faktoren-v2-1-25.html">mobitoool (2023). mobitool-Faktoren v3.0</a>.</p>
+</section>
+</section>
+<section id="electricity">
+<h2>1 Electricity<a class="headerlink" href="#electricity" title="Link to this heading">¶</a></h2>
+<p>Electricity CO<sub>2</sub>e emissions can either be calculated from country-specific production mixes or, when available, residual mixes (<a class="reference external" href="https://www.carbonfootprint.com/international_electricity_factors.html">Carbon Footprint 2023</a>). Production mixes are the mix of fuels used by local power stations and, therefore, the basis for location-based reporting. Residual mixes are electricity mixes after removing energy from specific (e.g. green or renewable) tariffs. These values can thus be used for emission accounting when the user has not bought energy from a specific mix of fuels. Emission factors rely on total or, respectively, residual production fuel mixes, which include scope 2 and scope 3 emissions of the GHG protocol (for details, see <a class="reference internal" href="#compliance-with-the-ghg-protocols">Compliance with the GHG Protocols</a>).
+Alternatively, users can provide specific emission factors, for example, when they use green or renewable tariffs.</p>
+<p>Consumption must be provided in kilowatt-hours (kWh). The returned CO<sub>2</sub>e emissions are quantified in kilograms.</p>
+<section id="calculation-of-a-share-of-electricity-use">
+<h3>Calculation of a share of electricity use<a class="headerlink" href="#calculation-of-a-share-of-electricity-use" title="Link to this heading">¶</a></h3>
+<p>If the electricity consumption is only known for a building or building complex and emissions should only be computed for parts of the building, the total consumption and an estimate of the share of energy use (approximated from the share of the building area) can be provided.</p>
+</section>
+</section>
+<section id="heating">
+<h2>2 Heating<a class="headerlink" href="#heating" title="Link to this heading">¶</a></h2>
+<p>Heating CO<sub>2</sub>e emissions depend on the type of burned fuel. Fuel types may be, for example, oil, gas, coal or biogas. The emissions are calculated using emission factors from (<a class="reference external" href="https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023">GOV.UK 2023</a>).
+The provided emission factors reflect scope 1 emissions of the GHG protocol (for details, see <a class="reference internal" href="#compliance-with-the-ghg-protocols">Compliance with the GHG Protocols</a>).
+As we only have values at country level, we note that district heating varies considerably between district heating networks within countries.</p>
+<p>Consumption must be provided in kilowatt-hours (kWh). The returned CO<sub>2</sub>e emissions are quantified in kilograms.</p>
+<section id="calculation-of-a-share-of-heating-consumption">
+<h3>Calculation of a share of heating consumption<a class="headerlink" href="#calculation-of-a-share-of-heating-consumption" title="Link to this heading">¶</a></h3>
+<p>If the heating consumption is only known for a building or building complex and emissions should only be computed for parts of the building, the total consumption and an estimate of the share of energy use (approximated from the share of the building area) can be provided.</p>
+</section>
+</section>
+<section id="mobility">
+<h2>3 Mobility<a class="headerlink" href="#mobility" title="Link to this heading">¶</a></h2>
+<p>CO<sub>2</sub>e emissions from the mobility sector are calculated using emission factors from (<a class="reference external" href="https://www.mobitool.ch/de/tools/mobitool-faktoren-v2-1-25.html">mobitoool 2023</a>). The emissions include scope 3 emissions of the GHG protocol (for details, see <a class="reference internal" href="#compliance-with-the-ghg-protocols">Compliance with the GHG Protocols</a>). For public transport, the emission factors assume certain occupancies. For private transport, an occupancy of one person is assumed. Further details can be found in (<a class="reference external" href="https://doi.org/10.5281/zenodo.5156043">Sacchi &amp; Bauer 2023)</a>).</p>
+<p>Mobility emissions depend on the mode of transport, such as car or bicycle, and the distance travelled in kilometers (km). This distance may either be directly provided, or it may be computed from given start and stop locations using <a class="reference external" href="https://github.com/pledge4future/co2calculator/blob/main/co2calculator/distances.py">distances.py</a>. In the latter case, the coordinates of the locations are retrieved using geocoding before the travel distance between the locations is computed (for details, see <a class="reference internal" href="#geocoding">Geocoding</a>).</p>
+<section id="geocoding">
+<span id="id3"></span><h3>Geocoding<a class="headerlink" href="#geocoding" title="Link to this heading">¶</a></h3>
+<p>Geocoding is done using the <a class="reference external" href="https://openrouteservice.org/dev/#/api-docs">openrouteservice</a> geocoding service, which is built on top of <a class="reference external" href="https://github.com/pelias/pelias">Pelias</a>, a modular open-source search engine for the world.</p>
+<p>To find airports, we use <a class="reference external" href="https://davidmegginson.github.io/ourairports-data/">ourairports-data</a> to search by <strong>IATA-code</strong>. To find train stations inside the EU, we use the train station database of <a class="reference external" href="https://github.com/trainline-eu/stations">Trainline EU</a>. For train trips outside of the EU and other modes of transport, we use <a class="reference external" href="https://github.com/pelias/documentation/blob/master/structured-geocoding.md">structured geocoding</a>. The structured geocoding parameters are:</p>
+<ul class="simple">
+<li><p><strong>country</strong>: highest-level administrative division supported in a search. Full country name or two-/three-letter abbreviations supported</p>
+<ul>
+<li><p>e.g., Germany / “DE” / “DEU”</p></li>
+</ul>
+</li>
+<li><p><strong>region</strong>: first-level administrative divisions within countries, analogous to states and provinces in the US and Canada</p>
+<ul>
+<li><p>e.g., Delaware, Ontario, Ardennes, Baden-Württemberg</p></li>
+</ul>
+</li>
+<li><p><strong>county</strong>: administrative divisions between localities and regions</p>
+<ul>
+<li><p>e.g., Alb-Donau-Kreis</p></li>
+</ul>
+</li>
+<li><p><strong>locality</strong>: equivalent to what are commonly referred to as cities (also municipalities)</p>
+<ul>
+<li><p>e.g., Bangkok, Caracas</p></li>
+</ul>
+</li>
+<li><p><strong>borough</strong>: mostly known in the context of NY, may exist in other cities like Mexico City</p>
+<ul>
+<li><p>e.g. Manhatten in NY, Iztapalapa in Mexico City</p></li>
+</ul>
+</li>
+<li><p><strong>postalcode</strong>: postal code; note: This may not work for all countries!</p>
+<ul>
+<li><p>e.g., it works for the US and the UK, but not for Germany (and other countries)</p></li>
+</ul>
+</li>
+<li><p><strong>address</strong>: street name, optionally also house number</p></li>
+<li><p><strong>neighbourhood</strong>: vernacular geographic entities that may not necessarily be official administrative divisions but are important nonetheless</p>
+<ul>
+<li><p>e.g. Notting Hill in London, Le Marais in Paris</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="distance-computation">
+<h3>Distance computation<a class="headerlink" href="#distance-computation" title="Link to this heading">¶</a></h3>
+<p>For cars and motorbikes, distances are computed with <a class="reference external" href="https://openrouteservice.org/dev/#/api-docs/directions">openrouteservice</a> with the <code class="docutils literal notranslate"><span class="pre">profile='driving-car'</span></code>.</p>
+<p>For other modes of transport (airplane, ferry, train, bus), the distances between the locations as the crow flies are computed with the haversine formula. Then, different <a class="reference internal" href="#detour"><span class="std std-ref">detour coefficients or constants</span></a> are applied.
+With the <code class="docutils literal notranslate"><span class="pre">roundtrip</span></code>-parameter (type: boolean), users can define if their trip is a roundtrip and if so, the distance will be doubled.</p>
+<section id="detour">
+<h4>Detour<a class="headerlink" href="#detour" title="Link to this heading">¶</a></h4>
+<p>Trips on earth will always make a detour, because it is usually not possible to travel in a straight line from start to destination. Therefore, we use coefficients and constants to account for this detour. These differ depending on the mode of travel.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mode of transport</p></th>
+<th class="head"><p>Detour formula</p></th>
+<th class="head"><p>Source</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Bus</p></td>
+<td><p>x 1.5</p></td>
+<td><p>Adapted from <a class="reference external" href="https://labos1point5.org/ges-1point5">GES 1point5</a>, who were advised by Frédéric Héran (economist and urban planner).</p></td>
+</tr>
+<tr class="row-odd"><td><p>Train</p></td>
+<td><p>x 1.2</p></td>
+<td><p>Adapted from <a class="reference external" href="https://labos1point5.org/ges-1point5">GES 1point5</a>, who were advised by Frédéric Héran (economist and urban planner).</p></td>
+</tr>
+<tr class="row-even"><td><p>Plane</p></td>
+<td><p>+ 95 km</p></td>
+<td><p>CSN EN 16258 - Methodology for calculation and declaration of energy consumption and GHG emissions of transport services (freight and passengers), European Committee for Standardization, Brussels, November 2012, <a class="reference external" href="https://www.ecologie.gouv.fr/sites/default/files/Guide%20m%C3%A9thodologique%20sp%C3%A9cifique%20pour%20les%20collectivit%C3%A9s%20pour%20la%20r%C3%A9alisation%20du%20bilan%20d%E2%80%99%C3%A9missions%20de%20GES.pdf">Méthode pour la réalisation des bilans d’émissions de gaz à effet de , Version 4</a>, p. 53</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ferry</p></td>
+<td><p>x 1.0</p></td>
+<td><p>Currently no source</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+<section id="calculation-of-the-carbon-budget">
+<h2>4 Calculation of the carbon budget<a class="headerlink" href="#calculation-of-the-carbon-budget" title="Link to this heading">¶</a></h2>
+<section id="the-carbon-budget">
+<h3>The carbon budget<a class="headerlink" href="#the-carbon-budget" title="Link to this heading">¶</a></h3>
+<p>According to the IPCC (2021),</p>
+<blockquote>
+<div><p>“[the] term ‘carbon budget’ refers to the maximum amount of cumulative net global anthropogenic $CO_2$ emissions that would result in limiting global warming to a given level with a given probability, taking into account the effect of other anthropogenic climate forcers. This is referred to as the total carbon budget when expressed starting from the pre-industrial period, and as the remaining carbon budget when expressed from a recent specified date […]. The remaining carbon budget indicates how much CO2 could still be emitted while keeping warming below a specific temperature level”.</p>
+</div></blockquote>
+<p>(<a class="reference external" href="https://www.ipcc.ch/report/ar6/wg1/downloads/report/IPCC_AR6_WGI_SPM.pdf">IPCC 2021, p. 28</a>)</p>
+</section>
+<section id="calculation-of-the-remaining-carbon-budget">
+<h3>Calculation of the remaining carbon budget<a class="headerlink" href="#calculation-of-the-remaining-carbon-budget" title="Link to this heading">¶</a></h3>
+<p>To calculate the remaining carbon budget, we followed an equal-per-capita approach. This means that the remaining global carbon budget is distributed equally among the world’s population. First, we divide the amount of CO<sub>2</sub> that could still be emitted worldwide by the world population. For example, to reach the 1.5° goal, 300 billion tons of CO<sub>2</sub> could still be emitted. Taking into account that the population of the world is growing, we do not divide the amount of CO<sub>2</sub> by the current population of the world, but instead by the mean between the current population and the population projected for 2050. 2050 is when most of the countries plan to be carbon neutral. Finally, we divide the remaining carbon budget per person by the number of years left until carbon neutrality should be reached.</p>
+<p>The calculation of the carbon budget is summed up in the following table. Since Germany has pledged to be carbon neutral already by 2045, the remaining time is shorter and therefore the remaining carbon budget per person and year is a bit higher. You can view this remaining carbon budget as the average amount of carbon that could still be emitted per year and person until 2050 (or, respectively for Germany, 2045).</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Goal (°C)</p></th>
+<th class="head"><p>Total carbon budget [t]</p></th>
+<th class="head"><p>Carbon budget per person (2020-2050) [t]</p></th>
+<th class="head"><p>Carbon budget per person and year in Germany (2020-2045) [t]</p></th>
+<th class="head"><p>Carbon budget per person and year (2020-2050) [t]</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.5</p></td>
+<td><p>3 billion</p></td>
+<td><p>34.0</p></td>
+<td><p>1.4</p></td>
+<td><p>1.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>9 billion</p></td>
+<td><p>101.9</p></td>
+<td><p>4.1</p></td>
+<td><p>3.4</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2025, Christina Ludwig, Veit Ulrich, Hannah Weiser, Sarah Lohr, Fabian Kneissl, Nils Antary, Milena Schnitzler.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/documentation.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

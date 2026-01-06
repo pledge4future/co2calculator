@@ -1,0 +1,36 @@
+co2calculator.exceptions
+========================
+
+.. automodule:: co2calculator.exceptions
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Exceptions
+
+   .. autosummary::
+   
+      AddressNotFound
+      AirportCodeNodeFound
+      ConversionFactorNotFound
+      EmissionFactorNotFound
+      InvalidCoordinateInput
+      InvalidORSApiKey
+      InvalidSpatialInput
+      MissingORSApiKey
+   
+   
+
+
+

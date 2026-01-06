@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>co2calculator.distances &#8212; co2calculator 0.2.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=ac3642c1" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css-style.css?v=f20b0197" />
+    <script src="../../_static/documentation_options.js?v=938c9ccc"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/Final logo.svg" alt="Logo"/>
+            </a></p>
+<h1 class="logo"><a href="../../index.html">co2calculator</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=pledge4future&repo=co2calculator&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Methodology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobility.html">Mobility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../calculate/energy.html">Energy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../calculate/emission_factors.html">Emission factors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Docs</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for co2calculator.distances</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;Functions for obtaining the distance between given addresses.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">openrouteservice.directions</span> <span class="kn">import</span> <span class="n">directions</span>
+<span class="kn">from</span> <span class="nn">openrouteservice.geocode</span> <span class="kn">import</span> <span class="n">pelias_search</span><span class="p">,</span> <span class="n">pelias_structured</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">Extra</span><span class="p">,</span> <span class="n">confloat</span><span class="p">,</span> <span class="n">root_validator</span>
+<span class="kn">from</span> <span class="nn">thefuzz</span> <span class="kn">import</span> <span class="n">fuzz</span>
+<span class="kn">from</span> <span class="nn">thefuzz</span> <span class="kn">import</span> <span class="n">process</span>
+
+<span class="kn">from</span> <span class="nn">._types</span> <span class="kn">import</span> <span class="n">Kilometer</span>
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TransportationMode</span><span class="p">,</span>
+    <span class="n">AddressType</span><span class="p">,</span>
+    <span class="n">CountryCode2</span><span class="p">,</span>
+    <span class="n">CountryCode3</span><span class="p">,</span>
+    <span class="n">CountryName</span><span class="p">,</span>
+    <span class="n">IataAirportCode</span><span class="p">,</span>
+    <span class="n">DetourCoefficient</span><span class="p">,</span>
+    <span class="n">DetourConstant</span><span class="p">,</span>
+    <span class="n">RangeCategory</span><span class="p">,</span>
+    <span class="n">RoutingProfile</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.data_handlers</span> <span class="kn">import</span> <span class="n">Airports</span><span class="p">,</span> <span class="n">EUTrainStations</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AirportCodeNodeFound</span><span class="p">,</span>
+    <span class="n">InvalidSpatialInput</span><span class="p">,</span>
+    <span class="n">InvalidCoordinateInput</span><span class="p">,</span>
+    <span class="n">AddressNotFound</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">get_ors_client</span>
+
+<span class="n">script_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">StructuredLocation</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
+    <span class="n">address</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">locality</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">country</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">CountryCode2</span><span class="p">,</span> <span class="n">CountryCode3</span><span class="p">,</span> <span class="n">CountryName</span><span class="p">]]</span>
+    <span class="n">region</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">county</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">borough</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">postalcode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">neighbourhood</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">TrainStation</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
+    <span class="n">station_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">country</span><span class="p">:</span> <span class="n">CountryCode2</span>
+
+
+<span class="k">class</span> <span class="nc">Airport</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span><span class="p">):</span>
+    <span class="n">iata_code</span><span class="p">:</span> <span class="n">IataAirportCode</span>
+
+
+<span class="k">class</span> <span class="nc">DistanceRequest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">transportation_mode</span><span class="p">:</span> <span class="n">TransportationMode</span>
+    <span class="n">start</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">StructuredLocation</span><span class="p">,</span> <span class="n">TrainStation</span><span class="p">,</span> <span class="n">Airport</span><span class="p">]</span>
+    <span class="n">destination</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">StructuredLocation</span><span class="p">,</span> <span class="n">TrainStation</span><span class="p">,</span> <span class="n">Airport</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">Coordinate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">lat</span><span class="p">:</span> <span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+    <span class="n">long</span><span class="p">:</span> <span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=-</span><span class="mi">180</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span>
+    <span class="n">lat_rad</span><span class="p">:</span> <span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">long_rad</span><span class="p">:</span> <span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@root_validator</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">check_lat_long</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lat&quot;</span><span class="p">)</span>
+        <span class="n">long</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;long&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="o">-</span><span class="mi">90</span> <span class="o">&lt;=</span> <span class="n">lat</span> <span class="o">&lt;=</span> <span class="mi">90</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">InvalidCoordinateInput</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Latitude must be between -90 and 90. Got: </span><span class="si">{</span><span class="n">lat</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">long</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="o">-</span><span class="mi">180</span> <span class="o">&lt;=</span> <span class="n">long</span> <span class="o">&lt;=</span> <span class="mi">180</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">InvalidCoordinateInput</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Longitude must be between -180 and 180. Got: </span><span class="si">{</span><span class="n">long</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">values</span>
+
+    <span class="k">def</span> <span class="nf">deg2rad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lat_rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">long_rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="haversine">
+<a class="viewcode-back" href="../../calculate/distances.html#co2calculator.distances.haversine">[docs]</a>
+<span class="k">def</span> <span class="nf">haversine</span><span class="p">(</span>
+    <span class="n">lat_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">long_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">lat_dest</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">long_dest</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Kilometer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to compute the distance as the crow flies between given locations</span>
+
+<span class="sd">    :param lat_start: latitude of start</span>
+<span class="sd">    :param long_start: Longitude of start</span>
+<span class="sd">    :param lat_dest: Latitude of destination</span>
+<span class="sd">    :param long_dest: Longitude of destination</span>
+<span class="sd">    :type lat_start: float</span>
+<span class="sd">    :type long_start: float</span>
+<span class="sd">    :type lat_dest: float</span>
+<span class="sd">    :type long_dest: float</span>
+<span class="sd">    :return: Distance</span>
+<span class="sd">    :rtype: Kilometer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">Coordinate</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="n">lat_start</span><span class="p">,</span> <span class="n">long</span><span class="o">=</span><span class="n">long_start</span><span class="p">)</span>
+    <span class="n">dest</span> <span class="o">=</span> <span class="n">Coordinate</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="n">lat_dest</span><span class="p">,</span> <span class="n">long</span><span class="o">=</span><span class="n">long_dest</span><span class="p">)</span>
+
+    <span class="c1"># convert angles from degree to radians</span>
+    <span class="n">start</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">()</span>
+    <span class="n">dest</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">()</span>
+
+    <span class="c1"># compute zeta</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="n">dest</span><span class="o">.</span><span class="n">lat_rad</span> <span class="o">-</span> <span class="n">start</span><span class="o">.</span><span class="n">lat_rad</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">start</span><span class="o">.</span><span class="n">lat_rad</span><span class="p">)</span>
+        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">dest</span><span class="o">.</span><span class="n">lat_rad</span><span class="p">)</span>
+        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="n">dest</span><span class="o">.</span><span class="n">long_rad</span> <span class="o">-</span> <span class="n">start</span><span class="o">.</span><span class="n">long_rad</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="mi">6371</span>
+
+    <span class="k">return</span> <span class="n">c</span> <span class="o">*</span> <span class="n">r</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">geocoding_airport_pelias</span><span class="p">(</span>
+    <span class="n">iata</span><span class="p">:</span> <span class="n">IataAirportCode</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to obtain the coordinates of an airport by the IATA code</span>
+
+<span class="sd">    :param iata: IATA airport code</span>
+<span class="sd">    :type iata: str</span>
+<span class="sd">    :return: name, coordinates and country of the found airport</span>
+<span class="sd">    :rtype: Tuple[str, Tuple[float, float], str]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">clnt</span> <span class="o">=</span> <span class="n">get_ors_client</span><span class="p">()</span>
+
+    <span class="n">call</span> <span class="o">=</span> <span class="n">pelias_search</span><span class="p">(</span><span class="n">clnt</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">iata</span><span class="si">}</span><span class="s2"> Airport&quot;</span><span class="p">)</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">,</span> <span class="p">[])</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">features</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AirportCodeNodeFound</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No results found for address: </span><span class="si">{</span><span class="n">iata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;addendum&quot;</span><span class="p">][</span><span class="s2">&quot;osm&quot;</span><span class="p">][</span><span class="s2">&quot;iata&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">iata</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                <span class="n">geom</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">][</span><span class="s2">&quot;coordinates&quot;</span><span class="p">]</span>
+                <span class="n">country</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;country_a&quot;</span><span class="p">]</span>
+                <span class="k">break</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="c1"># unfortunately, not all osm tags are available with geocoding, so osm entries might not be found and filter</span>
+            <span class="c1"># for &quot;aerodrome&quot; tag not possible (could be done with ORS maybe?)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">feature</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;confidence&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span>
+                <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;match_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;exact&quot;</span>
+            <span class="p">):</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                <span class="n">geom</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">][</span><span class="s2">&quot;coordinates&quot;</span><span class="p">]</span>
+                <span class="n">country</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;country_a&quot;</span><span class="p">]</span>
+                <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">name</span><span class="p">,</span> <span class="n">geom</span><span class="p">,</span> <span class="n">country</span>
+
+
+<div class="viewcode-block" id="geocoding_airport">
+<a class="viewcode-back" href="../../calculate/distances.html#co2calculator.distances.geocoding_airport">[docs]</a>
+<span class="k">def</span> <span class="nf">geocoding_airport</span><span class="p">(</span><span class="n">iata</span><span class="p">:</span> <span class="n">IataAirportCode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to obtain the coordinates of an airport by the IATA code</span>
+
+<span class="sd">    :param iata: IATA airport code</span>
+<span class="sd">    :type iata: str</span>
+<span class="sd">    :return: name, coordinates and country of the found airport</span>
+<span class="sd">    :rtype: Tuple[str, Tuple[float, float], str]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df_airports</span> <span class="o">=</span> <span class="n">Airports</span><span class="p">()</span><span class="o">.</span><span class="n">airports</span>
+
+    <span class="n">airport</span> <span class="o">=</span> <span class="n">Airport</span><span class="p">(</span><span class="n">iata_code</span><span class="o">=</span><span class="n">iata</span><span class="p">)</span>
+    <span class="n">name</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">country</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">df_airports</span><span class="p">[</span><span class="n">df_airports</span><span class="o">.</span><span class="n">iata_code</span> <span class="o">==</span> <span class="n">airport</span><span class="o">.</span><span class="n">iata_code</span><span class="p">][</span>
+            <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude_deg&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude_deg&quot;</span><span class="p">,</span> <span class="s2">&quot;iso_country&quot;</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="c1"># coords is a string - convert to list of floats</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="p">[</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">name</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">country</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">geocoding</span><span class="p">(</span><span class="n">address</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to obtain coordinates for a given address</span>
+
+<span class="sd">    :param address: Location/Address to be searched</span>
+<span class="sd">            user should give address in the form:</span>
+<span class="sd">            &lt;address&gt;, &lt;locality&gt;, &lt;country&gt;</span>
+<span class="sd">            e.g. Hauptbahnhof, Heidelberg, Germany</span>
+<span class="sd">            e.g. Im Neuenheimer Feld 348, Heidelberg, Germany</span>
+<span class="sd">            e.g. Heidelberg, Germany</span>
+<span class="sd">    :return: Name, country and coordinates of the found location</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">clnt</span> <span class="o">=</span> <span class="n">get_ors_client</span><span class="p">()</span>
+    <span class="n">call</span> <span class="o">=</span> <span class="n">pelias_search</span><span class="p">(</span><span class="n">clnt</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">features</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AddressNotFound</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No results found for address: </span><span class="si">{</span><span class="n">address</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="n">country</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;country&quot;</span><span class="p">]</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">][</span><span class="s2">&quot;coordinates&quot;</span><span class="p">]</span>
+        <span class="k">break</span>
+    <span class="k">return</span> <span class="n">name</span><span class="p">,</span> <span class="n">country</span><span class="p">,</span> <span class="n">coords</span>
+
+
+<div class="viewcode-block" id="geocoding_structured">
+<a class="viewcode-back" href="../../calculate/distances.html#co2calculator.distances.geocoding_structured">[docs]</a>
+<span class="k">def</span> <span class="nf">geocoding_structured</span><span class="p">(</span><span class="n">loc_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to obtain coordinates for a given address</span>
+
+<span class="sd">    :param loc_dict: dictionary describing the location.</span>
+
+<span class="sd">    .. code-block:: none</span>
+
+<span class="sd">     The dictionary can have the keys:</span>
+<span class="sd">        country:        highest-level administrative divisions supported in a search.</span>
+
+<span class="sd">                        Full country name or two-/three-letter abbreviations supported</span>
+<span class="sd">                        e.g., Germany / &quot;DE&quot; / &quot;DEU&quot;</span>
+
+<span class="sd">        region:         first-level administrative divisions within countries, analogous to states and provinces</span>
+<span class="sd">                        in the US and Canada</span>
+<span class="sd">                        e.g., Delaware, Ontario, Ardennes, Baden-Württemberg</span>
+
+<span class="sd">        county:         administrative divisions between localities and regions</span>
+<span class="sd">                        e.g., Alb-Donau-Kreis</span>
+
+<span class="sd">        locality:       equivalent to what are commonly referred to as cities</span>
+<span class="sd">                        e.g., Bangkok, Caracas</span>
+
+<span class="sd">        borough:        mostly known in the context of NY, may exist in other cities like Mexico City</span>
+<span class="sd">                        e.g. Manhattan in NY, Iztapalapa in Mexico City</span>
+
+<span class="sd">        postalcode:     postal code; !! Not working in many countries !!</span>
+
+<span class="sd">        address:        street name, optionally also house number</span>
+
+<span class="sd">        neighbourhood:  vernacular geographic entities that may not necessarily be official administrative</span>
+<span class="sd">                        divisions but are important nonetheless</span>
+<span class="sd">                        e.g. Notting Hill in London, Le Marais in Paris</span>
+
+<span class="sd">    :return: Name, country and coordinates of the found location</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">clnt</span> <span class="o">=</span> <span class="n">get_ors_client</span><span class="p">()</span>
+
+    <span class="n">location</span> <span class="o">=</span> <span class="n">StructuredLocation</span><span class="p">(</span><span class="o">**</span><span class="n">loc_dict</span><span class="p">)</span>
+
+    <span class="n">call</span> <span class="o">=</span> <span class="n">pelias_structured</span><span class="p">(</span><span class="n">clnt</span><span class="p">,</span> <span class="o">**</span><span class="n">location</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">n_results</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">features</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AddressNotFound</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No results found for structured location: </span><span class="si">{</span><span class="n">loc_dict</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">features</span>
+    <span class="c1"># TODO: Validate response with a pydantic.BaseModel (`PeliasStructuredResponse`)</span>
+    <span class="c1"># TODO: Unpack required data from response with a pydantic.BaseModel which we use internally</span>
+    <span class="c1"># as Point of Interest (or similar, e.g., `PointOfInterest`)</span>
+    <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">res</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="n">country</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;country&quot;</span><span class="p">]</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">][</span><span class="s2">&quot;coordinates&quot;</span><span class="p">]</span>
+        <span class="n">layer</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;layer&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;locality&quot;</span> <span class="ow">in</span> <span class="n">loc_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="s2">&quot;address&quot;</span> <span class="ow">in</span> <span class="n">loc_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">layer</span> <span class="o">!=</span> <span class="s2">&quot;address&quot;</span> <span class="ow">and</span> <span class="n">layer</span> <span class="o">!=</span> <span class="s2">&quot;locality&quot;</span> <span class="ow">and</span> <span class="n">layer</span> <span class="o">!=</span> <span class="s2">&quot;street&quot;</span>
+            <span class="p">)</span> <span class="ow">and</span> <span class="n">n_results</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Data type not matching search (</span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s2"> instead of address or locality. Skipping </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">coords</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">continue</span>
+        <span class="n">confidence</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;confidence&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">confidence</span> <span class="o">&lt;</span> <span class="mf">0.8</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Low confidence: </span><span class="si">{</span><span class="n">confidence</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> for result </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">coords</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">break</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_results</span><span class="si">}</span><span class="s2"> location(s) found. Using this result: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">country</span><span class="si">}</span><span class="s2"> (data type: </span><span class="si">{</span><span class="n">layer</span><span class="si">}</span><span class="s2">)&quot;</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Coords: &quot;</span><span class="p">,</span> <span class="n">coords</span><span class="p">)</span>
+
+    <span class="c1"># todo: check if to return res or not!</span>
+    <span class="k">return</span> <span class="n">name</span><span class="p">,</span> <span class="n">country</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="geocoding_train_stations">
+<a class="viewcode-back" href="../../calculate/distances.html#co2calculator.distances.geocoding_train_stations">[docs]</a>
+<span class="k">def</span> <span class="nf">geocoding_train_stations</span><span class="p">(</span><span class="n">loc_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to obtain coordinates for a given train station</span>
+
+<span class="sd">    :param loc_dict: dictionary describing the location.</span>
+
+<span class="sd">    .. code-block:: none</span>
+
+<span class="sd">     The dictionary can have the keys:</span>
+
+<span class="sd">        country:        highest-level administrative divisions supported in a search.</span>
+<span class="sd">                        Only two-letter abbreviations supported</span>
+<span class="sd">                        e.g., &#39;DE&#39;</span>
+
+<span class="sd">        station_name:   Name of the train station</span>
+<span class="sd">                        e.g., &#39;Heidelberg Hbf&#39;</span>
+
+<span class="sd">    :return: Name, country and coordinates of the found location</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">eu_train_stations</span> <span class="o">=</span> <span class="n">EUTrainStations</span><span class="p">()</span><span class="o">.</span><span class="n">stations</span>
+    <span class="n">station</span> <span class="o">=</span> <span class="n">TrainStation</span><span class="p">(</span><span class="o">**</span><span class="n">loc_dict</span><span class="p">)</span>
+
+    <span class="n">country_code</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">country</span>
+    <span class="n">countries_eu</span> <span class="o">=</span> <span class="n">eu_train_stations</span><span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">country_code</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">countries_eu</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s2">&quot;The provided country is not within Europe. &quot;</span>
+            <span class="s2">&quot;Please provide the address of the station instead of the station name for accurate results.&quot;</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="c1"># filter stations by country</span>
+    <span class="n">stations_in_country</span> <span class="o">=</span> <span class="n">eu_train_stations</span><span class="p">[</span>
+        <span class="n">eu_train_stations</span><span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">country_code</span>
+    <span class="p">]</span>
+
+    <span class="c1"># use thefuzz to find best match</span>
+    <span class="n">choices</span> <span class="o">=</span> <span class="n">stations_in_country</span><span class="p">[</span><span class="s2">&quot;slug&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">res_station_slug</span><span class="p">,</span> <span class="n">score</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">extractOne</span><span class="p">(</span>
+        <span class="n">station</span><span class="o">.</span><span class="n">station_name</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">scorer</span><span class="o">=</span><span class="n">fuzz</span><span class="o">.</span><span class="n">partial_ratio</span>
+    <span class="p">)</span>
+    <span class="n">res_station</span> <span class="o">=</span> <span class="n">stations_in_country</span><span class="p">[</span><span class="n">stations_in_country</span><span class="p">[</span><span class="s2">&quot;slug&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">res_station_slug</span><span class="p">]</span>
+    <span class="n">res_country</span><span class="p">,</span> <span class="n">res_station_name</span> <span class="o">=</span> <span class="n">res_station</span><span class="p">[[</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">coords</span> <span class="o">=</span> <span class="p">(</span><span class="n">res_station</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;longitude&quot;</span><span class="p">],</span> <span class="n">res_station</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">res_station_name</span><span class="p">,</span> <span class="n">res_country</span><span class="p">,</span> <span class="n">coords</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">get_route</span><span class="p">(</span><span class="n">coords</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">profile</span><span class="p">:</span> <span class="n">RoutingProfile</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Kilometer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obtain the distance of a route between given waypoints using a given profile</span>
+<span class="sd">    todo: check if coords may also be a tuple/array etc.</span>
+
+<span class="sd">    :param coords: list of [lat,long] coordinates</span>
+<span class="sd">    :param profile: driving-car, cycling-regular</span>
+<span class="sd">    :type coords: list</span>
+<span class="sd">    :type profile: str</span>
+<span class="sd">    :return: distance of the route</span>
+<span class="sd">    :rtype: Kilometer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">clnt</span> <span class="o">=</span> <span class="n">get_ors_client</span><span class="p">()</span>
+
+    <span class="c1"># profile may be: driving-car, cycling-regular</span>
+    <span class="k">if</span> <span class="n">profile</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">RoutingProfile</span><span class="o">.</span><span class="n">CAR</span><span class="p">,</span> <span class="n">RoutingProfile</span><span class="o">.</span><span class="n">CYCLING</span><span class="p">]</span> <span class="ow">or</span> <span class="n">profile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">RoutingProfile</span><span class="o">.</span><span class="n">CAR</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Warning! Specified profile not available or no profile passed.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Profile set to &#39;</span><span class="si">{</span><span class="n">profile</span><span class="si">}</span><span class="s2">&#39; by default.&quot;</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">route</span> <span class="o">=</span> <span class="n">directions</span><span class="p">(</span><span class="n">clnt</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">profile</span><span class="o">=</span><span class="n">profile</span><span class="p">)</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">route</span><span class="p">[</span><span class="s2">&quot;routes&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;summary&quot;</span><span class="p">][</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1000</span>
+    <span class="p">)</span>  <span class="c1"># divide by 1000, as we&#39;re working with distances in km</span>
+
+    <span class="k">return</span> <span class="n">dist</span>
+
+
+<span class="k">def</span> <span class="nf">get_route_ferry</span><span class="p">(</span>
+    <span class="n">coords</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">profile</span><span class="p">:</span> <span class="n">RoutingProfile</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Kilometer</span><span class="p">,</span> <span class="n">Kilometer</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obtain the distance of a ferry route (and the total trip distance) between given waypoints</span>
+<span class="sd">    todo: check if coords may also be a tuple/array etc.</span>
+
+<span class="sd">    :param coords: list of [lat,long] coordinates</span>
+<span class="sd">    :param profile: driving-car, foot-walking</span>
+<span class="sd">    :type coords: list</span>
+<span class="sd">    :type profile: str</span>
+<span class="sd">    :return: distance of the ferry crossing, total distance</span>
+<span class="sd">    :rtype: Kilometer, Kilometer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># profile may be: driving-car, walking</span>
+    <span class="n">clnt</span> <span class="o">=</span> <span class="n">get_ors_client</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">profile</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">RoutingProfile</span><span class="o">.</span><span class="n">WALK</span><span class="p">,</span> <span class="n">RoutingProfile</span><span class="o">.</span><span class="n">CAR</span><span class="p">]</span> <span class="ow">or</span> <span class="n">profile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="n">RoutingProfile</span><span class="o">.</span><span class="n">WALK</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Warning! Specified profile not available or no profile passed.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Profile set to &#39;</span><span class="si">{</span><span class="n">profile</span><span class="si">}</span><span class="s2">&#39; by default.&quot;</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">directions</span><span class="p">(</span><span class="n">clnt</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">profile</span><span class="o">=</span><span class="n">profile</span><span class="p">,</span> <span class="n">extra_info</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;waytype&quot;</span><span class="p">])</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;waytypes = {0: &quot;Unknown&quot;,</span>
+<span class="sd">                1: &quot;State Road&quot;,</span>
+<span class="sd">                2: &quot;Road&quot;,</span>
+<span class="sd">                3: &quot;Street&quot;,</span>
+<span class="sd">                4: &quot;Path&quot;,</span>
+<span class="sd">                5: &quot;Track&quot;,</span>
+<span class="sd">                6: &quot;Cycleway&quot;,</span>
+<span class="sd">                7: &quot;Footway&quot;,</span>
+<span class="sd">                8: &quot;Steps&quot;,</span>
+<span class="sd">                9: &quot;Ferry&quot;,</span>
+<span class="sd">                10: &quot;Construction&quot;}&quot;&quot;&quot;</span>
+    <span class="n">dist_per_waytype</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;routes&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;extras&quot;</span><span class="p">][</span><span class="s2">&quot;waytypes&quot;</span><span class="p">][</span><span class="s2">&quot;summary&quot;</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">dist_ferry</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dist_per_waytype</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mf">9.0</span><span class="p">][</span>
+            <span class="mi">0</span>
+        <span class="p">]</span> <span class="o">/</span> <span class="mi">1000</span>
+    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+        <span class="c1"># todo: raise Error</span>
+        <span class="k">raise</span> <span class="n">InvalidSpatialInput</span><span class="p">(</span>
+            <span class="s2">&quot;The generated route does not contain any ferry crossing. Are you sure about the waypoints?&quot;</span>
+        <span class="p">)</span>
+    <span class="n">total_dist</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">res</span><span class="p">[</span><span class="s2">&quot;routes&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;summary&quot;</span><span class="p">][</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1000</span>
+    <span class="p">)</span>  <span class="c1"># divide by 1000, as we&#39;re working with distances in km</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">dist_ferry</span> <span class="o">+</span> <span class="mi">100</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">total_dist</span> <span class="ow">and</span> <span class="n">dist_ferry</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            &quot;Total distance is much larger than ferry crossing.</span>
+<span class="sd">            Your ferry route might not be contained in the database.</span>
+<span class="sd">            If you are sure you entered the correct addresses of the ferry ports, consider entering</span>
+<span class="sd">            the approximate ferry trip distance directly instead of the port addresses.</span>
+<span class="sd">            &quot;&quot;&quot;</span><span class="p">,</span>
+            <span class="ne">UserWarning</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dist_ferry</span><span class="p">,</span> <span class="n">total_dist</span>
+
+
+<span class="k">def</span> <span class="nf">_apply_detour</span><span class="p">(</span>
+    <span class="n">distance</span><span class="p">:</span> <span class="n">Kilometer</span><span class="p">,</span> <span class="n">transportation_mode</span><span class="p">:</span> <span class="n">TransportationMode</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Kilometer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to apply specific detour parameters to a distance as the crow flies</span>
+
+<span class="sd">    :param distance: Distance as the crow flies between location of departure and destination of a trip</span>
+<span class="sd">    :param transportation_mode: Mode of transport used in the trip</span>
+<span class="sd">    :type distance: Kilometer</span>
+<span class="sd">    :type transportation_mode: str</span>
+<span class="sd">    :return: Distance accounted for detour</span>
+<span class="sd">    :rtype: Kilometer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">detour_coefficient</span> <span class="o">=</span> <span class="n">DetourCoefficient</span><span class="p">[</span><span class="n">transportation_mode</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+        <span class="n">detour_constant</span> <span class="o">=</span> <span class="n">DetourConstant</span><span class="p">[</span><span class="n">transportation_mode</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">detour_coefficient</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">detour_constant</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        No detour coefficient or constant available for this transportation mode.</span>
+<span class="s2">        Detour parameters are available for the following transportation modes:</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">DetourCoefficient</span><span class="p">)</span><span class="si">}</span>
+<span class="s2">        Using detour_coefficient = </span><span class="si">{</span><span class="n">detour_coefficient</span><span class="si">}</span><span class="s2"> and detour_constant = </span><span class="si">{</span><span class="n">detour_constant</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+            <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">distance_with_detour</span> <span class="o">=</span> <span class="n">detour_coefficient</span> <span class="o">*</span> <span class="n">distance</span> <span class="o">+</span> <span class="n">detour_constant</span>
+
+    <span class="k">return</span> <span class="n">distance_with_detour</span>
+
+
+<span class="k">def</span> <span class="nf">range_categories</span><span class="p">(</span><span class="n">distance</span><span class="p">:</span> <span class="n">Kilometer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">RangeCategory</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to categorize a trip according to the travelled distance</span>
+
+<span class="sd">    :param distance: Distance travelled in km</span>
+<span class="sd">    :type distance: Kilometer</span>
+<span class="sd">    :return: Range category of the trip [very short haul, short haul, medium haul, long haul]</span>
+<span class="sd">             Range description (i.e., what range of distances does to category correspond to)</span>
+<span class="sd">    :rtype: tuple[RangeCategory, str]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Distance must not be negative!&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">distance</span> <span class="o">&lt;=</span> <span class="mi">500</span><span class="p">:</span>
+        <span class="n">range_cat</span> <span class="o">=</span> <span class="n">RangeCategory</span><span class="o">.</span><span class="n">VERY_SHORT_HAUL</span>
+        <span class="n">range_description</span> <span class="o">=</span> <span class="s2">&quot;below 500 km&quot;</span>
+    <span class="k">elif</span> <span class="n">distance</span> <span class="o">&lt;=</span> <span class="mi">1500</span><span class="p">:</span>
+        <span class="n">range_cat</span> <span class="o">=</span> <span class="n">RangeCategory</span><span class="o">.</span><span class="n">SHORT_HAUL</span>
+        <span class="n">range_description</span> <span class="o">=</span> <span class="s2">&quot;500 to 1500 km&quot;</span>
+    <span class="k">elif</span> <span class="n">distance</span> <span class="o">&lt;=</span> <span class="mi">4000</span><span class="p">:</span>
+        <span class="n">range_cat</span> <span class="o">=</span> <span class="n">RangeCategory</span><span class="o">.</span><span class="n">MEDIUM_HAUL</span>
+        <span class="n">range_description</span> <span class="o">=</span> <span class="s2">&quot;1500 to 4000 km&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">range_cat</span> <span class="o">=</span> <span class="n">RangeCategory</span><span class="o">.</span><span class="n">LONG_HAUL</span>
+        <span class="n">range_description</span> <span class="o">=</span> <span class="s2">&quot;above 4000 km&quot;</span>
+
+    <span class="k">return</span> <span class="n">range_cat</span><span class="p">,</span> <span class="n">range_description</span>
+
+
+<span class="k">def</span> <span class="nf">create_distance_request</span><span class="p">(</span>
+    <span class="n">start</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">destination</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">transportation_mode</span><span class="p">:</span> <span class="n">TransportationMode</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DistanceRequest</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transform and validate the user input into a proper model for distance calculations</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">    - InvalidSpatialInput for validation error</span>
+<span class="sd">    - InvalidSpatialInput for unknown transportation_mode</span>
+<span class="sd">    :param start: Start of the trip</span>
+<span class="sd">    :param destination: Destination of the trip</span>
+<span class="sd">    :param transportation_mode: Mode of transport used in the trip</span>
+<span class="sd">    :type start: Union[str, dict]</span>
+<span class="sd">    :type destination: Union[str, dict]</span>
+<span class="sd">    :type transportation_mode: TransportationMode</span>
+<span class="sd">    :return: Request for distance calculation between two locations for a given transportation mode</span>
+<span class="sd">    :rtype: DistanceRequest</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Validate the spatial data wrt. the mode of transportation</span>
+    <span class="c1"># And creates a DistanceRequest object containing either StructuredLocation,</span>
+    <span class="c1"># TrainStation or Airport objects based on the user input address_type</span>
+    <span class="c1"># for start and destination, if nothing is given assume StructuredLocation</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">locations</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">start</span><span class="p">,</span> <span class="n">destination</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">if</span> <span class="s2">&quot;address_type&quot;</span> <span class="ow">in</span> <span class="n">o</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">o</span><span class="p">[</span><span class="s2">&quot;address_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">AddressType</span><span class="o">.</span><span class="n">ADDRESS</span><span class="p">:</span>
+                        <span class="k">del</span> <span class="n">o</span><span class="p">[</span><span class="s2">&quot;address_type&quot;</span><span class="p">]</span>
+                        <span class="n">locations</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">StructuredLocation</span><span class="p">(</span><span class="o">**</span><span class="n">o</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">o</span><span class="p">[</span><span class="s2">&quot;address_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">AddressType</span><span class="o">.</span><span class="n">TRAINSTATION</span><span class="p">:</span>
+                        <span class="k">del</span> <span class="n">o</span><span class="p">[</span><span class="s2">&quot;address_type&quot;</span><span class="p">]</span>
+                        <span class="n">locations</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">TrainStation</span><span class="p">(</span><span class="o">**</span><span class="n">o</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">o</span><span class="p">[</span><span class="s2">&quot;address_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">AddressType</span><span class="o">.</span><span class="n">AIRPORT</span><span class="p">:</span>
+                        <span class="k">del</span> <span class="n">o</span><span class="p">[</span><span class="s2">&quot;address_type&quot;</span><span class="p">]</span>
+                        <span class="n">locations</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Airport</span><span class="p">(</span><span class="n">iata_code</span><span class="o">=</span><span class="n">o</span><span class="p">[</span><span class="s2">&quot;IATA&quot;</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">InvalidSpatialInput</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;unknown address type: &#39;</span><span class="si">{</span><span class="n">o</span><span class="p">[</span><span class="s1">&#39;address_type&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                        <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># print(</span>
+                    <span class="c1">#    &quot;No address type provided: (&#39;address&#39;, &#39;trainstation&#39; ,&#39;airport&#39;), assume address&quot;</span>
+                    <span class="c1"># )</span>
+                    <span class="n">locations</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">StructuredLocation</span><span class="p">(</span><span class="o">**</span><span class="n">o</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">locations</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">StructuredLocation</span><span class="p">(</span><span class="n">locality</span><span class="o">=</span><span class="n">o</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InvalidSpatialInput</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;start and destination must be either dict or string, not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">o</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">DistanceRequest</span><span class="p">(</span>
+            <span class="n">transportation_mode</span><span class="o">=</span><span class="n">transportation_mode</span><span class="p">,</span>
+            <span class="n">start</span><span class="o">=</span><span class="n">locations</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">destination</span><span class="o">=</span><span class="n">locations</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InvalidSpatialInput</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_distance</span><span class="p">(</span>
+    <span class="n">request</span><span class="p">:</span> <span class="n">DistanceRequest</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Kilometer</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the distance between start and destination</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">    - InvalidSpatialInput if start and stop are malformed or None</span>
+<span class="sd">    :param request: Request for distance calculation between two locations for a given transportation mode</span>
+<span class="sd">    :type request: DistanceRequest</span>
+<span class="sd">    :return: Distance</span>
+<span class="sd">    :rtype: Kilometer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Calculate cords</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># StructuredLocation, TrainStation, Airport based on the object class of</span>
+    <span class="c1"># start and destination in the request</span>
+    <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="p">[</span><span class="n">request</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">destination</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">StructuredLocation</span><span class="p">):</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">loc_coords</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">geocoding_structured</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">TrainStation</span><span class="p">):</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">loc_coords</span> <span class="o">=</span> <span class="n">geocoding_train_stations</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">Airport</span><span class="p">):</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">loc_coords</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">geocoding_airport</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">iata_code</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Address Type not valid&quot;</span><span class="p">)</span>
+        <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loc_coords</span><span class="p">)</span>
+
+    <span class="c1"># TODO: Do we want to calculate the distance for bicycles and pedelecs same like for cars?</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">transportation_mode</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="n">TransportationMode</span><span class="o">.</span><span class="n">CAR</span><span class="p">,</span>
+        <span class="n">TransportationMode</span><span class="o">.</span><span class="n">MOTORBIKE</span><span class="p">,</span>
+        <span class="n">TransportationMode</span><span class="o">.</span><span class="n">PEDELEC</span><span class="p">,</span>
+        <span class="n">TransportationMode</span><span class="o">.</span><span class="n">BICYCLE</span><span class="p">,</span>
+    <span class="p">]:</span>
+        <span class="k">return</span> <span class="n">get_route</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">RoutingProfile</span><span class="o">.</span><span class="n">CAR</span><span class="p">),</span> <span class="n">coords</span>
+
+    <span class="k">elif</span> <span class="n">request</span><span class="o">.</span><span class="n">transportation_mode</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="n">TransportationMode</span><span class="o">.</span><span class="n">TRAIN</span><span class="p">,</span>
+        <span class="n">TransportationMode</span><span class="o">.</span><span class="n">TRAM</span><span class="p">,</span>
+        <span class="n">TransportationMode</span><span class="o">.</span><span class="n">BUS</span><span class="p">,</span>
+        <span class="n">TransportationMode</span><span class="o">.</span><span class="n">PLANE</span><span class="p">,</span>
+    <span class="p">]:</span>
+
+        <span class="n">distance</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># This could also be used for longer lists of cords (with via)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># compute great circle distance between locations</span>
+            <span class="n">distance</span> <span class="o">+=</span> <span class="n">haversine</span><span class="p">(</span>
+                <span class="n">coords</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">coords</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">coords</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">coords</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">_apply_detour</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">transportation_mode</span><span class="p">),</span> <span class="n">coords</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">transportation_mode</span> <span class="o">==</span> <span class="n">TransportationMode</span><span class="o">.</span><span class="n">FERRY</span><span class="p">:</span>
+        <span class="c1"># hardcoding not ideal, profile should be determined based on specified &quot;seating type&quot;</span>
+        <span class="n">distance</span><span class="p">,</span> <span class="n">distance_total</span> <span class="o">=</span> <span class="n">get_route_ferry</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">profile</span><span class="o">=</span><span class="n">RoutingProfile</span><span class="o">.</span><span class="n">WALK</span><span class="p">)</span>
+
+        <span class="c1"># if &quot;seating&quot; is &quot;Car passenger&quot;, the remaining distance should be calculated as car trip ...</span>
+        <span class="c1"># TODO: implement this</span>
+        <span class="n">remaining_distance</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">-</span> <span class="n">distance_total</span>
+        <span class="k">return</span> <span class="n">distance</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2025, Christina Ludwig, Veit Ulrich, Hannah Weiser, Sarah Lohr, Fabian Kneissl, Nils Antary, Milena Schnitzler.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
