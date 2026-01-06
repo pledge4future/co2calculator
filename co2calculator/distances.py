@@ -3,17 +3,14 @@
 
 """Functions for obtaining the distance between given addresses."""
 
-import os
 import warnings
 from pathlib import Path
 from typing import Tuple, Union, Optional
 
 import numpy as np
-import openrouteservice
-from dotenv import load_dotenv
 from openrouteservice.directions import directions
 from openrouteservice.geocode import pelias_search, pelias_structured
-from pydantic import BaseModel, ValidationError, Extra, confloat
+from pydantic import BaseModel, ValidationError, Extra, confloat, root_validator
 from thefuzz import fuzz
 from thefuzz import process
 
@@ -31,7 +28,13 @@ from .constants import (
     RoutingProfile,
 )
 from .data_handlers import Airports, EUTrainStations
-from .exceptions import InvalidSpatialInput
+from .exceptions import (
+    AirportCodeNodeFound,
+    InvalidSpatialInput,
+    InvalidCoordinateInput,
+    AddressNotFound,
+)
+from .util import get_ors_client
 
 script_path = str(Path(__file__).parent)
 
@@ -68,6 +71,20 @@ class Coordinate(BaseModel):
     lat_rad: confloat(ge=-np.pi / 2, le=np.pi / 2) = None
     long_rad: confloat(ge=-np.pi, le=np.pi) = None
 
+    @root_validator(pre=True)
+    def check_lat_long(cls, values):
+        lat = values.get("lat")
+        long = values.get("long")
+        if lat is not None and not (-90 <= lat <= 90):
+            raise InvalidCoordinateInput(
+                f"Latitude must be between -90 and 90. Got: {lat}"
+            )
+        if long is not None and not (-180 <= long <= 180):
+            raise InvalidCoordinateInput(
+                f"Longitude must be between -180 and 180. Got: {long}"
+            )
+        return values
+
     def deg2rad(self):
         self.lat_rad = np.deg2rad(self.lat)
         self.long_rad = np.deg2rad(self.long)
@@ -89,6 +106,7 @@ def haversine(
     :return: Distance
     :rtype: Kilometer
     """
+
     start = Coordinate(lat=lat_start, long=long_start)
     dest = Coordinate(lat=lat_dest, long=long_dest)
 
@@ -119,11 +137,15 @@ def geocoding_airport_pelias(
     :return: name, coordinates and country of the found airport
     :rtype: Tuple[str, Tuple[float, float], str]
     """
-    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
+    clnt = get_ors_client()
 
     call = pelias_search(clnt, f"{iata} Airport")
+    features = call.get("features", [])
 
-    for feature in call["features"]:
+    if not features:
+        raise AirportCodeNodeFound(f"No results found for address: {iata}")
+
+    for feature in features:
         try:
             if feature["properties"]["addendum"]["osm"]["iata"] == iata:
                 name = feature["properties"]["name"]
@@ -180,15 +202,16 @@ def geocoding(address):
     :return: Name, country and coordinates of the found location
     """
 
-    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
-
+    clnt = get_ors_client()
     call = pelias_search(clnt, address)
-    for feature in call["features"]:
+    features = call.get("features", [])
+    if not features:
+        raise AddressNotFound(f"No results found for address: {address}")
+    for feature in features:
         name = feature["properties"]["name"]
         country = feature["properties"]["country"]
         coords = feature["geometry"]["coordinates"]
         break
-
     return name, country, coords
 
 
@@ -229,17 +252,16 @@ def geocoding_structured(loc_dict):
     :return: Name, country and coordinates of the found location
     """
 
-    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
+    clnt = get_ors_client()
 
     location = StructuredLocation(**loc_dict)
 
     call = pelias_structured(clnt, **location.dict())
-    n_results = len(call["features"])
-    res = call["features"]
-    assert n_results != 0, "No places found with these search parameters"
-    if n_results == 0:
-        raise Exception("No places found with these search parameters")
-
+    features = call.get("features", [])
+    n_results = len(features)
+    if not features:
+        raise AddressNotFound(f"No results found for structured location: {loc_dict}")
+    res = features
     # TODO: Validate response with a pydantic.BaseModel (`PeliasStructuredResponse`)
     # TODO: Unpack required data from response with a pydantic.BaseModel which we use internally
     # as Point of Interest (or similar, e.g., `PointOfInterest`)
@@ -333,7 +355,7 @@ def get_route(coords: list, profile: RoutingProfile = None) -> Kilometer:
     :return: distance of the route
     :rtype: Kilometer
     """
-    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
+    clnt = get_ors_client()
 
     # profile may be: driving-car, cycling-regular
     if profile not in [RoutingProfile.CAR, RoutingProfile.CYCLING] or profile is None:
@@ -365,7 +387,7 @@ def get_route_ferry(
     :rtype: Kilometer, Kilometer
     """
     # profile may be: driving-car, walking
-    clnt = openrouteservice.Client(key=os.environ.get("ORS_API_KEY"))
+    clnt = get_ors_client()
 
     if profile not in [RoutingProfile.WALK, RoutingProfile.CAR] or profile is None:
         profile = RoutingProfile.WALK
