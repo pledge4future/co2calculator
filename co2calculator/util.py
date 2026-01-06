@@ -49,7 +49,6 @@ def get_ors_client():
     client = openrouteservice.Client(key=api_key)
     try:
         client.directions(api_key_check_cords)
-        print(api_key_check_cords)
         return client
     except Exception:
         raise InvalidORSApiKey(
